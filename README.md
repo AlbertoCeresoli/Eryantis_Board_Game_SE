@@ -1,6 +1,6 @@
 # Eriantys - Board Game  
 
-Final exam: Project of Software Engineering  
+Final exam: Software Engineering [Alessandro Margara]  
   
 **Team AM05** by:    
 * [Alessandro Calvi](https://github.com/alecalvi00): alessandro.calvi1@mail.polimi.it  
