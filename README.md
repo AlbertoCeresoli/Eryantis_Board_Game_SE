@@ -1,5 +1,5 @@
 # Eriantys - Board Game  
 Final exam: Project of Software Engineering by:    
-* Alessandro Calvi: alessandro.calvi1@mail.polimi.it  
-* Mario Cela: mario.cela@mail.polimi.it  
-* Alberto Ceresoli: alberto.ceresoli@mail.polimi.it
+* [Alessandro Calvi](https://github.com/alecalvi00): alessandro.calvi1@mail.polimi.it  
+* [Mario Cela](https://github.com/MarioCela): mario.cela@mail.polimi.it  
+* [Alberto Ceresoli](https://github.com/AlbertoCeresoli): alberto.ceresoli@mail.polimi.it
