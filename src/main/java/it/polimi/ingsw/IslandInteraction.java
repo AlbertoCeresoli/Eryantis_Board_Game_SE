@@ -11,6 +11,7 @@ public class IslandInteraction {
     private int numberOfInhibitionCards;
 
     public IslandInteraction(int ntowers, int nplayers) {
+        this.ntowers = new int[nplayers];
         for (int i = 0; i < nplayers; i++) {
             this.ntowers[i] = ntowers;
         }
