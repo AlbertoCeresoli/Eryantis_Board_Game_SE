@@ -1,7 +1,6 @@
 package it.polimi.ingsw;
 
 public class Model {
-    private static Model model;
     private PlayerInteraction playerInteraction;
     private CharacterCards[] characterCards;
     private BagNClouds bagNClouds;
@@ -15,7 +14,7 @@ public class Model {
 	    //PlayerInteraction(nPlayer)
         playerInteraction = new PlayerInteraction(gamerules[0]);
 	    //bagNClouds(nPlayer)
-        //[!!!]bagNClouds = new BagNClouds(gamerules[0]); [!!!]
+        bagNClouds = new BagNClouds(gamerules[0]);
 	    //islandInteraction(nTowers)
         islandInteraction = new IslandInteraction(gamerules[2], gamerules[0]);
         //se la gamemode è hard
@@ -41,18 +40,18 @@ public class Model {
         temp = new int[5];
         //per il numero dei giocatori:
         for (int i = 0; i < gamerules[0]; i++) {
-            temp = BagNClouds.drawStudents(gamerules[1]);
+            temp = bagNClouds.drawStudents(gamerules[1]);
             playerInteraction.getPlayers().get(i).getBoard().addToEntrance(temp);
         }
     }
 
     private void initializeIsland() {
-        BagNClouds.fillBag(2);
+        bagNClouds.fillBag(2);
         int[] temp;
         temp = new int[5];
         //Per 10 volte:
         for(int i = 0; i < 10; i++){
-            temp = BagNClouds.drawStudents(1);
+            temp = bagNClouds.drawStudents(1);
             islandInteraction.getIslands().get(i).addStudents(temp);
         }
         //chiama islandInteracrion... passando in ingresso il vettore restituito da drawstudents
@@ -70,7 +69,7 @@ public class Model {
         temp = new int[5];
         temp[studColor]++;
         //remove from entrance
-        playerInteraction.getPlayers().get(player).getBoard().removeStudents(temp);
+        playerInteraction.getPlayers().get(player).getBoard().removeStudent(temp);
         //add to hall
         playerInteraction.getPlayers().get(player).getBoard().addToHall(temp);
         //TODO checkteacher
@@ -85,7 +84,7 @@ public class Model {
         temp = new int[5];
         temp[studColor]++;
         //remove from entrance
-        playerInteraction.getPlayers().get(player).getBoard().removeStudents(temp);
+        playerInteraction.getPlayers().get(player).getBoard().removeStudent(temp);
         //add to island
         islandInteraction.getIslands().get(island).addStudents(temp);
     }
@@ -95,7 +94,7 @@ public class Model {
         //prepara il vettore di studenti da trasportere
         int[] temp;
         temp = new int[5];
-        temp = bagNClouds.getClouds().get(cloud);
+        temp = bagNClouds.getCloud(cloud);
         //svuoto la nuvola
         bagNClouds.resetCloud(cloud);
         //add to Entrance di temp

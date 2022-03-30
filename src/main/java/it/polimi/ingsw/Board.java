@@ -10,7 +10,7 @@ public class Board {
 
     }
 
-    public void removeStudents(int[] students) {
+    public void removeStudent(int[] students) {
 
     }
 }
