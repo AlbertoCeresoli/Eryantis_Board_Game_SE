@@ -10,4 +10,10 @@ public class PlayerInteraction {
     public ArrayList<Player> getPlayers() {
         return players;
     }
+
+    public void checkTeacher(int studColor) {
+        //RITORNA ARRALYLIST<INT[]>
+        //TODO
+        //return list dei player con max controllo
+    }
 }

@@ -1,12 +1,15 @@
 package it.polimi.ingsw;
 
-public class Board implements StudentManagement{
-    @Override
-    public void addStudents(int[] students) {
+public class Board {
+
+    public void addToHall(int[] students) {
 
     }
 
-    @Override
+    public void addToEntrance(int[] students) {
+
+    }
+
     public void removeStudents(int[] students) {
 
     }

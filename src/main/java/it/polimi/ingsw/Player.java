@@ -1,5 +1,9 @@
 package it.polimi.ingsw;
 
 public class Player {
-    public Board board;
+    private Board board;
+
+    public Board getBoard() {
+        return board;
+    }
 }

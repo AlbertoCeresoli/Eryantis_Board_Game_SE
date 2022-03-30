@@ -42,7 +42,7 @@ public class Model {
         //per il numero dei giocatori:
         for (int i = 0; i < gamerules[0]; i++) {
             temp = BagNClouds.drawStudents(gamerules[1]);
-            playerInteraction.getPlayers().get(i).board.addStudents(temp);
+            playerInteraction.getPlayers().get(i).getBoard().addToEntrance(temp);
         }
     }
 
@@ -60,6 +60,46 @@ public class Model {
     }
 
     private void drawCharacterCard() {
+
+    }
+
+    public void moveFromEntranceToHall(int studColor, int player){
+
+        //preparo il vettore corrispondente allo studente da spostare
+        int[] temp;
+        temp = new int[5];
+        temp[studColor]++;
+        //remove from entrance
+        playerInteraction.getPlayers().get(player).getBoard().removeStudents(temp);
+        //add to hall
+        playerInteraction.getPlayers().get(player).getBoard().addToHall(temp);
+        //TODO checkteacher
+        playerInteraction.checkTeacher(studColor);
+        //TODO aggiungi coin se multiplo di 3
+    }
+
+    public void moveFromEntranceToIsland(int studColor, int player, int island){
+
+        //preparo il vettore corrispondente allo studente da spostare
+        int[] temp;
+        temp = new int[5];
+        temp[studColor]++;
+        //remove from entrance
+        playerInteraction.getPlayers().get(player).getBoard().removeStudents(temp);
+        //add to island
+        islandInteraction.getIslands().get(island).addStudents(temp);
+    }
+
+    public void studentsCloudToEntrance(int player, int cloud){
+
+        //prepara il vettore di studenti da trasportere
+        int[] temp;
+        temp = new int[5];
+        temp = bagNClouds.getClouds().get(cloud);
+        //svuoto la nuvola
+        bagNClouds.resetCloud(cloud);
+        //add to Entrance di temp
+        playerInteraction.getPlayers().get(player).getBoard().addToEntrance(temp);
 
     }
 
