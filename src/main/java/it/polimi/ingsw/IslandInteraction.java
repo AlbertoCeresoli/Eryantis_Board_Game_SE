@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Influence.Influence;
+
 import java.util.ArrayList;
 
 public class IslandInteraction {

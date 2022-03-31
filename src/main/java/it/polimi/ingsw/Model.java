@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Cards.CharacterCards;
+
 public class Model {
     private PlayerInteraction playerInteraction;
     private CharacterCards[] characterCards;
