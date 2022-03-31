@@ -104,4 +104,17 @@ public class Model {
 
     }
 
+    public boolean endGame(){
+        if(bagNClouds.isEmpty())
+            return true;
+        int handEmpty = 0;
+        for (int i = 0; i < playerInteraction.getPlayers().size(); i++){
+            for(int j = 0; j < 10; j++){
+                if(playerInteraction.getPlayers().get(i).getAssistants()[1][j] == 0)
+                    handEmpty = 1;
+                    return true;
+            }
+        }
+        return false;
+    }
 }

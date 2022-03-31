@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 public class Player {
     private Board board= new Board();
-    private int[] assistants;
+    private int[][] assistants;
     private String name;
     private int coins;
 
@@ -55,5 +55,9 @@ public class Player {
      */
     public Board getBoard() {
         return board;
+    }
+
+    public int[][] getAssistants() {
+        return assistants;
     }
 }
