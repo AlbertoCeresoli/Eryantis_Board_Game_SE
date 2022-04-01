@@ -23,4 +23,24 @@ public class IslandInteraction {
             this.ntowers[i] = ntowers;
         }
     }
+
+    public int getMotherNature() {
+        return motherNature;
+    }
+
+    public void setMotherNature(int motherNature) {
+        this.motherNature = motherNature;
+    }
+
+    public int[] getNtowers() {
+        return ntowers;
+    }
+
+    public int[] getTeachers() {
+        return teachers;
+    }
+
+    public void placeTower(int player, int island){
+       // if(islands.get(island).)
+    }
 }

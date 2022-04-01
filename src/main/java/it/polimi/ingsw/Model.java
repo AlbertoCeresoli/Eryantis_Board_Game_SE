@@ -1,6 +1,9 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Cards.CharacterCards;
+import it.polimi.ingsw.Cards.*;
+
+import java.util.Arrays;
+import java.util.Random;
 
 public class Model {
     private PlayerInteraction playerInteraction;
@@ -22,7 +25,7 @@ public class Model {
         //se la gamemode è hard
         //chiama draw3CC
         if(gamerules[4] == 1){
-            this.drawCharacterCard();
+            this.characterCards = this.drawCharacterCards();
         }
 
     }
@@ -58,10 +61,6 @@ public class Model {
         }
         //chiama islandInteracrion... passando in ingresso il vettore restituito da drawstudents
         bagNClouds.fillBag(24);
-    }
-
-    private void drawCharacterCard() {
-
     }
 
     public void moveFromEntranceToHall(int studColor, int player){
@@ -116,5 +115,99 @@ public class Model {
             }
         }
         return false;
+    }
+
+    public int getWinner(){
+        int winner = -1;
+        int winnerTowers = 8;
+        for (int i = 0; i < playerInteraction.getPlayers().size(); i++){
+            if(islandInteraction.getNtowers()[i] < winnerTowers){
+                winner = i;
+                winnerTowers = islandInteraction.getNtowers()[i];
+            }
+            if(islandInteraction.getNtowers()[i] == winnerTowers){
+                Arrays.sort(islandInteraction.getNtowers());
+                int current = 0;
+                int maxFrequency = 1;
+                int count = 1;
+                for (int j = 1; j < 5; j++){
+                    if(islandInteraction.getNtowers()[j] == islandInteraction.getNtowers()[j-1]){
+                        count++;
+                        current = islandInteraction.getNtowers()[j];
+                    }else if(count > maxFrequency){
+                        winner = current;
+                        maxFrequency = count;
+                        count = 1;
+                    }
+                }
+            }
+        }
+        return winner;
+    }
+
+    public CharacterCards[] drawCharacterCards(){
+        CharacterCards[] cards;
+        cards = new CharacterCards[3];
+        int capacity = 0;
+        int[] studs;
+        studs = new int[5];
+        Random random = new Random();
+        int rnd;
+
+        for(int i = 0; i < 3; i++){
+             rnd = random.nextInt(12);
+             switch(rnd){
+                 case 1:
+                     capacity = 4;
+                     studs = bagNClouds.drawStudents(capacity);
+                     cards[i] = new Card1(1, islandInteraction, bagNClouds, capacity, studs );
+                     break;
+                 case 0:
+                     cards[i] = new Card2(2, playerInteraction);
+                     break;
+                 case 2:
+                     cards[i] = new Card3(3, islandInteraction);
+                     break;
+                 case 3:
+                     cards[i] = new Card4(1, playerInteraction);
+                     break;
+                 case 4:
+                     cards[i] = new Card5(2, islandInteraction);
+                     break;
+                 case 5:
+                     cards[i] = new Card6(3, islandInteraction);
+                     break;
+                 case 6:
+                     capacity = 6;
+                     studs = bagNClouds.drawStudents(capacity);
+                     cards[i] = new Card7(1, playerInteraction, capacity, studs);
+                     break;
+                 case 7:
+                     cards[i] = new Card8(2, islandInteraction);
+                     break;
+                 case 8:
+                     cards[i] = new Card9(3, islandInteraction);
+                     break;
+                 case 9:
+                     cards[i] = new Card10(1, playerInteraction);
+                     break;
+                 case 10:
+                     capacity = 4;
+                     studs = bagNClouds.drawStudents(capacity);
+                     cards[i] = new Card11(2, playerInteraction, bagNClouds, capacity, studs);
+                     break;
+                 case 11:
+                     cards[i] = new Card12(3,playerInteraction, bagNClouds);
+                     break;
+             }
+        }
+        return cards;
+    }
+
+    public void moveMN(int steps){
+        int MN = islandInteraction.getMotherNature();
+        MN += steps;
+        MN %= (islandInteraction.getIslands().size());
+        islandInteraction.setMotherNature(MN);
     }
 }
