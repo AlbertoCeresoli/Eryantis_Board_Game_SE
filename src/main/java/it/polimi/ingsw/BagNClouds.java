@@ -93,7 +93,7 @@ public class BagNClouds {
      */
 
     /**
-     * metodi get e set: TODO
+     * metodi get e set
      */
     public int[] getCloud (int cloudIndex){
         return clouds.get(cloudIndex);

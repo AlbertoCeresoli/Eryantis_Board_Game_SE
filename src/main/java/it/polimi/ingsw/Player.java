@@ -1,57 +1,72 @@
 package it.polimi.ingsw;
 
 public class Player {
-    private Board board= new Board();
-    private int[][] assistants;
+    private final Board board;
+    private int[][] assistants = {{2,2,2,2,2,2,2,2,2,2},{1,2,3,4,5,6,7,8,9,10},{1,1,2,2,3,3,4,4,5,5}};
     private String name;
     private int coins;
 
     /**
-     * costruttore di player
-     * chiama il costruttore di Board
+     * Player's constructor
+     * it call's Board's constructor
      *
-     * stringa name non inizializzara: TODO
+     * 'name' string not initialized: TODO
      */
     public Player(){
-
+        coins=1;
+        board = new Board();
     }
     /**
-     * test cases: TODO
+     * No test cases because there are not input values
      */
 
     /**
-     * Cambia l’unica enum a 1 che trova in 0
-     * Cambia l’enum nella posizione passata in input ad 1
+     * it changes the only enum with '1' in '0'
+     * if the card in the input position has the enum equals to 2 then
+     * it changes the enum in input position in '1'
+     * if not it return false
      */
-    public void fixHand(int assistantIndex){
-
+    public boolean fixHand(int assistantIndex){
+        for (int i=0; i<10; i++){
+            if (assistants[1][i]==1) {
+                assistants[1][i] = 0;
+            }
+        }
+        if (assistants[1][assistantIndex] == 2) {
+            assistants[1][assistantIndex] = 1;
+            return true;
+        }
+        return false;
     }
     /**
-     * test cases: TODO
+     * test cases:
+     *      - simple cases
+     *      - case with an already played card
      */
 
     /**
-     * Si effettua una coin++
+     * it adds 1 to the number of coins of a player
      */
     public void addCoin(){
-
+        coins++;
     }
     /**
-     * test cases: TODO
+     * No test cases because there are not input values
      */
 
     /**
-     * fa coin=coin-n
+     * it does coin=coin-n
+     * controls TODO??
      */
     public void removeCoins(int cost){
-
+        coins=coins-cost;
     }
     /**
      * test cases: TODO
      */
 
     /**
-     * metodi get e set: TODO
+     * get methods
      */
     public Board getBoard() {
         return board;
@@ -59,5 +74,20 @@ public class Player {
 
     public int[][] getAssistants() {
         return assistants;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    /**
+     * set methods
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 }
