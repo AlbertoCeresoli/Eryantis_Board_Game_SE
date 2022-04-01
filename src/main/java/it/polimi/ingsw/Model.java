@@ -106,15 +106,14 @@ public class Model {
     public boolean endGame(){
         if(bagNClouds.isEmpty())
             return true;
-        int handEmpty = 0;
         for (int i = 0; i < playerInteraction.getPlayers().size(); i++){
             for(int j = 0; j < 10; j++){
-                if(playerInteraction.getPlayers().get(i).getAssistants()[1][j] == 0)
-                    handEmpty = 1;
-                    return true;
+                if(playerInteraction.getPlayers().get(i).getAssistants()[1][j] != 0){
+                    return false;
+                }
             }
         }
-        return false;
+        return true;
     }
 
     public int getWinner(){
@@ -148,7 +147,7 @@ public class Model {
     public CharacterCards[] drawCharacterCards(){
         CharacterCards[] cards;
         cards = new CharacterCards[3];
-        int capacity = 0;
+        int capacity;
         int[] studs;
         studs = new int[5];
         Random random = new Random();
