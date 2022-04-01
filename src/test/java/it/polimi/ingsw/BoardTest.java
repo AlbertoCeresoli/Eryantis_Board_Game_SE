@@ -29,9 +29,9 @@ public class BoardTest
             int[] testStud2 = {0,0,2,3,1};
             int[] finalStud2 = {0,0,2,3,2};
             assertTrue(board.addToHall(testStud1),"TestStud1 added correctly");
-            assertEquals(finalStud1, board.getStudHall(),"Students now are corrects");
+            assertArrayEquals(finalStud1, board.getStudHall(),"Students now are corrects");
             assertTrue(board.addToHall(testStud2),"TestStud2 added correctly");
-            assertEquals(finalStud2, board.getStudHall(),"Students now are corrects");
+            assertArrayEquals(finalStud2, board.getStudHall(),"Students now are corrects");
         }
 
         @Test
@@ -42,9 +42,9 @@ public class BoardTest
             int[] testStud2 = {0,1,12,0,13};
             int[] finalStud2 = {0,0,0,0,1};
             assertTrue(board.addToHall(testStud1),"TestStud1 added correctly");
-            assertEquals(finalStud1, board.getStudHall(),"Students now are corrects");
+            assertArrayEquals(finalStud1, board.getStudHall(),"Students now are corrects");
             assertFalse(board.addToHall(testStud2),"TestStud2 added correctly");
-            assertEquals(finalStud2, board.getStudHall(),"Students now are corrects");
+            assertArrayEquals(finalStud2, board.getStudHall(),"Students now are corrects");
         }
 
         @Test
@@ -57,9 +57,9 @@ public class BoardTest
             int[] testStud2 = {1,1,0,0,0};
             int[] finalStud2 = {0,2,0,0,0};
             assertTrue(board.removeStudent(testStud1),"TestStud1 added correctly");
-            assertEquals(finalStud1, board.getStudHall(),"Students now are corrects");
+            assertArrayEquals(finalStud1, board.getStudEntrance(),"Students now are corrects");
             assertTrue(board.removeStudent(testStud2),"TestStud2 added correctly");
-            assertEquals(finalStud2, board.getStudHall(),"Students now are corrects");
+            assertArrayEquals(finalStud2, board.getStudEntrance(),"Students now are corrects");
         }
 
         @Test
@@ -72,9 +72,9 @@ public class BoardTest
             int[] testStud2 = {4,1,0,0,0};
             int[] finalStud2 = {1,3,0,0,0};
             assertTrue(board.removeStudent(testStud1),"TestStud1 added correctly");
-            assertEquals(finalStud1, board.getStudHall(),"Students now are corrects");
+            assertArrayEquals(finalStud1, board.getStudEntrance(),"Students now are corrects");
             assertFalse(board.removeStudent(testStud2),"TestStud2 added correctly");
-            assertEquals(finalStud2, board.getStudHall(),"Students now are corrects");
+            assertArrayEquals(finalStud2, board.getStudEntrance(),"Students now are corrects");
         }
 
         @Test
@@ -85,9 +85,9 @@ public class BoardTest
             int[] testStud2 = {0,0,2,3,1};
             int[] finalStud2 = {0,0,2,3,2};
             assertTrue(board.addToEntrance(testStud1),"TestStud1 added correctly");
-            assertEquals(finalStud1, board.getStudHall(),"Students now are corrects");
+            assertArrayEquals(finalStud1, board.getStudEntrance(),"Students now are corrects");
             assertTrue(board.addToEntrance(testStud2),"TestStud2 added correctly");
-            assertEquals(finalStud2, board.getStudHall(),"Students now are corrects");
+            assertArrayEquals(finalStud2, board.getStudEntrance(),"Students now are corrects");
         }
 
         @Test
@@ -98,8 +98,8 @@ public class BoardTest
             int[] testStud2 = {0,0,2,3,9};
             int[] finalStud2 = {0,0,0,0,1};
             assertTrue(board.addToEntrance(testStud1),"TestStud1 added correctly");
-            assertEquals(finalStud1, board.getStudHall(),"Students now are corrects");
+            assertArrayEquals(finalStud1, board.getStudEntrance(),"Students now are corrects");
             assertFalse(board.addToEntrance(testStud2),"TestStud2 added correctly");
-            assertEquals(finalStud2, board.getStudHall(),"Students now are corrects");
+            assertArrayEquals(finalStud2, board.getStudEntrance(),"Students now are corrects");
         }
     }
