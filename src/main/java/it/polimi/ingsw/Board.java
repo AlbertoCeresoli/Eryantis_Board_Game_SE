@@ -84,6 +84,11 @@ public class Board {
      *      - empty or null array TODO??
      */
 
+    //to be implemented
+    public boolean removeFromHall(int[] students) {
+        return false;
+    }
+
     /**
      * get methods
      */

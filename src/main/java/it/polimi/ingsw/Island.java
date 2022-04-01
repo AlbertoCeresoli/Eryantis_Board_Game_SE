@@ -35,4 +35,12 @@ public class Island implements StudentManagement {
     @Override
     public void removeStudents(int[] students) {
     }
+
+    public void addInhibitionCard() {
+        inhibitionCards++;
+    }
+
+    public void removeInhibitionCard() {
+        inhibitionCards--;
+    }
 }

@@ -157,9 +157,8 @@ public class Model {
              rnd = random.nextInt(12);
              switch(rnd){
                  case 1:
-                     capacity = 4;
-                     studs = bagNClouds.drawStudents(capacity);
-                     cards[i] = new Card1(1, islandInteraction, bagNClouds, capacity, studs );
+                     studs = bagNClouds.drawStudents(Constants.CARD1_STUDENTS_CAPACITY);
+                     cards[i] = new Card1(1, islandInteraction, bagNClouds, studs);
                      break;
                  case 0:
                      cards[i] = new Card2(2, playerInteraction);
@@ -177,9 +176,8 @@ public class Model {
                      cards[i] = new Card6(3, islandInteraction);
                      break;
                  case 6:
-                     capacity = 6;
-                     studs = bagNClouds.drawStudents(capacity);
-                     cards[i] = new Card7(1, playerInteraction, capacity, studs);
+                     studs = bagNClouds.drawStudents(Constants.CARD7_STUDENTS_CAPACITY);
+                     cards[i] = new Card7(1, playerInteraction, studs);
                      break;
                  case 7:
                      cards[i] = new Card8(2, islandInteraction);
@@ -191,9 +189,8 @@ public class Model {
                      cards[i] = new Card10(1, playerInteraction);
                      break;
                  case 10:
-                     capacity = 4;
-                     studs = bagNClouds.drawStudents(capacity);
-                     cards[i] = new Card11(2, playerInteraction, bagNClouds, capacity, studs);
+                     studs = bagNClouds.drawStudents(Constants.CARD11_STUDENTS_CAPACITY);
+                     cards[i] = new Card11(2, playerInteraction, bagNClouds, studs);
                      break;
                  case 11:
                      cards[i] = new Card12(3,playerInteraction, bagNClouds);

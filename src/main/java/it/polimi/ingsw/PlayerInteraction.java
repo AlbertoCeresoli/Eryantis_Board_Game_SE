@@ -75,6 +75,10 @@ public class PlayerInteraction {
         return players.get(playerIndex);
     }
 
+    public TeacherInterface getTeacherInterface() {
+        return teacherInterface;
+    }
+
     public void setTeacherInterface(TeacherInterface teacherInterface) {
         this.teacherInterface = teacherInterface;
     }
