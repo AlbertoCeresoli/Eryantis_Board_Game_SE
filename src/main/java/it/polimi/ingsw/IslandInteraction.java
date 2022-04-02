@@ -43,4 +43,16 @@ public class IslandInteraction {
     public void placeTower(int player, int island){
        // if(islands.get(island).)
     }
+
+    public void removeInhibitionCard() {
+        numberOfInhibitionCards--;
+    }
+
+    public void addInhibitionCard() {
+        numberOfInhibitionCards++;
+    }
+
+    public void setInfluence(Influence influence) {
+        this.influence = influence;
+    }
 }

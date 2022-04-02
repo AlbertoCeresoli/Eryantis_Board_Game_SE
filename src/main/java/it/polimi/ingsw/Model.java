@@ -2,15 +2,16 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Cards.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 public class Model {
-    private PlayerInteraction playerInteraction;
+    private final PlayerInteraction playerInteraction;
     private CharacterCards[] characterCards;
     private BagNClouds bagNClouds;
-    private IslandInteraction islandInteraction;
-    private int[] gamerules;
+    private final IslandInteraction islandInteraction;
+    private final int[] gamerules;
 
         //CONSTRUCTOR: MODEL
     public Model(int[] gamerules) {
@@ -42,7 +43,6 @@ public class Model {
     private void initializeEntrance() {
         //crea un array temporaneo di 5 interi
         int[] temp;
-        temp = new int[5];
         //per il numero dei giocatori:
         for (int i = 0; i < gamerules[0]; i++) {
             temp = bagNClouds.drawStudents(gamerules[1]);
@@ -53,7 +53,6 @@ public class Model {
     private void initializeIsland() {
         bagNClouds.fillBag(2);
         int[] temp;
-        temp = new int[5];
         //Per 10 volte:
         for(int i = 0; i < 10; i++){
             temp = bagNClouds.drawStudents(1);
@@ -94,7 +93,6 @@ public class Model {
 
         //prepara il vettore di studenti da trasportere
         int[] temp;
-        temp = new int[5];
         temp = bagNClouds.getCloud(cloud);
         //svuoto la nuvola
         bagNClouds.resetCloud(cloud);
@@ -147,21 +145,24 @@ public class Model {
     public CharacterCards[] drawCharacterCards(){
         CharacterCards[] cards;
         cards = new CharacterCards[3];
-        int capacity;
         int[] studs;
-        studs = new int[5];
         Random random = new Random();
         int rnd;
+        ArrayList<Integer> bucket;
+        bucket = new ArrayList<>();
+        for(int i = 0; i < 12; i++){
+            bucket.add(i);
+        }
 
         for(int i = 0; i < 3; i++){
-             rnd = random.nextInt(12);
+            rnd = random.nextInt(bucket.size());
+            rnd = bucket.get(rnd);
              switch(rnd){
-                 case 1:
-                     capacity = 4;
-                     studs = bagNClouds.drawStudents(capacity);
-                     cards[i] = new Card1(1, islandInteraction, bagNClouds, capacity, studs );
-                     break;
                  case 0:
+                     studs = bagNClouds.drawStudents(Constants.CARD1_STUDENTS_CAPACITY);
+                     cards[i] = new Card1(1, islandInteraction, bagNClouds, studs);
+                     break;
+                 case 1:
                      cards[i] = new Card2(2, playerInteraction);
                      break;
                  case 2:
@@ -177,9 +178,8 @@ public class Model {
                      cards[i] = new Card6(3, islandInteraction);
                      break;
                  case 6:
-                     capacity = 6;
-                     studs = bagNClouds.drawStudents(capacity);
-                     cards[i] = new Card7(1, playerInteraction, capacity, studs);
+                     studs = bagNClouds.drawStudents(Constants.CARD7_STUDENTS_CAPACITY);
+                     cards[i] = new Card7(1, playerInteraction, studs);
                      break;
                  case 7:
                      cards[i] = new Card8(2, islandInteraction);
@@ -191,9 +191,8 @@ public class Model {
                      cards[i] = new Card10(1, playerInteraction);
                      break;
                  case 10:
-                     capacity = 4;
-                     studs = bagNClouds.drawStudents(capacity);
-                     cards[i] = new Card11(2, playerInteraction, bagNClouds, capacity, studs);
+                     studs = bagNClouds.drawStudents(Constants.CARD11_STUDENTS_CAPACITY);
+                     cards[i] = new Card11(2, playerInteraction, bagNClouds, studs);
                      break;
                  case 11:
                      cards[i] = new Card12(3,playerInteraction, bagNClouds);
