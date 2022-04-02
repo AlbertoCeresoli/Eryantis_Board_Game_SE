@@ -10,4 +10,8 @@ public class App
     {
         System.out.println( "Hello World!" );
     }
+    public int prova(){
+        int i = 12;
+        return i;
+    }
 }

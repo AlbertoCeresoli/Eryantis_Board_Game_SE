@@ -21,9 +21,6 @@ public class Island implements StudentManagement {
         this.nTowers = towers;
     }
 
-    public void removeInhibitionCard(){
-        this.inhibitionCards--;
-    }
 
     @Override
     public void addStudents(int[] students) {
