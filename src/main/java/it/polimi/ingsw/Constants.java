@@ -8,6 +8,7 @@ public final class Constants {
     public static final int NUMBER_OF_ASSISTANT_CARDS = 10;
 
     public static final int CARD1_STUDENTS_CAPACITY = 4;
+    public static final int CARD1_STUDENTS_TO_MOVE = 1;
     public static final int CARD4_ADDITION_MOVEMENT = 2;
     public static final int CARD7_STUDENTS_CAPACITY = 6;
     public static final int CARD11_STUDENTS_CAPACITY = 4;

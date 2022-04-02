@@ -22,12 +22,11 @@ public class Card12 extends CharCardsPlayer {
 
     /**
      * The method removes from each board a maximum of @Constants.CARD12_MAX_STUDENTS_TO_REMOVE
-     *
-     * @param index         not used
+     *  @param index         not used
      * @param studentColor  is the color of students that will be removed
-     * @param studentArray1 not used
-     * @param studentArray2 not used
-     */
+	 * @param studentArray1 not used
+	 * @param studentArray2 not used
+	 */
     @Override
     public void useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) {
         ArrayList<Player> players = getPlayerInteraction().getPlayers();

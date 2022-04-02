@@ -25,7 +25,7 @@ public class Island implements StudentManagement {
     @Override
     public void addStudents(int[] students) {
         for (int i = 0; i < students.length; i++){
-            this.students[i] = students[i];
+            this.students[i] += students[i];
         }
     }
 
@@ -39,5 +39,9 @@ public class Island implements StudentManagement {
 
     public void removeInhibitionCard() {
         inhibitionCards--;
+    }
+
+    public int[] getStudents() {
+        return students;
     }
 }
