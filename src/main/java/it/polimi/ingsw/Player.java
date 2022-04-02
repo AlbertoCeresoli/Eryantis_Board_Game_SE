@@ -2,18 +2,18 @@ package it.polimi.ingsw;
 
 public class Player {
     private final Board board;
-    private int[][] assistants = {{2,2,2,2,2,2,2,2,2,2},{1,2,3,4,5,6,7,8,9,10},{1,1,2,2,3,3,4,4,5,5}};
+    private int[][] assistants = {{2, 2, 2, 2, 2, 2, 2, 2, 2, 2}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, {1, 1, 2, 2, 3, 3, 4, 4, 5, 5}};
     private String name;
     private int coins;
 
     /**
      * Player's constructor
      * it call's Board's constructor
-     *
+     * <p>
      * 'name' string not initialized: TODO
      */
-    public Player(){
-        coins=1;
+    public Player() {
+        coins = 1;
         board = new Board();
     }
     /**
@@ -26,9 +26,9 @@ public class Player {
      * it changes the enum in input position in '1'
      * if not it return false
      */
-    public boolean fixHand(int assistantIndex){
-        for (int i=0; i<10; i++){
-            if (assistants[1][i]==1) {
+    public boolean fixHand(int assistantIndex) {
+        for (int i = 0; i < 10; i++) {
+            if (assistants[1][i] == 1) {
                 assistants[1][i] = 0;
             }
         }
@@ -47,7 +47,7 @@ public class Player {
     /**
      * it adds 1 to the number of coins of a player
      */
-    public void addCoin(){
+    public void addCoin() {
         coins++;
     }
     /**
@@ -58,8 +58,8 @@ public class Player {
      * it does coin=coin-n
      * controls TODO??
      */
-    public void removeCoins(int cost){
-        coins=coins-cost;
+    public void removeCoins(int cost) {
+        coins -= cost;
     }
     /**
      * test cases: TODO
