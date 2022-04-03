@@ -35,6 +35,9 @@ public class Model {
 
     }
 
+    /**
+     *  initializeGame calls other initializer methods and instantiates bagNClouds
+     */
     public void initializeGame() {
         //Chiama initializeIsland
         initializeIsland();
@@ -44,6 +47,9 @@ public class Model {
         bagNClouds = new BagNClouds(gamerules[0]);
     }
 
+    /**
+     *  initializeEntrance sets the entrances of all players' boards
+     */
     private void initializeEntrance() {
         //crea un array temporaneo di 5 interi
         int[] temp;
@@ -54,6 +60,10 @@ public class Model {
         }
     }
 
+    /**
+     *  initializeIsland sets the first students in the islands,
+     *  then fills the bags with the correct amount of remaining students
+     */
     private void initializeIsland() {
         bagNClouds.fillBag(2);
         int[] temp;
@@ -66,6 +76,13 @@ public class Model {
         bagNClouds.fillBag(24);
     }
 
+    /**
+     *      this moves 1 student per time from the entrance to the hall
+     *      then it checks whether the control of the teacher changes
+     *      if the student placed is the 3rd, 6th or 9th of that color, it adda a coin to that player
+     * @param studColor color of the student to be moved
+     * @param player    player who moves the student
+     */
     public void moveFromEntranceToHall(int studColor, int player) {
 
         //preparo il vettore corrispondente allo studente da spostare
@@ -76,11 +93,18 @@ public class Model {
         playerInteraction.getPlayers().get(player).getBoard().removeStudent(temp);
         //add to hall
         playerInteraction.getPlayers().get(player).getBoard().addToHall(temp);
-        //TODO checkteacher
         playerInteraction.checkTeacher(studColor);
-        //TODO aggiungi coin se multiplo di 3
+        if(playerInteraction.getPlayers().get(player).getBoard().getStudHall()[studColor]%3 == 0) {
+            playerInteraction.getPlayers().get(player).addCoin();
+        }
     }
 
+    /**
+     *  this moves 1 student per time from the entrance to the island
+     * @param studColor     color of the student to be moved
+     * @param player    player who moves the student
+     * @param island    index of the island wher the student will be moved to
+     */
     public void moveFromEntranceToIsland(int studColor, int player, int island) {
 
         //preparo il vettore corrispondente allo studente da spostare
@@ -93,6 +117,11 @@ public class Model {
         islandInteraction.getIslands().get(island).addStudents(temp);
     }
 
+    /**
+     *  this move the entire array of students to the entrance of the caller
+     * @param player    index of the player who moves the cloud
+     * @param cloud     index of th cloud he gets
+     */
     public void studentsCloudToEntrance(int player, int cloud) {
 
         //prepara il vettore di studenti da trasportere
@@ -105,6 +134,12 @@ public class Model {
 
     }
 
+    /**
+     *  check if one of the statements which determine the end of the game are satisfied
+     *  -no students left in the bag
+     *  -a player used every assistant card in his hand
+     * @return true if the game need to finish
+     */
     public boolean endGame() {
         if (bagNClouds.isEmpty())
             return true;
@@ -118,6 +153,11 @@ public class Model {
         return true;
     }
 
+    /**
+     *  finds the player with the less amount of towers left in his board
+     *  in case of draw, finds the one who controls more teachers
+     * @return the index of the winner player
+     */
     public int getWinner() {
         int winner = -1;
         int winnerTowers = 8;
@@ -146,6 +186,10 @@ public class Model {
         return winner;
     }
 
+    /**
+     *  draw and instantiates 3 random character cards out of the 12 available
+     * @return  a CharacterCards[] array containing the 3 drawn cards
+     */
     public CharacterCards[] drawCharacterCards() {
         CharacterCards[] cards;
         cards = new CharacterCards[3];
@@ -207,6 +251,10 @@ public class Model {
         return cards;
     }
 
+    /**
+     *  moves mother nature adding the steps choose by the player [mod n] where n is the number of islands "left"
+     * @param steps number of steps Mother Nature has to do
+     */
     public void moveMN(int steps) {
         int MN = islandInteraction.getMotherNature();
         MN += steps;
