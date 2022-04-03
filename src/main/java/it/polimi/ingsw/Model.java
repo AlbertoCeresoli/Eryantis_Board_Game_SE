@@ -13,25 +13,29 @@ public class Model {
     private final IslandInteraction islandInteraction;
     private final int[] gamerules;
 
-        //CONSTRUCTOR: MODEL
+    /**
+     * Model Constructor, it initilialize everything
+     *
+     * @param gamerules     array with specific constants referred to the played gamemode
+     */
     public Model(int[] gamerules) {
         this.gamerules = gamerules;
         // Chiama il costruttore di:
-	    //PlayerInteraction(nPlayer)
+        //PlayerInteraction(nPlayer)
         playerInteraction = new PlayerInteraction(gamerules[0]);
-	    //bagNClouds(nPlayer)
+        //bagNClouds(nPlayer)
         bagNClouds = new BagNClouds(gamerules[0]);
-	    //islandInteraction(nTowers)
+        //islandInteraction(nTowers)
         islandInteraction = new IslandInteraction(gamerules[2], gamerules[0]);
         //se la gamemode è hard
         //chiama draw3CC
-        if(gamerules[4] == 1){
+        if (gamerules[4] == 1) {
             this.characterCards = this.drawCharacterCards();
         }
 
     }
 
-    public void initializeGame(){
+    public void initializeGame() {
         //Chiama initializeIsland
         initializeIsland();
         //Chiama initializeEntrance
@@ -54,7 +58,7 @@ public class Model {
         bagNClouds.fillBag(2);
         int[] temp;
         //Per 10 volte:
-        for(int i = 0; i < 10; i++){
+        for (int i = 0; i < 10; i++) {
             temp = bagNClouds.drawStudents(1);
             islandInteraction.getIslands().get(i).addStudents(temp);
         }
@@ -62,7 +66,7 @@ public class Model {
         bagNClouds.fillBag(24);
     }
 
-    public void moveFromEntranceToHall(int studColor, int player){
+    public void moveFromEntranceToHall(int studColor, int player) {
 
         //preparo il vettore corrispondente allo studente da spostare
         int[] temp;
@@ -77,7 +81,7 @@ public class Model {
         //TODO aggiungi coin se multiplo di 3
     }
 
-    public void moveFromEntranceToIsland(int studColor, int player, int island){
+    public void moveFromEntranceToIsland(int studColor, int player, int island) {
 
         //preparo il vettore corrispondente allo studente da spostare
         int[] temp;
@@ -89,7 +93,7 @@ public class Model {
         islandInteraction.getIslands().get(island).addStudents(temp);
     }
 
-    public void studentsCloudToEntrance(int player, int cloud){
+    public void studentsCloudToEntrance(int player, int cloud) {
 
         //prepara il vettore di studenti da trasportere
         int[] temp;
@@ -101,12 +105,12 @@ public class Model {
 
     }
 
-    public boolean endGame(){
-        if(bagNClouds.isEmpty())
+    public boolean endGame() {
+        if (bagNClouds.isEmpty())
             return true;
-        for (int i = 0; i < playerInteraction.getPlayers().size(); i++){
-            for(int j = 0; j < 10; j++){
-                if(playerInteraction.getPlayers().get(i).getAssistants()[1][j] != 0){
+        for (int i = 0; i < playerInteraction.getPlayers().size(); i++) {
+            for (int j = 0; j < 10; j++) {
+                if (playerInteraction.getPlayers().get(i).getAssistants()[1][j] != 0) {
                     return false;
                 }
             }
@@ -114,24 +118,24 @@ public class Model {
         return true;
     }
 
-    public int getWinner(){
+    public int getWinner() {
         int winner = -1;
         int winnerTowers = 8;
-        for (int i = 0; i < playerInteraction.getPlayers().size(); i++){
-            if(islandInteraction.getNtowers()[i] < winnerTowers){
+        for (int i = 0; i < playerInteraction.getPlayers().size(); i++) {
+            if (islandInteraction.getNtowers()[i] < winnerTowers) {
                 winner = i;
                 winnerTowers = islandInteraction.getNtowers()[i];
             }
-            if(islandInteraction.getNtowers()[i] == winnerTowers){
+            if (islandInteraction.getNtowers()[i] == winnerTowers) {
                 Arrays.sort(islandInteraction.getNtowers());
                 int current = 0;
                 int maxFrequency = 1;
                 int count = 1;
-                for (int j = 1; j < 5; j++){
-                    if(islandInteraction.getNtowers()[j] == islandInteraction.getNtowers()[j-1]){
+                for (int j = 1; j < 5; j++) {
+                    if (islandInteraction.getNtowers()[j] == islandInteraction.getNtowers()[j - 1]) {
                         count++;
                         current = islandInteraction.getNtowers()[j];
-                    }else if(count > maxFrequency){
+                    } else if (count > maxFrequency) {
                         winner = current;
                         maxFrequency = count;
                         count = 1;
@@ -142,7 +146,7 @@ public class Model {
         return winner;
     }
 
-    public CharacterCards[] drawCharacterCards(){
+    public CharacterCards[] drawCharacterCards() {
         CharacterCards[] cards;
         cards = new CharacterCards[3];
         int[] studs;
@@ -150,59 +154,60 @@ public class Model {
         int rnd;
         ArrayList<Integer> bucket;
         bucket = new ArrayList<>();
-        for(int i = 0; i < 12; i++){
+        for (int i = 0; i < 12; i++) {
             bucket.add(i);
         }
 
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             rnd = random.nextInt(bucket.size());
             rnd = bucket.get(rnd);
-             switch(rnd){
-                 case 0:
-                     studs = bagNClouds.drawStudents(Constants.CARD1_STUDENTS_CAPACITY);
-                     cards[i] = new Card1(1, islandInteraction, bagNClouds, studs);
-                     break;
-                 case 1:
-                     cards[i] = new Card2(2, playerInteraction);
-                     break;
-                 case 2:
-                     cards[i] = new Card3(3, islandInteraction);
-                     break;
-                 case 3:
-                     cards[i] = new Card4(1, playerInteraction);
-                     break;
-                 case 4:
-                     cards[i] = new Card5(2, islandInteraction);
-                     break;
-                 case 5:
-                     cards[i] = new Card6(3, islandInteraction);
-                     break;
-                 case 6:
-                     studs = bagNClouds.drawStudents(Constants.CARD7_STUDENTS_CAPACITY);
-                     cards[i] = new Card7(1, playerInteraction, studs);
-                     break;
-                 case 7:
-                     cards[i] = new Card8(2, islandInteraction);
-                     break;
-                 case 8:
-                     cards[i] = new Card9(3, islandInteraction);
-                     break;
-                 case 9:
-                     cards[i] = new Card10(1, playerInteraction);
-                     break;
-                 case 10:
-                     studs = bagNClouds.drawStudents(Constants.CARD11_STUDENTS_CAPACITY);
-                     cards[i] = new Card11(2, playerInteraction, bagNClouds, studs);
-                     break;
-                 case 11:
-                     cards[i] = new Card12(3,playerInteraction, bagNClouds);
-                     break;
-             }
+            bucket.remove(rnd);
+            switch (rnd) {
+                case 0:
+                    studs = bagNClouds.drawStudents(Constants.CARD1_STUDENTS_CAPACITY);
+                    cards[i] = new Card1(1, islandInteraction, bagNClouds, studs);
+                    break;
+                case 1:
+                    cards[i] = new Card2(2, playerInteraction);
+                    break;
+                case 2:
+                    cards[i] = new Card3(3, islandInteraction);
+                    break;
+                case 3:
+                    cards[i] = new Card4(1, playerInteraction);
+                    break;
+                case 4:
+                    cards[i] = new Card5(2, islandInteraction);
+                    break;
+                case 5:
+                    cards[i] = new Card6(3, islandInteraction);
+                    break;
+                case 6:
+                    studs = bagNClouds.drawStudents(Constants.CARD7_STUDENTS_CAPACITY);
+                    cards[i] = new Card7(1, playerInteraction, studs);
+                    break;
+                case 7:
+                    cards[i] = new Card8(2, islandInteraction);
+                    break;
+                case 8:
+                    cards[i] = new Card9(3, islandInteraction);
+                    break;
+                case 9:
+                    cards[i] = new Card10(1, playerInteraction);
+                    break;
+                case 10:
+                    studs = bagNClouds.drawStudents(Constants.CARD11_STUDENTS_CAPACITY);
+                    cards[i] = new Card11(2, playerInteraction, bagNClouds, studs);
+                    break;
+                case 11:
+                    cards[i] = new Card12(3, playerInteraction, bagNClouds);
+                    break;
+            }
         }
         return cards;
     }
 
-    public void moveMN(int steps){
+    public void moveMN(int steps) {
         int MN = islandInteraction.getMotherNature();
         MN += steps;
         MN %= (islandInteraction.getIslands().size());

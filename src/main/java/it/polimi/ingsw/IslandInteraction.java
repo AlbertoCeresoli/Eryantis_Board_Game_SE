@@ -44,6 +44,10 @@ public class IslandInteraction {
        // if(islands.get(island).)
     }
 
+    public void mergeIslands(){
+
+    }
+
     public void removeInhibitionCard() {
         numberOfInhibitionCards--;
     }
