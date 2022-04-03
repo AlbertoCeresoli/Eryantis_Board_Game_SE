@@ -16,6 +16,7 @@ public class Card6 extends CharCardsIslands {
     /**
      * The method changes reference of influence in islandInteraction, in order to change the calculateInfluence
      * method that will be called
+     *
      * @param index         not used
      * @param studentColor  not used
      * @param studentArray1 not used
@@ -25,6 +26,7 @@ public class Card6 extends CharCardsIslands {
     public boolean useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) {
         Influence influence = new NormalEffect();
         getIslandInteraction().setInfluence(new Card6Effect(influence));
+
         return true;
     }
 }

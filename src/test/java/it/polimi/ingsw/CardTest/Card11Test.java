@@ -15,13 +15,12 @@ public class Card11Test {
 
     @BeforeEach
     void setup() {
-        int cost = 1;
         PlayerInteraction playerInteraction = new PlayerInteraction(3);
         Player player = playerInteraction.getPlayer(0);
         player.getBoard().addToHall(new int[]{3, 2, 1, 3, 1});
         BagNClouds bagNClouds = new BagNClouds(3);
         bagNClouds.fillBag(10);
-        card11 = new Card11(cost, playerInteraction, bagNClouds, new int[]{0, 1, 1, 1, 1});
+        card11 = new Card11(1, playerInteraction, bagNClouds, new int[]{0, 1, 1, 1, 1});
     }
 
     /**
@@ -44,7 +43,7 @@ public class Card11Test {
         boolean check = true;
 
         for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-            if(newHallStudents[i] != oldHallStudents[i] + students[i]) {
+            if (newHallStudents[i] != oldHallStudents[i] + students[i]) {
                 check = false;
                 break;
             }
@@ -68,7 +67,7 @@ public class Card11Test {
 
     /**
      * The test verifies that an OutOfBoundException is thrown when we try to access to an island using the index parameter given
-     * when it is minor that 0 or higher than islands arraylist' size
+     * that is minor than 0 or higher than islands arraylist' size
      */
     @Test
     void useEffectOutOfBoundExceptionTest() {

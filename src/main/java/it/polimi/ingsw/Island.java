@@ -41,6 +41,10 @@ public class Island implements StudentManagement {
         inhibitionCards--;
     }
 
+    public int getInhibitionCards() {
+        return inhibitionCards;
+    }
+
     public int[] getStudents() {
         return students;
     }

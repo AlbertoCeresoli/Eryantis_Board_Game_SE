@@ -15,10 +15,9 @@ public class Card7Test {
 
     @BeforeEach
     void setup() {
-        int cost = 1;
         PlayerInteraction playerInteraction = new PlayerInteraction(3);
         playerInteraction.getPlayer(0).getBoard().addToEntrance(new int[]{1, 3, 2, 1, 2});
-        card7 = new Card7(cost, playerInteraction, new int[]{1, 1, 2, 1, 1});
+        card7 = new Card7(1, playerInteraction, new int[]{1, 1, 2, 1, 1});
     }
 
     /**
@@ -85,14 +84,16 @@ public class Card7Test {
     }
 
     /**
-     * The test verifies an OutOfBoundException when we try to access to a player with a wrong index
+     * The test verifies that an OutOfBoundException is thrown when we try to access to a player using the index parameter given
+     * that is minor than 0 or higher than players arraylist' size
      */
     @Test
     void useEffectOutOfBoundExceptionTest() {
         int index = -1;
-        int[] students = new int[]{0, 0, 1, 0, 0};
+        int[] students1 = new int[]{1, 1, 1, 0, 0};
+        int[] students2 = new int[]{0, 0, 0, 1, 2};
 
-        assertThrows(OutOfBoundException.class, () -> card7.useEffect(index, 0, students, null));
+        assertThrows(OutOfBoundException.class, () -> card7.useEffect(index, 0, students1, students2));
     }
 
     /**

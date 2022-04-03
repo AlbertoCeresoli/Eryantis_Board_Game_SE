@@ -18,7 +18,6 @@ public class Card1Test {
 
     @BeforeEach
     void setup() {
-        int cost = 1;
         IslandInteraction islandInteraction = new IslandInteraction(6, 3);
         Island island = new Island();
         island.addStudents(new int[]{0, 1, 2, 2, 1});
@@ -26,7 +25,7 @@ public class Card1Test {
         BagNClouds bagNClouds = new BagNClouds(3);
         bagNClouds.fillBag(10);
         int[] temp = new int[]{1, 1, 1, 1, 0};
-        card1 = new Card1(cost, islandInteraction, bagNClouds, temp);
+        card1 = new Card1(1, islandInteraction, bagNClouds, temp);
     }
 
     /**
@@ -72,7 +71,7 @@ public class Card1Test {
 
     /**
      * The test verifies that an OutOfBoundException is thrown when we try to access to an island using the index parameter given
-     * when it is minor that 0 or higher than islands arraylist' size
+     * that is minor than 0 or higher than islands arraylist' size
      */
     @Test
     void useEffectOutOfBoundExceptionTest() {

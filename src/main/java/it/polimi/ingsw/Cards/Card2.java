@@ -13,6 +13,7 @@ public class Card2 extends CharCardsPlayer {
 
     /**
      * The method changes the reference of teacherInterface in playerInteraction, in order to activate the correct checkTeacher method
+     *
      * @param index         not used
      * @param studentColor  not used
      * @param studentArray1 not used

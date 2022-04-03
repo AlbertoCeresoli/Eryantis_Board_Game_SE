@@ -14,6 +14,7 @@ public class Card4 extends CharCardsPlayer {
 
     /**
      * Changes the number of maximum movement of the assistant card played this turn by the player
+     *
      * @param index         is the index of the player of the turn
      * @param studentColor  not used
      * @param studentArray1 not used
