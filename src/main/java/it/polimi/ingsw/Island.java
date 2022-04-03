@@ -24,7 +24,9 @@ public class Island implements StudentManagement {
 
     @Override
     public void addStudents(int[] students) {
-        System.arraycopy(students, 0, this.students, 0, students.length);
+        for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
+            this.students[i] += students[i];
+        }
     }
 
     @Override

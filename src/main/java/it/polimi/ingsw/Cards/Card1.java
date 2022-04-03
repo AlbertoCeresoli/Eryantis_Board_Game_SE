@@ -6,86 +6,93 @@ import it.polimi.ingsw.Exceptions.StudentNotAvailableException;
 import it.polimi.ingsw.Exceptions.WrongArrayException;
 
 public class Card1 extends CharCardsIslands {
-	private BagNClouds bagNClouds;
-	private int[] students;
-	private static final int capacity = Constants.CARD1_STUDENTS_CAPACITY;
+    private BagNClouds bagNClouds;
+    private int[] students;
+    private static final int capacity = Constants.CARD1_STUDENTS_CAPACITY;
 
-	/**
-	 * Card1 constructor
-	 *
-	 * @param bagNClouds bagNClouds reference used to draw students in useEffect
-	 * @param students   students located on the card
-	 */
-	public Card1(int cost, IslandInteraction islandInteraction, BagNClouds bagNClouds, int[] students) {
-		super(cost, islandInteraction);
-		this.bagNClouds = bagNClouds;
-		this.students = new int[Constants.NUMBER_OF_STUDENTS_COLOR];
-		System.arraycopy(students, 0, this.students, 0, Constants.NUMBER_OF_STUDENTS_COLOR);
-	}
-
-	/**
-	 * The method removes the student in input, put it on the chosen island
-	 * and substitute it with a new student drawn from the bag
-	 *
-	 * @param index         island's index where the student will be placed
-	 * @param studentColor  not used
-	 * @param studentArray1 student that will be removed from the card and will be put on the chosen island
-	 * @param studentArray2 not used
+    /**
+     * Card1 constructor
+     *
+     * @param bagNClouds bagNClouds reference used to draw students in useEffect
+     * @param students   students located on the card
      */
-	@Override
-	public void useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) throws OutOfBoundException, StudentNotAvailableException, WrongArrayException {
-		checkInputs(index, studentArray1);
+    public Card1(int cost, IslandInteraction islandInteraction, BagNClouds bagNClouds, int[] students) {
+        super(cost, islandInteraction);
+        this.bagNClouds = bagNClouds;
+        this.students = new int[Constants.NUMBER_OF_STUDENTS_COLOR];
+        System.arraycopy(students, 0, this.students, 0, Constants.NUMBER_OF_STUDENTS_COLOR);
+    }
 
-		for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-			students[i] -= studentArray1[i];
-		}
-		this.getIslandInteraction().getIslands().get(index).addStudents(studentArray1);
-		int[] temp = bagNClouds.drawStudents(1);
-		for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-			students[i] += temp[i];
-		}
-	}
+    /**
+     * The method removes the student in input, put it on the chosen island
+     * and substitute it with a new student drawn from the bag
+     *
+     * @param index         island's index where the student will be placed
+     * @param studentColor  not used
+     * @param studentArray1 student that will be removed from the card and will be put on the chosen island
+     * @param studentArray2 not used
+     */
+    @Override
+    public boolean useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) throws OutOfBoundException, StudentNotAvailableException, WrongArrayException {
+        checkInputs(index, studentArray1);
 
-	private void checkInputs(int index, int[] studentArray1) throws OutOfBoundException, WrongArrayException, StudentNotAvailableException {
-		if (index < 0 || index >= getIslandInteraction().getIslands().size()) {
-			throw new OutOfBoundException();
-		}
+        for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
+            students[i] -= studentArray1[i];
+        }
 
-		if (studentArray1.length != Constants.NUMBER_OF_STUDENTS_COLOR) {
-			throw new WrongArrayException();
-		}
+        this.getIslandInteraction().getIslands().get(index).addStudents(studentArray1);
+        int[] temp = bagNClouds.drawStudents(1);
+        for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
+            students[i] += temp[i];
+        }
 
-		for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-			if (students[i] - studentArray1[i] < 0) {
-				throw new StudentNotAvailableException();
-			}
-		}
+        return true;
+    }
 
-		int sum = 0;
-		for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-			if (studentArray1[i] < 0) {
-				throw new WrongArrayException();
-			}
-			sum += studentArray1[i];
-		}
-		if (sum != Constants.CARD1_STUDENTS_TO_MOVE) {
-			throw new WrongArrayException();
-		}
-	}
+    /**
+     * The method is called before starting the operations in useEffect. It controls if there are any issues in the input parameters.
+     * Exceptions are thrown when requirements are not satisfied
+     */
+    private void checkInputs(int index, int[] studentArray1) throws OutOfBoundException, WrongArrayException, StudentNotAvailableException {
+        if (index < 0 || index >= getIslandInteraction().getIslands().size()) {
+            throw new OutOfBoundException();
+        }
 
-	public BagNClouds getBagNClouds() {
-		return bagNClouds;
-	}
+        if (studentArray1.length != Constants.NUMBER_OF_STUDENTS_COLOR) {
+            throw new WrongArrayException();
+        }
 
-	public int[] getStudents() {
-		return students;
-	}
+        for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
+            if (students[i] - studentArray1[i] < 0) {
+                throw new StudentNotAvailableException();
+            }
+        }
 
-	public void setBagNClouds(BagNClouds bagNClouds) {
-		this.bagNClouds = bagNClouds;
-	}
+        int sum = 0;
+        for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
+            if (studentArray1[i] < 0) {
+                throw new WrongArrayException();
+            }
+            sum += studentArray1[i];
+        }
+        if (sum != Constants.CARD1_STUDENTS_TO_MOVE) {
+            throw new WrongArrayException();
+        }
+    }
 
-	public void setStudents(int[] students) {
-		this.students = students;
-	}
+    public BagNClouds getBagNClouds() {
+        return bagNClouds;
+    }
+
+    public int[] getStudents() {
+        return students;
+    }
+
+    public void setBagNClouds(BagNClouds bagNClouds) {
+        this.bagNClouds = bagNClouds;
+    }
+
+    public void setStudents(int[] students) {
+        this.students = students;
+    }
 }

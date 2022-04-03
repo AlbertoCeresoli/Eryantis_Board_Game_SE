@@ -18,18 +18,20 @@ public class Card10 extends CharCardsPlayer {
      * adds studentArray2 to the entrance
      * <p>
      * A maximum of 2 students can be chosen.
-     *  @param index         is the player index that will exchange the students
+     * @param index         is the player index that will exchange the students
      * @param studentColor  not used
-	 * @param studentArray1 students from entrance
-	 * @param studentArray2 students from hall
-	 */
+     * @param studentArray1 students from entrance
+     * @param studentArray2 students from hall
+     */
     @Override
-    public void useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) {
+    public boolean useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) {
         Player player = getPlayerInteraction().getPlayer(index);
 
         player.getBoard().removeStudent(studentArray1);
         player.getBoard().removeFromHall(studentArray2);
         player.getBoard().addToEntrance(studentArray2);
         player.getBoard().addToHall(studentArray1);
+
+        return true;
     }
 }

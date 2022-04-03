@@ -12,13 +12,14 @@ public class Card3 extends CharCardsIslands {
 
     /**
      * The method activate calculateInfluence method in islandInteraction on the chosen island
-     *  @param index         is the island index where the influence will be calculated
+     * @param index         is the island index where the influence will be calculated
      * @param studentColor  not used
-	 * @param studentArray1 not used
-	 * @param studentArray2 not used
-	 */
+     * @param studentArray1 not used
+     * @param studentArray2 not used
+     */
     @Override
-    public void useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) {
+    public boolean useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) {
         //islandInteraction.calculateInfluence(index);
+        return true;
     }
 }
