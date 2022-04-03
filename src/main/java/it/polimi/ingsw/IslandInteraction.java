@@ -22,6 +22,7 @@ public class IslandInteraction {
         for (int i = 0; i < nplayers; i++) {
             this.ntowers[i] = ntowers;
         }
+        islands = new ArrayList<>();
     }
 
     public int getMotherNature() {

@@ -26,11 +26,10 @@ public class Card11 extends CharCardsPlayer {
     /**
      * The method removes a student from the card and place it in the player's hall,
      * then draws a new student from the bag and put it on the card
-     *
-     * @param index         is player index that takes the student to the hall
+     *  @param index         is player index that takes the student to the hall
      * @param studentColor  not used
-     * @param studentArray1 student that will be removed from the card and will be put in the hall
-     * @param studentArray2 not used
+	 * @param studentArray1 student that will be removed from the card and will be put in the hall
+	 * @param studentArray2 not used
      */
     @Override
     public void useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) {

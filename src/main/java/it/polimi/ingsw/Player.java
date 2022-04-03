@@ -9,15 +9,16 @@ public class Player {
     /**
      * Player's constructor
      * it call's Board's constructor
-     * <p>
+     *
      * 'name' string not initialized: TODO
+     * improve assistants: TODO
      */
     public Player() {
         coins = 1;
         board = new Board();
     }
     /**
-     * No test cases because there are not input values
+     * No test cases because there are no input values
      */
 
     /**
@@ -27,22 +28,18 @@ public class Player {
      * if not it return false
      */
     public boolean fixHand(int assistantIndex) {
+        if (assistants[0][assistantIndex] != 2) {
+            return false;
+        }
         for (int i = 0; i < 10; i++) {
-            if (assistants[1][i] == 1) {
-                assistants[1][i] = 0;
+            if (assistants[0][i] == 1) {
+                assistants[0][i] = 0;
             }
         }
-        if (assistants[1][assistantIndex] == 2) {
-            assistants[1][assistantIndex] = 1;
-            return true;
-        }
-        return false;
+        assistants[0][assistantIndex] = 1;
+        return true;
+
     }
-    /**
-     * test cases:
-     *      - simple cases
-     *      - case with an already played card
-     */
 
     /**
      * it adds 1 to the number of coins of a player
@@ -51,19 +48,20 @@ public class Player {
         coins++;
     }
     /**
-     * No test cases because there are not input values
+     * No test cases because there are no input values
      */
 
     /**
-     * it does coin=coin-n
-     * controls TODO??
+     * it checks if the player has enough coins
+     * after that, if there are enough coins it does coins-=cost
      */
-    public void removeCoins(int cost) {
+    public boolean removeCoins(int cost) {
+        if (coins<cost){
+            return false;
+        }
         coins -= cost;
+        return true;
     }
-    /**
-     * test cases: TODO
-     */
 
     /**
      * get methods

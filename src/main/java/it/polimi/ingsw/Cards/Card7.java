@@ -23,11 +23,10 @@ public class Card7 extends CharCardsPlayer {
      * The method removes from the array the students chosen by player and add them to the player's entrance
      * <p>
      * The player can choose a maximum of 3 students
-     *
-     * @param index         is the player index
+     *  @param index         is the player index
      * @param studentColor  not used
-     * @param studentArray1 students chosen by the player
-     * @param studentArray2 not used
+	 * @param studentArray1 students chosen by the player
+	 * @param studentArray2 not used
      */
     @Override
     public void useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) {

@@ -38,4 +38,8 @@ public class Island implements StudentManagement {
     public void removeInhibitionCard() {
         inhibitionCards--;
     }
+
+    public int[] getStudents() {
+        return students;
+    }
 }
