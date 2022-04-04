@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class IslandInteraction {
     private ArrayList<Island> islands;
     private int[] teachers;
-    private int[] ntowers;
+    private int[] towersByPlayer;
     private int motherNature;
     private Influence influence;
     private int numberOfInhibitionCards;
@@ -17,10 +17,10 @@ public class IslandInteraction {
     }
 
     //CONSTRUCTOR: ISLANDINTERACTION
-    public IslandInteraction(int ntowers, int nplayers) {
-        this.ntowers = new int[nplayers];
+    public IslandInteraction(int towersByPlayer, int nplayers) {
+        this.towersByPlayer = new int[nplayers];
         for (int i = 0; i < nplayers; i++) {
-            this.ntowers[i] = ntowers;
+            this.towersByPlayer[i] = towersByPlayer;
         }
         islands = new ArrayList<>();
     }
@@ -33,19 +33,29 @@ public class IslandInteraction {
         this.motherNature = motherNature;
     }
 
-    public int[] getNtowers() {
-        return ntowers;
+    public int[] getTowersByPlayer() {
+        return towersByPlayer;
     }
 
     public int[] getTeachers() {
         return teachers;
     }
 
-    public void placeTower(int player, int island){
-       // if(islands.get(island).)
+    public void placeTower(int player, int island) {
+        int oldController = getIslands().get(island).getControllerIndex();
+        int oldNumTowers = getIslands().get(island).getnTowers();
+        if (oldController == -1) {
+            getIslands().get(island).addTower(player, 1);
+        } else {
+            getIslands().get(island).removeTower();
+            towersByPlayer[oldController] += oldNumTowers;
+            towersByPlayer[player] -= oldNumTowers;
+            getIslands().get(island).addTower(player, oldNumTowers);
+        }
+        mergeIslands(island);
     }
 
-    public void mergeIslands(){
+    public void mergeIslands(int islandIndex){
 
     }
 

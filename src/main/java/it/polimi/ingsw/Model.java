@@ -37,14 +37,16 @@ public class Model {
 
     /**
      *  initializeGame calls other initializer methods and instantiates bagNClouds
+     * @return true if everything gone good
      */
-    public void initializeGame() {
+    public boolean initializeGame() {
         //Chiama initializeIsland
         initializeIsland();
         //Chiama initializeEntrance
         initializeEntrance();
         //Chiama il costruttore bagNClouds(numero di giocatori)
         bagNClouds = new BagNClouds(gamerules[0]);
+        return true;
     }
 
     /**
@@ -162,19 +164,19 @@ public class Model {
         int winner = -1;
         int winnerTowers = 8;
         for (int i = 0; i < playerInteraction.getPlayers().size(); i++) {
-            if (islandInteraction.getNtowers()[i] < winnerTowers) {
+            if (islandInteraction.getTowersByPlayer()[i] < winnerTowers) {
                 winner = i;
-                winnerTowers = islandInteraction.getNtowers()[i];
+                winnerTowers = islandInteraction.getTowersByPlayer()[i];
             }
-            if (islandInteraction.getNtowers()[i] == winnerTowers) {
-                Arrays.sort(islandInteraction.getNtowers());
+            if (islandInteraction.getTowersByPlayer()[i] == winnerTowers) {
+                Arrays.sort(islandInteraction.getTowersByPlayer());
                 int current = 0;
                 int maxFrequency = 1;
                 int count = 1;
                 for (int j = 1; j < 5; j++) {
-                    if (islandInteraction.getNtowers()[j] == islandInteraction.getNtowers()[j - 1]) {
+                    if (islandInteraction.getTowersByPlayer()[j] == islandInteraction.getTowersByPlayer()[j - 1]) {
                         count++;
-                        current = islandInteraction.getNtowers()[j];
+                        current = islandInteraction.getTowersByPlayer()[j];
                     } else if (count > maxFrequency) {
                         winner = current;
                         maxFrequency = count;
@@ -205,7 +207,7 @@ public class Model {
         for (int i = 0; i < 3; i++) {
             rnd = random.nextInt(bucket.size());
             rnd = bucket.get(rnd);
-            bucket.remove(rnd);
+            bucket.remove(rnd-1);
             switch (rnd) {
                 case 0:
                     studs = bagNClouds.drawStudents(Constants.CARD1_STUDENTS_CAPACITY);

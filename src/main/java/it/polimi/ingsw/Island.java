@@ -10,15 +10,18 @@ public class Island implements StudentManagement {
         this.nTowers = 0;
         this.students = new int[5];
         this.inhibitionCards = 0;
+        this.controllerIndex = -1;
     }
 
-    public void removeTower(){
+    public boolean removeTower(){
         this.nTowers = 0;
+        return true;
     }
 
-    public void addTower(int player, int towers){
+    public boolean addTower(int player, int towers){
         this.controllerIndex = player;
         this.nTowers = towers;
+        return true;
     }
 
 
@@ -41,5 +44,13 @@ public class Island implements StudentManagement {
 
     public int[] getStudents() {
         return students;
+    }
+
+    public int getnTowers() {
+        return nTowers;
+    }
+
+    public int getControllerIndex() {
+        return controllerIndex;
     }
 }

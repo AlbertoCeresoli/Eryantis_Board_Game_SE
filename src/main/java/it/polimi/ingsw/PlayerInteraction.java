@@ -6,7 +6,7 @@ import it.polimi.ingsw.Teacher.TeacherInterface;
 import java.util.ArrayList;
 
 public class PlayerInteraction {
-    private ArrayList<Player> players;
+    private final ArrayList<Player> players;
     private TeacherInterface teacherInterface;
 
     /**
@@ -34,8 +34,8 @@ public class PlayerInteraction {
      */
     public ArrayList<Integer> checkTeacher(int studColor){
         ArrayList<int[]> temp = new ArrayList<>();
-        for (int i=0; i < players.size(); i++){
-            temp.add((players.get(i)).getBoard().getStudHall());
+        for (Player player : players) {
+            temp.add(player.getBoard().getStudHall());
         }
         return teacherInterface.checkTeacher(temp, studColor);
     }
