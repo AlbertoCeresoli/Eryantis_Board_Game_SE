@@ -20,7 +20,7 @@ public abstract class CharacterCards {
         this.usedThisTurn = false;
     }
 
-    abstract public void useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) throws OutOfBoundException, StudentNotAvailableException, WrongArrayException;
+    abstract public boolean useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) throws OutOfBoundException, StudentNotAvailableException, WrongArrayException;
 
     /**
      * Cost has to be increased only when the card is used for the first time.

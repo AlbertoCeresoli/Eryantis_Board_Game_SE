@@ -9,8 +9,8 @@ public class Board {
      * Board's builder
      */
     public Board() {
-        studEntrance = new int[5];
-        studHall = new int[5];
+        studEntrance = new int[] {0, 0, 0, 0, 0};
+        studHall = new int[] {0, 0, 0, 0, 0};
     }
     /**
      * No test cases because there are not input values

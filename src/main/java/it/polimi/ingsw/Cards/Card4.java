@@ -14,13 +14,14 @@ public class Card4 extends CharCardsPlayer {
 
     /**
      * Changes the number of maximum movement of the assistant card played this turn by the player
-     *  @param index         is the index of the player of the turn
+     *
+     * @param index         is the index of the player of the turn
      * @param studentColor  not used
-	 * @param studentArray1 not used
-	 * @param studentArray2 not used
-	 */
+     * @param studentArray1 not used
+     * @param studentArray2 not used
+     */
     @Override
-    public void useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) {
+    public boolean useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) {
         Player player = getPlayerInteraction().getPlayers().get(index);
         int[][] assistants = player.getAssistants();
         int lastCardUsedIndex = -1;
@@ -31,5 +32,6 @@ public class Card4 extends CharCardsPlayer {
             }
         }
         assistants[2][lastCardUsedIndex] += Constants.CARD4_ADDITION_MOVEMENT;
+        return true;
     }
 }

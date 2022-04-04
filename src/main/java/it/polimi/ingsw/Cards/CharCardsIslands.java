@@ -12,7 +12,7 @@ public abstract class CharCardsIslands extends CharacterCards {
      * CharCardsIslands' constructor
      *
      * @param islandInteraction is a reference to islandInteraction that will allow cards that extend this class
-     * to work with islands
+     *                          to work with islands
      */
     public CharCardsIslands(int cost, IslandInteraction islandInteraction) {
         super(cost);

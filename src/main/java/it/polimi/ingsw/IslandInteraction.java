@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Influence.Influence;
+import it.polimi.ingsw.Influence.NormalEffect;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,8 @@ public class IslandInteraction {
             this.towersByPlayer[i] = towersByPlayer;
         }
         islands = new ArrayList<>();
+        numberOfInhibitionCards = Constants.CARD5_NUMBER_INHIBITION_CARD;
+        influence = new NormalEffect();
     }
 
     public int getMotherNature() {
@@ -59,6 +62,10 @@ public class IslandInteraction {
 
     }
 
+    public int getNumberOfInhibitionCards() {
+        return numberOfInhibitionCards;
+    }
+
     public void removeInhibitionCard() {
         numberOfInhibitionCards--;
     }
@@ -69,5 +76,9 @@ public class IslandInteraction {
 
     public void setInfluence(Influence influence) {
         this.influence = influence;
+    }
+
+    public Influence getInfluence() {
+        return influence;
     }
 }
