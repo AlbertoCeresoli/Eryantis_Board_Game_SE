@@ -17,15 +17,14 @@ public class Card8 extends CharCardsIslands {
      * The method changes reference of influence in islandInteraction, in order to change the calculateInfluence
      * method that will be called
      *
-     * @param index         not used
+     * @param index         of actual turn's player
      * @param studentColor  not used
      * @param studentArray1 not used
      * @param studentArray2 not used
      */
     @Override
     public boolean useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) {
-        Influence influence = new NormalEffect();
-        getIslandInteraction().setInfluence(new Card8Effect(influence));
+        getIslandInteraction().setInfluence(new Card8Effect(index));
 
         return true;
     }

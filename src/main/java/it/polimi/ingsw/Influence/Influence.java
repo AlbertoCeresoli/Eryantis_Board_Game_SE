@@ -2,6 +2,8 @@ package it.polimi.ingsw.Influence;
 
 import it.polimi.ingsw.Island;
 
+import java.util.ArrayList;
+
 public interface Influence {
-    void calculateInfluence(int[] teachers, Island island);
+    ArrayList<Integer> calculateInfluence(int[] teachers, Island island);
 }

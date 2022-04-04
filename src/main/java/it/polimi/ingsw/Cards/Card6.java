@@ -24,8 +24,7 @@ public class Card6 extends CharCardsIslands {
      */
     @Override
     public boolean useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) {
-        Influence influence = new NormalEffect();
-        getIslandInteraction().setInfluence(new Card6Effect(influence));
+        getIslandInteraction().setInfluence(new Card6Effect());
 
         return true;
     }
