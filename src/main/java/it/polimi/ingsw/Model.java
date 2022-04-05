@@ -95,7 +95,7 @@ public class Model {
         playerInteraction.getPlayers().get(player).getBoard().removeStudent(temp);
         //add to hall
         playerInteraction.getPlayers().get(player).getBoard().addToHall(temp);
-        playerInteraction.checkTeacher(studColor);
+        playerInteraction.checkTeacher(studColor, player);
         if(playerInteraction.getPlayers().get(player).getBoard().getStudHall()[studColor]%3 == 0) {
             playerInteraction.getPlayers().get(player).addCoin();
         }

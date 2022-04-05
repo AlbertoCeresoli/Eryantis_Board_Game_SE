@@ -13,9 +13,8 @@ abstract public class OtherEffect implements Influence {
 
     @Override
     public ArrayList<Integer> calculateInfluence(int[] teachers, Island island) {
-        ArrayList<Integer> influences = new ArrayList<>();
 
-        influences = wrappee.calculateInfluence(teachers, island);
+        ArrayList<Integer> influences = wrappee.calculateInfluence(teachers, island);
         influences = extra(teachers, island, influences);
 
         return influences;

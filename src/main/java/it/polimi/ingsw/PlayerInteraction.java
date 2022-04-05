@@ -32,12 +32,12 @@ public class PlayerInteraction {
      * it collects in temp all the students with the specified color in the hall of each player
      * calls the correct checkTeacher following the TeacherInterface
      */
-    public ArrayList<Integer> checkTeacher(int studColor){
-        ArrayList<int[]> temp = new ArrayList<>();
+    public ArrayList<Integer> checkTeacher(int studColor, int actualPlayer){
+        ArrayList<Integer> temp = new ArrayList<>();
         for (Player player : players) {
-            temp.add(player.getBoard().getStudHall());
+            temp.add(player.getBoard().getStudHall()[studColor]);
         }
-        return teacherInterface.checkTeacher(temp, studColor);
+        return teacherInterface.checkTeacher(temp, actualPlayer);
     }
     /**
      * Test cases: TODO

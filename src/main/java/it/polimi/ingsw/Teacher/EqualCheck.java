@@ -4,7 +4,26 @@ import java.util.ArrayList;
 
 public class EqualCheck implements TeacherInterface{
     @Override
-    public ArrayList<Integer> checkTeacher(ArrayList<int[]> boardStudents, int studentColor) {
-        return null;
+    public ArrayList<Integer> checkTeacher(ArrayList<Integer> thatColorStudentsByPlayer, int actualPlayer) {
+        ArrayList<Integer> newPlayersForThatTeacher = new ArrayList<>();
+        int max = 0;
+        for (int i = 0; i < thatColorStudentsByPlayer.size(); i++) {
+            if (thatColorStudentsByPlayer.get(i) > max) {
+                newPlayersForThatTeacher.clear();
+                newPlayersForThatTeacher.add(i);
+                max = thatColorStudentsByPlayer.get(i);
+            }
+            else if (thatColorStudentsByPlayer.get(i) == max && max != 0) {
+                newPlayersForThatTeacher.add(i);
+            }
+        }
+
+        if (newPlayersForThatTeacher.contains(actualPlayer)) {
+            return newPlayersForThatTeacher;
+        }
+        else {
+            newPlayersForThatTeacher.clear();
+            return newPlayersForThatTeacher;
+        }
     }
 }
