@@ -41,6 +41,7 @@ public class Player {
 
     }
 
+
     /**
      * it adds 1 to the number of coins of a player
      */
@@ -62,6 +63,7 @@ public class Player {
         coins -= cost;
         return true;
     }
+    // coins controlled in the preset
 
     /**
      * get methods

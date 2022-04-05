@@ -35,7 +35,7 @@ public class Card10 extends CharCardsPlayer {
         Player player = getPlayerInteraction().getPlayer(index);
 
         boolean check = true;
-        check = player.getBoard().removeStudent(studentArray1);
+        check = player.getBoard().removeFromEntrance(studentArray1);
         if (!check){
             return false;
         }

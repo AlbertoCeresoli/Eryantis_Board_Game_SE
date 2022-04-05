@@ -91,11 +91,19 @@ public class Model {
         int[] temp;
         temp = new int[5];
         temp[studColor]++;
+        ArrayList<Integer> newTeacherController;
+
         //remove from entrance
-        playerInteraction.getPlayers().get(player).getBoard().removeStudent(temp);
+        playerInteraction.getPlayers().get(player).getBoard().removeFromEntrance(temp);
+
         //add to hall
         playerInteraction.getPlayers().get(player).getBoard().addToHall(temp);
-        playerInteraction.checkTeacher(studColor, player);
+        newTeacherController = playerInteraction.checkTeacher(studColor, player);
+        if (newTeacherController.size()==1){
+            islandInteraction.setTeacher(newTeacherController.get(0), studColor);
+        }
+
+        //check for the addCoin
         if(playerInteraction.getPlayers().get(player).getBoard().getStudHall()[studColor]%3 == 0) {
             playerInteraction.getPlayers().get(player).addCoin();
         }
@@ -114,7 +122,7 @@ public class Model {
         temp = new int[5];
         temp[studColor]++;
         //remove from entrance
-        playerInteraction.getPlayers().get(player).getBoard().removeStudent(temp);
+        playerInteraction.getPlayers().get(player).getBoard().removeFromEntrance(temp);
         //add to island
         islandInteraction.getIslands().get(island).addStudents(temp);
     }

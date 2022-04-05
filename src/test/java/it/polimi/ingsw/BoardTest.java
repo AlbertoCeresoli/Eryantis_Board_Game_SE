@@ -49,32 +49,32 @@ public class BoardTest
 
         @Test
         @DisplayName("simple cases")
-        void testRemoveStudent(){
-            int[] initialEntrance = {2,3,0,0,0};
-            board.addToEntrance(initialEntrance);
+        void testRemoveFromHall(){
+            int[] initialHall = {2,3,0,0,0};
+            board.addToHall(initialHall);
             int[] testStud1 = {1,0,0,0,0};
             int[] finalStud1 = {1,3,0,0,0};
             int[] testStud2 = {1,1,0,0,0};
             int[] finalStud2 = {0,2,0,0,0};
-            assertTrue(board.removeStudent(testStud1),"TestStud1 added correctly");
-            assertArrayEquals(finalStud1, board.getStudEntrance(),"Students now are corrects");
-            assertTrue(board.removeStudent(testStud2),"TestStud2 added correctly");
-            assertArrayEquals(finalStud2, board.getStudEntrance(),"Students now are corrects");
+            assertTrue(board.removeFromHall(testStud1),"TestStud1 added correctly");
+            assertArrayEquals(finalStud1, board.getStudHall(),"Students now are corrects");
+            assertTrue(board.removeFromHall(testStud2),"TestStud2 added correctly");
+            assertArrayEquals(finalStud2, board.getStudHall(),"Students now are corrects");
         }
 
         @Test
         @DisplayName("given students are more than the students in studEntrance")
-        void testOverflowRemoveStudents(){
-            int[] initialEntrance = {2,3,0,0,0};
-            board.addToEntrance(initialEntrance);
+        void testOverflowRemoveFromHall(){
+            int[] initialHall= {2,3,0,0,0};
+            board.addToHall(initialHall);
             int[] testStud1 = {1,0,0,0,0};
             int[] finalStud1 = {1,3,0,0,0};
             int[] testStud2 = {4,1,0,0,0};
             int[] finalStud2 = {1,3,0,0,0};
-            assertTrue(board.removeStudent(testStud1),"TestStud1 added correctly");
-            assertArrayEquals(finalStud1, board.getStudEntrance(),"Students now are corrects");
-            assertFalse(board.removeStudent(testStud2),"TestStud2 added correctly");
-            assertArrayEquals(finalStud2, board.getStudEntrance(),"Students now are corrects");
+            assertTrue(board.removeFromHall(testStud1),"TestStud1 added correctly");
+            assertArrayEquals(finalStud1, board.getStudHall(),"Students now are corrects");
+            assertFalse(board.removeFromHall(testStud2),"TestStud2 added correctly");
+            assertArrayEquals(finalStud2, board.getStudHall(),"Students now are corrects");
         }
 
         @Test
@@ -100,6 +100,36 @@ public class BoardTest
             assertTrue(board.addToEntrance(testStud1),"TestStud1 added correctly");
             assertArrayEquals(finalStud1, board.getStudEntrance(),"Students now are corrects");
             assertFalse(board.addToEntrance(testStud2),"TestStud2 added correctly");
+            assertArrayEquals(finalStud2, board.getStudEntrance(),"Students now are corrects");
+        }
+
+        @Test
+        @DisplayName("simple cases")
+        void testRemoveFromEntrance(){
+            int[] initialEntrance = {2,3,0,0,0};
+            board.addToEntrance(initialEntrance);
+            int[] testStud1 = {1,0,0,0,0};
+            int[] finalStud1 = {1,3,0,0,0};
+            int[] testStud2 = {1,1,0,0,0};
+            int[] finalStud2 = {0,2,0,0,0};
+            assertTrue(board.removeFromEntrance(testStud1),"TestStud1 added correctly");
+            assertArrayEquals(finalStud1, board.getStudEntrance(),"Students now are corrects");
+            assertTrue(board.removeFromEntrance(testStud2),"TestStud2 added correctly");
+            assertArrayEquals(finalStud2, board.getStudEntrance(),"Students now are corrects");
+        }
+
+        @Test
+        @DisplayName("given students are more than the students in studEntrance")
+        void testOverflowRemoveFromEntrance(){
+            int[] initialEntrance = {2,3,0,0,0};
+            board.addToEntrance(initialEntrance);
+            int[] testStud1 = {1,0,0,0,0};
+            int[] finalStud1 = {1,3,0,0,0};
+            int[] testStud2 = {4,1,0,0,0};
+            int[] finalStud2 = {1,3,0,0,0};
+            assertTrue(board.removeFromEntrance(testStud1),"TestStud1 added correctly");
+            assertArrayEquals(finalStud1, board.getStudEntrance(),"Students now are corrects");
+            assertFalse(board.removeFromEntrance(testStud2),"TestStud2 added correctly");
             assertArrayEquals(finalStud2, board.getStudEntrance(),"Students now are corrects");
         }
     }

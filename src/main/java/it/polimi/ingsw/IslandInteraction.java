@@ -58,6 +58,10 @@ public class IslandInteraction {
         mergeIslands(island);
     }
 
+    public void setTeacher(int teacherController, int color) {
+        this.teachers[color]=teacherController;
+    }
+
     public void mergeIslands(int islandIndex){
 
     }

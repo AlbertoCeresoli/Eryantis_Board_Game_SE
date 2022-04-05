@@ -2,8 +2,10 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Teacher.NormalCheck;
 import it.polimi.ingsw.Teacher.TeacherInterface;
+import java.util.Arrays;
 
 import java.util.ArrayList;
+
 
 public class PlayerInteraction {
     private final ArrayList<Player> players;
@@ -22,9 +24,8 @@ public class PlayerInteraction {
             players.add(player);
         }
     }
-
     /**
-     * test cases: TODO
+     * test cases: TODO??
      */
 
     /**
@@ -40,24 +41,46 @@ public class PlayerInteraction {
         return teacherInterface.checkTeacher(temp, actualPlayer);
     }
     /**
-     * Test cases: TODO
+     * Test cases:
+     *      - simple cases
+     *      - not acceptable color TODO
      */
 
     /**
-     * Per ogni giocatore:
+     * for each player:
      *     player[i].FixHand[Cards[i]]
-     *     Calcola l’ordine di gioco dei players e lo restituisce in output
+     *     it calculates the players order for this round
      */
     public int[] playAssistantCard(int[] cards){
-        int[] playerOrder = new int[players.size()];
-        int temp;
+        int[] assistantCards;
+        int[] playerOrder;
 
+        //Already played card controlled in the controller TODO
         for (int i=0; i< players.size(); i++){
             players.get(i).fixHand(cards[i]);
         }
 
-        // riempire e ordinare il vettore (programmazione funzionale???) TODO
 
+        //fill the array of the played assistant cards
+        playerOrder = new int[players.size()];
+        assistantCards = new int[players.size()];
+        for (int i=0; i< players.size(); i++){
+            playerOrder[i]=i;
+            assistantCards[i]=players.get(i).getAssistants()[1][cards[i]];
+        }
+
+        // order the array (used SelectionSort)(functional programming TODO??)
+        int temp = -1;
+        int temp1 = -1;
+        for (int i=0; i<players.size(); i++){
+            for (int j=0; j<players.size(); j++){
+                if (players.get(j).getAssistants()[1][cards[j]]<temp && !Arrays.asList(playerOrder).contains(j)){
+                    temp = players.get(j).getAssistants()[1][cards[j]];
+                    temp1 = j;
+                }
+            }
+            playerOrder[i]=temp1;
+        }
         return playerOrder;
     }
     /**

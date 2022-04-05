@@ -6,6 +6,7 @@ package it.polimi.ingsw;
 public final class Constants {
     public static final int NUMBER_OF_STUDENTS_COLOR = 5;
     public static final int NUMBER_OF_ASSISTANT_CARDS = 10;
+    public static final int NUMBER_OF_STUDENTS_IN_HALL = 10;
 
     public static final int CARD1_STUDENTS_CAPACITY = 4;
     public static final int CARD1_STUDENTS_TO_MOVE = 1;

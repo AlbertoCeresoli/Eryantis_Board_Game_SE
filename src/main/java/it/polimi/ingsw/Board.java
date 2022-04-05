@@ -9,11 +9,11 @@ public class Board {
      * Board's builder
      */
     public Board() {
-        studEntrance = new int[] {0, 0, 0, 0, 0};
-        studHall = new int[] {0, 0, 0, 0, 0};
+        studEntrance = new int[Constants.NUMBER_OF_STUDENTS_COLOR];
+        studHall = new int[Constants.NUMBER_OF_STUDENTS_COLOR];
     }
     /**
-     * No test cases because there are not input values
+     * No test cases because there are no input values
      */
 
     /**
@@ -21,41 +21,39 @@ public class Board {
      * if the students doesn't exceed the cap than it adds 'students' Array in the arrayHall
      */
     public Boolean addToHall(int[] students){
-        for (int i=0; i<5; i++) {
-            if (studHall[i]+students[i]>10) {
+        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
+            if (studHall[i]+students[i]>Constants.NUMBER_OF_STUDENTS_IN_HALL) {
                 return false;
             }
         }
-        for (int i=0; i<5; i++) {
+        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
             studHall[i] = studHall[i] + students[i];
         }
         return true;
     }
     /**
      * test cases:
-     *      - empty or null array TODO??
+     *      - empty or null array TODO preset
      */
 
     /**
-     * This method verifies if the students can be removed from the array
-     * if the students given can be removed then it removes the them from studEntrance
+     * This method verifies if the students can be removed from the array studHall
+     * if the students given can be removed then it removes them
      */
-    public Boolean removeStudent(int[] students){
-        for (int i=0; i<5; i++){
-            if (students[i]>studEntrance[i]){
+    public boolean removeFromHall(int[] students) {
+        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++){
+            if (studHall[i]<students[i]){
                 return false;
             }
         }
-        for (int i=0; i<5; i++){
-            studEntrance[i] = studEntrance[i] - students[i];
+        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++){
+            studHall[i] -= students[i];
         }
         return true;
     }
     /**
      * test cases:
-     *      - simple case
-     *      - given students are more than the students in studEntrance
-     *      - empty or null array TODO??
+     *      - empty or null array TODO preset
      */
 
     /**
@@ -65,29 +63,42 @@ public class Board {
      */
     public Boolean addToEntrance (int[] newStud){
         int temp=0;
-        for (int i=0; i<5; i++){
+        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++){
             temp = temp + studEntrance[i]+ newStud[i];
         }
         // TODO??
         if (temp > 9) {
             return false;
         }
-        for (int i=0; i<5; i++){
+        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++){
             studEntrance[i]=studEntrance[i]+newStud[i];
         }
         return true;
     }
     /**
      * test cases:
-     *      - simple case
-     *      - the students exceed the cap of the Entrance
-     *      - empty or null array TODO??
+     *      - empty or null array TODO preset
      */
 
-    //to be implemented
-    public boolean removeFromHall(int[] students) {
-        return false;
+    /**
+     * This method verifies if the students can be removed from the array StudEntrance
+     * if the students given can be removed then it removes them
+     */
+    public Boolean removeFromEntrance(int[] students){
+        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++){
+            if (students[i]>studEntrance[i]){
+                return false;
+            }
+        }
+        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++){
+            studEntrance[i] = studEntrance[i] - students[i];
+        }
+        return true;
     }
+    /**
+     * test cases:
+     *      - empty or null array TODO preset
+     */
 
     /**
      * get methods

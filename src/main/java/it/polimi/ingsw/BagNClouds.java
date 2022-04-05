@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Exceptions.OutOfBoundException;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -10,15 +12,17 @@ public class BagNClouds {
 
 
     /**
-     *  costruttore della classe BagNClouds
-     *  creazione clouds in base a numPlayers TODO
+     *  BagNClouds' constructor
+     *  It also creates a cloud for each player in the game
      */
     public BagNClouds(int nPlayers) {
         cloudCapacity = nPlayers;
+
         clouds = new ArrayList<int[]>();
         for (int i=0; i<nPlayers; i++) {
-            clouds.add(new int[5]);
+            clouds.add(new int[Constants.NUMBER_OF_STUDENTS_COLOR]);
         }
+
         bag = new ArrayList<Integer>();
     }
     /**
@@ -26,12 +30,12 @@ public class BagNClouds {
      */
 
     /**
-     * inizializza un ArrayList di 5 interi a 00000
-     * per n volte:
-     *      attraverso un rand sulla size dell’arrayList fa remove della cella dall’arraylist
-     * restituisce l’Array
+     * initialize a temporary ArrayList of 5 integers a 00000
+     * for n:
+     *      with a rand on the size of bag it removes the extracted cell from bag and puts the element in students
+     * it returns students
      */
-    public int[] drawStudents(int n){
+    public int[] drawStudents(int n) {
         int[] students = {0,0,0,0,0};
         int temp;
         Random rand = new Random();
@@ -45,13 +49,16 @@ public class BagNClouds {
         return students;
     }
     /**
-     * test cases: TODO
+     * test cases:
+     *      - simple cases
+     *      - n<0?? TODO??
+     *      - n>bag.size() TODO??
      */
 
     /**
-     *  crea un array temporaneo di 5 interi
-     *  per il numero di giocatori
-     * 	    temp = drawStudents (numero degli studenti per nuvola)
+     *  creates a temporary array of integers
+     *  for nPlayers:
+     * 	    temp = drawStudents (cloudCapacity)
      * 	    clouds(i) = clouds(i) + temp
      */
     public void studentsBagToCloud(){
@@ -62,26 +69,30 @@ public class BagNClouds {
         }
     }
     /**
-     * test cases: TODO
+     * test cases:
+     *      - it doesn't have test cases because there are no input values
      */
 
     /**
-     * Inserisce 5*n valori
-     * nell’arraylist (n volte 0, n volte 1, …)
+     * it adds 5*n students in the bag
+     * each student's color is added n times
      */
     public void fillBag(int numStud){
         for (int i=0; i< numStud; i++){
-            for (int color=0; color<5; color++){
+            for (int color=0; color<Constants.NUMBER_OF_STUDENTS_COLOR; color++){
                 bag.add(color);
             }
         }
     }
     /**
-     * test cases: TODO
+     * test cases:
+     *      - simple cases
+     *      - numStud<0 TODO??
      */
 
     /**
-     * resetCloud: metodo che azzera la nuvola data in input
+     * resetCloud: method that removes the given cloud from the arrayList
+     * and replace it with an empty one
      */
     public void resetCloud(int cloudIndex){
         int[] clearCloud = {0,0,0,0,0};
@@ -89,16 +100,15 @@ public class BagNClouds {
         clouds.add(cloudIndex, clearCloud);
     }
     /**
-     * test cases: TODO
+     * test cases:
+     *      - simple cases
+     *      - case with not acceptable cloud index
      */
 
     /**
-     * metodi get e set
+     * method that check if the bag is empty
+     * TODO rivedere se è corretto o se si deve creare una flag in drawStudents
      */
-    public int[] getCloud (int cloudIndex){
-        return clouds.get(cloudIndex);
-    }
-
     public boolean isEmpty(){
         if (bag.size()==0) {
             return true;
@@ -107,4 +117,13 @@ public class BagNClouds {
             return false;
         }
     }
+
+    /**
+     * get and set methods
+     */
+    public int[] getCloud (int cloudIndex){
+        return clouds.get(cloudIndex);
+    }
+
+
 }
