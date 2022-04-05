@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Exceptions.EndGameException;
 import it.polimi.ingsw.Influence.Influence;
 import it.polimi.ingsw.Influence.NormalEffect;
 
@@ -44,7 +45,7 @@ public class IslandInteraction {
         return teachers;
     }
 
-    public void placeTower(int player, int island) {
+    public void placeTower(int player, int island) throws EndGameException {
         int oldController = getIslands().get(island).getControllerIndex();
         int oldNumTowers = getIslands().get(island).getnTowers();
         if (oldController == -1) {
@@ -62,7 +63,27 @@ public class IslandInteraction {
         this.teachers[color]=teacherController;
     }
 
-    public void mergeIslands(int islandIndex){
+    public void mergeIslands(int islandIndex) throws EndGameException {
+        int newController = getIslands().get(islandIndex).getControllerIndex();
+        if (newController == getIslands().get(islandIndex + 1).getControllerIndex()) {
+            int towersToMerge = getIslands().get(islandIndex + 1).getnTowers();
+            getIslands().get(islandIndex + 1).removeTower();
+            getIslands().get(islandIndex).addTower(newController, towersToMerge);
+            int[] studentsToMerge = getIslands().get(islandIndex + 1).getStudents();
+            getIslands().get(islandIndex).addStudents(studentsToMerge);
+            getIslands().remove(islandIndex + 1);
+        }
+        if (newController == getIslands().get(islandIndex - 1).getControllerIndex()) {
+            int towersToMerge = getIslands().get(islandIndex - 1).getnTowers();
+            getIslands().get(islandIndex - 1).removeTower();
+            getIslands().get(islandIndex).addTower(newController, towersToMerge);
+            int[] studentsToMerge = getIslands().get(islandIndex - 1).getStudents();
+            getIslands().get(islandIndex).addStudents(studentsToMerge);
+            getIslands().remove(islandIndex - 1);
+        }
+        if(getIslands().size() <= 3){
+            throw new EndGameException();
+        }
 
     }
 

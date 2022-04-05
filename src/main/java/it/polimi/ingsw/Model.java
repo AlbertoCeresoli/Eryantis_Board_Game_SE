@@ -45,7 +45,7 @@ public class Model {
         //Chiama initializeEntrance
         initializeEntrance();
         //Chiama il costruttore bagNClouds(numero di giocatori)
-        bagNClouds = new BagNClouds(gamerules[0]);
+
         return true;
     }
 
@@ -215,7 +215,7 @@ public class Model {
         for (int i = 0; i < 3; i++) {
             rnd = random.nextInt(bucket.size());
             rnd = bucket.get(rnd);
-            bucket.remove(rnd-1);
+            bucket.remove(rnd);
             switch (rnd) {
                 case 0:
                     studs = bagNClouds.drawStudents(Constants.CARD1_STUDENTS_CAPACITY);
