@@ -270,5 +270,13 @@ public class Model {
         MN += steps;
         MN %= (islandInteraction.getIslands().size());
         islandInteraction.setMotherNature(MN);
+        if(islandInteraction.getIslands().get(MN).getInhibitionCards() > 0){
+            islandInteraction.getIslands().get(MN).removeInhibitionCard();
+            islandInteraction.addInhibitionCard();
+            return;
+        }
+        if (islandInteraction.getIslands().get(MN).getInhibitionCards() == 0){
+            islandInteraction.calculateInfluence(MN);
+        }
     }
 }

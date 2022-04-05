@@ -20,6 +20,7 @@ public class IslandInteraction {
 
     //CONSTRUCTOR: ISLANDINTERACTION
     public IslandInteraction(int towersByPlayer, int nplayers) {
+        this.teachers = new int[] {-1, -1, -1, -1, -1};
         this.towersByPlayer = new int[nplayers];
         for (int i = 0; i < nplayers; i++) {
             this.towersByPlayer[i] = towersByPlayer;
@@ -84,6 +85,10 @@ public class IslandInteraction {
         if(getIslands().size() <= 3){
             throw new EndGameException();
         }
+    }
+
+    public void calculateInfluence(int island){
+         influence.calculateInfluence(teachers, getIslands().get(island));
 
     }
 
