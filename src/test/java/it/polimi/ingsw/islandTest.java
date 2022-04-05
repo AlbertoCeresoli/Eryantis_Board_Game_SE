@@ -35,9 +35,10 @@ public class islandTest {
     }
 
     @Test
-    @DisplayName("Standard students addition")
-    void testAddStudents(){
-
-
+    @DisplayName("Inhibition Card standard removal")
+    void testRemoveInhibitionCard(){
+        island.addInhibitionCard();
+        island.removeInhibitionCard();
+        assertEquals(0, island.getInhibitionCards() , "Inhibition Card removed incorrectly");
     }
 }
