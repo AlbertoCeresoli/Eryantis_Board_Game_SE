@@ -41,9 +41,11 @@ public class BagNClouds {
         Random rand = new Random();
 
         for (int i=0; i<n; i++){
-            temp= rand.nextInt(bag.size());
-            students[bag.get(temp)]++;
-            bag.remove(temp);
+            if (bag.size()>0) {
+                temp = rand.nextInt(bag.size());
+                students[bag.get(temp)]++;
+                bag.remove(temp);
+            }
         }
 
         return students;
@@ -51,8 +53,8 @@ public class BagNClouds {
     /**
      * test cases:
      *      - simple cases
+     *      - n>bag.size()
      *      - n<0?? TODO??
-     *      - n>bag.size() TODO??
      */
 
     /**
@@ -70,7 +72,7 @@ public class BagNClouds {
     }
     /**
      * test cases:
-     *      - it doesn't have test cases because there are no input values
+     *      - simple cases
      */
 
     /**
@@ -125,5 +127,7 @@ public class BagNClouds {
         return clouds.get(cloudIndex);
     }
 
-
+    public ArrayList<Integer> getBag() {
+        return bag;
+    }
 }
