@@ -37,7 +37,7 @@ public class Card7 extends CharCardsPlayer {
         checkInputs(index, studentArray1, studentArray2);
 
         Player player = getPlayerInteraction().getPlayer(index);
-        boolean check = player.getBoard().removeFromHall(studentArray2);
+        boolean check = player.getBoard().removeFromEntrance(studentArray2);
         if (!check)
             return false;
         for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
