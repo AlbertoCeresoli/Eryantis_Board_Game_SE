@@ -16,7 +16,7 @@ public class BagNClouds {
      *  It also creates a cloud for each player in the game
      */
     public BagNClouds(int nPlayers) {
-        cloudCapacity = nPlayers;
+        cloudCapacity = nPlayers+1;
 
         clouds = new ArrayList<int[]>();
         for (int i=0; i<nPlayers; i++) {
@@ -47,7 +47,6 @@ public class BagNClouds {
                 bag.remove(temp);
             }
         }
-
         return students;
     }
     /**
@@ -67,7 +66,7 @@ public class BagNClouds {
         int[] students = {0,0,0,0,0};
         for (int i=0; i<clouds.size(); i++){
             students = drawStudents(cloudCapacity);
-            clouds.add(students);
+            clouds.set(i, students);
         }
     }
     /**
@@ -104,7 +103,7 @@ public class BagNClouds {
     /**
      * test cases:
      *      - simple cases
-     *      - case with not acceptable cloud index
+     *      - case with not acceptable cloud index TODO??
      */
 
     /**
