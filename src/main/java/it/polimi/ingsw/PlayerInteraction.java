@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Teacher.NormalCheck;
 import it.polimi.ingsw.Teacher.TeacherInterface;
 import java.util.Arrays;
@@ -33,10 +34,10 @@ public class PlayerInteraction {
      * it collects in temp all the students with the specified color in the hall of each player
      * calls the correct checkTeacher following the TeacherInterface
      */
-    public ArrayList<Integer> checkTeacher(int studColor, int actualPlayer){
+    public ArrayList<Integer> checkTeacher(Colors studColor, int actualPlayer){
         ArrayList<Integer> temp = new ArrayList<>();
         for (Player player : players) {
-            temp.add(player.getBoard().getStudHall()[studColor]);
+            temp.add(player.getBoard().getStudHall().get(studColor));
         }
         return teacherInterface.checkTeacher(temp, actualPlayer);
     }

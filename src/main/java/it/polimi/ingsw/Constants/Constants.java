@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Constants;
 
 /**
  * service class that keep global constants used

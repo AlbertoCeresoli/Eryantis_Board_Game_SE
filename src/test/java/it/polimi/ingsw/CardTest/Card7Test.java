@@ -2,6 +2,7 @@ package it.polimi.ingsw.CardTest;
 
 import it.polimi.ingsw.*;
 import it.polimi.ingsw.Cards.Card7;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Exceptions.OutOfBoundException;
 import it.polimi.ingsw.Exceptions.StudentNotAvailableException;
 import it.polimi.ingsw.Exceptions.WrongArrayException;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Card7Test {
     Card7 card7;
 
-    @BeforeEach
+    /*@BeforeEach
     void setup() {
         PlayerInteraction playerInteraction = new PlayerInteraction(3);
         playerInteraction.getPlayer(0).getBoard().addToEntrance(new int[]{1, 3, 2, 1, 2});
@@ -23,7 +24,7 @@ public class Card7Test {
     /**
      * The test verifies a simple working case, where student are available and are correctly exchanged
      */
-    @Test
+    /*@Test
     void useEffectTest() throws StudentNotAvailableException, OutOfBoundException, WrongArrayException {
         int index = 0;
         int[] students1 = new int[]{0, 1, 1, 1, 0};
@@ -62,7 +63,7 @@ public class Card7Test {
     /**
      * The test verifies a StudentNotAvailableException is thrown when we want to pick a student that is not on the card
      */
-    @Test
+    /*@Test
     void useEffectStudentExceptionTest1() {
         int index = 0;
         int[] students1 = new int[]{2, 0, 0, 0, 1};
@@ -74,7 +75,7 @@ public class Card7Test {
     /**
      * The test verifies a StudentNotAvailableException is thrown when we want to pick a student that is not in the entrance
      */
-    @Test
+    /*@Test
     void useEffectStudentExceptionTest2() {
         int index = 0;
         int[] students1 = new int[]{1, 1, 0, 0, 1};
@@ -87,7 +88,7 @@ public class Card7Test {
      * The test verifies that an OutOfBoundException is thrown when we try to access to a player using the index parameter given
      * that is minor than 0 or higher than players arraylist' size
      */
-    @Test
+    /*@Test
     void useEffectOutOfBoundExceptionTest() {
         int index = -1;
         int[] students1 = new int[]{1, 1, 1, 0, 0};
@@ -99,7 +100,7 @@ public class Card7Test {
     /**
      * The test verifies a WrongArrayException is thrown when the input is an array with length different from Constants.NUMBER_OF_STUDENT_COLOR
      */
-    @Test
+    /*@Test
     void useEffectWrongArrayLengthTest() {
         int index = 0;
         int[] students1 = new int[]{0, 0, 1, 0, 0, 0};
@@ -111,7 +112,7 @@ public class Card7Test {
     /**
      * The test verifies a WrongArrayException is thrown when there is a negative element
      */
-    @Test
+    /*@Test
     void useEffectWrongArrayNegativeContentTest() {
         int index = 0;
         int[] students1 = new int[]{0, -1, 1, 1, 0};
@@ -123,7 +124,7 @@ public class Card7Test {
     /**
      * The test verifies a WrongArrayException when the number od students we want to move from the card is different from the entrance's one
      */
-    @Test
+    /*@Test
     void useEffectWrongArrayContentTest() {
         int index = 0;
         int[] students1 = new int[]{0, 1, 1, 1, 0};
@@ -131,4 +132,5 @@ public class Card7Test {
 
         assertThrows(WrongArrayException.class, () -> card7.useEffect(index, 0, students1, students2));
     }
+     */
 }

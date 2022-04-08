@@ -76,18 +76,8 @@ public class Player {
         return assistants;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public int getCoins() {
         return coins;
     }
 
-    /**
-     * set methods
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
 }

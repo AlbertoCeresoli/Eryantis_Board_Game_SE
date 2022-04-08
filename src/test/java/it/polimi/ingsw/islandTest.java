@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class islandTest {
+    /*
     Island island;
     PlayerInteraction playerInteraction;
 
@@ -41,4 +42,6 @@ public class islandTest {
         island.removeInhibitionCard();
         assertEquals(0, island.getInhibitionCards() , "Inhibition Card removed incorrectly");
     }
+
+     */
 }

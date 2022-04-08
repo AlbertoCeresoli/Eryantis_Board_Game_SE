@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
     - playAssistantCard
  */
 public class PlayerInteractionTest {
+    /*
     PlayerInteraction playerInteraction;
     static int nPlayers = 2;
 
@@ -47,4 +48,6 @@ public class PlayerInteractionTest {
     void testPlayAssistantCard(){
 
     }
+
+     */
 }

@@ -1,35 +1,34 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Cards.*;
+import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.awt.*;
+import java.util.*;
 
 public class Model {
     private final PlayerInteraction playerInteraction;
     private CharacterCards[] characterCards;
     private BagNClouds bagNClouds;
     private final IslandInteraction islandInteraction;
-    private final int[] gamerules;
+    private final int[] gameRules;
 
     /**
      * Model Constructor, it initilialize everything
      *
-     * @param gamerules     array with specific constants referred to the played gamemode
+     * @param gameRules     array with specific constants referred to the played gamemode
      */
-    public Model(int[] gamerules) {
-        this.gamerules = gamerules;
-        // Chiama il costruttore di:
-        //PlayerInteraction(nPlayer)
-        playerInteraction = new PlayerInteraction(gamerules[0]);
-        //bagNClouds(nPlayer)
-        bagNClouds = new BagNClouds(gamerules[0]);
-        //islandInteraction(nTowers)
-        islandInteraction = new IslandInteraction(gamerules[2], gamerules[0]);
-        //se la gamemode è hard
-        //chiama draw3CC
-        if (gamerules[4] == 1) {
+    public Model(int[] gameRules) {
+        this.gameRules = gameRules;
+        // calls PlayerInteraction's constructor (input: nPlayer)
+        playerInteraction = new PlayerInteraction(this.gameRules[0]);
+        //calls bagNClouds' constructor(input: nPlayer)
+        bagNClouds = new BagNClouds(this.gameRules[0]);
+        //calls islandInteraction's constructor (input: nTowers)
+        islandInteraction = new IslandInteraction(this.gameRules[2], this.gameRules[0]);
+        // if the gamemode is hard: calls draw3CC
+        if (this.gameRules[4] == 1) {
             this.characterCards = this.drawCharacterCards();
         }
 
@@ -40,12 +39,10 @@ public class Model {
      * @return true if everything gone good
      */
     public boolean initializeGame() {
-        //Chiama initializeIsland
+        //Calls initializeIsland
         initializeIsland();
-        //Chiama initializeEntrance
+        //Calls initializeEntrance
         initializeEntrance();
-        //Chiama il costruttore bagNClouds(numero di giocatori)
-
         return true;
     }
 
@@ -53,11 +50,11 @@ public class Model {
      *  initializeEntrance sets the entrances of all players' boards
      */
     private void initializeEntrance() {
-        //crea un array temporaneo di 5 interi
-        int[] temp;
-        //per il numero dei giocatori:
-        for (int i = 0; i < gamerules[0]; i++) {
-            temp = bagNClouds.drawStudents(gamerules[1]);
+        //creates a temporary HashMap
+        Map<Colors, Integer> temp;
+        //for the number of players:
+        for (int i = 0; i < gameRules[0]; i++) {
+            temp = bagNClouds.drawStudents(gameRules[1]);
             playerInteraction.getPlayers().get(i).getBoard().addToEntrance(temp);
         }
     }
@@ -68,13 +65,12 @@ public class Model {
      */
     private void initializeIsland() {
         bagNClouds.fillBag(2);
-        int[] temp;
-        //Per 10 volte:
+        Map<Colors, Integer> temp;
+        //for 10 times: calls islandInteraction and add the students drawn from the bag
         for (int i = 0; i < 10; i++) {
             temp = bagNClouds.drawStudents(1);
             islandInteraction.getIslands().get(i).addStudents(temp);
         }
-        //chiama islandInteracrion... passando in ingresso il vettore restituito da drawstudents
         bagNClouds.fillBag(24);
     }
 
@@ -85,12 +81,13 @@ public class Model {
      * @param studColor color of the student to be moved
      * @param player    player who moves the student
      */
-    public void moveFromEntranceToHall(int studColor, int player) {
-
-        //preparo il vettore corrispondente allo studente da spostare
-        int[] temp;
-        temp = new int[5];
-        temp[studColor]++;
+    public void moveFromEntranceToHall(Colors studColor, int player) {
+        //creates the map with the student to move
+        Map<Colors, Integer> temp = new HashMap<>();
+        for (Colors c : Colors.values()){
+            temp.put(c, 0);
+        }
+        temp.put(studColor, 1);
         ArrayList<Integer> newTeacherController;
 
         //remove from entrance
@@ -104,7 +101,7 @@ public class Model {
         }
 
         //check for the addCoin
-        if(playerInteraction.getPlayers().get(player).getBoard().getStudHall()[studColor]%3 == 0) {
+        if(playerInteraction.getPlayers().get(player).getBoard().getStudHall().get(studColor)%3 == 0) {
             playerInteraction.getPlayers().get(player).addCoin();
         }
     }
@@ -115,12 +112,14 @@ public class Model {
      * @param player    player who moves the student
      * @param island    index of the island wher the student will be moved to
      */
-    public void moveFromEntranceToIsland(int studColor, int player, int island) {
+    public void moveFromEntranceToIsland(Colors studColor, int player, int island) {
+        //creates the map with the student to move
+        Map<Colors, Integer> temp = new HashMap<>();
+        for (Colors c : Colors.values()){
+            temp.put(c, 0);
+        }
+        temp.put(studColor, 1);
 
-        //preparo il vettore corrispondente allo studente da spostare
-        int[] temp;
-        temp = new int[5];
-        temp[studColor]++;
         //remove from entrance
         playerInteraction.getPlayers().get(player).getBoard().removeFromEntrance(temp);
         //add to island
@@ -130,18 +129,19 @@ public class Model {
     /**
      *  this move the entire array of students to the entrance of the caller
      * @param player    index of the player who moves the cloud
-     * @param cloud     index of th cloud he gets
+     * @param cloudIndex     index of th cloud he gets
      */
-    public void studentsCloudToEntrance(int player, int cloud) {
-
-        //prepara il vettore di studenti da trasportere
-        int[] temp;
-        temp = bagNClouds.getCloud(cloud);
-        //svuoto la nuvola
-        bagNClouds.resetCloud(cloud);
-        //add to Entrance di temp
+    public void studentsCloudToEntrance(int player, int cloudIndex) {
+        //creates the map with the students to move
+        Map<Colors, Integer> temp = new HashMap<>();
+        for (Colors c : Colors.values()){
+            temp.put(c, 0);
+        }
+        temp = bagNClouds.getClouds().get(cloudIndex);
+        //remove the students from the cloud
+        bagNClouds.resetCloud(cloudIndex);
+        //calls addToEntrance(temp)
         playerInteraction.getPlayers().get(player).getBoard().addToEntrance(temp);
-
     }
 
     /**
@@ -203,7 +203,8 @@ public class Model {
     public CharacterCards[] drawCharacterCards() {
         CharacterCards[] cards;
         cards = new CharacterCards[3];
-        int[] studs;
+        Map<Colors, Integer> studs;
+
         Random random = new Random();
         int rnd;
         ArrayList<Integer> bucket;

@@ -1,22 +1,23 @@
 package it.polimi.ingsw.Influence;
 
-import it.polimi.ingsw.Constants;
+import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Island;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Card9Effect extends OtherEffect {
-    int studentColor;
+    Colors studentColor;
 
-    public Card9Effect(int studentColor) {
+    public Card9Effect(Colors studentColor) {
         super();
         this.studentColor = studentColor;
     }
     @Override
-    ArrayList<Integer> extra(int[] teachers, Island island, ArrayList<Integer> influences) {
-        int thatColorStudents = island.getStudents()[studentColor];
+    ArrayList<Integer> extra(Map<Colors, Integer> teachers, Island island, ArrayList<Integer> influences) {
+        int thatColorStudents = island.getStudents().get(studentColor);
 
-        influences.set(teachers[studentColor], influences.get(teachers[studentColor]) - thatColorStudents);
+        influences.set(teachers.get(studentColor), influences.get(teachers.get(studentColor)) - thatColorStudents);
 
         return influences;
     }

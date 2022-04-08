@@ -1,8 +1,11 @@
 package it.polimi.ingsw.Cards;
 
-import it.polimi.ingsw.Constants;
+import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Player;
 import it.polimi.ingsw.PlayerInteraction;
+
+import java.util.Map;
 
 public class Card4 extends CharCardsPlayer {
     /**
@@ -21,7 +24,7 @@ public class Card4 extends CharCardsPlayer {
      * @param studentArray2 not used
      */
     @Override
-    public boolean useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) {
+    public boolean useEffect(int index, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
         Player player = getPlayerInteraction().getPlayers().get(index);
         int[][] assistants = player.getAssistants();
         int lastCardUsedIndex = -1;

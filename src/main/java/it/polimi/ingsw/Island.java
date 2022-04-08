@@ -1,14 +1,24 @@
 package it.polimi.ingsw;
 
-public class Island implements StudentManagement {
+import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Island {
     private int nTowers;
     private int controllerIndex;
-    private int[] students;
     private int inhibitionCards;
+    Map<Colors, Integer> students;
+
 
     public Island() {
         this.nTowers = 0;
-        this.students = new int[5];
+        this.students = new HashMap<>();
+        for (Colors c : Colors.values()){
+            students.put(c,0);
+        }
         this.inhibitionCards = 0;
         this.controllerIndex = -1;
     }
@@ -25,15 +35,16 @@ public class Island implements StudentManagement {
     }
 
 
-    @Override
-    public void addStudents(int[] students) {
-        for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-            this.students[i] += students[i];
+    public void addStudents(Map<Colors, Integer> students) {
+        for (Colors c: Colors.values()) {
+            this.students.put(c, students.get(c)+this.students.get(c));
         }
     }
 
-    @Override
-    public void removeStudents(int[] students) {
+    public void removeStudents(Map<Colors, Integer> students) {
+        for (Colors c: Colors.values()) {
+            this.students.put(c, students.get(c) - this.students.get(c));
+        }
     }
 
     public void addInhibitionCard() {
@@ -48,7 +59,7 @@ public class Island implements StudentManagement {
         return inhibitionCards;
     }
 
-    public int[] getStudents() {
+    public Map<Colors, Integer> getStudents() {
         return students;
     }
 
