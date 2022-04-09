@@ -17,7 +17,7 @@ public class BagNCloudsTest {
     BagNClouds bagNClouds;
     int numPlayers = 2;
 
-    @BeforeEach
+    /*@BeforeEach
     void setUp() {
         bagNClouds = new BagNClouds(numPlayers);
     }
@@ -125,4 +125,6 @@ public class BagNCloudsTest {
         bagNClouds.drawStudents(5*n);
         assertTrue(bagNClouds.isEmpty(), "test failed");
     }
+
+     */
 }

@@ -1,8 +1,11 @@
 package it.polimi.ingsw.Cards;
 
+import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Exceptions.OutOfBoundException;
 import it.polimi.ingsw.Exceptions.StudentNotAvailableException;
 import it.polimi.ingsw.Exceptions.WrongArrayException;
+
+import java.util.Map;
 
 public abstract class CharacterCards {
     private int cost;
@@ -20,7 +23,7 @@ public abstract class CharacterCards {
         this.usedThisTurn = false;
     }
 
-    abstract public boolean useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) throws OutOfBoundException, StudentNotAvailableException, WrongArrayException;
+    abstract public boolean useEffect(int index, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) throws OutOfBoundException, StudentNotAvailableException, WrongArrayException;
 
     /**
      * Cost has to be increased only when the card is used for the first time.

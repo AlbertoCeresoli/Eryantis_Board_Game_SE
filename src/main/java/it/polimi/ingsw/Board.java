@@ -1,16 +1,24 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Board {
-    private int[] studEntrance;
-    private int[] studHall;
-    //NB: java initialize the arrays with 0
+    Map<Colors, Integer> studEntrance= new HashMap<>();
+    Map<Colors, Integer> studHall= new HashMap<>();
 
     /**
-     * Board's builder
+     * Board's builder.
+     * It initialize Entrance and Hall maps with 0 students in each color
      */
     public Board() {
-        studEntrance = new int[Constants.NUMBER_OF_STUDENTS_COLOR];
-        studHall = new int[Constants.NUMBER_OF_STUDENTS_COLOR];
+        for (Colors c : Colors.values()){
+            studEntrance.put(c, 0);
+            studHall.put(c,0);
+        }
     }
     /**
      * No test cases because there are no input values
@@ -20,14 +28,14 @@ public class Board {
      * This method verifies that the students of each color can't be more than 10
      * if the students doesn't exceed the cap than it adds 'students' Array in the arrayHall
      */
-    public Boolean addToHall(int[] students){
-        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-            if (studHall[i]+students[i]>Constants.NUMBER_OF_STUDENTS_IN_HALL) {
+    public Boolean addToHall(Map<Colors, Integer> students){
+        for(Colors c : Colors.values()){
+            if (studHall.get(c)+students.get(c)>Constants.NUMBER_OF_STUDENTS_IN_HALL){
                 return false;
             }
         }
-        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-            studHall[i] = studHall[i] + students[i];
+        for (Colors c : Colors.values()){
+            studHall.put(c, studHall.get(c)+students.get(c));
         }
         return true;
     }
@@ -40,14 +48,14 @@ public class Board {
      * This method verifies if the students can be removed from the array studHall
      * if the students given can be removed then it removes them
      */
-    public boolean removeFromHall(int[] students) {
-        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++){
-            if (studHall[i]<students[i]){
+    public boolean removeFromHall(Map<Colors, Integer> students) {
+        for (Colors c : Colors.values()){
+            if (studHall.get(c)<students.get(c)){
                 return false;
             }
         }
-        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++){
-            studHall[i] -= students[i];
+        for (Colors c : Colors.values()){
+            studHall.put(c, studHall.get(c)-students.get(c));
         }
         return true;
     }
@@ -61,17 +69,18 @@ public class Board {
      * in the entrance exceed the cap op the gameMode
      * if the students doesn't exceed the cap then it adds students in StudEntrance
      */
-    public Boolean addToEntrance (int[] newStud){
-        int temp=0;
-        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++){
-            temp = temp + studEntrance[i]+ newStud[i];
+    public Boolean addToEntrance (Map<Colors, Integer> newStud){
+        int temp = 0;
+        for (Colors c : Colors.values()){
+            temp += studEntrance.get(c)+newStud.get(c);
         }
         // TODO??
         if (temp > 9) {
             return false;
         }
-        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++){
-            studEntrance[i]=studEntrance[i]+newStud[i];
+
+        for (Colors c : Colors.values()){
+            studEntrance.put(c, studEntrance.get(c)+newStud.get(c));
         }
         return true;
     }
@@ -84,14 +93,14 @@ public class Board {
      * This method verifies if the students can be removed from the array StudEntrance
      * if the students given can be removed then it removes them
      */
-    public Boolean removeFromEntrance(int[] students){
-        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++){
-            if (students[i]>studEntrance[i]){
+    public Boolean removeFromEntrance(Map<Colors, Integer> students){
+        for (Colors c : Colors.values()){
+            if (students.get(c)>studEntrance.get(c)){
                 return false;
             }
         }
-        for (int i=0; i<Constants.NUMBER_OF_STUDENTS_COLOR; i++){
-            studEntrance[i] = studEntrance[i] - students[i];
+        for (Colors c : Colors.values()){
+            studEntrance.put(c, studEntrance.get(c)+students.get(c));
         }
         return true;
     }
@@ -103,11 +112,11 @@ public class Board {
     /**
      * get methods
      */
-    public int[] getStudEntrance() {
+    public Map<Colors, Integer> getStudEntrance() {
         return studEntrance;
     }
 
-    public int[] getStudHall() {
+    public Map<Colors, Integer> getStudHall() {
         return studHall;
     }
 }

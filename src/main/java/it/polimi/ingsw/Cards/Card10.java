@@ -1,11 +1,14 @@
 package it.polimi.ingsw.Cards;
 
-import it.polimi.ingsw.Constants;
+import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Exceptions.OutOfBoundException;
 import it.polimi.ingsw.Exceptions.StudentNotAvailableException;
 import it.polimi.ingsw.Exceptions.WrongArrayException;
 import it.polimi.ingsw.Player;
 import it.polimi.ingsw.PlayerInteraction;
+
+import java.util.Map;
 
 public class Card10 extends CharCardsPlayer {
     /**
@@ -29,7 +32,7 @@ public class Card10 extends CharCardsPlayer {
      * @param studentArray2 students from hall
      */
     @Override
-    public boolean useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) throws StudentNotAvailableException, OutOfBoundException, WrongArrayException {
+    public boolean useEffect(int index, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) throws StudentNotAvailableException, OutOfBoundException, WrongArrayException {
         checkInputs(index, studentArray1, studentArray2);
 
         Player player = getPlayerInteraction().getPlayer(index);
@@ -55,37 +58,37 @@ public class Card10 extends CharCardsPlayer {
         return true;
     }
 
-    private void checkInputs(int index, int[] studentArray1, int[] studentArray2) throws OutOfBoundException, WrongArrayException, StudentNotAvailableException {
+    private void checkInputs(int index, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) throws OutOfBoundException, WrongArrayException, StudentNotAvailableException {
         if (index < 0 || index >= getPlayerInteraction().getPlayers().size()) {
             throw new OutOfBoundException();
         }
 
-        if (studentArray1.length != Constants.NUMBER_OF_STUDENTS_COLOR || studentArray2.length != Constants.NUMBER_OF_STUDENTS_COLOR) {
+        if (studentArray1.size() != Constants.NUMBER_OF_STUDENTS_COLOR || studentArray2.size() != Constants.NUMBER_OF_STUDENTS_COLOR) {
             throw new WrongArrayException();
         }
 
-        int[] hall = getPlayerInteraction().getPlayer(index).getBoard().getStudHall();
-        for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-            if (hall[i] < studentArray2[i]) {
+        Map<Colors, Integer> hall = getPlayerInteraction().getPlayer(index).getBoard().getStudHall();
+        for (Colors c: Colors.values()) {
+            if (hall.get(c) < studentArray2.get(c)) {
                 throw new StudentNotAvailableException();
             }
         }
 
-        int[] entrance = getPlayerInteraction().getPlayer(index).getBoard().getStudEntrance();
-        for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-            if (entrance[i] < studentArray2[i]) {
+        Map<Colors, Integer> entrance = getPlayerInteraction().getPlayer(index).getBoard().getStudEntrance();
+        for (Colors c: Colors.values()) {
+            if (entrance.get(c) < studentArray2.get(c)) {
                 throw new StudentNotAvailableException();
             }
         }
 
         int sumHall = 0;
         int sumEntrance = 0;
-        for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-            if (studentArray1[i] < 0 || studentArray2[i] < 0) {
+        for (Colors c: Colors.values()) {
+            if (studentArray1.get(c) < 0 || studentArray2.get(c) < 0) {
                 throw new WrongArrayException();
             }
-            sumHall += studentArray2[i];
-            sumEntrance += studentArray1[i];
+            sumHall += studentArray2.get(c);
+            sumEntrance += studentArray1.get(c);
         }
         if (sumHall > Constants.CARD7_MAX_STUDENTS_TO_MOVE || sumEntrance > Constants.CARD7_MAX_STUDENTS_TO_MOVE || sumHall != sumEntrance) {
             throw new WrongArrayException();

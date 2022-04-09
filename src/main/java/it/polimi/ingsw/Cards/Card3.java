@@ -1,6 +1,9 @@
 package it.polimi.ingsw.Cards;
 
+import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.IslandInteraction;
+
+import java.util.Map;
 
 public class Card3 extends CharCardsIslands {
     /**
@@ -19,7 +22,7 @@ public class Card3 extends CharCardsIslands {
      * @param studentArray2 not used
      */
     @Override
-    public boolean useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) {
+    public boolean useEffect(int index, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
         //getIslandInteraction().calculateInfluence(index);
         return true;
     }

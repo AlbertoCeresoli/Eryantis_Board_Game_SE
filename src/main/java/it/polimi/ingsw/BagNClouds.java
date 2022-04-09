@@ -1,14 +1,17 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Exceptions.OutOfBoundException;
+import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class BagNClouds {
     private static int cloudCapacity;
-    private ArrayList<Integer> bag;
-    private ArrayList<int[]> clouds;
+    private ArrayList<Colors> bag;
+    private ArrayList<Map<Colors, Integer>> clouds;
 
 
     /**
@@ -18,12 +21,12 @@ public class BagNClouds {
     public BagNClouds(int nPlayers) {
         cloudCapacity = nPlayers+1;
 
-        clouds = new ArrayList<int[]>();
+        clouds = new ArrayList<>();
         for (int i=0; i<nPlayers; i++) {
-            clouds.add(new int[Constants.NUMBER_OF_STUDENTS_COLOR]);
+            clouds.add(new HashMap<>());
         }
 
-        bag = new ArrayList<Integer>();
+        bag = new ArrayList<>();
     }
     /**
      * test cases: TODO
@@ -35,17 +38,21 @@ public class BagNClouds {
      *      with a rand on the size of bag it removes the extracted cell from bag and puts the element in students
      * it returns students
      */
-    public int[] drawStudents(int n) {
-        int[] students = {0,0,0,0,0};
+    public Map<Colors, Integer> drawStudents(int n) {
+        Map<Colors, Integer> students= new HashMap<>();
         int temp;
         Random rand = new Random();
+        for (Colors c : Colors.values()){
+            students.put(c, 0);
+        }
 
         for (int i=0; i<n; i++){
-            if (bag.size()>0) {
+            if (bag.size()>0){
                 temp = rand.nextInt(bag.size());
-                students[bag.get(temp)]++;
+                students.put(bag.get(temp), students.get(temp) + 1);
                 bag.remove(temp);
             }
+            return students;
         }
         return students;
     }
@@ -63,7 +70,10 @@ public class BagNClouds {
      * 	    clouds(i) = clouds(i) + temp
      */
     public void studentsBagToCloud(){
-        int[] students = {0,0,0,0,0};
+        Map<Colors, Integer> students= new HashMap<>();
+        for (Colors c : Colors.values()){
+            students.put(c, 0);
+        }
         for (int i=0; i<clouds.size(); i++){
             students = drawStudents(cloudCapacity);
             clouds.set(i, students);
@@ -80,8 +90,8 @@ public class BagNClouds {
      */
     public void fillBag(int numStud){
         for (int i=0; i< numStud; i++){
-            for (int color=0; color<Constants.NUMBER_OF_STUDENTS_COLOR; color++){
-                bag.add(color);
+            for (Colors c : Colors.values()){
+                bag.add(c);
             }
         }
     }
@@ -96,7 +106,10 @@ public class BagNClouds {
      * and replace it with an empty one
      */
     public void resetCloud(int cloudIndex){
-        int[] clearCloud = {0,0,0,0,0};
+        Map<Colors, Integer> clearCloud= new HashMap<>();
+        for (Colors c : Colors.values()){
+            clearCloud.put(c, 0);
+        }
         clouds.remove(cloudIndex);
         clouds.add(cloudIndex, clearCloud);
     }
@@ -122,11 +135,11 @@ public class BagNClouds {
     /**
      * get and set methods
      */
-    public int[] getCloud (int cloudIndex){
-        return clouds.get(cloudIndex);
+    public ArrayList<Colors> getBag() {
+        return bag;
     }
 
-    public ArrayList<Integer> getBag() {
-        return bag;
+    public ArrayList<Map<Colors, Integer>> getClouds() {
+        return clouds;
     }
 }

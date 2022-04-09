@@ -1,49 +1,35 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Exceptions.EndGameException;
 import it.polimi.ingsw.Influence.Influence;
 import it.polimi.ingsw.Influence.NormalEffect;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class IslandInteraction {
     private ArrayList<Island> islands;
-    private int[] teachers;
+    private Map<Colors, Integer> teachers= new HashMap<>();
     private int[] towersByPlayer;
     private int motherNature;
     private Influence influence;
     private int numberOfInhibitionCards;
 
-    public ArrayList<Island> getIslands() {
-        return islands;
-    }
+    //IslandInteraction's constructor
+    public IslandInteraction(int towersByPlayer, int nPlayers) {
+        //teachers initialization
+        teachers.forEach((key, value) -> value = -1);
 
-    //CONSTRUCTOR: ISLANDINTERACTION
-    public IslandInteraction(int towersByPlayer, int nplayers) {
-        this.teachers = new int[] {-1, -1, -1, -1, -1};
-        this.towersByPlayer = new int[nplayers];
-        for (int i = 0; i < nplayers; i++) {
+        this.towersByPlayer = new int[nPlayers];
+        for (int i = 0; i < nPlayers; i++) {
             this.towersByPlayer[i] = towersByPlayer;
         }
         islands = new ArrayList<>();
         numberOfInhibitionCards = Constants.CARD5_NUMBER_INHIBITION_CARD;
         influence = new NormalEffect();
-    }
-
-    public int getMotherNature() {
-        return motherNature;
-    }
-
-    public void setMotherNature(int motherNature) {
-        this.motherNature = motherNature;
-    }
-
-    public int[] getTowersByPlayer() {
-        return towersByPlayer;
-    }
-
-    public int[] getTeachers() {
-        return teachers;
     }
 
     public void placeTower(int player, int island) throws EndGameException {
@@ -60,25 +46,33 @@ public class IslandInteraction {
         mergeIslands(island);
     }
 
-    public void setTeacher(int teacherController, int color) {
-        this.teachers[color]=teacherController;
-    }
-
     public void mergeIslands(int islandIndex) throws EndGameException {
         int newController = getIslands().get(islandIndex).getControllerIndex();
+
+        //the controller is the same of the next island
         if (newController == getIslands().get(islandIndex + 1).getControllerIndex()) {
+            //towers merge
             int towersToMerge = getIslands().get(islandIndex + 1).getnTowers();
             getIslands().get(islandIndex + 1).removeTower();
             getIslands().get(islandIndex).addTower(newController, towersToMerge);
-            int[] studentsToMerge = getIslands().get(islandIndex + 1).getStudents();
+
+            //students merge
+            Map<Colors, Integer> studentsToMerge= new HashMap<>();
+            studentsToMerge = getIslands().get(islandIndex + 1).getStudents();
             getIslands().get(islandIndex).addStudents(studentsToMerge);
             getIslands().remove(islandIndex + 1);
         }
+
+        //the controller is the same of the previous island
         if (newController == getIslands().get(islandIndex - 1).getControllerIndex()) {
+            //towers merge
             int towersToMerge = getIslands().get(islandIndex - 1).getnTowers();
             getIslands().get(islandIndex - 1).removeTower();
             getIslands().get(islandIndex).addTower(newController, towersToMerge);
-            int[] studentsToMerge = getIslands().get(islandIndex - 1).getStudents();
+
+            //students merge
+            Map<Colors, Integer> studentsToMerge= new HashMap<>();
+            studentsToMerge = getIslands().get(islandIndex - 1).getStudents();
             getIslands().get(islandIndex).addStudents(studentsToMerge);
             getIslands().remove(islandIndex - 1);
         }
@@ -92,10 +86,6 @@ public class IslandInteraction {
 
     }
 
-    public int getNumberOfInhibitionCards() {
-        return numberOfInhibitionCards;
-    }
-
     public void removeInhibitionCard() {
         numberOfInhibitionCards--;
     }
@@ -104,11 +94,45 @@ public class IslandInteraction {
         numberOfInhibitionCards++;
     }
 
-    public void setInfluence(Influence influence) {
-        this.influence = influence;
+    /**
+     * get methods
+     */
+    public ArrayList<Island> getIslands() {
+        return islands;
+    }
+
+    public int getMotherNature() {
+        return motherNature;
+    }
+
+    public int[] getTowersByPlayer() {
+        return towersByPlayer;
+    }
+
+    public Map<Colors, Integer> getTeachers() {
+        return teachers;
     }
 
     public Influence getInfluence() {
         return influence;
+    }
+
+    public int getNumberOfInhibitionCards() {
+        return numberOfInhibitionCards;
+    }
+
+    /**
+     * set methods
+     */
+    public void setMotherNature(int motherNature) {
+        this.motherNature = motherNature;
+    }
+
+    public void setInfluence(Influence influence) {
+        this.influence = influence;
+    }
+
+    public void setTeacher(int teacherController, Colors color) {
+        teachers.put(color, teacherController);
     }
 }

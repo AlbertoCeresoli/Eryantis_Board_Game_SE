@@ -1,13 +1,19 @@
 package it.polimi.ingsw.Cards;
 
 import it.polimi.ingsw.*;
+import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Exceptions.OutOfBoundException;
 import it.polimi.ingsw.Exceptions.StudentNotAvailableException;
 import it.polimi.ingsw.Exceptions.WrongArrayException;
 
+import java.util.HashMap;
+import java.util.Map;
+
+
 public class Card1 extends CharCardsIslands {
     private BagNClouds bagNClouds;
-    private int[] students;
+    private Map<Colors, Integer> students;
     private static final int capacity = Constants.CARD1_STUDENTS_CAPACITY;
 
     /**
@@ -16,11 +22,14 @@ public class Card1 extends CharCardsIslands {
      * @param bagNClouds bagNClouds reference used to draw students in useEffect
      * @param students   students located on the card
      */
-    public Card1(int cost, IslandInteraction islandInteraction, BagNClouds bagNClouds, int[] students) {
+    public Card1(int cost, IslandInteraction islandInteraction, BagNClouds bagNClouds, Map<Colors, Integer> students) {
         super(cost, islandInteraction);
         this.bagNClouds = bagNClouds;
-        this.students = new int[Constants.NUMBER_OF_STUDENTS_COLOR];
-        System.arraycopy(students, 0, this.students, 0, Constants.NUMBER_OF_STUDENTS_COLOR);
+        for (Colors c : Colors.values()){
+            students.put(c, 0);
+        }
+        this.students.forEach((key,value)-> value = students.get(key));
+
     }
 
     /**
@@ -33,17 +42,17 @@ public class Card1 extends CharCardsIslands {
      * @param studentArray2 not used
      */
     @Override
-    public boolean useEffect(int index, int studentColor, int[] studentArray1, int[] studentArray2) throws OutOfBoundException, StudentNotAvailableException, WrongArrayException {
+    public boolean useEffect(int index, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) throws OutOfBoundException, StudentNotAvailableException, WrongArrayException {
         checkInputs(index, studentArray1);
 
-        for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-            students[i] -= studentArray1[i];
+        for (Colors c: Colors.values()) {
+            students.put(c, students.get(c)-studentArray1.get(c));
         }
 
         this.getIslandInteraction().getIslands().get(index).addStudents(studentArray1);
-        int[] temp = bagNClouds.drawStudents(1);
-        for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-            students[i] += temp[i];
+        Map<Colors, Integer> temp = bagNClouds.drawStudents(1);
+        for (Colors c: Colors.values()) {
+            students.put(c, students.get(c)+temp.get(c));
         }
 
         return true;
@@ -53,27 +62,27 @@ public class Card1 extends CharCardsIslands {
      * The method is called before starting the operations in useEffect. It controls if there are any issues in the input parameters.
      * Exceptions are thrown when requirements are not satisfied
      */
-    private void checkInputs(int index, int[] studentArray1) throws OutOfBoundException, WrongArrayException, StudentNotAvailableException {
+    private void checkInputs(int index, Map<Colors, Integer> studentArray1) throws OutOfBoundException, WrongArrayException, StudentNotAvailableException {
         if (index < 0 || index >= getIslandInteraction().getIslands().size()) {
             throw new OutOfBoundException();
         }
 
-        if (studentArray1.length != Constants.NUMBER_OF_STUDENTS_COLOR) {
+        if (studentArray1.size() != Constants.NUMBER_OF_STUDENTS_COLOR) {
             throw new WrongArrayException();
         }
 
-        for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-            if (students[i] - studentArray1[i] < 0) {
+        for (Colors c: Colors.values()) {
+            if (students.get(c) - studentArray1.get(c) < 0) {
                 throw new StudentNotAvailableException();
             }
         }
 
         int sum = 0;
-        for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-            if (studentArray1[i] < 0) {
+        for (Colors c: Colors.values()) {
+            if (studentArray1.get(c) < 0) {
                 throw new WrongArrayException();
             }
-            sum += studentArray1[i];
+            sum += studentArray1.get(c);
         }
         if (sum != Constants.CARD1_STUDENTS_TO_MOVE) {
             throw new WrongArrayException();
@@ -84,7 +93,7 @@ public class Card1 extends CharCardsIslands {
         return bagNClouds;
     }
 
-    public int[] getStudents() {
+    public Map<Colors, Integer> getStudents() {
         return students;
     }
 
@@ -92,7 +101,7 @@ public class Card1 extends CharCardsIslands {
         this.bagNClouds = bagNClouds;
     }
 
-    public void setStudents(int[] students) {
-        this.students = students;
+    public void setStudents(Map<Colors, Integer> students) {
+        this.students.forEach((key, value)-> value = students.get(key));
     }
 }

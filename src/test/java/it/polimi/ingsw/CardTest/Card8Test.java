@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Card8Test {
     Card8 card8;
 
-    @BeforeEach
+    /*@BeforeEach
     void setup() {
         IslandInteraction islandInteraction = new IslandInteraction(6, 3);
         card8 = new Card8(1, islandInteraction);
@@ -22,11 +22,12 @@ public class Card8Test {
      * The test verifies that in islandInteraction the interface reference Influence is an instance of Card8Effect,
      * that will modify basic calculateInfluence method
      */
-    @Test
+    /*@Test
     void useEffectTest() {
         card8.useEffect(0, 0, null, null);
         Influence influence = card8.getIslandInteraction().getInfluence();
 
         assertTrue(influence instanceof Card8Effect);
     }
+     */
 }
