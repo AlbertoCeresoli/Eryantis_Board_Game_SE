@@ -23,7 +23,7 @@ public class Card7 extends CharCardsPlayer {
     }
 
     /**
-     * The method removes from the array the students chosen by player and add them to the player's entrance
+     * The method removes from the array the students chosen by player and add them to player's entrance
      * <p>
      * The player can choose a maximum of 3 students
      *

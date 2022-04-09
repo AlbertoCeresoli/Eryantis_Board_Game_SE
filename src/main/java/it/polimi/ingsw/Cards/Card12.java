@@ -21,7 +21,7 @@ public class Card12 extends CharCardsPlayer {
     }
 
     /**
-     * The method removes from each board a maximum of @Constants.CARD12_MAX_STUDENTS_TO_REMOVE
+     * The method removes from each board a maximum of Constants.CARD12_MAX_STUDENTS_TO_REMOVE
      *
      * @param index         not used
      * @param studentColor  is the color of students that will be removed
