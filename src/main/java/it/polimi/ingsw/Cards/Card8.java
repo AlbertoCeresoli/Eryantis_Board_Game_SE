@@ -29,6 +29,7 @@ public class Card8 extends CharacterCards {
 	 */
 	@Override
 	public boolean useEffect(int index, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
+		//changing reference of Influence
 		hasSetInfluence.setInfluence(new Card8Effect(index));
 
 		return true;

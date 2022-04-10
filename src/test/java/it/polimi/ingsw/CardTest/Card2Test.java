@@ -16,7 +16,10 @@ public class Card2Test {
 
 	@BeforeEach
 	void setup() {
+		//initializing playerInteraction
 		playerInteraction = new PlayerInteraction(3);
+
+		//creating the card
 		card2 = new Card2(1, playerInteraction);
 	}
 
@@ -25,7 +28,10 @@ public class Card2Test {
 	 */
 	@Test
 	void useEffectTest() {
+		//using card2's effect
 		card2.useEffect(0, Colors.YELLOW, null, null);
+
+		//controlling that the set was correctly done
 		TeacherInterface teacherInterface = playerInteraction.getTeacherInterface();
 		assertTrue(teacherInterface instanceof EqualCheck);
 	}

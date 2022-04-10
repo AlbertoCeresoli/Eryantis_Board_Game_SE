@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence, hasSetInfluence {
+public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence, hasSetInfluence, hasInhibitionCard {
     private ArrayList<Island> islands;
     private Map<Colors, Integer> teachers= new HashMap<>();
     private int[] towersByPlayer;
@@ -84,9 +84,14 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
     @Override
     public void calculateInfluence(int island){
          influence.calculateInfluence(teachers, getIslands().get(island));
-
     }
 
+    @Override
+    public void addInhibitionCard(int islandIndex) {
+        islands.get(islandIndex).addInhibitionCard();
+    }
+
+    @Override
     public void removeInhibitionCard() {
         numberOfInhibitionCards--;
     }

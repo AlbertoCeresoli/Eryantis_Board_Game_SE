@@ -63,12 +63,4 @@ public class Card1 extends CharacterCards {
 
 		return true;
 	}
-
-	public Map<Colors, Integer> getStudents() {
-		return students;
-	}
-
-	public void setStudents(Map<Colors, Integer> students) {
-		this.students.forEach((key, value) -> value = students.get(key));
-	}
 }

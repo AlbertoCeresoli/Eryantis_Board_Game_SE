@@ -16,7 +16,10 @@ public class Card9Test {
 
 	@BeforeEach
 	void setup() {
+		//initializing islandInteraction
 		islandInteraction = new IslandInteraction(6, 3);
+
+		//creating the card
 		card9 = new Card9(1, islandInteraction);
 	}
 
@@ -26,9 +29,11 @@ public class Card9Test {
 	 */
 	@Test
 	void useEffectTest() {
+		//using card9's effect
 		card9.useEffect(0, Colors.YELLOW, null, null);
-		Influence influence = islandInteraction.getInfluence();
 
+		//controlling that the set was correctly done
+		Influence influence = islandInteraction.getInfluence();
 		assertTrue(influence instanceof Card9Effect);
 	}
 }

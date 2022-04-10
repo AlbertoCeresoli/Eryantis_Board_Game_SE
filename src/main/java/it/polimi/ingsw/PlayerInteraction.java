@@ -6,9 +6,10 @@ import it.polimi.ingsw.Teacher.TeacherInterface;
 import java.util.Arrays;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 
-public class PlayerInteraction implements hasSetTeacherInterface {
+public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, hasHall {
     private final ArrayList<Player> players;
     private TeacherInterface teacherInterface;
 
@@ -107,5 +108,25 @@ public class PlayerInteraction implements hasSetTeacherInterface {
     @Override
     public void setTeacherInterface(TeacherInterface teacherInterface) {
         this.teacherInterface = teacherInterface;
+    }
+
+    @Override
+    public void addToEntrance(int playerIndex, Map<Colors, Integer> students) {
+        this.players.get(playerIndex).getBoard().addToEntrance(students);
+    }
+
+    @Override
+    public void removeFromEntrance(int playerIndex, Map<Colors, Integer> students) {
+        this.players.get(playerIndex).getBoard().removeFromEntrance(students);
+    }
+
+    @Override
+    public void addToHall(int playerIndex, Map<Colors, Integer> students) {
+        this.players.get(playerIndex).getBoard().addToHall(students);
+    }
+
+    @Override
+    public void removeFromHall(int playerIndex, Map<Colors, Integer> students) {
+        this.players.get(playerIndex).getBoard().removeFromHall(students);
     }
 }

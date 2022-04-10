@@ -28,7 +28,9 @@ public class Card2 extends CharacterCards {
 	 */
 	@Override
 	public boolean useEffect(int index, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
+		//changing reference of TeacherInterface
 		hasSetTeacherInterface.setTeacherInterface(new EqualCheck());
+
 		return true;
 	}
 }

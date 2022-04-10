@@ -16,19 +16,24 @@ public class Card8Test {
 
 	@BeforeEach
 	void setup() {
+		//initializing islandInteraction
 		islandInteraction = new IslandInteraction(6, 3);
+
+		//creating the card
 		card8 = new Card8(1, islandInteraction);
 	}
 
 	/**
-	 * The test verifies that in islandInteraction the reference Influence is an instance of Card8Effect,
+	 * The test verifies that in islandInteraction the reference of Influence is an instance of Card8Effect,
 	 * that will modify basic calculateInfluence method
 	 */
 	@Test
 	void useEffectTest() {
+		//using card8's effect
 		card8.useEffect(0, Colors.YELLOW, null, null);
-		Influence influence = islandInteraction.getInfluence();
 
+		//controlling that the set was correctly done
+		Influence influence = islandInteraction.getInfluence();
 		assertTrue(influence instanceof Card8Effect);
 	}
 }
