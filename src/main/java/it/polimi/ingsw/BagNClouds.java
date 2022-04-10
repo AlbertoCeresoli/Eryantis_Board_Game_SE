@@ -1,7 +1,6 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.Colors;
-import it.polimi.ingsw.Constants.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
