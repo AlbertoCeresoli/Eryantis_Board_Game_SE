@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import static org.junit.jupiter.api.Assertions.*;
 
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,74 +61,83 @@ public class BagNCloudsTest {
         assertEquals(drawnStudents, result, "test failed");
     }
 
-    /*
     @Test
     @DisplayName("n>bag.size() in drawStudents")
     void testOverloadDrawStudents() {
         int drawnStudents = 6;
         int studentsInBag = 1;
         int initialBagSize;
-        int[] temp;
         int[] fullBag = new int[5];
-        int[] finalBag = new int[5];
+        Map<Colors,Integer> finalBag = new HashMap<>();
+        for (Colors c : Colors.values()){
+            finalBag.put(c, 0);
+        }
+        Map<Colors,Integer> temp;
         int result = 0;
 
         for (int i=0; i<5; i++){
             fullBag[i]=studentsInBag;
         }
-
         bagNClouds.fillBag(studentsInBag);
-        initialBagSize=bagNClouds.getBag().size();
+        initialBagSize= bagNClouds.getBag().size();
 
         temp = bagNClouds.drawStudents(drawnStudents);
         for (int i=0; i<bagNClouds.getBag().size(); i++){
-            finalBag[bagNClouds.getBag().get(i)]++;
+            finalBag.put(bagNClouds.getBag().get(i), finalBag.get(bagNClouds.getBag().get(i))+1);
         }
-        for (int i=0; i<5; i++){
-            assertEquals(studentsInBag, finalBag[i]+temp[i], "test failed");
+        //verify that the students caught + students left in the bag equals studentsInBag
+        for (Colors c: Colors.values()){
+            assertEquals(studentsInBag, finalBag.get(c)+temp.get(c), "test failed");
         }
-        for (int i=0; i<5; i++){
-            result += temp[i];
+
+        //verify that the number of students caught equals the number of students that was in the bag
+        for (Colors c: Colors.values()){
+            result += temp.get(c);
         }
         assertFalse(drawnStudents == result, "test failed");
         assertTrue(result==initialBagSize, "test failed");
     }
-*/
 
-    /*
     @Test
     @DisplayName("simple cases in FillBag")
     void testFillBag() {
-        int n=1;
+        int n=5;
+        Map<Colors, Integer> bag = new HashMap<>();
+        for (Colors c : Colors.values()){
+            bag.put(c, 0);
+        }
 
         bagNClouds.fillBag(n);
 
-        assertEquals(n, bagNClouds.getBag().stream().filter(x -> x==0).count(), "test failed");
-        assertEquals(n, bagNClouds.getBag().stream().filter(x -> x==1).count(), "test failed");
-        assertEquals(n, bagNClouds.getBag().stream().filter(x -> x==2).count(), "test failed");
-        assertEquals(n, bagNClouds.getBag().stream().filter(x -> x==3).count(), "test failed");
-        assertEquals(n, bagNClouds.getBag().stream().filter(x -> x==4).count(), "test failed");
-    }
-*/
+        bagNClouds.getBag().stream().forEach((color)-> bag.put(color, bag.get(color)+1));
 
-    /*
+        for (Colors c: Colors.values()){
+            assertEquals(n, bag.get(c), "test failed");
+        }
+    }
+
     @Test
     @DisplayName("simple cases in ResetCloud")
     void testResetCloud() {
-        int[] emptyCloud = {0,0,0,0,0};
+        Map<Colors, Integer> emptyCloud = new HashMap<>();
+        for (Colors c: Colors.values()){
+            emptyCloud.put(c,0);
+        }
+        final int[] cloud0 = {0,0,0,0,0};
 
         bagNClouds.fillBag(7);
         bagNClouds.studentsBagToCloud();
-        for (int i=0; i<numPlayers; i++) {
-            for (int j=0; j<5; j++){
-                System.out.print(bagNClouds.getCloud(i)[j]);
-            }
-            System.out.println();
-        }
 
+        //controls that the clouds aren't empty and reset only the first cloud
+        assertNotSame(emptyCloud, bagNClouds.getClouds().get(1), "test failed");
+        assertNotSame(emptyCloud, bagNClouds.getClouds().get(1), "test failed");
         bagNClouds.resetCloud(0);
-        assertArrayEquals(emptyCloud, bagNClouds.getCloud(0), "test failed");
-        assertNotSame(emptyCloud, bagNClouds.getCloud(1), "test failed");
+
+        //controls that the first cloud is empty but the second one no
+        for (Colors c: Colors.values()) {
+            assertEquals(emptyCloud.get(c), bagNClouds.getClouds().get(0).get(c), "test failed");
+        }
+        assertNotSame(emptyCloud, bagNClouds.getClouds().get(1), "test failed");
     }
 
     @Test
@@ -140,5 +150,4 @@ public class BagNCloudsTest {
         assertTrue(bagNClouds.isEmpty(), "test failed");
     }
 
-     */
 }

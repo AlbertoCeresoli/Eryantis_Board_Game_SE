@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import it.polimi.ingsw.Constants.Constants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import org.junit.jupiter.api.Test;
  */
 
 public class PlayerTest {
-    /*
+
     Player player;
 
     @BeforeEach
@@ -23,25 +24,34 @@ public class PlayerTest {
     }
 
     @Test
-    @DisplayName("simple cases")
+    @DisplayName("simple cases of fixHand")
     void testFixHand(){
-        int [][] assistantsNow1 = {{2,1,2,2,2,2,2,2,2,2}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, {1, 1, 2, 2, 3, 3, 4, 4, 5, 5}};
-        int [][] assistantsNow2 = {{2,1,1,2,2,2,2,2,2,2}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, {1, 1, 2, 2, 3, 3, 4, 4, 5, 5}};
+        int[] cardState1 = {2,1,2,2,2,2,2,2,2,2};
+        int[] cardState2 = {2,0,1,2,2,2,2,2,2,2};
 
         assertTrue(player.fixHand(1), "card played");
-        assertArrayEquals(assistantsNow1, player.getAssistants(), "card played correctly");
+        for (int i=0; i<Constants.NUMBER_OF_ASSISTANT_CARDS; i++){
+            assertEquals(cardState1[i], player.getAssistants().get(i).getCardState());
+        }
         assertTrue(player.fixHand(2), "card played");
-        assertArrayEquals(assistantsNow2, player.getAssistants(), "card played correctly");
+        for (int i=0; i<Constants.NUMBER_OF_ASSISTANT_CARDS; i++){
+            assertEquals(cardState2[i], player.getAssistants().get(i).getCardState());
+        }
     }
 
     @Test
     @DisplayName("case with an already played card")
     void testFixHandCardAlreadyPlayed(){
-        int [][] assistantsNow = {{2,1,2,2,2,2,2,2,2,2}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, {1, 1, 2, 2, 3, 3, 4, 4, 5, 5}};
+        int[] cardState1 = {2,1,2,2,2,2,2,2,2,2};
+
         assertTrue(player.fixHand(1), "card played");
-        assertArrayEquals(assistantsNow, player.getAssistants(), "card played correctly");
-        assertFalse(player.fixHand(1), "card already played");
-        assertArrayEquals(assistantsNow, player.getAssistants(), "card played correctly");
+        for (int i=0; i<Constants.NUMBER_OF_ASSISTANT_CARDS; i++){
+            assertEquals(cardState1[i], player.getAssistants().get(i).getCardState());
+        }
+        assertFalse(player.fixHand(1), "card played");
+        for (int i=0; i<Constants.NUMBER_OF_ASSISTANT_CARDS; i++){
+            assertEquals(cardState1[i], player.getAssistants().get(i).getCardState());
+        }
     }
 
     @Test
@@ -76,5 +86,4 @@ public class PlayerTest {
         assertEquals(2, player.getCoins(), "test failed");
     }
 
-     */
 }

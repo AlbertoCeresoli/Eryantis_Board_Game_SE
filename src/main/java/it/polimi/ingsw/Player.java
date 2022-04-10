@@ -1,8 +1,12 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Constants.Constants;
+
+import java.util.ArrayList;
+
 public class Player {
     private final Board board;
-    private int[][] assistants = {{2, 2, 2, 2, 2, 2, 2, 2, 2, 2}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, {1, 1, 2, 2, 3, 3, 4, 4, 5, 5}};
+    private ArrayList<AssistantCard> assistants;
     private String name;
     private int coins;
 
@@ -16,6 +20,10 @@ public class Player {
     public Player() {
         coins = 1;
         board = new Board();
+        assistants = new ArrayList<>();
+        for (int i = 1; i <= Constants.NUMBER_OF_ASSISTANT_CARDS; i++){
+            assistants.add(new AssistantCard(2, i,  i/2));
+        }
     }
     /**
      * No test cases because there are no input values
@@ -28,17 +36,16 @@ public class Player {
      * if not it return false
      */
     public boolean fixHand(int assistantIndex) {
-        if (assistants[0][assistantIndex] != 2) {
+        if (assistants.get(assistantIndex).getCardState() != 2) {
             return false;
         }
-        for (int i = 0; i < 10; i++) {
-            if (assistants[0][i] == 1) {
-                assistants[0][i] = 0;
+        for (int i = 0; i < Constants.NUMBER_OF_ASSISTANT_CARDS; i++) {
+            if (assistants.get(i).getCardState() == 1) {
+                assistants.get(i).setCardState(0);
             }
         }
-        assistants[0][assistantIndex] = 1;
+        assistants.get(assistantIndex).setCardState(1);
         return true;
-
     }
 
 
@@ -72,7 +79,7 @@ public class Player {
         return board;
     }
 
-    public int[][] getAssistants() {
+    public ArrayList<AssistantCard> getAssistants() {
         return assistants;
     }
 

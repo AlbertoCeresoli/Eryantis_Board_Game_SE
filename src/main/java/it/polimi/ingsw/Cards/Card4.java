@@ -1,10 +1,12 @@
 package it.polimi.ingsw.Cards;
 
+import it.polimi.ingsw.AssistantCard;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Player;
 import it.polimi.ingsw.PlayerInteraction;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Card4 extends CharCardsPlayer {
@@ -26,15 +28,15 @@ public class Card4 extends CharCardsPlayer {
     @Override
     public boolean useEffect(int index, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
         Player player = getPlayerInteraction().getPlayers().get(index);
-        int[][] assistants = player.getAssistants();
+        ArrayList<AssistantCard> assistants = player.getAssistants();
         int lastCardUsedIndex = -1;
         for (int i = 0; i < Constants.NUMBER_OF_ASSISTANT_CARDS; i++) {
-            if (assistants[0][i] == 1) {
+            if (assistants.get(i).getCardState() == 1) {
                 lastCardUsedIndex = i;
                 i = Constants.NUMBER_OF_ASSISTANT_CARDS;
             }
         }
-        assistants[2][lastCardUsedIndex] += Constants.CARD4_ADDITION_MOVEMENT;
+        assistants.get(lastCardUsedIndex).setSteps(assistants.get(lastCardUsedIndex).getSteps() + Constants.CARD4_ADDITION_MOVEMENT);
         return true;
     }
 }

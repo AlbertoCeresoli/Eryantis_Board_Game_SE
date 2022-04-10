@@ -1,11 +1,14 @@
 package it.polimi.ingsw;
 
 
+import it.polimi.ingsw.Constants.Colors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
     - playAssistantCard
  */
 public class PlayerInteractionTest {
-    /*
+
     PlayerInteraction playerInteraction;
     static int nPlayers = 2;
 
@@ -28,9 +31,19 @@ public class PlayerInteractionTest {
     @Test
     @DisplayName("simple cases normal check")
     void testCheckTeacher(){
-        int[] player0 = {1,3,4,3,1};
-        int[] player1 = {0,4,2,3,1};
-        //int[] player3 = {5,3,1,7,9};
+        int[] V0 = {1,3,4,3,1};
+        int[] V1 = {0,4,2,3,1};
+        //int[] player2 = {5,3,1,7,9};
+        int i=0;
+        Map<Colors, Integer> player0 = new HashMap<>();
+        Map<Colors, Integer> player1 = new HashMap<>();
+        //Map<Colors, Integer> player2 = new HashMap<>();
+        for (Colors c : Colors.values()){
+            player0.put(c, V0[i]);
+            player1.put(c, V1[i]);
+            //player2.put(c, V2[i]);
+            i++;
+        }
         ArrayList<Integer> expectedArray;
         expectedArray = new ArrayList<>();
         expectedArray.add(1);
@@ -39,15 +52,14 @@ public class PlayerInteractionTest {
         playerInteraction.getPlayer(1).getBoard().addToHall(player1);
         //playerInteraction.getPlayer(2).getBoard().addToHall(player2);
 
-        System.out.println(expectedArray.get(0) + " " +  playerInteraction.checkTeacher(1, 1).size());
-        assertEquals(expectedArray, playerInteraction.checkTeacher(1, 1), "test failed");
+        assertEquals(expectedArray, playerInteraction.checkTeacher(Colors.BLUE, 1), "test failed");
     }
 
     @Test
     @DisplayName("simple cases")
     void testPlayAssistantCard(){
-
+        int[] cards = {3, 4};
+        int[] playerOrder = {0,1};
+        assertArrayEquals(playerOrder, playerInteraction.playAssistantCard(cards));
     }
-
-     */
 }

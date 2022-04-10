@@ -155,7 +155,7 @@ public class Model {
             return true;
         for (int i = 0; i < playerInteraction.getPlayers().size(); i++) {
             for (int j = 0; j < 10; j++) {
-                if (playerInteraction.getPlayers().get(i).getAssistants()[1][j] != 0) {
+                if (playerInteraction.getPlayers().get(i).getAssistants().get(j).getCardState() != 0) {
                     return false;
                 }
             }

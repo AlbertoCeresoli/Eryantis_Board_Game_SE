@@ -3,9 +3,8 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Teacher.NormalCheck;
 import it.polimi.ingsw.Teacher.TeacherInterface;
-import java.util.Arrays;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Map;
 
 
@@ -53,9 +52,10 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
      *     player[i].FixHand[Cards[i]]
      *     it calculates the players order for this round
      */
+
     public int[] playAssistantCard(int[] cards){
-        int[] assistantCards;
-        int[] playerOrder;
+        int[] playerOrder = new int[players.size()];
+        ArrayList<Integer> playerIndex= new ArrayList<>();
 
         //Already played card controlled in the controller TODO
         for (int i=0; i< players.size(); i++){
@@ -64,27 +64,23 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
 
 
         //fill the array of the played assistant cards
-        playerOrder = new int[players.size()];
-        assistantCards = new int[players.size()];
         for (int i=0; i< players.size(); i++){
-            playerOrder[i]=i;
-            assistantCards[i]=players.get(i).getAssistants()[1][cards[i]];
+            playerIndex.add(i);
         }
 
         // order the array (used SelectionSort)(functional programming TODO??)
-        int temp = -1;
-        int temp1 = -1;
-        for (int i=0; i<players.size(); i++){
-            for (int j=0; j<players.size(); j++){
-                if (players.get(j).getAssistants()[1][cards[j]]<temp && !Arrays.asList(playerOrder).contains(j)){
-                    temp = players.get(j).getAssistants()[1][cards[j]];
-                    temp1 = j;
-                }
-            }
-            playerOrder[i]=temp1;
+        playerIndex.sort((Integer x, Integer y) ->
+                                    players.get(x).getAssistants().get(cards[x]).getPriority()-
+                                            players.get(y).getAssistants().get(cards[y]).getPriority());
+
+        for(int i=0; i<playerIndex.size(); i++){
+            playerOrder[i] = playerIndex.get(i);
         }
+
         return playerOrder;
+
     }
+
     /**
      * Test cases: TODO
      */
