@@ -49,10 +49,9 @@ public class BagNClouds {
         for (int i=0; i<n; i++){
             if (bag.size()>0){
                 temp = rand.nextInt(bag.size());
-                students.put(bag.get(temp), students.get(temp) + 1);
+                students.put(bag.get(temp), students.get(bag.get(temp)) + 1);
                 bag.remove(temp);
             }
-            return students;
         }
         return students;
     }

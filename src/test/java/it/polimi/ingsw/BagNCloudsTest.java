@@ -2,9 +2,13 @@ package it.polimi.ingsw;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import it.polimi.ingsw.Constants.Colors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  Unit test for BagNClouds class. Tests:
@@ -17,7 +21,7 @@ public class BagNCloudsTest {
     BagNClouds bagNClouds;
     int numPlayers = 2;
 
-    /*@BeforeEach
+    @BeforeEach
     void setUp() {
         bagNClouds = new BagNClouds(numPlayers);
     }
@@ -27,30 +31,36 @@ public class BagNCloudsTest {
     void testDrawStudents() {
         int drawnStudents = 3;
         int studentsInBag = 5;
-        int[] temp;
         int[] fullBag = new int[5];
-        int[] finalBag = new int[5];
+        Map<Colors,Integer> finalBag = new HashMap<>();
+        for (Colors c : Colors.values()){
+            finalBag.put(c, 0);
+        }
+        Map<Colors,Integer> temp;
         int result = 0;
 
         for (int i=0; i<5; i++){
             fullBag[i]=studentsInBag;
         }
-
         bagNClouds.fillBag(studentsInBag);
 
         temp = bagNClouds.drawStudents(drawnStudents);
         for (int i=0; i<bagNClouds.getBag().size(); i++){
-            finalBag[bagNClouds.getBag().get(i)]++;
+            finalBag.put(bagNClouds.getBag().get(i), finalBag.get(bagNClouds.getBag().get(i))+1);
         }
-        for (int i=0; i<5; i++){
-            assertEquals(studentsInBag, finalBag[i]+temp[i], "test failed");
+        //verify that the students caught + students left in the bag equals studentsInBag
+        for (Colors c: Colors.values()){
+            assertEquals(studentsInBag, finalBag.get(c)+temp.get(c), "test failed");
         }
-        for (int i=0; i<5; i++){
-            result += temp[i];
+
+        //verify that the number of students caught equals the number of students to be caught
+        for (Colors c: Colors.values()){
+            result += temp.get(c);
         }
         assertEquals(drawnStudents, result, "test failed");
     }
 
+    /*
     @Test
     @DisplayName("n>bag.size() in drawStudents")
     void testOverloadDrawStudents() {
@@ -82,7 +92,9 @@ public class BagNCloudsTest {
         assertFalse(drawnStudents == result, "test failed");
         assertTrue(result==initialBagSize, "test failed");
     }
+*/
 
+    /*
     @Test
     @DisplayName("simple cases in FillBag")
     void testFillBag() {
@@ -96,7 +108,9 @@ public class BagNCloudsTest {
         assertEquals(n, bagNClouds.getBag().stream().filter(x -> x==3).count(), "test failed");
         assertEquals(n, bagNClouds.getBag().stream().filter(x -> x==4).count(), "test failed");
     }
+*/
 
+    /*
     @Test
     @DisplayName("simple cases in ResetCloud")
     void testResetCloud() {

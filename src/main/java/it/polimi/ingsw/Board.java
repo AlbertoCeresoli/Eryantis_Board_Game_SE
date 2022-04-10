@@ -7,14 +7,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
-    Map<Colors, Integer> studEntrance= new HashMap<>();
-    Map<Colors, Integer> studHall= new HashMap<>();
+    Map<Colors, Integer> studEntrance;
+    Map<Colors, Integer> studHall;
 
     /**
      * Board's builder.
      * It initialize Entrance and Hall maps with 0 students in each color
      */
     public Board() {
+        studEntrance = new HashMap<>();
+        studHall = new HashMap<>();
         for (Colors c : Colors.values()){
             studEntrance.put(c, 0);
             studHall.put(c,0);
@@ -100,7 +102,7 @@ public class Board {
             }
         }
         for (Colors c : Colors.values()){
-            studEntrance.put(c, studEntrance.get(c)+students.get(c));
+            studEntrance.put(c, studEntrance.get(c)-students.get(c));
         }
         return true;
     }
