@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 
 
-public class PlayerInteraction {
+public class PlayerInteraction implements hasSetTeacherInterface {
     private final ArrayList<Player> players;
     private TeacherInterface teacherInterface;
 
@@ -103,6 +103,8 @@ public class PlayerInteraction {
         return teacherInterface;
     }
 
+
+    @Override
     public void setTeacherInterface(TeacherInterface teacherInterface) {
         this.teacherInterface = teacherInterface;
     }
