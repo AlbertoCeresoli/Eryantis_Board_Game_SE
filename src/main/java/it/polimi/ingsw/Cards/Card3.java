@@ -7,7 +7,7 @@ import it.polimi.ingsw.hasCalculateInfluence;
 import java.util.Map;
 
 public class Card3 extends CharacterCards {
-	hasCalculateInfluence hasCalculateInfluence;
+	private final hasCalculateInfluence hasCalculateInfluence;
 
 	/**
 	 * Card3 constructor

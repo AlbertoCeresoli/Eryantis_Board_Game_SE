@@ -1,15 +1,12 @@
 package it.polimi.ingsw.Cards;
 
-import it.polimi.ingsw.BagNClouds;
+import it.polimi.ingsw.*;
 import it.polimi.ingsw.Constants.Colors;
-import it.polimi.ingsw.Constants.Constants;
-import it.polimi.ingsw.Player;
-import it.polimi.ingsw.PlayerInteraction;
 
-import java.util.ArrayList;
 import java.util.Map;
 
-public class Card12 extends CharCardsPlayer {
+public class Card12 extends CharacterCards {
+    private final hasCard12Effect hasCard12Effect;
     BagNClouds bagNClouds;
 
     /**
@@ -18,7 +15,8 @@ public class Card12 extends CharCardsPlayer {
      * @param bagNClouds bagNClouds reference used to draw students in useEffect
      */
     public Card12(int cost, PlayerInteraction playerInteraction, BagNClouds bagNClouds) {
-        super(cost, playerInteraction);
+        super(cost);
+        this.hasCard12Effect = playerInteraction;
         this.bagNClouds = bagNClouds;
     }
 
@@ -32,14 +30,11 @@ public class Card12 extends CharCardsPlayer {
      */
     @Override
     public boolean useEffect(int index, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
-        ArrayList<Player> players = getPlayerInteraction().getPlayers();
+        //removing students and counting them
+        int count = hasCard12Effect.card12Effect(studentColor);
 
-        for (Player player : players) {
-            if (player.getBoard().getStudHall().get(studentColor) <= Constants.CARD12_MAX_STUDENTS_TO_MOVE)
-                player.getBoard().getStudHall().put(studentColor, 0);
-            else
-                player.getBoard().getStudHall().put(studentColor, player.getBoard().getStudHall().get(studentColor) - Constants.CARD12_MAX_STUDENTS_TO_MOVE);
-        }
+        //adding them to the bag
+        bagNClouds.addToBag(studentColor, count);
 
         return true;
     }

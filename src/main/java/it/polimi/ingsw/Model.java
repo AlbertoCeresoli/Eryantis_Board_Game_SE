@@ -248,11 +248,11 @@ public class Model {
                     cards[i] = new Card9(3, islandInteraction);
                     break;
                 case 9:
-                    cards[i] = new Card10(1, playerInteraction);
+                    cards[i] = new Card10(1, playerInteraction, islandInteraction);
                     break;
                 case 10:
                     studs = bagNClouds.drawStudents(Constants.CARD11_STUDENTS_CAPACITY);
-                    cards[i] = new Card11(2, playerInteraction, bagNClouds, studs);
+                    cards[i] = new Card11(2, playerInteraction, islandInteraction, bagNClouds, studs);
                     break;
                 case 11:
                     cards[i] = new Card12(3, playerInteraction, bagNClouds);

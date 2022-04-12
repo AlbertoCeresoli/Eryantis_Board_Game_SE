@@ -8,7 +8,7 @@ import it.polimi.ingsw.hasSetInfluence;
 import java.util.Map;
 
 public class Card6 extends CharacterCards {
-	private hasSetInfluence hasSetInfluence;
+	private final hasSetInfluence hasSetInfluence;
 
 	/**
 	 * Card6 constructor

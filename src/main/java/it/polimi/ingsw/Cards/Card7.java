@@ -1,11 +1,6 @@
 package it.polimi.ingsw.Cards;
 
 import it.polimi.ingsw.Constants.Colors;
-import it.polimi.ingsw.Constants.Constants;
-import it.polimi.ingsw.Exceptions.OutOfBoundException;
-import it.polimi.ingsw.Exceptions.StudentNotAvailableException;
-import it.polimi.ingsw.Exceptions.WrongArrayException;
-import it.polimi.ingsw.Player;
 import it.polimi.ingsw.PlayerInteraction;
 import it.polimi.ingsw.hasEntrance;
 
@@ -13,9 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Card7 extends CharacterCards {
-	private hasEntrance hasEntrance;
-	private Map<Colors, Integer> students;
-	private static final int capacity = Constants.CARD7_STUDENTS_CAPACITY;
+	private final hasEntrance hasEntrance;
+	private final Map<Colors, Integer> students;
 
 	/**
 	 * Card7 constructor

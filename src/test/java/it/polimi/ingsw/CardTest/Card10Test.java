@@ -2,6 +2,7 @@ package it.polimi.ingsw.CardTest;
 
 import it.polimi.ingsw.Cards.Card10;
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.IslandInteraction;
 import it.polimi.ingsw.PlayerInteraction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,11 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Card10Test {
     Card10 card10;
     PlayerInteraction playerInteraction;
+    IslandInteraction islandInteraction;
 
     @BeforeEach
     void setup() {
-        //initializing playerInteraction
+        //initializing playerInteraction and islandInteraction
         playerInteraction = new PlayerInteraction(2);
+        islandInteraction = new IslandInteraction(8, 2);
 
         //creating students of the entrance
         Map<Colors, Integer> entrance = new HashMap<>();
@@ -41,7 +44,7 @@ public class Card10Test {
         playerInteraction.addToHall(0, hall);
 
         //creating the card
-        card10 = new Card10(1, playerInteraction);
+        card10 = new Card10(1, playerInteraction, islandInteraction);
     }
 
     @Test

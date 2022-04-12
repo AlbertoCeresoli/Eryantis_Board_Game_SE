@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Teacher.NormalCheck;
 import it.polimi.ingsw.Teacher.TeacherInterface;
 
@@ -8,7 +9,7 @@ import java.util.*;
 import java.util.Map;
 
 
-public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, hasHall {
+public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, hasHall, hasCard12Effect, hasCheckTeacher {
     private final ArrayList<Player> players;
     private TeacherInterface teacherInterface;
 
@@ -34,6 +35,7 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
      * it collects in temp all the students with the specified color in the hall of each player
      * calls the correct checkTeacher following the TeacherInterface
      */
+    @Override
     public ArrayList<Integer> checkTeacher(Colors studColor, int actualPlayer){
         ArrayList<Integer> temp = new ArrayList<>();
         for (Player player : players) {
@@ -124,5 +126,23 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
     @Override
     public void removeFromHall(int playerIndex, Map<Colors, Integer> students) {
         this.players.get(playerIndex).getBoard().removeFromHall(students);
+    }
+
+    @Override
+    public int card12Effect(Colors color) {
+        int count = 0;
+
+        for (Player player : this.players) {
+            if (player.getBoard().getStudHall().get(color) <= Constants.CARD12_MAX_STUDENTS_TO_MOVE) {
+                count += player.getBoard().getStudHall().get(color);
+                player.getBoard().getStudHall().put(color, 0);
+            }
+            else {
+                count += 3;
+                player.getBoard().getStudHall().put(color, player.getBoard().getStudHall().get(color) - Constants.CARD12_MAX_STUDENTS_TO_MOVE);
+            }
+        }
+
+        return count;
     }
 }

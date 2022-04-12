@@ -140,4 +140,10 @@ public class BagNClouds {
     public ArrayList<Map<Colors, Integer>> getClouds() {
         return clouds;
     }
+
+    public void addToBag(Colors color, int numberOfStudents) {
+        for (int i = 0; i < numberOfStudents; i++) {
+            bag.add(color);
+        }
+    }
 }

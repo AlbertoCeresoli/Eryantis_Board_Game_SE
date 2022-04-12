@@ -8,7 +8,7 @@ import it.polimi.ingsw.hasInhibitionCard;
 import java.util.Map;
 
 public class Card5 extends CharacterCards {
-	private hasInhibitionCard hasInhibitionCard;
+	private final hasInhibitionCard hasInhibitionCard;
 
 	/**
 	 * Card5 constructor

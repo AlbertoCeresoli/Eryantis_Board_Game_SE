@@ -1,28 +1,26 @@
 package it.polimi.ingsw.Cards;
 
+import it.polimi.ingsw.*;
 import it.polimi.ingsw.Constants.Colors;
-import it.polimi.ingsw.Constants.Constants;
-import it.polimi.ingsw.Exceptions.OutOfBoundException;
-import it.polimi.ingsw.Exceptions.StudentNotAvailableException;
-import it.polimi.ingsw.Exceptions.WrongArrayException;
-import it.polimi.ingsw.Player;
-import it.polimi.ingsw.PlayerInteraction;
-import it.polimi.ingsw.hasEntrance;
-import it.polimi.ingsw.hasHall;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Card10 extends CharacterCards {
-    private hasEntrance hasEntrance;
-    private hasHall hasHall;
+    private final hasEntrance hasEntrance;
+    private final hasHall hasHall;
+    private final hasCheckTeacher hasCheckTeacher;
+    private final hasSetTeacher hasSetTeacher;
 
     /**
      * Card10 constructor
      */
-    public Card10(int cost, PlayerInteraction playerInteraction) {
+    public Card10(int cost, PlayerInteraction playerInteraction, IslandInteraction islandInteraction) {
         super(cost);
         hasEntrance = playerInteraction;
         hasHall = playerInteraction;
+        hasCheckTeacher = playerInteraction;
+        hasSetTeacher = islandInteraction;
     }
 
     /**
@@ -51,6 +49,14 @@ public class Card10 extends CharacterCards {
 
         //adding students that were previously removed from the entrance to the hall
         hasHall.addToHall(index, studentArray1);
+
+        //checking if there is a new teacher controller
+        for (Colors c : Colors.values()) {
+            ArrayList<Integer> temp = hasCheckTeacher.checkTeacher(c, index);
+            if (temp.size() == 1) {
+                hasSetTeacher.setTeacher(temp.get(0), c);
+            }
+        }
 
         return true;
     }

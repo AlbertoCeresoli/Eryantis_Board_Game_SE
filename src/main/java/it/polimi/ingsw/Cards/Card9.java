@@ -2,15 +2,13 @@ package it.polimi.ingsw.Cards;
 
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Influence.Card9Effect;
-import it.polimi.ingsw.Influence.Influence;
-import it.polimi.ingsw.Influence.NormalEffect;
 import it.polimi.ingsw.IslandInteraction;
 import it.polimi.ingsw.hasSetInfluence;
 
 import java.util.Map;
 
 public class Card9 extends CharacterCards {
-	private hasSetInfluence hasSetInfluence;
+	private final hasSetInfluence hasSetInfluence;
 
 	/**
 	 * Card9 constructor

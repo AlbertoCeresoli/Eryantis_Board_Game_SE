@@ -2,17 +2,15 @@ package it.polimi.ingsw.Cards;
 
 import it.polimi.ingsw.*;
 import it.polimi.ingsw.Constants.Colors;
-import it.polimi.ingsw.Constants.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class Card1 extends CharacterCards {
-	private hasAddToIsland hasAddToIsland;
-	private BagNClouds bagNClouds;
-	private Map<Colors, Integer> students;
-	private static final int capacity = Constants.CARD1_STUDENTS_CAPACITY;
+	private final hasAddToIsland hasAddToIsland;
+	private final Map<Colors, Integer> students;
+	private final BagNClouds bagNClouds;
 
 	/**
 	 * Card1 constructor

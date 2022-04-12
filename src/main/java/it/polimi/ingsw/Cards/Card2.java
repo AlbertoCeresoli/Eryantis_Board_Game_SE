@@ -8,7 +8,7 @@ import it.polimi.ingsw.hasSetTeacherInterface;
 import java.util.Map;
 
 public class Card2 extends CharacterCards {
-	private hasSetTeacherInterface hasSetTeacherInterface;
+	private final hasSetTeacherInterface hasSetTeacherInterface;
 
 	/**
 	 * Card2 constructor

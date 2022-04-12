@@ -2,6 +2,7 @@ package it.polimi.ingsw.CardTest;
 
 import it.polimi.ingsw.*;
 import it.polimi.ingsw.Cards.Card11;
+import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Exceptions.OutOfBoundException;
 import it.polimi.ingsw.Exceptions.StudentNotAvailableException;
@@ -9,107 +10,87 @@ import it.polimi.ingsw.Exceptions.WrongArrayException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Card11Test {
     Card11 card11;
+    PlayerInteraction playerInteraction;
+    IslandInteraction islandInteraction;
 
-    /*@BeforeEach
+    @BeforeEach
     void setup() {
-        PlayerInteraction playerInteraction = new PlayerInteraction(3);
-        Player player = playerInteraction.getPlayer(0);
-        player.getBoard().addToHall(new int[]{3, 2, 1, 3, 1});
+        //initializing playerInteraction and hall of the first player
+        playerInteraction = new PlayerInteraction(3);
+        islandInteraction = new IslandInteraction(6, 3);
+
+        Map<Colors, Integer> hall = new HashMap<>();
+        hall.put(Colors.YELLOW, 0);
+        hall.put(Colors.BLUE, 1);
+        hall.put(Colors.GREEN, 2);
+        hall.put(Colors.RED, 1);
+        hall.put(Colors.PINK, 1);
+        playerInteraction.addToHall(0, hall);
+
+        //initializing bagNClouds
         BagNClouds bagNClouds = new BagNClouds(3);
         bagNClouds.fillBag(10);
-        card11 = new Card11(1, playerInteraction, bagNClouds, new int[]{0, 1, 1, 1, 1});
+
+        //creating students will be put on the card
+        Map<Colors, Integer> card = new HashMap<>();
+        card.put(Colors.YELLOW, 1);
+        card.put(Colors.BLUE, 1);
+        card.put(Colors.GREEN, 0);
+        card.put(Colors.RED, 1);
+        card.put(Colors.PINK, 1);
+
+        //creating the card
+        card11 = new Card11(1, playerInteraction, islandInteraction, bagNClouds, card);
     }
 
     /**
      * The test controls the state of students on the chosen island before and after the method.
      * The array has to change only in one index, increasing the content by one
      */
-    /*@Test
-    void useEffectTest() throws StudentNotAvailableException, OutOfBoundException, WrongArrayException {
+    @Test
+    void useEffectTest() {
         int index = 0;
-        int[] students = new int[]{0, 1, 0, 0, 0};
 
-        int[] oldHallStudents = new int[Constants.NUMBER_OF_STUDENTS_COLOR];
-        System.arraycopy(card11.getPlayerInteraction().getPlayer(index).getBoard().getStudHall(), 0, oldHallStudents, 0, Constants.NUMBER_OF_STUDENTS_COLOR);
+        //creating students will be picked up from the card and put to the hall
+        Map<Colors, Integer> students = new HashMap<>();
+        students.put(Colors.YELLOW, 1);
+        students.put(Colors.BLUE, 0);
+        students.put(Colors.GREEN, 0);
+        students.put(Colors.RED, 0);
+        students.put(Colors.PINK, 0);
 
-        boolean result = card11.useEffect(index, 0, students, null);
+        //saving hall's old state
+        Map<Colors, Integer> oldHall = new HashMap<>();
+        for (Colors c : Colors.values()) {
+            oldHall.put(c, playerInteraction.getPlayer(index).getBoard().getStudHall().get(c));
+        }
 
-        int[] newHallStudents = new int[Constants.NUMBER_OF_STUDENTS_COLOR];
-        System.arraycopy(card11.getPlayerInteraction().getPlayer(index).getBoard().getStudHall(), 0, newHallStudents, 0, Constants.NUMBER_OF_STUDENTS_COLOR);
+        //using card11's effect
+        card11.useEffect(index, Colors.YELLOW, students, null);
+
+        //saving hall's new state
+        Map<Colors, Integer> newHall = new HashMap<>();
+        for (Colors c : Colors.values()) {
+            newHall.put(c, playerInteraction.getPlayer(index).getBoard().getStudHall().get(c));
+        }
 
         boolean check = true;
 
-        for (int i = 0; i < Constants.NUMBER_OF_STUDENTS_COLOR; i++) {
-            if (newHallStudents[i] != oldHallStudents[i] + students[i]) {
+        //checking if all students where moved correctly from card to hall
+        for (Colors c : Colors.values()) {
+            if (newHall.get(c) != oldHall.get(c) + students.get(c)) {
                 check = false;
                 break;
             }
         }
 
-        assertTrue(result);
         assertTrue(check);
     }
-
-    /**
-     * The test verifies that a StudentNotAvailableException is thrown.
-     * It is thrown because we are looking for a student that is not on the card
-     */
-    /*@Test
-    void useEffectStudentExceptionTest() {
-        int index = 0;
-        int[] students = new int[]{1, 0, 0, 0, 0};
-
-        assertThrows(StudentNotAvailableException.class, () -> card11.useEffect(index, 0, students, null));
-    }
-
-    /**
-     * The test verifies that an OutOfBoundException is thrown when we try to access to an island using the index parameter given
-     * that is minor than 0 or higher than islands arraylist' size
-     */
-    /*@Test
-    void useEffectOutOfBoundExceptionTest() {
-        int index = 5;
-        int[] students = new int[]{0, 0, 1, 0, 0};
-
-        assertThrows(OutOfBoundException.class, () -> card11.useEffect(index, 0, students, null));
-    }
-
-    /**
-     * The test verifies that a WrongArrayException is thrown when it is passed as input an array which has
-     * array.length() != Constants.NUMBER_OF_STUDENTS_COLOR,
-     */
-    /*@Test
-    void useEffectWrongArrayLengthTest() {
-        int index = 0;
-        int[] students = new int[]{0, 0, 1, 0, 0, 0};
-
-        assertThrows(WrongArrayException.class, () -> card11.useEffect(index, 0, students, null));
-    }
-
-    /**
-     * The test verifies a WrongArrayException is thrown when one of the array's element is negative
-     */
-    /*@Test
-    void useEffectWrongArrayNegativeContentTest() {
-        int index = 0;
-        int[] students = new int[]{0, -1, 1, 1, 0};
-
-        assertThrows(WrongArrayException.class, () -> card11.useEffect(index, 0, students, null));
-    }
-
-    /**
-     * The test verifies a WrongArrayException is thrown when the sum of requested students is different from the number indicated in the rules
-     */
-    /*@Test
-    void useEffectWrongArrayContentTest() {
-        int index = 0;
-        int[] students = new int[]{0, 0, 1, 1, 0};
-
-        assertThrows(WrongArrayException.class, () -> card11.useEffect(index, 0, students, null));
-    }
-     */
 }
