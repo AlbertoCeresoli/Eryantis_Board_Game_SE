@@ -1,5 +1,5 @@
 package it.polimi.ingsw;
 
 public interface hasCalculateInfluence {
-	void calculateInfluence(int islandIndex);
+    void calculateInfluence(int islandIndex);
 }

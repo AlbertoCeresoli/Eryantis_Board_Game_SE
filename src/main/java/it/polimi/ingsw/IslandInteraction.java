@@ -12,20 +12,23 @@ import java.util.Map;
 
 public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence, hasSetInfluence, hasInhibitionCard, hasSetTeacher {
     private ArrayList<Island> islands;
-    private Map<Colors, Integer> teachers= new HashMap<>();
+    private Map<Colors, Integer> teachers;
     private int[] towersByPlayer;
     private int motherNature;
     private Influence influence;
     private int numberOfInhibitionCards;
 
     //IslandInteraction's constructor
-    public IslandInteraction(int towersByPlayer, int nPlayers) {
+    public IslandInteraction(int towersPerPlayer, int nPlayers) {
         //teachers initialization
-        teachers.forEach((key, value) -> value = -1);
+        teachers = new HashMap<>();
+        for (Colors c: Colors.values()) {
+            teachers.put(c, -1);
+        }
 
         this.towersByPlayer = new int[nPlayers];
         for (int i = 0; i < nPlayers; i++) {
-            this.towersByPlayer[i] = towersByPlayer;
+            this.towersByPlayer[i] = towersPerPlayer;
         }
         islands = new ArrayList<>();
         numberOfInhibitionCards = Constants.CARD5_NUMBER_INHIBITION_CARD;
@@ -57,7 +60,7 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
             getIslands().get(islandIndex).addTower(newController, towersToMerge);
 
             //students merge
-            Map<Colors, Integer> studentsToMerge= new HashMap<>();
+            Map<Colors, Integer> studentsToMerge;
             studentsToMerge = getIslands().get(islandIndex + 1).getStudents();
             getIslands().get(islandIndex).addStudents(studentsToMerge);
             getIslands().remove(islandIndex + 1);
@@ -71,7 +74,7 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
             getIslands().get(islandIndex).addTower(newController, towersToMerge);
 
             //students merge
-            Map<Colors, Integer> studentsToMerge= new HashMap<>();
+            Map<Colors, Integer> studentsToMerge;
             studentsToMerge = getIslands().get(islandIndex - 1).getStudents();
             getIslands().get(islandIndex).addStudents(studentsToMerge);
             getIslands().remove(islandIndex - 1);
@@ -81,10 +84,7 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
         }
     }
 
-    @Override
-    public void calculateInfluence(int island){
-         influence.calculateInfluence(teachers, getIslands().get(island));
-    }
+
 
     @Override
     public void addInhibitionCard(int islandIndex) {
@@ -147,5 +147,10 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
     @Override
     public void addToIsland(int islandIndex, Map<Colors, Integer> students) {
         getIslands().get(islandIndex).addStudents(students);
+    }
+
+    @Override
+    public void calculateInfluence(int island){
+        influence.calculateInfluence(teachers, getIslands().get(island));
     }
 }

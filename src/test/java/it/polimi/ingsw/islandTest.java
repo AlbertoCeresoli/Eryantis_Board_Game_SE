@@ -1,13 +1,26 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Constants.Colors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class islandTest {
-    /*
+
+    /**
+     * island Class' tests don't need any particular edge cases
+     * cause all possible exceptions will be caught at an upper stage
+     * add students method neither, since there isn't any limits
+     * to the number of students on an island
+     * (you can't remove students from the islands)
+     */
     Island island;
     PlayerInteraction playerInteraction;
 
@@ -36,12 +49,26 @@ public class islandTest {
     }
 
     @Test
-    @DisplayName("Inhibition Card standard removal")
-    void testRemoveInhibitionCard(){
+    @DisplayName("Inhibition Card standard put/removal")
+    void testAddRemoveInhibitionCard(){
+        island.addInhibitionCard();
         island.addInhibitionCard();
         island.removeInhibitionCard();
-        assertEquals(0, island.getInhibitionCards() , "Inhibition Card removed incorrectly");
+        assertEquals(1, island.getInhibitionCards() , "Inhibition Card removed incorrectly");
     }
 
-     */
+    @Test
+    @DisplayName("Standard students addition")
+    void testAddStudents(){
+        Map<Colors, Integer> finalStudents = new HashMap<>();
+        finalStudents.put(Colors.PINK, 0);
+        finalStudents.put(Colors.YELLOW, 0);
+        finalStudents.put(Colors.GREEN, 3);
+        finalStudents.put(Colors.BLUE, 2);
+        finalStudents.put(Colors.RED, 1);
+
+        island.addStudents(finalStudents);
+
+        assertEquals(finalStudents, island.students, "Students addition failed");
+    }
 }

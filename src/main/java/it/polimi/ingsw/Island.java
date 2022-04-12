@@ -1,7 +1,6 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.Colors;
-import it.polimi.ingsw.Constants.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,13 +39,6 @@ public class Island {
             this.students.put(c, students.get(c)+this.students.get(c));
         }
     }
-
-    public void removeStudents(Map<Colors, Integer> students) {
-        for (Colors c: Colors.values()) {
-            this.students.put(c, students.get(c) - this.students.get(c));
-        }
-    }
-
     public void addInhibitionCard() {
         inhibitionCards++;
     }
