@@ -2,6 +2,7 @@ package it.polimi.ingsw.Cards;
 
 import it.polimi.ingsw.*;
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Indexes;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -31,28 +32,28 @@ public class Card10 extends CharacterCards {
      * <p>
      * A maximum of 2 students can be chosen.
      *
-     * @param index         is the player index that will exchange the students
+     * @param variables     is the player index that will exchange the students
      * @param studentColor  not used
      * @param studentArray1 students from entrance
      * @param studentArray2 students from hall
      */
     @Override
-    public boolean useEffect(int index, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
+    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
         //removing students from entrance
-        hasEntrance.removeFromEntrance(index, studentArray1);
+        hasEntrance.removeFromEntrance(variables.get(Indexes.PLAYER_INDEX), studentArray1);
 
         //removing students from hall
-        hasHall.removeFromHall(index, studentArray2);
+        hasHall.removeFromHall(variables.get(Indexes.PLAYER_INDEX), studentArray2);
 
         //adding students that were previously removed from the hall to the entrance
-        hasEntrance.addToEntrance(index, studentArray2);
+        hasEntrance.addToEntrance(variables.get(Indexes.PLAYER_INDEX), studentArray2);
 
         //adding students that were previously removed from the entrance to the hall
-        hasHall.addToHall(index, studentArray1);
+        hasHall.addToHall(variables.get(Indexes.PLAYER_INDEX), studentArray1);
 
         //checking if there is a new teacher controller
         for (Colors c : Colors.values()) {
-            ArrayList<Integer> temp = hasCheckTeacher.checkTeacher(c, index);
+            ArrayList<Integer> temp = hasCheckTeacher.checkTeacher(c, variables.get(Indexes.PLAYER_INDEX));
             if (temp.size() == 1) {
                 hasSetTeacher.setTeacher(temp.get(0), c);
             }

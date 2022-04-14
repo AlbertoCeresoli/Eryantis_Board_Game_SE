@@ -7,16 +7,23 @@ import java.util.ArrayList;
 import java.util.Map;
 
 abstract public class OtherEffect implements Influence {
-    Influence wrappee;
+    Influence wrapper;
 
+    /**
+     * The constructor set the attribute wrapper to NormalEffect
+     */
     public OtherEffect() {
-        wrappee = new NormalEffect();
+        wrapper = new NormalEffect();
     }
 
+    /**
+     *
+     * The method calculates influence of each player. It uses at first NormalEffect's calculateInfluence,
+     * then extra() method is called in order to modify what we receive from first calculation
+     */
     @Override
-    public ArrayList<Integer> calculateInfluence(Map<Colors, Integer> teachers, Island island) {
-
-        ArrayList<Integer> influences = wrappee.calculateInfluence(teachers, island);
+    public ArrayList<Integer> calculateInfluence(Map<Colors, Integer> teachers, Island island, int numberOfPlayers) {
+        ArrayList<Integer> influences = wrapper.calculateInfluence(teachers, island, numberOfPlayers);
         influences = extra(teachers, island, influences);
 
         return influences;

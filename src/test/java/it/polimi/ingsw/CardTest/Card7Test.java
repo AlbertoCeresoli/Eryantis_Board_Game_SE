@@ -4,6 +4,7 @@ import it.polimi.ingsw.*;
 import it.polimi.ingsw.Cards.Card7;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
+import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Exceptions.OutOfBoundException;
 import it.polimi.ingsw.Exceptions.StudentNotAvailableException;
 import it.polimi.ingsw.Exceptions.WrongArrayException;
@@ -49,7 +50,8 @@ public class Card7Test {
 	 */
 	@Test
 	void useEffectTest() {
-		int index = 0;
+		Map<Indexes, Integer> variables = new HashMap<>();
+		variables.put(Indexes.PLAYER_INDEX, 0);
 
 		//creating students that will be picked up from the entrance and put on the card
 		Map<Colors, Integer> studentsEntranceToCard = new HashMap<>();
@@ -76,11 +78,11 @@ public class Card7Test {
 		//saving entrance's old state
 		Map<Colors, Integer> oldEntranceStudents = new HashMap<>();
 		for (Colors c : Colors.values()) {
-			oldEntranceStudents.put(c, playerInteraction.getPlayer(index).getBoard().getStudEntrance().get(c));
+			oldEntranceStudents.put(c, playerInteraction.getPlayer(variables.get(Indexes.PLAYER_INDEX)).getBoard().getStudEntrance().get(c));
 		}
 
 		//using card7's effect
-		card7.useEffect(index, Colors.YELLOW, studentsCardToEntrance, studentsEntranceToCard);
+		card7.useEffect(variables, Colors.YELLOW, studentsCardToEntrance, studentsEntranceToCard);
 
 
 		//saving card's new state
@@ -92,7 +94,7 @@ public class Card7Test {
 		//saving entrance's new state
 		Map<Colors, Integer> newEntranceStudents = new HashMap<>();
 		for (Colors c : Colors.values()) {
-			newEntranceStudents.put(c, playerInteraction.getPlayer(index).getBoard().getStudEntrance().get(c));
+			newEntranceStudents.put(c, playerInteraction.getPlayer(variables.get(Indexes.PLAYER_INDEX)).getBoard().getStudEntrance().get(c));
 		}
 
 		boolean check = true;

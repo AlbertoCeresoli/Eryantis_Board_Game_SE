@@ -29,7 +29,7 @@ public class Card2Test {
 	@Test
 	void useEffectTest() {
 		//using card2's effect
-		card2.useEffect(0, Colors.YELLOW, null, null);
+		card2.useEffect(null, Colors.YELLOW, null, null);
 
 		//controlling that the set was correctly done
 		TeacherInterface teacherInterface = playerInteraction.getTeacherInterface();

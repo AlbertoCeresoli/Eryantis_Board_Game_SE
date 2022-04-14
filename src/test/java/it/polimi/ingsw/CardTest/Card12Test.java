@@ -60,7 +60,7 @@ public class Card12Test {
         oldStudents.add(playerInteraction.getPlayer(2).getBoard().getStudHall().get(Colors.GREEN));
 
         //using Card12's effect
-        card12.useEffect(0, Colors.GREEN, null, null);
+        card12.useEffect(null, Colors.GREEN, null, null);
 
         //saving new students of that color
         ArrayList<Integer> newStudents = new ArrayList<>();

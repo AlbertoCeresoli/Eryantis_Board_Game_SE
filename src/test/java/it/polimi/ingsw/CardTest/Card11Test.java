@@ -4,6 +4,7 @@ import it.polimi.ingsw.*;
 import it.polimi.ingsw.Cards.Card11;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
+import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Exceptions.OutOfBoundException;
 import it.polimi.ingsw.Exceptions.StudentNotAvailableException;
 import it.polimi.ingsw.Exceptions.WrongArrayException;
@@ -56,7 +57,8 @@ public class Card11Test {
      */
     @Test
     void useEffectTest() {
-        int index = 0;
+        Map<Indexes, Integer> variables = new HashMap<>();
+        variables.put(Indexes.PLAYER_INDEX, 0);
 
         //creating students will be picked up from the card and put to the hall
         Map<Colors, Integer> students = new HashMap<>();
@@ -69,16 +71,16 @@ public class Card11Test {
         //saving hall's old state
         Map<Colors, Integer> oldHall = new HashMap<>();
         for (Colors c : Colors.values()) {
-            oldHall.put(c, playerInteraction.getPlayer(index).getBoard().getStudHall().get(c));
+            oldHall.put(c, playerInteraction.getPlayer(variables.get(Indexes.PLAYER_INDEX)).getBoard().getStudHall().get(c));
         }
 
         //using card11's effect
-        card11.useEffect(index, Colors.YELLOW, students, null);
+        card11.useEffect(variables, Colors.YELLOW, students, null);
 
         //saving hall's new state
         Map<Colors, Integer> newHall = new HashMap<>();
         for (Colors c : Colors.values()) {
-            newHall.put(c, playerInteraction.getPlayer(index).getBoard().getStudHall().get(c));
+            newHall.put(c, playerInteraction.getPlayer(variables.get(Indexes.PLAYER_INDEX)).getBoard().getStudHall().get(c));
         }
 
         boolean check = true;

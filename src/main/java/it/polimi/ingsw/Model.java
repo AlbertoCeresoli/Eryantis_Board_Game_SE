@@ -12,7 +12,7 @@ public class Model {
     private CharacterCards[] characterCards;
     private BagNClouds bagNClouds;
     private final IslandInteraction islandInteraction;
-    private final int[] gameRules;
+    public final int[] gameRules;
 
     /**
      * Model Constructor, it initilialize everything
@@ -277,7 +277,7 @@ public class Model {
             return;
         }
         if (islandInteraction.getIslands().get(MN).getInhibitionCards() == 0){
-            islandInteraction.calculateInfluence(MN);
+            islandInteraction.calculateInfluence(MN, gameRules[0]);
         }
     }
 }

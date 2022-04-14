@@ -30,7 +30,7 @@ public class Card9Test {
 	@Test
 	void useEffectTest() {
 		//using card9's effect
-		card9.useEffect(0, Colors.YELLOW, null, null);
+		card9.useEffect(null, Colors.YELLOW, null, null);
 
 		//controlling that the set was correctly done
 		Influence influence = islandInteraction.getInfluence();

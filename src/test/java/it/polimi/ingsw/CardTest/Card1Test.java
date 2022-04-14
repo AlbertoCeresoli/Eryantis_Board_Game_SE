@@ -4,6 +4,7 @@ import it.polimi.ingsw.BagNClouds;
 import it.polimi.ingsw.Cards.Card1;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
+import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Exceptions.OutOfBoundException;
 import it.polimi.ingsw.Exceptions.StudentNotAvailableException;
 import it.polimi.ingsw.Exceptions.WrongArrayException;
@@ -56,7 +57,8 @@ public class Card1Test {
 
 	@Test
 	void useEffectTest() throws StudentNotAvailableException, OutOfBoundException, WrongArrayException {
-		int index = 0;
+		Map<Indexes, Integer> variables = new HashMap<>();
+		variables.put(Indexes.ISLAND_INDEX, 0);
 
 		//creating students that will be picked up from the card and put to the chosen island
 		Map<Colors, Integer> students = new HashMap<>();
@@ -74,7 +76,7 @@ public class Card1Test {
 		}
 
 		//using card1's effect
-		card1.useEffect(index, Colors.YELLOW, students, null);
+		card1.useEffect(variables, Colors.YELLOW, students, null);
 
 		//saving the new state of the island
 		Map<Colors, Integer> newIslandStudents = new HashMap<>();

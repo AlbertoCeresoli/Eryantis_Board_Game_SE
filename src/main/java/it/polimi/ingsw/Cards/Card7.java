@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Cards;
 
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.PlayerInteraction;
 import it.polimi.ingsw.hasEntrance;
 
@@ -35,15 +36,15 @@ public class Card7 extends CharacterCards {
 	 * <p>
 	 * The player can choose a maximum of 3 students
 	 *
-	 * @param index         is the player index
+	 * @param variables     is the player index
 	 * @param studentColor  not used
 	 * @param studentArray1 students on the card chosen by the player
 	 * @param studentArray2 students in the entrance chosen by the player
 	 */
 	@Override
-	public boolean useEffect(int index, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
+	public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
 		//removing students from the entrance of the player
-		hasEntrance.removeFromEntrance(index, studentArray2);
+		hasEntrance.removeFromEntrance(variables.get(Indexes.PLAYER_INDEX), studentArray2);
 
 		//removing students from the card
 		for (Colors c : Colors.values()) {
@@ -56,7 +57,7 @@ public class Card7 extends CharacterCards {
 		}
 
 		//adding students that have been removed from the card to the entrance of the player
-		hasEntrance.addToEntrance(index, studentArray1);
+		hasEntrance.addToEntrance(variables.get(Indexes.PLAYER_INDEX), studentArray1);
 
 		return true;
 	}

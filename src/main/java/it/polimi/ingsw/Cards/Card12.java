@@ -2,6 +2,7 @@ package it.polimi.ingsw.Cards;
 
 import it.polimi.ingsw.*;
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Indexes;
 
 import java.util.Map;
 
@@ -23,13 +24,13 @@ public class Card12 extends CharacterCards {
     /**
      * The method removes from each board a maximum of Constants.CARD12_MAX_STUDENTS_TO_REMOVE
      *
-     * @param index         not used
+     * @param variables     not used
      * @param studentColor  is the color of students that will be removed
      * @param studentArray1 not used
      * @param studentArray2 not used
      */
     @Override
-    public boolean useEffect(int index, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
+    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
         //removing students and counting them
         int count = hasCard12Effect.card12Effect(studentColor);
 

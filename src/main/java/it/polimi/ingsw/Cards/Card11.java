@@ -3,6 +3,7 @@ package it.polimi.ingsw.Cards;
 import it.polimi.ingsw.*;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
+import it.polimi.ingsw.Constants.Indexes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,13 +43,13 @@ public class Card11 extends CharacterCards {
      * The method removes a student from the card and place it in the player's hall,
      * then draws a new student from the bag and put it on the card
      *
-     * @param index         is player index that takes the student to the hall
+     * @param variables     is player index that takes the student to the hall
      * @param studentColor  student that will be removed from the card and will be put in the hall
      * @param studentArray1 not used
      * @param studentArray2 not used
      */
     @Override
-    public boolean useEffect(int index, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
+    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
         //removing from card's students the chosen one
         this.students.put(studentColor, this.students.get(studentColor) - studentArray1.get(studentColor));
 
@@ -60,10 +61,10 @@ public class Card11 extends CharacterCards {
         temp.put(studentColor, 1);
 
         //adding the student to the hall
-        this.hasHall.addToHall(index, temp);
+        this.hasHall.addToHall(variables.get(Indexes.PLAYER_INDEX), temp);
 
         //checking if there is a new teacher controller
-        ArrayList<Integer> player = this.hasCheckTeacher.checkTeacher(studentColor, index);
+        ArrayList<Integer> player = this.hasCheckTeacher.checkTeacher(studentColor, variables.get(Indexes.PLAYER_INDEX));
         if (player.size() == 1) {
             this.hasSetTeacher.setTeacher(player.get(0), studentColor);
         }

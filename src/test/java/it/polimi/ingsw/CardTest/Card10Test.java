@@ -2,6 +2,7 @@ package it.polimi.ingsw.CardTest;
 
 import it.polimi.ingsw.Cards.Card10;
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.IslandInteraction;
 import it.polimi.ingsw.PlayerInteraction;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +50,8 @@ public class Card10Test {
 
     @Test
     void useEffectTest() {
-        int index = 0;
+        Map<Indexes, Integer> variables = new HashMap<>();
+        variables.put(Indexes.PLAYER_INDEX, 0);
 
         //creating students will be moved from entrance to hall
         Map<Colors, Integer> studentsEntranceToHall = new HashMap<>();
@@ -70,28 +72,28 @@ public class Card10Test {
         //saving entrance's old state
         Map<Colors, Integer> oldEntrance = new HashMap<>();
         for (Colors c : Colors.values()) {
-            oldEntrance.put(c, playerInteraction.getPlayer(index).getBoard().getStudEntrance().get(c));
+            oldEntrance.put(c, playerInteraction.getPlayer(variables.get(Indexes.PLAYER_INDEX)).getBoard().getStudEntrance().get(c));
         }
 
         //saving hall's old state
         Map<Colors, Integer> oldHall = new HashMap<>();
         for (Colors c : Colors.values()) {
-            oldHall.put(c, playerInteraction.getPlayer(index).getBoard().getStudHall().get(c));
+            oldHall.put(c, playerInteraction.getPlayer(variables.get(Indexes.PLAYER_INDEX)).getBoard().getStudHall().get(c));
         }
 
         //using card10's effect
-        card10.useEffect(index, Colors.YELLOW, studentsEntranceToHall, studentsHallToEntrance);
+        card10.useEffect(variables, Colors.YELLOW, studentsEntranceToHall, studentsHallToEntrance);
 
         //saving entrance's new state
         Map<Colors, Integer> newEntrance = new HashMap<>();
         for (Colors c : Colors.values()) {
-            newEntrance.put(c, playerInteraction.getPlayer(index).getBoard().getStudEntrance().get(c));
+            newEntrance.put(c, playerInteraction.getPlayer(variables.get(Indexes.PLAYER_INDEX)).getBoard().getStudEntrance().get(c));
         }
 
         //saving hall's new state
         Map<Colors, Integer> newHall = new HashMap<>();
         for (Colors c : Colors.values()) {
-            newHall.put(c, playerInteraction.getPlayer(index).getBoard().getStudHall().get(c));
+            newHall.put(c, playerInteraction.getPlayer(variables.get(Indexes.PLAYER_INDEX)).getBoard().getStudHall().get(c));
         }
 
         boolean check = true;

@@ -150,7 +150,7 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
     }
 
     @Override
-    public void calculateInfluence(int island){
-        influence.calculateInfluence(teachers, getIslands().get(island));
+    public void calculateInfluence(int island, int numberOfPlayers){
+        influence.calculateInfluence(teachers, getIslands().get(island), numberOfPlayers);
     }
 }
