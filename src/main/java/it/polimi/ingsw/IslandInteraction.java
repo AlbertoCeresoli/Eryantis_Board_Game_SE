@@ -31,11 +31,14 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
             this.towersByPlayer[i] = towersPerPlayer;
         }
         islands = new ArrayList<>();
+        for(int i = 0; i < 12; i++){
+            islands.add(i,new Island());
+        }
         numberOfInhibitionCards = Constants.CARD5_NUMBER_INHIBITION_CARD;
         influence = new NormalEffect();
     }
 
-    public void placeTower(int player, int island) throws EndGameException {
+    public boolean placeTower(int player, int island) throws EndGameException {
         int oldController = getIslands().get(island).getControllerIndex();
         int oldNumTowers = getIslands().get(island).getnTowers();
         if (oldController == -1) {
@@ -47,6 +50,7 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
             getIslands().get(island).addTower(player, oldNumTowers);
         }
         mergeIslands(island);
+        return true;
     }
 
     public void mergeIslands(int islandIndex) throws EndGameException {

@@ -17,7 +17,7 @@ public class islandTest {
     /**
      * island Class' tests don't need any particular edge cases
      * cause all possible exceptions will be caught at an upper stage
-     * add students method neither, since there isn't any limits
+     * add students method neither, since there aren't any limits
      * to the number of students on an island
      * (you can't remove students from the islands)
      */
