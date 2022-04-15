@@ -25,6 +25,7 @@ public class IslandInteractionTest {
     @Test
     @DisplayName("Placing Tower cases")
     void testPlaceTower() throws EndGameException {
+        assertEquals(6,islandInteraction.getTowersByPlayer()[1], "Tower initialization went wrong");
         assertEquals(-1, islandInteraction.getIslands().get(4).getControllerIndex(),"Wrong initialization of ControllerIndex");
         assertTrue(islandInteraction.placeTower(2, 4),"Tower positioning gone wrong");
         assertEquals(2, islandInteraction.getIslands().get(4).getControllerIndex(),"Wrong ControllerIndex");
