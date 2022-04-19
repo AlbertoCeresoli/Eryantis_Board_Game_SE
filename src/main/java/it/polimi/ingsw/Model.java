@@ -14,7 +14,7 @@ public class Model {
     public final int[] gameRules;
 
     /**
-     * Model Constructor, it initilialize everything
+     * Model Constructor, it initializes everything
      *
      * @param gameRules     array with specific constants referred to the played gamemode
      */
@@ -76,11 +76,11 @@ public class Model {
     /**
      *      this moves 1 student per time from the entrance to the hall
      *      then it checks whether the control of the teacher changes
-     *      if the student placed is the 3rd, 6th or 9th of that color, it adda a coin to that player
+     *      if the student placed is the 3rd, 6th or 9th of that color, it adds a coin to that player
      * @param studColor color of the student to be moved
      * @param player    player who moves the student
      */
-    public void moveFromEntranceToHall(Colors studColor, int player) {
+    public boolean moveFromEntranceToHall(Colors studColor, int player) {
         //creates the map with the student to move
         Map<Colors, Integer> temp = new HashMap<>();
         for (Colors c : Colors.values()){
@@ -103,15 +103,20 @@ public class Model {
         if(playerInteraction.getPlayers().get(player).getBoard().getStudHall().get(studColor)%3 == 0) {
             playerInteraction.getPlayers().get(player).addCoin();
         }
+        return true;
+    }
+
+    public PlayerInteraction getPlayerInteraction() {
+        return playerInteraction;
     }
 
     /**
      *  this moves 1 student per time from the entrance to the island
      * @param studColor     color of the student to be moved
      * @param player    player who moves the student
-     * @param island    index of the island wher the student will be moved to
+     * @param island    index of the island where the student will be moved to
      */
-    public void moveFromEntranceToIsland(Colors studColor, int player, int island) {
+    public boolean moveFromEntranceToIsland(Colors studColor, int player, int island) {
         //creates the map with the student to move
         Map<Colors, Integer> temp = new HashMap<>();
         for (Colors c : Colors.values()){
@@ -123,6 +128,12 @@ public class Model {
         playerInteraction.getPlayers().get(player).getBoard().removeFromEntrance(temp);
         //add to island
         islandInteraction.getIslands().get(island).addStudents(temp);
+
+        return true;
+    }
+
+    public BagNClouds getBagNClouds() {
+        return bagNClouds;
     }
 
     /**
@@ -130,17 +141,17 @@ public class Model {
      * @param player    index of the player who moves the cloud
      * @param cloudIndex     index of th cloud he gets
      */
-    public void studentsCloudToEntrance(int player, int cloudIndex) {
+    public boolean studentsCloudToEntrance(int player, int cloudIndex) {
         //creates the map with the students to move
         Map<Colors, Integer> temp = new HashMap<>();
-        for (Colors c : Colors.values()){
-            temp.put(c, 0);
+        for(Colors c : Colors.values()){
+            temp.put(c, bagNClouds.getClouds().get(cloudIndex).get(c));
         }
-        temp = bagNClouds.getClouds().get(cloudIndex);
         //remove the students from the cloud
         bagNClouds.resetCloud(cloudIndex);
         //calls addToEntrance(temp)
         playerInteraction.getPlayers().get(player).getBoard().addToEntrance(temp);
+        return true;
     }
 
     /**
@@ -195,6 +206,10 @@ public class Model {
         return winner;
     }
 
+    public IslandInteraction getIslandInteraction() {
+        return islandInteraction;
+    }
+
     /**
      *  draw and instantiates 3 random character cards out of the 12 available
      * @return  a CharacterCards[] array containing the 3 drawn cards
@@ -213,9 +228,9 @@ public class Model {
         }
 
         for (int i = 0; i < 3; i++) {
-            rnd = random.nextInt(bucket.size());
-            rnd = bucket.get(rnd);
-            bucket.remove(rnd);
+            int position = random.nextInt(bucket.size());
+            rnd = bucket.get(position);
+            bucket.remove(position);
             switch (rnd) {
                 case 0:
                     studs = bagNClouds.drawStudents(Constants.CARD1_STUDENTS_CAPACITY);
@@ -265,7 +280,7 @@ public class Model {
      *  moves mother nature adding the steps choose by the player [mod n] where n is the number of islands "left"
      * @param steps number of steps Mother Nature has to do
      */
-    public void moveMN(int steps) {
+    public boolean moveMN(int steps) {
         int MN = islandInteraction.getMotherNature();
         MN += steps;
         MN %= (islandInteraction.getIslands().size());
@@ -273,10 +288,11 @@ public class Model {
         if(islandInteraction.getIslands().get(MN).getInhibitionCards() > 0){
             islandInteraction.getIslands().get(MN).removeInhibitionCard();
             islandInteraction.addInhibitionCard();
-            return;
+            return true;
         }
         if (islandInteraction.getIslands().get(MN).getInhibitionCards() == 0){
             islandInteraction.calculateInfluence(MN, gameRules[0]);
         }
+        return true;
     }
 }

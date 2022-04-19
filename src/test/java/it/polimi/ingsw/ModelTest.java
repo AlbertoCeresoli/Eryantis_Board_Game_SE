@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Constants.Colors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,5 +23,68 @@ public class ModelTest {
         assertTrue(model.initializeGame(),"Game Initialization failed");
     }
 
+    @Test
+    @DisplayName("Test Entrance to Hall")
+    void testMoveFromEntranceTotHall(){
+        assertTrue(model.initializeGame(),"Game Initialization failed");
+        assertTrue(model.moveFromEntranceToHall(Colors.RED, 2), "Action failed");
+        assertTrue(model.moveFromEntranceToHall(Colors.RED, 2), "Action failed");
+        assertTrue(model.moveFromEntranceToHall(Colors.RED, 2), "Action failed");
+        assertEquals(3, model.getPlayerInteraction().getPlayer(2).getBoard().getStudHall().get(Colors.RED),"Action Failed Miserably");
+        assertEquals(1+1  , model.getPlayerInteraction().getPlayer(2).getCoins(), "Coin added Incorrectly");
+        assertTrue(model.moveFromEntranceToHall(Colors.BLUE, 2), "Action failed");
+        assertEquals(1, model.getPlayerInteraction().getPlayer(2).getBoard().getStudHall().get(Colors.BLUE), "action gone wrong");
+        assertEquals(2, model.getIslandInteraction().getTeachers().get(Colors.RED));
+        assertTrue(model.moveFromEntranceToHall(Colors.BLUE, 1), "Action failed");
+        assertTrue(model.moveFromEntranceToHall(Colors.BLUE, 1), "Action failed");
+        assertEquals(1, model.getIslandInteraction().getTeachers().get(Colors.BLUE), "Control hasn't changed");
+
+    }
+
+
+    @Test
+    @DisplayName("Test Entrance to Island")
+    void testMoveFromEntranceToIsland(){
+        assertTrue(model.moveFromEntranceToIsland(Colors.RED, 0, 11), "Students shift went wrong");
+        assertEquals(1, model.getIslandInteraction().getIslands().get(11).getStudents().get(Colors.RED),"Student wasn't received");
+    }
+
+
+    @Test
+    @DisplayName("Testing Cloud to Entrance")
+    void testStudentsFromCloudToEntrance(){
+        assertTrue(model.initializeGame(),"Game Initialization failed");
+
+        /*Map<Colors, Integer> empty = new HashMap<>();
+        for (Colors c : Colors.values()){
+            empty.put(c, 0);
+        }
+        model.getPlayerInteraction().getPlayer(0).getBoard().setStudEntrance(empty);
+        Map<Colors, Integer> expected = new HashMap<>();
+        for (Colors c : Colors.values()){
+            expected.put(c, model.getBagNClouds().getClouds().get(1).get(c));
+        }
+         */
+       // TODO assertTrue(model.studentsCloudToEntrance(0, 1), "Action Failed");
+       // assertEquals(empty, model.getBagNClouds().getClouds().get(1), "Cloud wasn't reset");
+    }
+
+
+    @Test
+    @DisplayName("Testing Move Mother Nature")
+    void testMoveMN(){
+        assertTrue(model.initializeGame(),"Game Initialization failed");
+        assertTrue(model.moveMN(4), "MN shift failed");
+        assertEquals(4, model.getIslandInteraction().getMotherNature(), "MN moved badly");
+        assertTrue(model.moveMN(10), "MN shift failed");
+        assertEquals(2, model.getIslandInteraction().getMotherNature(), "MN moved badly");
+        model.getIslandInteraction().getIslands().remove(1);
+        assertTrue(model.moveMN(10), "MN shift failed");
+        assertEquals(1, model.getIslandInteraction().getMotherNature(), "MN moved badly");
+        model.getIslandInteraction().getIslands().get(2).addInhibitionCard();
+        assertEquals(1, model.getIslandInteraction().getIslands().get(2).getInhibitionCards(),"IC added badly");
+        assertTrue(model.moveMN(1),"MN shift failed");
+        assertEquals(0, model.getIslandInteraction().getIslands().get(2).getInhibitionCards(), "IC removed badly");
+    }
 
 }

@@ -75,6 +75,7 @@ public class Board {
         int temp = 0;
         for (Colors c : Colors.values()){
             temp += studEntrance.get(c)+newStud.get(c);
+
         }
         // TODO??
         if (temp > 9) {
@@ -110,6 +111,10 @@ public class Board {
      * test cases:
      *      - empty or null array TODO preset
      */
+
+    public void setStudEntrance(Map<Colors, Integer> studEntrance) {
+        this.studEntrance = studEntrance;
+    }
 
     /**
      * get methods
