@@ -23,6 +23,9 @@ public class BagNClouds {
         clouds = new ArrayList<>();
         for (int i=0; i<nPlayers; i++) {
             clouds.add(new HashMap<>());
+            for(Colors c : Colors.values()){
+                clouds.get(i).put(c, 0);
+            }
         }
 
         bag = new ArrayList<>();

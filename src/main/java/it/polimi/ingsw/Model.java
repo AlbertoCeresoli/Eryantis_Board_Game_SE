@@ -180,28 +180,36 @@ public class Model {
      */
     public int getWinner() {
         int winner = -1;
-        int winnerTowers = 8;
+        int winnerTowers = gameRules[2];
         for (int i = 0; i < playerInteraction.getPlayers().size(); i++) {
             if (islandInteraction.getTowersByPlayer()[i] < winnerTowers) {
                 winner = i;
                 winnerTowers = islandInteraction.getTowersByPlayer()[i];
             }
-            if (islandInteraction.getTowersByPlayer()[i] == winnerTowers) {
-                Arrays.sort(islandInteraction.getTowersByPlayer());
-                int current = 0;
-                int maxFrequency = 1;
-                int count = 1;
-                for (int j = 1; j < 5; j++) {
-                    if (islandInteraction.getTowersByPlayer()[j] == islandInteraction.getTowersByPlayer()[j - 1]) {
-                        count++;
-                        current = islandInteraction.getTowersByPlayer()[j];
-                    } else if (count > maxFrequency) {
-                        winner = current;
-                        maxFrequency = count;
-                        count = 1;
+        }
+        int[] nTeachers = new int[playerInteraction.getPlayers().size()];
+        for (Colors c : Colors.values()) {
+            nTeachers[islandInteraction.getTeachers().get(c)]++;
+        }
+        int i = 0;
+        OptionalInt maxT;
+        while (i >= 0 && i < nTeachers.length) {
+            if(i != winner) {
+                if (islandInteraction.getTowersByPlayer()[i] == winnerTowers) {
+                    maxT = Arrays.stream(nTeachers).max();
+                    for (int j = 0; j < nTeachers.length; j++) {
+                        if(j != winner) {
+                            if (nTeachers[j] == maxT.getAsInt() && nTeachers[winner] != maxT.getAsInt()) {
+                                return j;
+                            }
+                            if (nTeachers[j] == maxT.getAsInt() && nTeachers[winner] == maxT.getAsInt()) {
+                                return -1;
+                            }
+                        }
                     }
                 }
             }
+            i++;
         }
         return winner;
     }

@@ -5,6 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ModelTest {
@@ -54,19 +57,22 @@ public class ModelTest {
     @DisplayName("Testing Cloud to Entrance")
     void testStudentsFromCloudToEntrance(){
         assertTrue(model.initializeGame(),"Game Initialization failed");
-
-        /*Map<Colors, Integer> empty = new HashMap<>();
+        model.getBagNClouds().studentsBagToCloud();
+        Map<Colors, Integer> empty = new HashMap<>();
         for (Colors c : Colors.values()){
             empty.put(c, 0);
         }
-        model.getPlayerInteraction().getPlayer(0).getBoard().setStudEntrance(empty);
+        for(Colors c : Colors.values()) {
+            model.getPlayerInteraction().getPlayer(0).getBoard().getStudEntrance().put(c, 0);
+        }
         Map<Colors, Integer> expected = new HashMap<>();
         for (Colors c : Colors.values()){
             expected.put(c, model.getBagNClouds().getClouds().get(1).get(c));
         }
-         */
-       // TODO assertTrue(model.studentsCloudToEntrance(0, 1), "Action Failed");
-       // assertEquals(empty, model.getBagNClouds().getClouds().get(1), "Cloud wasn't reset");
+
+        assertTrue(model.studentsCloudToEntrance(0, 1), "Action Failed");
+        assertEquals(empty, model.getBagNClouds().getClouds().get(1), "Cloud wasn't reset");
+        assertEquals(expected, model.getPlayerInteraction().getPlayer(0).getBoard().getStudEntrance(), "Entrance wrong");
     }
 
 
@@ -86,5 +92,62 @@ public class ModelTest {
         assertTrue(model.moveMN(1),"MN shift failed");
         assertEquals(0, model.getIslandInteraction().getIslands().get(2).getInhibitionCards(), "IC removed badly");
     }
+
+    @Test
+    @DisplayName("Testing end game")
+    void testEndGame(){
+        assertTrue(model.initializeGame(),"Game Initialization failed");
+        assertFalse(model.endGame(), "Cards shouldn't already been used");
+        model.getBagNClouds().getBag().clear();
+        assertTrue(model.endGame(), "Bag should be empty");
+        setUp();
+        model.initializeGame();
+        for(int j = 0; j < model.getPlayerInteraction().getPlayers().size(); j++) {
+            for (int i = 0; i < model.getPlayerInteraction().getPlayer(j).getAssistants().size(); i++) {
+                model.getPlayerInteraction().getPlayer(j).getAssistants().get(i).setCardState(0);
+            }
+        }
+        assertTrue(model.endGame(), "Player 1's assistants should all be used");
+    }
+
+    @Test
+    @DisplayName("Testing Get Winner")
+    void testGetWinner(){
+        assertTrue(model.initializeGame(),"Game Initialization failed");
+        model.getIslandInteraction().getTeachers().put(Colors.BLUE,1);
+        model.getIslandInteraction().getTeachers().put(Colors.RED,1);
+        model.getIslandInteraction().getTeachers().put(Colors.PINK,2);
+        model.getIslandInteraction().getTeachers().put(Colors.GREEN,2);
+        model.getIslandInteraction().getTeachers().put(Colors.YELLOW,0);
+        model.getIslandInteraction().getTowersByPlayer()[0] = 6;
+        model.getIslandInteraction().getTowersByPlayer()[1] = 5;
+        model.getIslandInteraction().getTowersByPlayer()[2] = 5;
+        assertEquals(-1, model.getWinner(), "should be tied");
+
+        setUp();
+        assertTrue(model.initializeGame(),"Game Initialization failed");
+        model.getIslandInteraction().getTeachers().put(Colors.BLUE,1);
+        model.getIslandInteraction().getTeachers().put(Colors.RED,1);
+        model.getIslandInteraction().getTeachers().put(Colors.PINK,2);
+        model.getIslandInteraction().getTeachers().put(Colors.GREEN,2);
+        model.getIslandInteraction().getTeachers().put(Colors.YELLOW,0);
+        model.getIslandInteraction().getTowersByPlayer()[0] = 6;
+        model.getIslandInteraction().getTowersByPlayer()[1] = 5;
+        model.getIslandInteraction().getTowersByPlayer()[2] = 4;
+        assertEquals(2, model.getWinner(), "2 should win for towers");
+
+        setUp();
+        assertTrue(model.initializeGame(),"Game Initialization failed");
+        model.getIslandInteraction().getTeachers().put(Colors.BLUE,1);
+        model.getIslandInteraction().getTeachers().put(Colors.RED,2);
+        model.getIslandInteraction().getTeachers().put(Colors.PINK,2);
+        model.getIslandInteraction().getTeachers().put(Colors.GREEN,2);
+        model.getIslandInteraction().getTeachers().put(Colors.YELLOW,0);
+        model.getIslandInteraction().getTowersByPlayer()[0] = 6;
+        model.getIslandInteraction().getTowersByPlayer()[1] = 5;
+        model.getIslandInteraction().getTowersByPlayer()[2] = 5;
+        assertEquals(2, model.getWinner(), "2 should win for teachers");
+    }
+
 
 }
