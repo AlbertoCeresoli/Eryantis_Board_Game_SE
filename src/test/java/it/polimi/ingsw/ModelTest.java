@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Exceptions.EndGameException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -78,7 +79,7 @@ public class ModelTest {
 
     @Test
     @DisplayName("Testing Move Mother Nature")
-    void testMoveMN(){
+    void testMoveMN() throws EndGameException {
         assertTrue(model.initializeGame(),"Game Initialization failed");
         assertTrue(model.moveMN(4), "MN shift failed");
         assertEquals(4, model.getIslandInteraction().getMotherNature(), "MN moved badly");

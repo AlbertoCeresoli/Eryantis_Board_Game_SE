@@ -28,7 +28,7 @@ public class Card3 extends CharacterCards {
 	 */
 	@Override
 	public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
-		this.hasCalculateInfluence.calculateInfluence(variables.get(variables.get(Indexes.ISLAND_INDEX)), variables.get(Indexes.NUMBER_OF_PLAYERS));
+	//	this.hasCalculateInfluence.calculateInfluence(variables.get(variables.get(Indexes.ISLAND_INDEX)), variables.get(Indexes.NUMBER_OF_PLAYERS));
 		return true;
 	}
 }

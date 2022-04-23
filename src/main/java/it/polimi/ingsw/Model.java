@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.Cards.*;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
+import it.polimi.ingsw.Exceptions.EndGameException;
 
 import java.util.*;
 
@@ -283,12 +284,11 @@ public class Model {
         }
         return cards;
     }
-
     /**
      *  moves mother nature adding the steps choose by the player [mod n] where n is the number of islands "left"
      * @param steps number of steps Mother Nature has to do
      */
-    public boolean moveMN(int steps) {
+    public boolean moveMN(int steps) throws EndGameException {
         int MN = islandInteraction.getMotherNature();
         MN += steps;
         MN %= (islandInteraction.getIslands().size());

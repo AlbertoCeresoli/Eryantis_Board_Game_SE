@@ -6,9 +6,7 @@ import it.polimi.ingsw.Exceptions.EndGameException;
 import it.polimi.ingsw.Influence.Influence;
 import it.polimi.ingsw.Influence.NormalEffect;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence, hasSetInfluence, hasInhibitionCard, hasSetTeacher {
     private ArrayList<Island> islands;
@@ -46,8 +44,17 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
         } else {
             getIslands().get(island).removeTower();
             towersByPlayer[oldController] += oldNumTowers;
-            towersByPlayer[player] -= oldNumTowers;
-            getIslands().get(island).addTower(player, oldNumTowers);
+            if (towersByPlayer[player] < towersByPlayer[player] - oldNumTowers){
+                getIslands().get(island).addTower(player, towersByPlayer[player]);
+                towersByPlayer[player] = 0;
+            }else{
+                towersByPlayer[player] -= oldNumTowers;
+                getIslands().get(island).addTower(player, oldNumTowers);
+            }
+            if(towersByPlayer[player] == 0){
+                throw new EndGameException();
+            }
+
         }
         mergeIslands(island);
         return true;
@@ -154,7 +161,18 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
     }
 
     @Override
-    public void calculateInfluence(int island, int numberOfPlayers){
-        influence.calculateInfluence(teachers, getIslands().get(island), numberOfPlayers);
+    public void calculateInfluence(int island, int numberOfPlayers) throws EndGameException {
+        ArrayList<Integer> influences = influence.calculateInfluence(teachers, getIslands().get(island), numberOfPlayers);
+        int maxI = Collections.max(influences);
+        for (int i = 0; i < numberOfPlayers; i++){
+            if(influences.get(i) == maxI){
+                if(i == getIslands().get(island).getControllerIndex()){
+                    return;
+                }
+                else{
+                    placeTower(i, island);
+                }
+            }
+        }
     }
 }
