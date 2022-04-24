@@ -69,31 +69,30 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
         int newController = getIslands().get(islandIndex).getControllerIndex();
 
         //the controller is the same of the next island
-        if (newController == getIslands().get(islandIndex + 1).getControllerIndex()) {
+        if (newController == getIslands().get((islandIndex + 1) % getIslands().size()).getControllerIndex()) {
             //towers merge
-            int towersToMerge = getIslands().get(islandIndex + 1).getnTowers();
-            getIslands().get(islandIndex + 1).removeTower();
+            int towersToMerge = getIslands().get((islandIndex + 1) % getIslands().size()).getnTowers();
+            getIslands().get((islandIndex + 1) % getIslands().size()).removeTower();
             getIslands().get(islandIndex).addTower(newController, towersToMerge);
 
             //students merge
             Map<Colors, Integer> studentsToMerge;
-            studentsToMerge = getIslands().get(islandIndex + 1).getStudents();
+            studentsToMerge = getIslands().get((islandIndex + 1) % getIslands().size()).getStudents();
             getIslands().get(islandIndex).addStudents(studentsToMerge);
-            getIslands().remove(islandIndex + 1);
+            getIslands().remove((islandIndex + 1) % getIslands().size());
         }
-
         //the controller is the same of the previous island
-        if (newController == getIslands().get(islandIndex - 1).getControllerIndex()) {
+        if (newController == getIslands().get(Math.floorMod(islandIndex - 1, getIslands().size()) ).getControllerIndex()) {
             //towers merge
-            int towersToMerge = getIslands().get(islandIndex - 1).getnTowers();
-            getIslands().get(islandIndex - 1).removeTower();
+            int towersToMerge = getIslands().get(Math.floorMod(islandIndex - 1, getIslands().size()) ).getnTowers();
+            getIslands().get(Math.floorMod(islandIndex - 1, getIslands().size()) ).removeTower();
             getIslands().get(islandIndex).addTower(newController, towersToMerge);
 
             //students merge
             Map<Colors, Integer> studentsToMerge;
-            studentsToMerge = getIslands().get(islandIndex - 1).getStudents();
+            studentsToMerge = getIslands().get(Math.floorMod(islandIndex - 1, getIslands().size()) ).getStudents();
             getIslands().get(islandIndex).addStudents(studentsToMerge);
-            getIslands().remove(islandIndex - 1);
+            getIslands().remove(Math.floorMod(islandIndex - 1, getIslands().size()) );
         }
         if(getIslands().size() <= 3){
             throw new EndGameException();

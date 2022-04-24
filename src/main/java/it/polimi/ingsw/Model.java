@@ -63,6 +63,7 @@ public class Model {
      *  initializeIsland sets the first students in the islands,
      *  then fills the bags with the correct amount of remaining students
      */
+
     private void initializeIsland() {
         bagNClouds.fillBag(2);
         Map<Colors, Integer> temp;

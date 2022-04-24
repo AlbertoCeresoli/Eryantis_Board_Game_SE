@@ -81,17 +81,23 @@ public class ModelTest {
     @DisplayName("Testing Move Mother Nature")
     void testMoveMN() throws EndGameException {
         assertTrue(model.initializeGame(),"Game Initialization failed");
+        int MN = model.getIslandInteraction().getMotherNature();
         assertTrue(model.moveMN(4), "MN shift failed");
-        assertEquals(4, model.getIslandInteraction().getMotherNature(), "MN moved badly");
+        MN = (MN + 4) % model.getIslandInteraction().getIslands().size();
+        assertEquals(MN, model.getIslandInteraction().getMotherNature(), "MN moved badly");
         assertTrue(model.moveMN(10), "MN shift failed");
-        assertEquals(2, model.getIslandInteraction().getMotherNature(), "MN moved badly");
+        MN = (MN + 10) % model.getIslandInteraction().getIslands().size();
+        assertEquals(MN, model.getIslandInteraction().getMotherNature(), "MN moved badly");
         model.getIslandInteraction().getIslands().remove(1);
         assertTrue(model.moveMN(10), "MN shift failed");
-        assertEquals(1, model.getIslandInteraction().getMotherNature(), "MN moved badly");
-        model.getIslandInteraction().getIslands().get(2).addInhibitionCard();
-        assertEquals(1, model.getIslandInteraction().getIslands().get(2).getInhibitionCards(),"IC added badly");
+        MN = (MN + 10) % model.getIslandInteraction().getIslands().size();
+        assertEquals(MN, model.getIslandInteraction().getMotherNature(), "MN moved badly");
+        MN = (MN + 1) % model.getIslandInteraction().getIslands().size();
+        model.getIslandInteraction().getIslands().get(MN).addInhibitionCard();
+        assertEquals(1, model.getIslandInteraction().getIslands().get((MN + 1) % model.getIslandInteraction().getIslands().size()).getInhibitionCards(),"IC added badly");
         assertTrue(model.moveMN(1),"MN shift failed");
-        assertEquals(0, model.getIslandInteraction().getIslands().get(2).getInhibitionCards(), "IC removed badly");
+
+        assertEquals(0, model.getIslandInteraction().getIslands().get(MN).getInhibitionCards(), "IC removed badly");
     }
 
     @Test
