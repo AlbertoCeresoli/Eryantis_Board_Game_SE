@@ -34,6 +34,11 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
         }
         numberOfInhibitionCards = Constants.CARD5_NUMBER_INHIBITION_CARD;
         influence = new NormalEffect();
+
+
+        Random random = new Random();
+        motherNature = random.nextInt(12);
+
     }
 
     public boolean placeTower(int player, int island) throws EndGameException {

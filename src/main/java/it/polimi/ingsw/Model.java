@@ -10,7 +10,7 @@ import java.util.*;
 public class Model {
     private final PlayerInteraction playerInteraction;
     private CharacterCards[] characterCards;
-    private BagNClouds bagNClouds;
+    private final BagNClouds bagNClouds;
     private final IslandInteraction islandInteraction;
     public final int[] gameRules;
 
@@ -67,9 +67,11 @@ public class Model {
         bagNClouds.fillBag(2);
         Map<Colors, Integer> temp;
         //for 10 times: calls islandInteraction and add the students drawn from the bag
-        for (int i = 0; i < 10; i++) {
-            temp = bagNClouds.drawStudents(1);
-            islandInteraction.getIslands().get(i).addStudents(temp);
+        for (int i = 0; i < 12; i++) {
+            if (i != islandInteraction.getMotherNature() && i != (islandInteraction.getMotherNature() + 6) % 12) {
+                temp = bagNClouds.drawStudents(1);
+                islandInteraction.getIslands().get(i).addStudents(temp);
+            }
         }
         bagNClouds.fillBag(24);
     }
