@@ -46,6 +46,7 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
         int oldNumTowers = getIslands().get(island).getnTowers();
         if (oldController == -1) {
             getIslands().get(island).addTower(player, 1);
+            towersByPlayer[player]--;
         } else {
             getIslands().get(island).removeTower();
             towersByPlayer[oldController] += oldNumTowers;

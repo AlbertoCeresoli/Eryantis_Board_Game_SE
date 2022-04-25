@@ -39,7 +39,7 @@ public class Island {
      */
     public boolean addTower(int player, int towers){
         this.controllerIndex = player;
-        this.nTowers = towers;
+        this.nTowers += towers;
         return true;
     }
 

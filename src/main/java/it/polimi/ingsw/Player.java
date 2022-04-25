@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Player {
     private final Board board;
-    private ArrayList<AssistantCard> assistants;
+    private final ArrayList<AssistantCard> assistants;
     private String name;
     private int coins;
 
@@ -15,21 +15,19 @@ public class Player {
      * it call's Board's constructor
      *
      * 'name' string not initialized: TODO
-     * improve assistants: TODO
      */
     public Player() {
         coins = 1;
         board = new Board();
         assistants = new ArrayList<>();
         for (int i = 1; i <= Constants.NUMBER_OF_ASSISTANT_CARDS; i++){
-            assistants.add(new AssistantCard(2, i,  i/2));
+            assistants.add(new AssistantCard(2, i, (i+1)/2));
         }
     }
-    /**
-     * No test cases because there are no input values
-     */
 
     /**
+     * preset: 0 <= assistantIndex < NUMBER_OF_ASSISTANT_CARDS TODO
+     *
      * it changes the only enum with '1' in '0'
      * if the card in the input position has the enum equals to 2 then
      * it changes the enum in input position in '1'
@@ -55,11 +53,10 @@ public class Player {
     public void addCoin() {
         coins++;
     }
-    /**
-     * No test cases because there are no input values
-     */
 
     /**
+     * preset: cost>0 TODO
+     *
      * it checks if the player has enough coins
      * after that, if there are enough coins it does coins-=cost
      */
@@ -70,7 +67,6 @@ public class Player {
         coins -= cost;
         return true;
     }
-    // coins controlled in the preset
 
     /**
      * get methods

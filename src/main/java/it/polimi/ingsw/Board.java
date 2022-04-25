@@ -22,11 +22,10 @@ public class Board {
             studHall.put(c,0);
         }
     }
-    /**
-     * No test cases because there are no input values
-     */
 
     /**
+     * preset: students.size() != 0 TODO
+     *
      * This method verifies that the students of each color can't be more than 10
      * if the students doesn't exceed the cap than it adds 'students' Array in the arrayHall
      */
@@ -41,32 +40,20 @@ public class Board {
         }
         return true;
     }
-    /**
-     * test cases:
-     *      - empty or null array TODO preset
-     */
 
     /**
+     * preset: students.size() != 0 TODO
+     *
      * This method verifies if the students can be removed from the array studHall
      * if the students given can be removed then it removes them
      */
     public boolean removeFromHall(Map<Colors, Integer> students) {
-        for (Colors c : Colors.values()){
-            if (studHall.get(c)<students.get(c)){
-                return false;
-            }
-        }
-        for (Colors c : Colors.values()){
-            studHall.put(c, studHall.get(c)-students.get(c));
-        }
-        return true;
+        return remove(students, studHall);
     }
-    /**
-     * test cases:
-     *      - empty or null array TODO preset
-     */
 
     /**
+     * preset: newStud.size()!=0 TODO
+     *
      * This method checks if the given students plus the students already
      * in the entrance exceed the cap op the gameMode
      * if the students doesn't exceed the cap then it adds students in StudEntrance
@@ -87,30 +74,28 @@ public class Board {
         }
         return true;
     }
-    /**
-     * test cases:
-     *      - empty or null array TODO preset
-     */
 
     /**
+     * preset: students.size()!=0 TODO
+     *
      * This method verifies if the students can be removed from the array StudEntrance
      * if the students given can be removed then it removes them
      */
     public Boolean removeFromEntrance(Map<Colors, Integer> students){
+        return remove(students, studEntrance);
+    }
+
+    public Boolean remove(Map<Colors, Integer> students, Map<Colors, Integer> place){
         for (Colors c : Colors.values()){
-            if (students.get(c)>studEntrance.get(c)){
+            if (students.get(c)>place.get(c)){
                 return false;
             }
         }
         for (Colors c : Colors.values()){
-            studEntrance.put(c, studEntrance.get(c)-students.get(c));
+            place.put(c, place.get(c)-students.get(c));
         }
         return true;
     }
-    /**
-     * test cases:
-     *      - empty or null array TODO preset
-     */
 
     public void setStudEntrance(Map<Colors, Integer> studEntrance) {
         this.studEntrance = studEntrance;

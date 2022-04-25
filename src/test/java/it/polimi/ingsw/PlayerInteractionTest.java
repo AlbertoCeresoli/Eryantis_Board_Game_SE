@@ -13,7 +13,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
-    Unit test for Board class. Tests:
+    Unit test for PlayerInteraction class. Tests:
     - checkTeacher
     - playAssistantCard
  */
@@ -58,8 +58,24 @@ public class PlayerInteractionTest {
     @Test
     @DisplayName("simple cases")
     void testPlayAssistantCard(){
-        int[] cards = {3, 4};
-        int[] playerOrder = {0,1};
+        int[] cards = new int[nPlayers];
+        int[] playerOrder = new int[nPlayers];
+        int[] temp = new int[nPlayers];
+        if (nPlayers==2){
+            cards[0]=9;
+            cards[1]=4;
+            playerOrder[0]=1;
+            playerOrder[1]=0;
+        }
+        else if (nPlayers==3){
+            cards[0]=3;
+            cards[1]=4;
+            cards[2]=9;
+            playerOrder[0]=0;
+            playerOrder[1]=1;
+            playerOrder[2]=2;
+        }
+
         assertArrayEquals(playerOrder, playerInteraction.playAssistantCard(cards));
     }
 }

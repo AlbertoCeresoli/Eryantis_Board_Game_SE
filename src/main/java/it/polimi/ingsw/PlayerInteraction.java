@@ -14,6 +14,8 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
     private TeacherInterface teacherInterface;
 
     /**
+     * preset: nPlayers==2 or nPlayers==3 TODO
+     *
      * playerInteraction's constructor
      * it creates a Player class for each player and
      * also creates teacherInterface and initialize it to normalCheck
@@ -26,11 +28,10 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
             players.add(player);
         }
     }
-    /**
-     * test cases: TODO??
-     */
 
     /**
+     * preset: 0 <= actualPlayer < nPlayers TODO
+     *
      * Creates a temporary arraylist of integers
      * it collects in temp all the students with the specified color in the hall of each player
      * calls the correct checkTeacher following the TeacherInterface
@@ -43,38 +44,31 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
         }
         return teacherInterface.checkTeacher(temp, actualPlayer);
     }
-    /**
-     * Test cases:
-     *      - simple cases
-     *      - not acceptable color TODO
-     */
 
     /**
+     * preset: 0 <= cards[i] < NUMBER_OF_ASSISTANT_CARDS TODO
+     *
      * for each player:
      *     player[i].FixHand[Cards[i]]
      *     it calculates the players order for this round
      */
-
     public int[] playAssistantCard(int[] cards){
         int[] playerOrder = new int[players.size()];
         ArrayList<Integer> playerIndex= new ArrayList<>();
 
-        //Already played card controlled in the controller TODO
         for (int i=0; i< players.size(); i++){
             players.get(i).fixHand(cards[i]);
         }
 
-
-        //fill the array of the played assistant cards
+        //fill the array playerIndex
         for (int i=0; i< players.size(); i++){
             playerIndex.add(i);
         }
 
-        // order the array (used SelectionSort)(functional programming TODO??)
+        // order the array
         playerIndex.sort((Integer x, Integer y) ->
-                                    players.get(x).getAssistants().get(cards[x]).getPriority()-
+                        players.get(x).getAssistants().get(cards[x]).getPriority()-
                                             players.get(y).getAssistants().get(cards[y]).getPriority());
-
         for(int i=0; i<playerIndex.size(); i++){
             playerOrder[i] = playerIndex.get(i);
         }
@@ -82,10 +76,6 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
         return playerOrder;
 
     }
-
-    /**
-     * Test cases: TODO
-     */
 
     /**
      * get and set methods

@@ -2,18 +2,17 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.Colors;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class BagNClouds {
     private static int cloudCapacity;
-    private ArrayList<Colors> bag;
-    private ArrayList<Map<Colors, Integer>> clouds;
+    private final ArrayList<Colors> bag;
+    private final ArrayList<Map<Colors, Integer>> clouds;
 
 
     /**
+     *  preset: nPlayers==2 or nPlayers==3 TODO
+     *
      *  BagNClouds' constructor
      *  It also creates a cloud for each player in the game
      */
@@ -30,15 +29,15 @@ public class BagNClouds {
 
         bag = new ArrayList<>();
     }
-    /**
-     * test cases: TODO
-     */
 
     /**
-     * initialize a temporary ArrayList of 5 integers a 00000
+     * preset: n>0 TODO
+     *
+     * initialize a temporary ArrayList of 5 integers
      * for n:
      *      with a rand on the size of bag it removes the extracted cell from bag and puts the element in students
-     * it returns students
+     *
+     * return: "students"
      */
     public Map<Colors, Integer> drawStudents(int n) {
         Map<Colors, Integer> students= new HashMap<>();
@@ -57,12 +56,6 @@ public class BagNClouds {
         }
         return students;
     }
-    /**
-     * test cases:
-     *      - simple cases
-     *      - n>bag.size()
-     *      - n<0?? TODO??
-     */
 
     /**
      *  creates a temporary array of integers
@@ -80,29 +73,22 @@ public class BagNClouds {
             clouds.set(i, students);
         }
     }
-    /**
-     * test cases:
-     *      - simple cases
-     */
 
     /**
+     * preset: numStud>0 TODO
+     *
      * it adds 5*n students in the bag
      * each student's color is added n times
      */
     public void fillBag(int numStud){
         for (int i=0; i< numStud; i++){
-            for (Colors c : Colors.values()){
-                bag.add(c);
-            }
+            Collections.addAll(bag, Colors.values());
         }
     }
-    /**
-     * test cases:
-     *      - simple cases
-     *      - numStud<0 TODO??
-     */
 
     /**
+     * preset: 0 <= cloudIndex < nPlayers TODO
+     *
      * resetCloud: method that removes the given cloud from the arrayList
      * and replace it with an empty one
      */
@@ -114,23 +100,23 @@ public class BagNClouds {
         clouds.remove(cloudIndex);
         clouds.add(cloudIndex, clearCloud);
     }
-    /**
-     * test cases:
-     *      - simple cases
-     *      - case with not acceptable cloud index TODO??
-     */
 
     /**
      * method that check if the bag is empty
-     * TODO rivedere se è corretto o se si deve creare una flag in drawStudents
      */
     public boolean isEmpty(){
-        if (bag.size()==0) {
-            return true;
+        return bag.size() == 0;
+    }
+
+    public boolean emptyCloud(int cloudIndex){
+        boolean result = true;
+
+        for (Colors c: Colors.values()){
+            if (clouds.get(cloudIndex).get(c)!=0){
+                result= false;
+            }
         }
-        else {
-            return false;
-        }
+        return result;
     }
 
     /**

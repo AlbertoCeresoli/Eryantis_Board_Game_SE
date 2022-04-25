@@ -14,10 +14,11 @@ public class Model {
     private final IslandInteraction islandInteraction;
     public final int[] gameRules;
 
+
     /**
      * Model Constructor, it initializes everything
      *
-     * @param gameRules     array with specific constants referred to the played gamemode
+     * @param gameRules     array with specific constants referred to the played gameMode
      */
     public Model(int[] gameRules) {
         this.gameRules = gameRules;
@@ -27,7 +28,7 @@ public class Model {
         bagNClouds = new BagNClouds(this.gameRules[0]);
         //calls islandInteraction's constructor (input: nTowers)
         islandInteraction = new IslandInteraction(this.gameRules[2], this.gameRules[0]);
-        // if the gamemode is hard: calls draw3CC
+        // if the gameMode is hard: calls draw3CC
         if (this.gameRules[4] == 1) {
             this.characterCards = this.drawCharacterCards();
         }
@@ -91,10 +92,14 @@ public class Model {
             temp.put(c, 0);
         }
         temp.put(studColor, 1);
+        boolean result;
         ArrayList<Integer> newTeacherController;
 
         //remove from entrance
-        playerInteraction.getPlayers().get(player).getBoard().removeFromEntrance(temp);
+        result = playerInteraction.getPlayers().get(player).getBoard().removeFromEntrance(temp);
+        if (!result){
+            return false;
+        }
 
         //add to hall
         playerInteraction.getPlayers().get(player).getBoard().addToHall(temp);
@@ -110,9 +115,6 @@ public class Model {
         return true;
     }
 
-    public PlayerInteraction getPlayerInteraction() {
-        return playerInteraction;
-    }
 
     /**
      *  this moves 1 student per time from the entrance to the island
@@ -134,10 +136,6 @@ public class Model {
         islandInteraction.getIslands().get(island).addStudents(temp);
 
         return true;
-    }
-
-    public BagNClouds getBagNClouds() {
-        return bagNClouds;
     }
 
     /**
@@ -165,16 +163,21 @@ public class Model {
      * @return true if the game need to finish
      */
     public boolean endGame() {
+        boolean check = false;
+        boolean noMoreAC = true;
+
         if (bagNClouds.isEmpty())
-            return true;
+             check = true;
         for (int i = 0; i < playerInteraction.getPlayers().size(); i++) {
             for (int j = 0; j < 10; j++) {
                 if (playerInteraction.getPlayers().get(i).getAssistants().get(j).getCardState() != 0) {
-                    return false;
+                    noMoreAC = false;
                 }
             }
+            if (noMoreAC) {check = true;}
         }
-        return true;
+
+        return check;
     }
 
     /**
@@ -216,10 +219,6 @@ public class Model {
             i++;
         }
         return winner;
-    }
-
-    public IslandInteraction getIslandInteraction() {
-        return islandInteraction;
     }
 
     /**
@@ -305,5 +304,17 @@ public class Model {
             islandInteraction.calculateInfluence(MN, gameRules[0]);
         }
         return true;
+    }
+
+    public BagNClouds getBagNClouds() {
+        return bagNClouds;
+    }
+
+    public IslandInteraction getIslandInteraction() {
+        return islandInteraction;
+    }
+
+    public PlayerInteraction getPlayerInteraction() {
+        return playerInteraction;
     }
 }

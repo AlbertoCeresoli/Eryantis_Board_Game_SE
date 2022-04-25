@@ -24,7 +24,10 @@ public class BagNCloudsTest {
 
     @BeforeEach
     void setUp() {
-        bagNClouds = new BagNClouds(numPlayers);
+        if (numPlayers == 2 || numPlayers == 3){
+            bagNClouds = new BagNClouds(numPlayers);
+        }
+        else {System.out.println("not acceptable numPlayers, it must be 2 or 3");}
     }
 
     @Test
