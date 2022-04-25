@@ -1,21 +1,21 @@
 package it.polimi.ingsw.Cards;
 
-import it.polimi.ingsw.AssistantCard;
 import it.polimi.ingsw.Constants.Colors;
-import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.Indexes;
-import it.polimi.ingsw.Player;
 import it.polimi.ingsw.PlayerInteraction;
+import it.polimi.ingsw.hasAddStepsToMNMovement;
 
-import java.util.ArrayList;
 import java.util.Map;
 
-public class Card4 extends CharCardsPlayer {
+public class Card4 extends CharacterCards {
+    hasAddStepsToMNMovement hasAddStepsToMNMovement;
+
     /**
      * Card4 constructor
      */
     public Card4(int cost, PlayerInteraction playerInteraction) {
-        super(cost, playerInteraction);
+        super(cost);
+        this.hasAddStepsToMNMovement = playerInteraction;
     }
 
     /**
@@ -28,16 +28,9 @@ public class Card4 extends CharCardsPlayer {
      */
     @Override
     public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
-        Player player = getPlayerInteraction().getPlayers().get(variables.get(Indexes.PLAYER_INDEX));
-        ArrayList<AssistantCard> assistants = player.getAssistants();
-        int lastCardUsedIndex = -1;
-        for (int i = 0; i < Constants.NUMBER_OF_ASSISTANT_CARDS; i++) {
-            if (assistants.get(i).getCardState() == 1) {
-                lastCardUsedIndex = i;
-                i = Constants.NUMBER_OF_ASSISTANT_CARDS;
-            }
-        }
-        assistants.get(lastCardUsedIndex).setSteps(assistants.get(lastCardUsedIndex).getSteps() + Constants.CARD4_ADDITION_MOVEMENT);
+        //setting new possible movement for MN
+        hasAddStepsToMNMovement.addStepsToMNMovement(variables.get(Indexes.PLAYER_INDEX));
+
         return true;
     }
 }

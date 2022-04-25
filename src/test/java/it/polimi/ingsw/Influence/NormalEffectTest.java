@@ -18,6 +18,7 @@ public class NormalEffectTest {
 
     @BeforeEach
     void setup() {
+        //initializing
         normalEffect = new NormalEffect();
         island = new Island();
         teachers = new HashMap<>();
@@ -25,6 +26,7 @@ public class NormalEffectTest {
 
     @Test
     void normalEffectCalculateInfluenceTest() {
+        //creating students and adding them to the island
         Map<Colors, Integer> students = new HashMap<>();
         students.put(Colors.YELLOW, 1);
         students.put(Colors.BLUE, 1);
@@ -33,12 +35,14 @@ public class NormalEffectTest {
         students.put(Colors.PINK, 1);
         island.addStudents(students);
 
+        //initializing teachers' table for the test
         teachers.put(Colors.YELLOW, 0);
         teachers.put(Colors.BLUE, 0);
         teachers.put(Colors.GREEN, 1);
         teachers.put(Colors.RED, 1);
         teachers.put(Colors.PINK, 0);
 
+        //calculating influence
         ArrayList<Integer> influences = normalEffect.calculateInfluence(teachers, island, 2);
 
         assertEquals(3, (int) influences.get(0));
@@ -46,7 +50,8 @@ public class NormalEffectTest {
     }
 
     @Test
-    void normalEffectCalculateInfluenceTowersTest() {
+    void normalEffectCalculateInfluenceWithTowersTest() {
+        //creating students and adding them to the island
         Map<Colors, Integer> students = new HashMap<>();
         students.put(Colors.YELLOW, 1);
         students.put(Colors.BLUE, 1);
@@ -54,15 +59,19 @@ public class NormalEffectTest {
         students.put(Colors.RED, 1);
         students.put(Colors.PINK, 1);
         island.addStudents(students);
+
+        //adding towers to the island, which are controlled by player 0
         int towers = 2;
         island.addTower(0, towers);
 
+        //initializing teachers' table for the test
         teachers.put(Colors.YELLOW, 0);
         teachers.put(Colors.BLUE, 0);
         teachers.put(Colors.GREEN, 1);
         teachers.put(Colors.RED, 1);
         teachers.put(Colors.PINK, 0);
 
+        //calculating influence
         ArrayList<Integer> influences = normalEffect.calculateInfluence(teachers, island, 2);
 
         assertEquals(5, (int) influences.get(0));

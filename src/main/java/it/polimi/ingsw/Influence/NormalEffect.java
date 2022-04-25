@@ -29,7 +29,7 @@ public class NormalEffect implements Influence {
             if (i == controllerIndex) {
                 influence += island.getnTowers();
             }
-            for (Colors c: Colors.values()) {
+            for (Colors c : Colors.values()) {
                 if (teachers.get(c) == i) {
                     influence += students.get(c);
                 }

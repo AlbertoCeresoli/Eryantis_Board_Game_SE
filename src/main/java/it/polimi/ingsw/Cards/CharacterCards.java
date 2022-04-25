@@ -2,6 +2,7 @@ package it.polimi.ingsw.Cards;
 
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Indexes;
+import it.polimi.ingsw.Exceptions.EndGameException;
 import it.polimi.ingsw.Exceptions.OutOfBoundException;
 import it.polimi.ingsw.Exceptions.StudentNotAvailableException;
 import it.polimi.ingsw.Exceptions.WrongArrayException;
@@ -24,7 +25,7 @@ public abstract class CharacterCards {
         this.usedThisTurn = false;
     }
 
-    abstract public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) throws OutOfBoundException, StudentNotAvailableException, WrongArrayException;
+    abstract public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) throws OutOfBoundException, StudentNotAvailableException, WrongArrayException, EndGameException;
 
     /**
      * Cost has to be increased only when the card is used for the first time.

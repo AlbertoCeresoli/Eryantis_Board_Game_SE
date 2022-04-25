@@ -77,8 +77,7 @@ public class Card12Test {
                     check = false;
                     break;
                 }
-            }
-            else {
+            } else {
                 if (newStudents.get(i) != oldStudents.get(i) - 3) {
                     check = false;
                     break;

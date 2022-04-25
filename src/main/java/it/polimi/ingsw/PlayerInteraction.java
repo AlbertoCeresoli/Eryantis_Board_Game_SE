@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.Map;
 
 
-public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, hasHall, hasCard12Effect, hasCheckTeacher {
+public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, hasHall, hasCard12Effect, hasCheckTeacher, hasAddStepsToMNMovement {
     private final ArrayList<Player> players;
     private TeacherInterface teacherInterface;
 
@@ -134,5 +134,20 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
         }
 
         return count;
+    }
+
+    @Override
+    public void addStepsToMNMovement(int playerIndex) {
+        Player player = getPlayer(playerIndex);
+        ArrayList<AssistantCard> assistantCards = player.getAssistants();
+        int lastUsedCardIndex = -1;
+        for (int i = 0; i < Constants.NUMBER_OF_ASSISTANT_CARDS; i++) {
+            if (assistantCards.get(i).getCardState() == 1) {
+                lastUsedCardIndex = i;
+                i = Constants.NUMBER_OF_ASSISTANT_CARDS;
+            }
+        }
+
+        assistantCards.get(lastUsedCardIndex).setSteps(assistantCards.get(lastUsedCardIndex).steps + Constants.CARD4_ADDITION_MOVEMENT);
     }
 }

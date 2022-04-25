@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Influence;
 
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Island;
 
 import java.util.ArrayList;
@@ -14,9 +15,12 @@ public class Card8Effect extends OtherEffect {
         this.playerIndex = index;
     }
 
+    /**
+     * The method adds influence points to the player that played the card this turn
+     */
     @Override
     ArrayList<Integer> extra(Map<Colors, Integer> teachers, Island island, ArrayList<Integer> influences) {
-        influences.set(this.playerIndex, influences.get(playerIndex) + 2);
+        influences.set(this.playerIndex, influences.get(playerIndex) + Constants.CARD8_ADDITIONAL_INFLUENCE_POINTS);
         return influences;
     }
 }

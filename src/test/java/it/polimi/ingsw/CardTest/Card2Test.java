@@ -11,28 +11,28 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Card2Test {
-	Card2 card2;
-	PlayerInteraction playerInteraction;
+    Card2 card2;
+    PlayerInteraction playerInteraction;
 
-	@BeforeEach
-	void setup() {
-		//initializing playerInteraction
-		playerInteraction = new PlayerInteraction(3);
+    @BeforeEach
+    void setup() {
+        //initializing playerInteraction
+        playerInteraction = new PlayerInteraction(3);
 
-		//creating the card
-		card2 = new Card2(1, playerInteraction);
-	}
+        //creating the card
+        card2 = new Card2(1, playerInteraction);
+    }
 
-	/**
-	 * The test verifies that useEffect correctly sets the reference of TeacherInterface to EqualCheck
-	 */
-	@Test
-	void useEffectTest() {
-		//using card2's effect
-		card2.useEffect(null, Colors.YELLOW, null, null);
+    /**
+     * The test verifies that useEffect correctly sets the reference of TeacherInterface to EqualCheck
+     */
+    @Test
+    void useEffectTest() {
+        //using card2's effect
+        card2.useEffect(null, Colors.YELLOW, null, null);
 
-		//controlling that the set was correctly done
-		TeacherInterface teacherInterface = playerInteraction.getTeacherInterface();
-		assertTrue(teacherInterface instanceof EqualCheck);
-	}
+        //controlling that the set was correctly done
+        TeacherInterface teacherInterface = playerInteraction.getTeacherInterface();
+        assertTrue(teacherInterface instanceof EqualCheck);
+    }
 }

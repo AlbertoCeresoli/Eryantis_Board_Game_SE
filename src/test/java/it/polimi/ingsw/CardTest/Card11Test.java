@@ -3,11 +3,7 @@ package it.polimi.ingsw.CardTest;
 import it.polimi.ingsw.*;
 import it.polimi.ingsw.Cards.Card11;
 import it.polimi.ingsw.Constants.Colors;
-import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.Indexes;
-import it.polimi.ingsw.Exceptions.OutOfBoundException;
-import it.polimi.ingsw.Exceptions.StudentNotAvailableException;
-import it.polimi.ingsw.Exceptions.WrongArrayException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +16,7 @@ public class Card11Test {
     Card11 card11;
     PlayerInteraction playerInteraction;
     IslandInteraction islandInteraction;
+    int playerIndex = 0;
 
     @BeforeEach
     void setup() {
@@ -33,7 +30,7 @@ public class Card11Test {
         hall.put(Colors.GREEN, 2);
         hall.put(Colors.RED, 1);
         hall.put(Colors.PINK, 1);
-        playerInteraction.addToHall(0, hall);
+        playerInteraction.addToHall(playerIndex, hall);
 
         //initializing bagNClouds
         BagNClouds bagNClouds = new BagNClouds(3);
@@ -58,7 +55,7 @@ public class Card11Test {
     @Test
     void useEffectTest() {
         Map<Indexes, Integer> variables = new HashMap<>();
-        variables.put(Indexes.PLAYER_INDEX, 0);
+        variables.put(Indexes.PLAYER_INDEX, playerIndex);
 
         //creating students will be picked up from the card and put to the hall
         Map<Colors, Integer> students = new HashMap<>();

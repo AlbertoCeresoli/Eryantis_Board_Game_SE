@@ -17,6 +17,7 @@ public class Card10Test {
     Card10 card10;
     PlayerInteraction playerInteraction;
     IslandInteraction islandInteraction;
+    int playerIndex = 0;
 
     @BeforeEach
     void setup() {
@@ -41,8 +42,8 @@ public class Card10Test {
         hall.put(Colors.PINK, 1);
 
         //adding students to entrance and to hall
-        playerInteraction.addToEntrance(0, entrance);
-        playerInteraction.addToHall(0, hall);
+        playerInteraction.addToEntrance(playerIndex, entrance);
+        playerInteraction.addToHall(playerIndex, hall);
 
         //creating the card
         card10 = new Card10(1, playerInteraction, islandInteraction);
@@ -51,7 +52,7 @@ public class Card10Test {
     @Test
     void useEffectTest() {
         Map<Indexes, Integer> variables = new HashMap<>();
-        variables.put(Indexes.PLAYER_INDEX, 0);
+        variables.put(Indexes.PLAYER_INDEX, playerIndex);
 
         //creating students will be moved from entrance to hall
         Map<Colors, Integer> studentsEntranceToHall = new HashMap<>();
