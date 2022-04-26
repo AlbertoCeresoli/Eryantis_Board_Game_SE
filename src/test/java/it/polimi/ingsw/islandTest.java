@@ -37,7 +37,7 @@ public class islandTest {
         assertEquals(1, island.getnTowers(), "Tower added incorrectly");
         assertEquals(1, island.getControllerIndex(), "Controller assigned incorrectly");
         assertTrue(island.addTower(2,2), "Tower addition failed");
-        assertEquals(2, island.getnTowers(), "Tower added incorrectly");
+        assertEquals(3, island.getnTowers(), "Tower added incorrectly");
         assertEquals(2, island.getControllerIndex(), "Controller assigned incorrectly");
     }
 

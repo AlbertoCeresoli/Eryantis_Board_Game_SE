@@ -97,6 +97,10 @@ public class Board {
         return true;
     }
 
+    public void setStudHall(Map<Colors, Integer> studHall) {
+        this.studHall = studHall;
+    }
+
     public void setStudEntrance(Map<Colors, Integer> studEntrance) {
         this.studEntrance = studEntrance;
     }

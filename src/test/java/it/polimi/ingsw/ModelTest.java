@@ -31,14 +31,30 @@ public class ModelTest {
     @DisplayName("Test Entrance to Hall")
     void testMoveFromEntranceTotHall(){
         assertTrue(model.initializeGame(),"Game Initialization failed");
+
+        Map<Colors, Integer> temp1 = new HashMap<>(), temp2 = new HashMap<>();
+        temp1.put(Colors.RED, 2);
+        temp1.put(Colors.BLUE, 1);
+        temp1.put(Colors.PINK, 2);
+        temp1.put(Colors.YELLOW, 1);
+        temp1.put(Colors.GREEN, 1);
+        temp2.put(Colors.RED, 2);
+        temp2.put(Colors.BLUE, 1);
+        temp2.put(Colors.PINK, 2);
+        temp2.put(Colors.YELLOW, 1);
+        temp2.put(Colors.GREEN, 1);
+        model.getPlayerInteraction().getPlayers().get(2).getBoard().setStudHall(temp1);
+        model.getPlayerInteraction().getPlayers().get(2).getBoard().setStudEntrance(temp2);
+
         assertTrue(model.moveFromEntranceToHall(Colors.RED, 2), "Action failed");
-        assertTrue(model.moveFromEntranceToHall(Colors.RED, 2), "Action failed");
-        assertTrue(model.moveFromEntranceToHall(Colors.RED, 2), "Action failed");
+
         assertEquals(3, model.getPlayerInteraction().getPlayer(2).getBoard().getStudHall().get(Colors.RED),"Action Failed Miserably");
         assertEquals(1+1  , model.getPlayerInteraction().getPlayer(2).getCoins(), "Coin added Incorrectly");
         assertTrue(model.moveFromEntranceToHall(Colors.BLUE, 2), "Action failed");
-        assertEquals(1, model.getPlayerInteraction().getPlayer(2).getBoard().getStudHall().get(Colors.BLUE), "action gone wrong");
+        assertEquals(2, model.getPlayerInteraction().getPlayer(2).getBoard().getStudHall().get(Colors.BLUE), "action gone wrong");
         assertEquals(2, model.getIslandInteraction().getTeachers().get(Colors.RED));
+        model.getPlayerInteraction().getPlayers().get(1).getBoard().studEntrance.put(Colors.BLUE,3);
+        assertTrue(model.moveFromEntranceToHall(Colors.BLUE, 1), "Action failed");
         assertTrue(model.moveFromEntranceToHall(Colors.BLUE, 1), "Action failed");
         assertTrue(model.moveFromEntranceToHall(Colors.BLUE, 1), "Action failed");
         assertEquals(1, model.getIslandInteraction().getTeachers().get(Colors.BLUE), "Control hasn't changed");
@@ -92,8 +108,8 @@ public class ModelTest {
         assertTrue(model.moveMN(10), "MN shift failed");
         MN = (MN + 10) % model.getIslandInteraction().getIslands().size();
         assertEquals(MN, model.getIslandInteraction().getMotherNature(), "MN moved badly");
-        MN = (MN + 1) % model.getIslandInteraction().getIslands().size();
-        model.getIslandInteraction().getIslands().get(MN).addInhibitionCard();
+
+        model.getIslandInteraction().getIslands().get((MN + 1) % model.getIslandInteraction().getIslands().size()).addInhibitionCard();
         assertEquals(1, model.getIslandInteraction().getIslands().get((MN + 1) % model.getIslandInteraction().getIslands().size()).getInhibitionCards(),"IC added badly");
         assertTrue(model.moveMN(1),"MN shift failed");
 

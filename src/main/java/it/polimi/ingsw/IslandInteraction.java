@@ -94,6 +94,8 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
             studentsToMerge = getIslands().get(Math.floorMod(islandIndex - 1, getIslands().size()) ).getStudents();
             getIslands().get(islandIndex).addStudents(studentsToMerge);
             getIslands().remove(Math.floorMod(islandIndex - 1, getIslands().size()) );
+
+            motherNature--;
         }
         if(getIslands().size() <= 3){
             throw new EndGameException();
