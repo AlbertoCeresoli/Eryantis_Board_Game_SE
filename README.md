@@ -12,7 +12,8 @@
 | Multiple games   | ❌ |
 | Persistence      | 💭 |
 | 12 Characters    | ✅ |  
-| Freshness         | ✅ |
+| Freshness         | ✅ |  
+| Emotional Damage         | ✅ |
 
 
 <img src="https://www.craniocreations.it/wp-content/uploads/2021/06/Eriantys_scatola3Dombra.png" width=360px height=360 px align="right" />  
