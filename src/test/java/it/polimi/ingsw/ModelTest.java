@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Exceptions.EndGameException;
+import it.polimi.ingsw.Model.Model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,7 @@ public class ModelTest {
         assertTrue(model.moveFromEntranceToHall(Colors.BLUE, 2), "Action failed");
         assertEquals(2, model.getPlayerInteraction().getPlayer(2).getBoard().getStudHall().get(Colors.BLUE), "action gone wrong");
         assertEquals(2, model.getIslandInteraction().getTeachers().get(Colors.RED));
-        model.getPlayerInteraction().getPlayers().get(1).getBoard().studEntrance.put(Colors.BLUE,3);
+        model.getPlayerInteraction().getPlayers().get(1).getBoard().getStudEntrance().put(Colors.BLUE,3);
         assertTrue(model.moveFromEntranceToHall(Colors.BLUE, 1), "Action failed");
         assertTrue(model.moveFromEntranceToHall(Colors.BLUE, 1), "Action failed");
         assertTrue(model.moveFromEntranceToHall(Colors.BLUE, 1), "Action failed");

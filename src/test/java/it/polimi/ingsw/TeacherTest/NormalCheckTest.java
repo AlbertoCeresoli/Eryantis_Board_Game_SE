@@ -1,8 +1,8 @@
 package it.polimi.ingsw.TeacherTest;
 
 import it.polimi.ingsw.Constants.Colors;
-import it.polimi.ingsw.PlayerInteraction;
-import it.polimi.ingsw.Teacher.NormalCheck;
+import it.polimi.ingsw.Model.Player.PlayerInteraction;
+import it.polimi.ingsw.Model.Teacher.NormalCheck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,9 @@
 package it.polimi.ingsw.Influence;
 
 import it.polimi.ingsw.Constants.Colors;
-import it.polimi.ingsw.Island;
+import it.polimi.ingsw.Model.Island.Island;
+import it.polimi.ingsw.Model.Influence.Influence;
+import it.polimi.ingsw.Model.Influence.NormalEffect;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

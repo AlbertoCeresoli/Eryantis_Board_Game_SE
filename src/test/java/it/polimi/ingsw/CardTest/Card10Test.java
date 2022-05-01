@@ -1,10 +1,10 @@
 package it.polimi.ingsw.CardTest;
 
-import it.polimi.ingsw.Cards.Card10;
+import it.polimi.ingsw.Model.Cards.Card10;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Indexes;
-import it.polimi.ingsw.IslandInteraction;
-import it.polimi.ingsw.PlayerInteraction;
+import it.polimi.ingsw.Model.Island.IslandInteraction;
+import it.polimi.ingsw.Model.Player.PlayerInteraction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

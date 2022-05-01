@@ -1,9 +1,11 @@
 package it.polimi.ingsw.CardTest;
 
-import it.polimi.ingsw.*;
-import it.polimi.ingsw.Cards.Card11;
+import it.polimi.ingsw.Model.BagNClouds.BagNClouds;
+import it.polimi.ingsw.Model.Cards.Card11;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Indexes;
+import it.polimi.ingsw.Model.Island.IslandInteraction;
+import it.polimi.ingsw.Model.Player.PlayerInteraction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

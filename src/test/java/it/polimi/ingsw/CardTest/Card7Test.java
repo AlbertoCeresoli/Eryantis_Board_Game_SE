@@ -1,9 +1,9 @@
 package it.polimi.ingsw.CardTest;
 
-import it.polimi.ingsw.*;
-import it.polimi.ingsw.Cards.Card7;
+import it.polimi.ingsw.Model.Cards.Card7;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Indexes;
+import it.polimi.ingsw.Model.Player.PlayerInteraction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

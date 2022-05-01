@@ -1,10 +1,10 @@
 package it.polimi.ingsw.CardTest;
 
-import it.polimi.ingsw.Cards.Card6;
+import it.polimi.ingsw.Model.Cards.Card6;
 import it.polimi.ingsw.Constants.Colors;
-import it.polimi.ingsw.Influence.Card6Effect;
-import it.polimi.ingsw.Influence.Influence;
-import it.polimi.ingsw.IslandInteraction;
+import it.polimi.ingsw.Model.Influence.Card6Effect;
+import it.polimi.ingsw.Model.Influence.Influence;
+import it.polimi.ingsw.Model.Island.IslandInteraction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

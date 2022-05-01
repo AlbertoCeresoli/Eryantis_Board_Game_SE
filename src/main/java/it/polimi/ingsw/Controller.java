@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Exceptions.EndGameException;
+import it.polimi.ingsw.Model.Model;
 
 import java.util.Random;
 import java.util.Scanner;

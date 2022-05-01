@@ -1,14 +1,15 @@
 package it.polimi.ingsw;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Model.Player.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
      Unit test for Board class. Tests:

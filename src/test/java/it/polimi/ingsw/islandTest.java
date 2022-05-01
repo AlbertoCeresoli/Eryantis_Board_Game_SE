@@ -1,6 +1,8 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Model.Island.Island;
+import it.polimi.ingsw.Model.Player.PlayerInteraction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -69,6 +71,6 @@ public class islandTest {
 
         island.addStudents(finalStudents);
 
-        assertEquals(finalStudents, island.students, "Students addition failed");
+        assertEquals(finalStudents, island.getStudents(), "Students addition failed");
     }
 }

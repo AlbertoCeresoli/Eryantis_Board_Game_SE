@@ -1,10 +1,10 @@
 package it.polimi.ingsw.CardTest;
 
-import it.polimi.ingsw.Cards.Card2;
+import it.polimi.ingsw.Model.Cards.Card2;
 import it.polimi.ingsw.Constants.Colors;
-import it.polimi.ingsw.PlayerInteraction;
-import it.polimi.ingsw.Teacher.EqualCheck;
-import it.polimi.ingsw.Teacher.TeacherInterface;
+import it.polimi.ingsw.Model.Player.PlayerInteraction;
+import it.polimi.ingsw.Model.Teacher.EqualCheck;
+import it.polimi.ingsw.Model.Teacher.TeacherInterface;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
