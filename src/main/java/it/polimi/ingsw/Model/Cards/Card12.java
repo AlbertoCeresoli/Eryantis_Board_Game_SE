@@ -22,6 +22,9 @@ public class Card12 extends CharacterCards {
         super(cost);
         this.hasCard12Effect = playerInteraction;
         this.hasAddToBag = bagNClouds;
+
+        effect = "Card effect";
+        cardIndex = 12;
     }
 
     /**

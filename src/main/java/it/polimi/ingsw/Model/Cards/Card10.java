@@ -27,6 +27,9 @@ public class Card10 extends CharacterCards {
         hasHall = playerInteraction;
         hasCheckTeacher = playerInteraction;
         hasSetTeacher = islandInteraction;
+
+        effect = "Card effect";
+        cardIndex = 10;
     }
 
     /**

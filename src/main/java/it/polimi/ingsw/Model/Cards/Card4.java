@@ -16,6 +16,9 @@ public class Card4 extends CharacterCards {
     public Card4(int cost, PlayerInteraction playerInteraction) {
         super(cost);
         this.hasAddStepsToMNMovement = playerInteraction;
+
+        effect = "Card effect";
+        cardIndex = 4;
     }
 
     /**

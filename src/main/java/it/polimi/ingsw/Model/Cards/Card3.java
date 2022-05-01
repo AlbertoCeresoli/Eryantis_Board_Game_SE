@@ -17,6 +17,9 @@ public class Card3 extends CharacterCards {
     public Card3(int cost, IslandInteraction islandInteraction) {
         super(cost);
         this.hasCalculateInfluence = islandInteraction;
+
+        effect = "Card effect";
+        cardIndex = 3;
     }
 
     /**

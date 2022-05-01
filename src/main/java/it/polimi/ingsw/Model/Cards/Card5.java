@@ -17,6 +17,9 @@ public class Card5 extends CharacterCards {
     public Card5(int cost, IslandInteraction islandInteraction) {
         super(cost);
         this.hasInhibitionCard = islandInteraction;
+
+        effect = "Card effect";
+        cardIndex = 5;
     }
 
     /**

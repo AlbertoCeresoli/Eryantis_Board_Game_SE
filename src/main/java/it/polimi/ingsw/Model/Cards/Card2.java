@@ -17,6 +17,9 @@ public class Card2 extends CharacterCards {
     public Card2(int cost, PlayerInteraction playerInteraction) {
         super(cost);
         this.hasSetTeacherInterface = playerInteraction;
+
+        effect = "Card effect";
+        cardIndex = 2;
     }
 
     /**

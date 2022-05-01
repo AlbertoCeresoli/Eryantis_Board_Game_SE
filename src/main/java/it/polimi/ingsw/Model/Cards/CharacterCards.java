@@ -7,12 +7,15 @@ import it.polimi.ingsw.Exceptions.OutOfBoundException;
 import it.polimi.ingsw.Exceptions.StudentNotAvailableException;
 import it.polimi.ingsw.Exceptions.WrongArrayException;
 
+import java.lang.reflect.Parameter;
 import java.util.Map;
 
 public abstract class CharacterCards {
     private int cost;
     private boolean usedThisTurn;
     private boolean usedThisGame;
+    protected String effect;
+    protected int cardIndex;
 
     /**
      * CharacterCards' constructor
@@ -45,6 +48,14 @@ public abstract class CharacterCards {
 
     public boolean isUsedThisGame() {
         return usedThisGame;
+    }
+
+    public String getEffect() {
+        return effect;
+    }
+
+    public int getCardIndex() {
+        return cardIndex;
     }
 
     public void setCost(int cost) {

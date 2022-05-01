@@ -17,6 +17,9 @@ public class Card6 extends CharacterCards {
     public Card6(int cost, IslandInteraction islandInteraction) {
         super(cost);
         hasSetInfluence = islandInteraction;
+
+        effect = "Card effect";
+        cardIndex = 6;
     }
 
     /**

@@ -320,4 +320,8 @@ public class Model {
     public PlayerInteraction getPlayerInteraction() {
         return playerInteraction;
     }
+
+    public CharacterCards[] getCharacterCards() {
+        return characterCards;
+    }
 }

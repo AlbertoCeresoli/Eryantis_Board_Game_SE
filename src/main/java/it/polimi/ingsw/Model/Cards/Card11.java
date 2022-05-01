@@ -43,6 +43,9 @@ public class Card11 extends CharacterCards {
         for (Colors c : Colors.values()) {
             this.students.put(c, students.get(c));
         }
+
+        effect = "Card effect";
+        cardIndex = 11;
     }
 
     /**
