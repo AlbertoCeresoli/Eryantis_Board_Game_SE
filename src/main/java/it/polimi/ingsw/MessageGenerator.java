@@ -54,7 +54,7 @@ public class MessageGenerator {
                 message.put(MessageType.NOT_VALID_INDEX, "not valid index, the input must be in (0 - " + islandSize + ")");
             }
             else {
-                message.put(MessageType.CORRECT_INPUT, "You have selected the " + index + " island");
+                message.put(MessageType.CORRECT_INPUT, "You have selected the island " + index);
             }
         }
         catch (NumberFormatException e) {
@@ -172,9 +172,12 @@ public class MessageGenerator {
             if (index>=0 && index <3){
                 message.put(MessageType.CORRECT_INPUT, "Card " + index + " selected");
             }
+            else {
+                message.put(MessageType.NOT_VALID_INDEX, "Not valid index, the input must be 0 or 1 or 2");
+            }
         }
         catch (NumberFormatException e) {
-            message.put(MessageType.NOT_VALID_INPUT, "not valid Input, the input must be 0 or 1 or 2");
+            message.put(MessageType.NOT_VALID_INPUT, "Not valid input, the input must be 0 or 1 or 2");
         }
 
         return message;
