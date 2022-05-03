@@ -1,0 +1,29 @@
+package it.polimi.ingsw;
+
+import it.polimi.ingsw.Constants.Colors;
+
+import java.util.Scanner;
+
+public class AllIslandsParser implements Parser {
+    @Override
+    public void parse(String s) {
+        Scanner scanner = new Scanner(s);
+        int numberOfIslands = scanner.nextInt();
+        for (int i = 0; i < numberOfIslands; i++) {
+            String island = "";
+            island += scanner.next() + "\n";
+            island += scanner.next() + "\n";
+            for (Colors c : Colors.values()) {
+                island += "" + scanner.next() + "\n";
+            }
+            island += scanner.next() + "\n";
+            island += scanner.next() + "\n";
+            island += scanner.next() + "\n";
+
+            Parser islandPrinter = new IslandParser();
+            islandPrinter.parse(island);
+        }
+
+        scanner.close();
+    }
+}
