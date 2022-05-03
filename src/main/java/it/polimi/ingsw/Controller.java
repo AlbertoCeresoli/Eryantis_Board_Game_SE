@@ -20,26 +20,27 @@ public class Controller {
      * Controller's constructor
      * it initializes controller's attributes and calls model's constructor
      */
-    public Controller(int numberPlayers, boolean gameMode){
+    public Controller(int numberPlayers, boolean gameMode) {
         int[] gameRules = new int[5];
-        gameRules[0]= numberPlayers;
+        gameRules[0] = numberPlayers;
         //2 players rules
-        if (numberPlayers==2){
-            gameRules[1]=7;
-            gameRules[2]=8;
-            gameRules[3]=0;
+        if (numberPlayers == 2) {
+            gameRules[1] = 7;
+            gameRules[2] = 8;
+            gameRules[3] = 0;
         }
         //3 players rules
-        if (numberPlayers==3){
-            gameRules[1]=9;
-            gameRules[2]=6;
-            gameRules[3]=0;
+        if (numberPlayers == 3) {
+            gameRules[1] = 9;
+            gameRules[2] = 6;
+            gameRules[3] = 0;
         }
         //gameMode hard
-        if (gameMode){
-            gameRules[4]= 1;
+        if (gameMode) {
+            gameRules[4] = 1;
+        } else {
+            gameRules[4] = 0;
         }
-        else {gameRules[4]=0;}
         model = new Model(gameRules);
         messageGenerator = new MessageGenerator();
 
@@ -49,7 +50,7 @@ public class Controller {
     /**
      * si occupa di chiamare round fino a quando il flag di fine partita non si alza
      */
-    public void startGame(Scanner input){
+    public void startGame(Scanner input) {
         model.initializeGame();
 
         //selection of the first player
@@ -67,7 +68,7 @@ public class Controller {
     /**
      *
      */
-    public void round(Scanner input){
+    public void round(Scanner input) {
         int[] cards = new int[model.gameRules[0]];
         int[] playerOrder;
 
@@ -75,11 +76,11 @@ public class Controller {
         model.getBagNClouds().studentsBagToCloud();
 
         //play assistant card
-        for (int i=0; i<model.gameRules[0]; i++){
-            cards[i]=-1;
+        for (int i = 0; i < model.gameRules[0]; i++) {
+            cards[i] = -1;
         }
 
-        for (int i=0; i<model.gameRules[0]; i++){
+        for (int i = 0; i < model.gameRules[0]; i++) {
             int player = (firstPlayer + i) % model.gameRules[0];
             System.out.println("assistant cards of " + player);
             printAssistantCards(player);
@@ -91,7 +92,7 @@ public class Controller {
         firstPlayer = playerOrder[0];
 
         System.out.println("the player order in this round will be:");
-        for (int i=0; i<model.gameRules[0]; i++) {
+        for (int i = 0; i < model.gameRules[0]; i++) {
             System.out.println(playerOrder[i] + " ");
         }
 
@@ -103,12 +104,12 @@ public class Controller {
 
 
         //for the number of players
-        for (int i=0; i<model.gameRules[0]; i++){
+        for (int i = 0; i < model.gameRules[0]; i++) {
             System.out.println("Player " + playerOrder[i] + ": it's your turn");
 
             //1) student movement
             //for the students to move
-            for (int j=0; j<model.gameRules[0]+1; j++){
+            for (int j = 0; j < model.gameRules[0] + 1; j++) {
                 boolean result = true;
                 //select the color of the student to move
                 while (result) {
@@ -116,10 +117,9 @@ public class Controller {
                     printStudents(playerOrder[i]);
                     temp = getTheLine(ObjectsToSelect.COLOR, cards, playerOrder[i], input);
                     color = Colors.valueOf(temp.toUpperCase());
-                    if (model.getPlayerInteraction().getPlayer(playerOrder[i]).getBoard().getStudEntrance().get(color)>0){
+                    if (model.getPlayerInteraction().getPlayer(playerOrder[i]).getBoard().getStudEntrance().get(color) > 0) {
                         result = false;
-                    }
-                    else {
+                    } else {
                         System.out.println("you don't have " + color + " students in Entrance");
                     }
                 }
@@ -130,12 +130,12 @@ public class Controller {
                 while (temp.equals("false")) {
                     temp = getTheLine(ObjectsToSelect.PLACE, cards, playerOrder[i], input);
                 }
-                if (temp.equalsIgnoreCase("Hall")){
+                if (temp.equalsIgnoreCase("Hall")) {
                     model.moveFromEntranceToHall(color, playerOrder[i]);
                     System.out.println("One " + color + " student moved from entrance to hall");
                     printTeachers();
                 }
-                if (temp.equalsIgnoreCase("Island")){
+                if (temp.equalsIgnoreCase("Island")) {
                     System.out.println("Select the island:");
                     temp = getTheLine(ObjectsToSelect.ISLAND, cards, playerOrder[i], input);
                     index = Integer.parseInt(temp);
@@ -152,14 +152,12 @@ public class Controller {
             index = Integer.parseInt(temp);
             try {
                 model.moveMN(index);
-            }
-            catch (EndGameException e){
+            } catch (EndGameException e) {
                 end = true;
                 int winner = model.getWinner();
                 if (winner == -1) {
                     System.out.println("The game ended with a tie");
-                }
-                else {
+                } else {
                     System.out.println("The winner is player " + winner);
                 }
                 return;
@@ -175,22 +173,21 @@ public class Controller {
             model.studentsCloudToEntrance(playerOrder[i], index);
             System.out.println("Cloud " + index + " students moved in the Entrance of player " + playerOrder[i]);
 
-            if (model.endGame()){
+            if (model.endGame()) {
                 end = true;
                 int winner = model.getWinner();
                 if (winner == -1) {
                     System.out.println("The game ended with a tie");
-                }
-                else {
+                } else {
                     System.out.println("The winner is player " + winner);
                 }
             }
         }
     }
 
-    public String getTheLine(ObjectsToSelect selection, int[] cards, int player, Scanner input){
+    public String getTheLine(ObjectsToSelect selection, int[] cards, int player, Scanner input) {
         String result;
-        result=input.nextLine();
+        result = input.nextLine();
         Map<MessageType, String> message;
 
         //command card
@@ -204,26 +201,24 @@ public class Controller {
                 cardNumber = Integer.parseInt(getTheLine(ObjectsToSelect.CHARACTER_CARD, cards, player, input));
                 playCard(cardNumber, player, input);
                 return getTheLine(selection, cards, player, input);
-            }
-            else {
+            } else {
                 System.out.println("You are playing a game in easy mode, there are no character cards");
             }
         }
 
         //Show character cards
-        if (result.equalsIgnoreCase("CHARACTER CARDS")){
+        if (result.equalsIgnoreCase("CHARACTER CARDS")) {
             if (model.gameRules[4] == 1) {
                 printCards();
                 return getTheLine(selection, cards, player, input);
-            }
-            else {
+            } else {
                 System.out.println("You are playing a game in easy mode, there are no character cards");
             }
         }
 
         //extra commands
         //print all the students of the player
-        if (result.equalsIgnoreCase("STUDENTS")){
+        if (result.equalsIgnoreCase("STUDENTS")) {
             int index;
             System.out.println("Select the player:");
             index = Integer.parseInt(getTheLine(ObjectsToSelect.PLAYER, cards, player, input));
@@ -232,25 +227,25 @@ public class Controller {
         }
 
         //Show islands
-        if (result.equalsIgnoreCase("ISLANDS")){
+        if (result.equalsIgnoreCase("ISLANDS")) {
             printIslands();
             return getTheLine(selection, cards, player, input);
         }
 
         //Show clouds
-        if (result.equalsIgnoreCase("CLOUDS")){
+        if (result.equalsIgnoreCase("CLOUDS")) {
             printClouds();
             return getTheLine(selection, cards, player, input);
         }
 
         //Show teachers
-        if (result.equalsIgnoreCase("TEACHERS")){
+        if (result.equalsIgnoreCase("TEACHERS")) {
             printTeachers();
             return getTheLine(selection, cards, player, input);
         }
 
         //Show assistant cards
-        if (result.equalsIgnoreCase("ASSISTANT CARDS")){
+        if (result.equalsIgnoreCase("ASSISTANT CARDS")) {
             int index;
             System.out.println("Select the player:");
             index = Integer.parseInt(getTheLine(ObjectsToSelect.PLAYER, cards, player, input));
@@ -259,7 +254,7 @@ public class Controller {
         }
 
         //help
-        if (result.equalsIgnoreCase("HELP")){
+        if (result.equalsIgnoreCase("HELP")) {
             System.out.println("Students: shows all the students in the board");
             System.out.println("Islands: shows all the islands of the game");
             System.out.println("Clouds: shows all the clouds");
@@ -282,23 +277,19 @@ public class Controller {
             case CHARACTER_CARD -> messageGenerator.characterCardSelection(result);
         };
 
-        if(message.containsKey(MessageType.CORRECT_INPUT)){
+        if (message.containsKey(MessageType.CORRECT_INPUT)) {
             System.out.println(message.get(MessageType.CORRECT_INPUT));
             return result;
-        }
-        else if (message.containsKey(MessageType.NOT_VALID_INPUT)){
+        } else if (message.containsKey(MessageType.NOT_VALID_INPUT)) {
             System.out.println(message.get(MessageType.NOT_VALID_INPUT));
             return getTheLine(selection, cards, player, input);
-        }
-        else if (message.containsKey(MessageType.NOT_VALID_INDEX)){
+        } else if (message.containsKey(MessageType.NOT_VALID_INDEX)) {
             System.out.println(message.get(MessageType.NOT_VALID_INDEX));
             return getTheLine(selection, cards, player, input);
-        }
-        else if (message.containsKey(MessageType.ALREADY_PLAYED)){
+        } else if (message.containsKey(MessageType.ALREADY_PLAYED)) {
             System.out.println(message.get(MessageType.ALREADY_PLAYED));
             return getTheLine(selection, cards, player, input);
-        }
-        else if (message.containsKey(MessageType.ALREADY_PLAYED_THIS_TURN)){
+        } else if (message.containsKey(MessageType.ALREADY_PLAYED_THIS_TURN)) {
             System.out.println(message.get(MessageType.ALREADY_PLAYED_THIS_TURN));
             return getTheLine(selection, cards, player, input);
         }
@@ -307,40 +298,40 @@ public class Controller {
     }
 
     /**
-     *  se il costo della carta è superiore alle monete del player non fa nulla
-     *  se il costo è inferiore
-     * 	    riduce il numero di monete in mano al player
-     * 	    incrementa il costo della carta se il booleano firstuUsed è = 0
-     * 	    accede all’indice corretto della carta giocata dall’array del model
-     * 	    chiama useEffect della carta passando in input i valori necessari
+     * se il costo della carta è superiore alle monete del player non fa nulla
+     * se il costo è inferiore
+     * riduce il numero di monete in mano al player
+     * incrementa il costo della carta se il booleano firstuUsed è = 0
+     * accede all’indice corretto della carta giocata dall’array del model
+     * chiama useEffect della carta passando in input i valori necessari
      */
-    public void playCard(int cardPlayed, int player, Scanner input){
+    public void playCard(int cardPlayed, int player, Scanner input) {
         Map<Indexes, Integer> index = new HashMap<>();
         Colors color = null;
         Map<Colors, Integer> StudMap1 = new HashMap<>();
         Map<Colors, Integer> StudMap2 = new HashMap<>();
 
-        for (Indexes i: Indexes.values()){
+        for (Indexes i : Indexes.values()) {
             index.put(i, -1);
         }
-        for (Colors c: Colors.values()){
+        for (Colors c : Colors.values()) {
             StudMap1.put(c, 0);
         }
-        for (Colors c: Colors.values()){
+        for (Colors c : Colors.values()) {
             StudMap2.put(c, 0);
         }
 
-        if (!(model.getCharacterCards()[cardPlayed].isUsedThisTurn())){
+        if (!(model.getCharacterCards()[cardPlayed].isUsedThisTurn())) {
             if (model.getPlayerInteraction().getPlayer(player).getCoins() >= model.getCharacterCards()[cardPlayed].getCost()) {
                 model.getPlayerInteraction().getPlayer(player).removeCoins(model.getCharacterCards()[cardPlayed].getCost());
                 if (!(model.getCharacterCards()[cardPlayed].isUsedThisGame())) {
                     model.getCharacterCards()[cardPlayed].increaseCost();
                 }
 
-                switch (model.getCharacterCards()[cardPlayed].getCardIndex()){
+                switch (model.getCharacterCards()[cardPlayed].getCardIndex()) {
                     case 1:
                         System.out.println("Select the colors of the student you want to move from the Card to the island");
-                        for (int i=0; i<Constants.CARD1_STUDENTS_TO_MOVE; i++){
+                        for (int i = 0; i < Constants.CARD1_STUDENTS_TO_MOVE; i++) {
                             StudMap1.put(Colors.valueOf(getTheLine(ObjectsToSelect.COLOR, null, -1, input)), 1);
                         }
                         System.out.println("Select the island:");
@@ -364,11 +355,11 @@ public class Controller {
                     case 7:
                         index.put(Indexes.PLAYER_INDEX, player);
                         System.out.println("Select the students you want to take from the card:");
-                        for (int i=0; i<Constants.CARD7_MAX_STUDENTS_TO_MOVE; i++){
+                        for (int i = 0; i < Constants.CARD7_MAX_STUDENTS_TO_MOVE; i++) {
                             StudMap1.put(Colors.valueOf(getTheLine(ObjectsToSelect.COLOR, null, -1, input)), 1);
                         }
                         System.out.println("Select the students you want to remove from the Entrance:");
-                        for (int i=0; i<Constants.CARD7_MAX_STUDENTS_TO_MOVE; i++){
+                        for (int i = 0; i < Constants.CARD7_MAX_STUDENTS_TO_MOVE; i++) {
                             StudMap2.put(Colors.valueOf(getTheLine(ObjectsToSelect.COLOR, null, -1, input)), 1);
                         }
                         break;
@@ -379,11 +370,11 @@ public class Controller {
                     case 10:
                         index.put(Indexes.PLAYER_INDEX, player);
                         System.out.println("Select the students in Entrance:");
-                        for (int i=0; i<Constants.CARD10_MAX_STUDENTS_TO_MOVE; i++){
+                        for (int i = 0; i < Constants.CARD10_MAX_STUDENTS_TO_MOVE; i++) {
                             StudMap1.put(Colors.valueOf(getTheLine(ObjectsToSelect.COLOR, null, -1, input)), 1);
                         }
                         System.out.println("Select the students in Hall:");
-                        for (int i=0; i<Constants.CARD10_MAX_STUDENTS_TO_MOVE; i++){
+                        for (int i = 0; i < Constants.CARD10_MAX_STUDENTS_TO_MOVE; i++) {
                             StudMap2.put(Colors.valueOf(getTheLine(ObjectsToSelect.COLOR, null, -1, input)), 1);
                         }
                         break;
@@ -411,8 +402,7 @@ public class Controller {
             } else {
                 System.out.println("You don't have enough coins");
             }
-        }
-        else {
+        } else {
             System.out.println("This card has already been played this turn");
         }
     }
@@ -420,19 +410,19 @@ public class Controller {
     /**
      * prints methods
      */
-    public void printStudents(int playerIndex){
+    public void printStudents(int playerIndex) {
         System.out.println("Students in player " + playerIndex + " Entrance:");
-        for (Colors c: Colors.values()){
+        for (Colors c : Colors.values()) {
             System.out.println(c + ": " + model.getPlayerInteraction().getPlayer(playerIndex).getBoard().getStudEntrance().get(c));
         }
         System.out.println("Students in player " + playerIndex + " Hall:");
-        for (Colors c: Colors.values()){
+        for (Colors c : Colors.values()) {
             System.out.println(c + ": " + model.getPlayerInteraction().getPlayer(playerIndex).getBoard().getStudHall().get(c));
         }
     }
 
-    public void printIslands(){
-        for (int i=0; i<model.getIslandInteraction().getIslands().size(); i++) {
+    public void printIslands() {
+        for (int i = 0; i < model.getIslandInteraction().getIslands().size(); i++) {
             System.out.print("Island " + i);
             if (model.getIslandInteraction().getMotherNature() == i) {
                 System.out.print(" (MN)");
@@ -446,32 +436,32 @@ public class Controller {
         }
     }
 
-    public void printTeachers(){
-        for (Colors c: Colors.values()){
+    public void printTeachers() {
+        for (Colors c : Colors.values()) {
             System.out.print(c + " teacher: ");
             System.out.println(model.getIslandInteraction().getTeachers().get(c));
         }
     }
 
-    public void printClouds(){
-        for (int i=0; i<model.gameRules[0]; i++){
-            System.out.println("cloud "+ i + ":");
-            for (Colors c: Colors.values()){
+    public void printClouds() {
+        for (int i = 0; i < model.gameRules[0]; i++) {
+            System.out.println("cloud " + i + ":");
+            for (Colors c : Colors.values()) {
                 System.out.print(c + ": " + model.getBagNClouds().getClouds().get(i).get(c) + "; ");
             }
             System.out.println();
         }
     }
 
-    public void printCards(){
-        for (int i=0; i<3; i++){
-            System.out.println("Card "+ i + ": " + model.getCharacterCards()[i].getEffect());
+    public void printCards() {
+        for (int i = 0; i < 3; i++) {
+            System.out.println("Card " + i + ": " + model.getCharacterCards()[i].getEffect());
         }
     }
 
-    public void printAssistantCards(int player){
-        for (int j = 0; j< Constants.NUMBER_OF_ASSISTANT_CARDS; j++){
-            if (model.getPlayerInteraction().getPlayers().get(player).getAssistants().get(j).getCardState()==2){
+    public void printAssistantCards(int player) {
+        for (int j = 0; j < Constants.NUMBER_OF_ASSISTANT_CARDS; j++) {
+            if (model.getPlayerInteraction().getPlayers().get(player).getAssistants().get(j).getCardState() == 2) {
                 System.out.print("Card " + j + ": ");
                 System.out.print("priority:  " + model.getPlayerInteraction().getPlayers().get(player).getAssistants().get(j).getPriority());
                 System.out.println(" steps: " + model.getPlayerInteraction().getPlayers().get(player).getAssistants().get(j).getSteps());
