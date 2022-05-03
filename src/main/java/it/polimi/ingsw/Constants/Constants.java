@@ -19,5 +19,20 @@ public final class Constants {
     public static final int CARD11_STUDENTS_TO_MOVE = 1;
     public static final int CARD12_MAX_STUDENTS_TO_MOVE = 3;
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_PINK = "\u001B[35m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    public static final String ANSI_BLUE_BACKGROUND = "\033[104m";
+    public static final String ANSI_RED_BACKGROUND = "\033[101m";
+    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+
+
     private Constants() {}
 }
