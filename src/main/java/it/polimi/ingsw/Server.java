@@ -12,6 +12,8 @@ public class Server {
     private static ArrayList<ClientHandler> clients = new ArrayList<>();
     private static ExecutorService pool = Executors.newFixedThreadPool(3);
 
+
+
     public static void main(String[] args) throws IOException {
         //creo server
         ServerSocket server = new ServerSocket(1234);
@@ -25,9 +27,8 @@ public class Server {
             System.out.println("[SERVER] Client " + i + " connected!");
             ClientHandler clientThread = new ClientHandler(client,clients);
             clients.add(clientThread);
-
             pool.execute(clientThread);
-        }
 
+        }
     }
 }
