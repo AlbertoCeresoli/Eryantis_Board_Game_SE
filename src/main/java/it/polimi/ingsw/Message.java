@@ -2,7 +2,9 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.MessageType;
 
-public class Message {
+import java.io.Serializable;
+
+public class Message implements Serializable {
     private MessageType type;
     private String text;
 

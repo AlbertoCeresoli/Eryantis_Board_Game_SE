@@ -1,7 +1,7 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Client.CLI;
 
+import it.polimi.ingsw.Client.CLI.Parser.*;
 import it.polimi.ingsw.Constants.MessageType;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +26,9 @@ public class MessageParserClient {
 
         Parser cloudsParser = new CloudsParser();
         parseMessages.put(MessageType.PRINT_ALL_CLOUDS, cloudsParser);
+
+        Parser assistantCards = new AssistantCardsParser();
+        parseMessages.put(MessageType.PRINT_ASSISTANT_CARDS, assistantCards);
 
         Parser defaultParser = new DefaultParser();
         parseMessages.put(MessageType.EASY_MESSAGE, defaultParser);

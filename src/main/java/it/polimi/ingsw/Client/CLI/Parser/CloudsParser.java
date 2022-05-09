@@ -1,5 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Client.CLI.Parser;
 
+import it.polimi.ingsw.Client.CLI.ClientPrinter;
 import it.polimi.ingsw.Constants.Colors;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Client.CLI.Parser;
 
 public class DefaultParser implements Parser {
     @Override
