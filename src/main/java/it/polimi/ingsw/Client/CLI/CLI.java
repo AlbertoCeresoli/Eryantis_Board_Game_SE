@@ -34,8 +34,8 @@ public class CLI implements Runnable{
 
     public CLI(Socket socket) throws IOException {
         this.clientInput = new BufferedReader(new InputStreamReader(System.in));
-        this.clientOutput = new PrintStream(System.out);
-        this.fromServerInput = new ObjectInputStream(socket.getInputStream());
+        this.clientOutput = new PrintStream(System.out);InputStream inputStream = socket.getInputStream();
+        this.fromServerInput = new ObjectInputStream(inputStream);
         this.toServerOutput = new PrintWriter(socket.getOutputStream());
         this.serverConnection = new ServerConnection(socket, this);
         parser = new MessageParserClient();
