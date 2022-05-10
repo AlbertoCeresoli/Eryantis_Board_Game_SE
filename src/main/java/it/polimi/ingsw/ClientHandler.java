@@ -1,9 +1,8 @@
 package it.polimi.ingsw;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import it.polimi.ingsw.Constants.MessageType;
+
+import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
@@ -11,8 +10,9 @@ import java.util.ArrayList;
 public class ClientHandler implements Runnable {
     private Socket client;
     private BufferedReader in;
-    private PrintWriter out;
+    private ObjectOutputStream objout;
     private ArrayList<ClientHandler> clients;
+    private static int id;
     private static Controller controller;
     private static int numberOfPlayers;
 
@@ -20,38 +20,51 @@ public class ClientHandler implements Runnable {
         this.client = clientSocket;
         this.clients = clients;
         in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        out = new PrintWriter(client.getOutputStream(), true);
+        objout = new ObjectOutputStream(client.getOutputStream());    
     }
 
     @Override
     public void run() {
         try {
             try {
-                out.println("[SERVER] Welcome! You are the player " + clients.size());
+                objout.writeObject(new Message(MessageType.EASY_MESSAGE,("[SERVER] Welcome! You are the player " + clients.size())));
                 String request;
                 setUp();
-
+                int i = 0;
                 while (true) {
-                    request = in.readLine();
 
+                    request = in.readLine();
                     if (request.startsWith("/say")) {
                         int firstSpace = request.indexOf(" ");
                         if (firstSpace != -1) {
                             outToAll(request.substring(firstSpace + 1));
                         }
-                    } else {
-                        out.println("[SERVER]" + request);
                     }
+                    if (id != i) {
+                        objout.writeObject(new Message(MessageType.EASY_MESSAGE, "[SERVER] Non è il tuo turno, aspetta"));
+                    }
+
+                    if (id == i) {
+                        objout.writeObject("[SERVER] " + request);
+                        if(request.equalsIgnoreCase("pass")){
+                        i = (i+1)%2;
+                        notify();
+                        }
+                    } else{ wait();}
                 }
             } catch (SocketException socketException) {
-                System.out.println("[SERVER] Client " + clients.indexOf(client) + " disconnected");
+                System.out.println("[SERVER] Client disconnected");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            out.close();
+            try {
+                objout.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             try {
                 in.close();
             } catch (IOException e) {
@@ -65,7 +78,7 @@ public class ClientHandler implements Runnable {
         boolean gameMode = false;
         if (clients.size() == 1) {
             do {
-                out.println("Select Game Mode: 0 = easy/ 1 = hard");
+                objout.writeObject(new Message(MessageType.EASY_MESSAGE,("Select Game Mode: 0 = easy/ 1 = hard")));
                 request = in.readLine();
             } while (!request.equals("0") && !request.equals("1"));
             if (request.equals("0")) {
@@ -74,7 +87,7 @@ public class ClientHandler implements Runnable {
                 gameMode = true;
             }
             do {
-                out.println("Select Number of Players: 2 / 3");
+                objout.writeObject(new Message(MessageType.EASY_MESSAGE,("Select Number of Players: 2 / 3")));
                 request = in.readLine();
             } while (!request.equals("2") && !request.equals("3"));
             if (request.equals("2")) {
@@ -82,7 +95,7 @@ public class ClientHandler implements Runnable {
             } else {
                 numberOfPlayers = 3;
             }
-            out.println("[SERVER] Waiting for other players to join...");
+            objout.writeObject(new Message(MessageType.EASY_MESSAGE,("[SERVER] Waiting for other players to join...")));
         }
         if (clients.size() == numberOfPlayers) {
             controller = new Controller(clients.size(), gameMode);
@@ -91,9 +104,17 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private void outToAll(String substring) {
+    private void outToAll(String substring) throws IOException {
         for (ClientHandler client : clients) {
-            client.out.println(substring);
+            client.objout.writeObject(new Message(MessageType.EASY_MESSAGE,(substring)));
         }
+    }
+
+    private void sendMessage(Message request) throws IOException {
+        objout.writeObject(new Message(MessageType.EASY_MESSAGE,(request.getText())));
+    }
+
+    private String getInformation() throws IOException {
+        return in.readLine();
     }
 }
