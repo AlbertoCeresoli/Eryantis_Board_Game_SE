@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ClientHandler implements Runnable {
     private Socket client;
     private BufferedReader in;
-    private ObjectOutputStream objout;
+    private PrintWriter out;
     private ArrayList<ClientHandler> clients;
     private static int id;
     private static Controller controller;
@@ -20,20 +20,21 @@ public class ClientHandler implements Runnable {
         this.client = clientSocket;
         this.clients = clients;
         in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        objout = new ObjectOutputStream(client.getOutputStream());    
+        out = new PrintWriter(client.getOutputStream(), true);
     }
 
     @Override
     public void run() {
         try {
             try {
-                objout.writeObject(new Message(MessageType.EASY_MESSAGE,("[SERVER] Welcome! You are the player " + clients.size())));
+                out.println(MessageType.EASY_MESSAGE.toString() + "\n[SERVER] Welcome! You are the player " + clients.size());
                 String request;
                 setUp();
                 int i = 0;
                 while (true) {
 
                     request = in.readLine();
+                    out.println(MessageType.EASY_MESSAGE.toString() + request);
                     if (request.startsWith("/say")) {
                         int firstSpace = request.indexOf(" ");
                         if (firstSpace != -1) {
@@ -41,16 +42,15 @@ public class ClientHandler implements Runnable {
                         }
                     }
                     if (id != i) {
-                        objout.writeObject(new Message(MessageType.EASY_MESSAGE, "[SERVER] Non è il tuo turno, aspetta"));
+                        out.println(MessageType.EASY_MESSAGE.toString() + "\n[SERVER] Non è il tuo turno, aspetta");
                     }
 
                     if (id == i) {
-                        objout.writeObject("[SERVER] " + request);
+                        out.println(MessageType.EASY_MESSAGE.toString() + "\n[SERVER] " + request);
                         if(request.equalsIgnoreCase("pass")){
-                        i = (i+1)%2;
-                        notify();
+                            i = (i+1)%2;
                         }
-                    } else{ wait();}
+                    }
                 }
             } catch (SocketException socketException) {
                 System.out.println("[SERVER] Client disconnected");
@@ -60,11 +60,7 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try {
-                objout.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            out.close();
             try {
                 in.close();
             } catch (IOException e) {
@@ -78,7 +74,7 @@ public class ClientHandler implements Runnable {
         boolean gameMode = false;
         if (clients.size() == 1) {
             do {
-                objout.writeObject(new Message(MessageType.EASY_MESSAGE,("Select Game Mode: 0 = easy/ 1 = hard")));
+                out.println(MessageType.EASY_MESSAGE.toString() + "\nSelect Game Mode: 0 = easy/ 1 = hard");
                 request = in.readLine();
             } while (!request.equals("0") && !request.equals("1"));
             if (request.equals("0")) {
@@ -87,7 +83,7 @@ public class ClientHandler implements Runnable {
                 gameMode = true;
             }
             do {
-                objout.writeObject(new Message(MessageType.EASY_MESSAGE,("Select Number of Players: 2 / 3")));
+                out.println(MessageType.EASY_MESSAGE.toString() + "\nSelect Number of Players: 2 / 3");
                 request = in.readLine();
             } while (!request.equals("2") && !request.equals("3"));
             if (request.equals("2")) {
@@ -95,7 +91,7 @@ public class ClientHandler implements Runnable {
             } else {
                 numberOfPlayers = 3;
             }
-            objout.writeObject(new Message(MessageType.EASY_MESSAGE,("[SERVER] Waiting for other players to join...")));
+            out.println(MessageType.EASY_MESSAGE.toString() + "\n[SERVER] Waiting for other players to join...");
         }
         if (clients.size() == numberOfPlayers) {
             controller = new Controller(clients.size(), gameMode);
@@ -106,12 +102,12 @@ public class ClientHandler implements Runnable {
 
     private void outToAll(String substring) throws IOException {
         for (ClientHandler client : clients) {
-            client.objout.writeObject(new Message(MessageType.EASY_MESSAGE,(substring)));
+            client.out.println(MessageType.EASY_MESSAGE.toString() + substring);
         }
     }
 
     private void sendMessage(Message request) throws IOException {
-        objout.writeObject(new Message(MessageType.EASY_MESSAGE,(request.getText())));
+        out.println(MessageType.EASY_MESSAGE.toString() + request.getText());
     }
 
     private String getInformation() throws IOException {
