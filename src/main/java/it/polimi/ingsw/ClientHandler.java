@@ -16,6 +16,9 @@ public class ClientHandler implements Runnable {
     private static int id;
     private String nickName;
     private boolean isActive;
+    private String latestMessage;
+    private boolean latestMessageUsed;
+    private boolean yourTurn;
 
     /**
      *  Constructor which instantiates channel dedicated to the handling of each client
@@ -28,6 +31,9 @@ public class ClientHandler implements Runnable {
         in = new BufferedReader(new InputStreamReader(client.getInputStream()));
         out = new PrintWriter(client.getOutputStream(), true);
         clients.add(this);
+
+        latestMessageUsed = false;
+        yourTurn = false;
     }
 
     /**
@@ -42,15 +48,11 @@ public class ClientHandler implements Runnable {
 
                 setUp();
 
-                int i = 0;
-
                 while (isActive) {
 
                     String request;
 
-                    do {
-                        request = in.readLine();
-                    } while (request == null);
+                    request = in.readLine();
 
                     if (request.startsWith("/say")) {
                         int firstSpace = request.indexOf(" ");
@@ -66,10 +68,14 @@ public class ClientHandler implements Runnable {
                         client.close();
                         System.out.println("Client " + clients.indexOf(this) + " disconnected!");
                         clients.remove(this);
-
                     }
-
-
+                    if (yourTurn){
+                        latestMessage = request;
+                        latestMessageUsed = true;
+                    }
+                    else {
+                        out.println(MessageType.EASY_MESSAGE.getType() + "\nit's not your turn\nEND OF MESSAGE");
+                    }
                 }
             } catch (SocketException socketException) {
                 System.out.println("[SERVER] Client disconnected");
@@ -136,11 +142,23 @@ public class ClientHandler implements Runnable {
         out.println(MessageType.EASY_MESSAGE.getType() + "\n" + msg + "\nEND OF MESSAGE");
     }
 
-    public String getInformation() throws IOException {
-        return in.readLine();
-    }
-
     public String getNickName() {
         return nickName;
+    }
+
+    public String getLatestMessage() {
+        return latestMessage;
+    }
+
+    public void setLatestMessageUsed(boolean latestMessageUsed) {
+        this.latestMessageUsed = latestMessageUsed;
+    }
+
+    public boolean isLatestMessageUsed() {
+        return latestMessageUsed;
+    }
+
+    public void setYourTurn(boolean yourTurn) {
+        this.yourTurn = yourTurn;
     }
 }

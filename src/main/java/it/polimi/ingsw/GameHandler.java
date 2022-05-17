@@ -2,7 +2,6 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,12 +44,16 @@ public class GameHandler {
         String result = "";
         Map<MessageType, String> message;
 
-
-        try {
-            result = clientHandlers.get(player).getInformation();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (clientHandlers.get(player).isLatestMessageUsed()) {
+            result = clientHandlers.get(player).getLatestMessage();
+            newMessage(player,"result salvato");
+            clientHandlers.get(player).setLatestMessageUsed(false);
+            newMessage(player,"latestMess messo a false");
         }
+        else {
+            newMessage(player,"non è entrato nell'if");
+        }
+
         //command card
         int cardNumber;
 
@@ -310,4 +313,7 @@ public class GameHandler {
         newMessage(player, s);
     }
 
+    public ArrayList<ClientHandler> getClientHandlers() {
+        return clientHandlers;
+    }
 }
