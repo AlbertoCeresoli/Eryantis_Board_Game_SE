@@ -17,6 +17,11 @@ public class ClientHandler implements Runnable {
     private String nickName;
     private boolean isActive;
 
+    /**
+     *  Constructor which instantiates channel dedicated to the handling of each client
+     * @param clientSocket to connect to the specific client
+     * @throws IOException
+     */
     public ClientHandler(Socket clientSocket) throws IOException {
         this.client = clientSocket;
         this.isActive = true;
@@ -25,7 +30,10 @@ public class ClientHandler implements Runnable {
         clients.add(this);
     }
 
-
+    /**
+     *  The run-method first asks for general info about the client and keep listening on the client's channel elaborating his request depending on what info the controller needs.
+     *  <p></p>Requests which starts with "/" have an higher priority and are handled at server-level (these aren't passed to the game controller)
+     */
     @Override
     public void run() {
         try {
@@ -80,6 +88,11 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    /**
+     * SetUp is the first method used to map all the clients in indexToNick e nickToIndex
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private void setUp() throws IOException, InterruptedException {
         String request;
 
