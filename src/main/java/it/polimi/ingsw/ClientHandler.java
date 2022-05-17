@@ -15,9 +15,11 @@ public class ClientHandler implements Runnable {
     private static int id;
     private static Controller controller;
     private static int numberOfPlayers;
+    private boolean isActive;
 
     public ClientHandler(Socket clientSocket) throws IOException {
         this.client = clientSocket;
+        this.isActive = true;
         in = new BufferedReader(new InputStreamReader(client.getInputStream()));
         out = new PrintWriter(client.getOutputStream(), true);
         clients.add(this);
@@ -37,7 +39,7 @@ public class ClientHandler implements Runnable {
 
                 int i = 0;
 
-                while (true) {
+                while (isActive) {
 
                     String request;
 
@@ -51,8 +53,18 @@ public class ClientHandler implements Runnable {
                             outToAll(request.substring(firstSpace + 1) + "\nEND OF MESSAGE");
                         }
                     }
+                    if (request.startsWith("/quit")) {
+                        isActive = false;
+                        out.println(MessageType.EASY_MESSAGE.getType() + "\nDisconnected!\nEND OF MESSAGE");
+                        out.close();
+                        in.close();
+                        client.close();
+                        System.out.println("Client " + clients.indexOf(this) + " disconnected!");
+                        clients.remove(this);
 
-                    out.println(MessageType.EASY_MESSAGE.getType() + "\n" + "[SERVER] " + request + "\nEND OF MESSAGE");
+                    }
+
+
                 }
             } catch (SocketException socketException) {
                 System.out.println("[SERVER] Client disconnected");
@@ -104,7 +116,6 @@ public class ClientHandler implements Runnable {
 
     private void outToAll(String substring) throws IOException {
         for (ClientHandler client : clients) {
-            System.out.println(substring);
             client.out.println(MessageType.EASY_MESSAGE.getType() + "\n" + substring);
         }
     }

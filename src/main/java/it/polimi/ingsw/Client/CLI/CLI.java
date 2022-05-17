@@ -1,8 +1,9 @@
 package it.polimi.ingsw.Client.CLI;
 
-import it.polimi.ingsw.Message;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 public class CLI implements Runnable{
@@ -48,6 +49,9 @@ public class CLI implements Runnable{
             try {
                 String command = keyboard.readLine();
                 toServerOutput.println(command);
+                if (command.equals("/quit")) {
+                    serverConnection.exit();
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -1,24 +1,23 @@
 package it.polimi.ingsw.Client.CLI;
 
-import it.polimi.ingsw.Message;
-
 import java.io.IOException;
 import java.net.Socket;
 
 public class ServerConnection implements Runnable {
     private Socket server;
     private CLI cli;
+    private boolean exit;
 
     public ServerConnection(Socket socket, CLI cli) {
         this.server = socket;
         this.cli = cli;
+        exit = false;
     }
 
     @Override
     public void run() {
         try {
-
-            while (true) {
+            while (!exit) {
 
                 String type = "";
                 String text = "";
@@ -29,12 +28,9 @@ public class ServerConnection implements Runnable {
                 } while (str == null);
 
                 type = str.toUpperCase();
-                System.out.println("type is " + type);
 
                 while (!(str = cli.getFromServerInput().readLine()).equals("END OF MESSAGE"))
                     text += str;
-
-                System.out.println("text is " + text);
 
                 this.cli.elaborateMessage(type, text);
 
@@ -51,5 +47,8 @@ public class ServerConnection implements Runnable {
 
     }
 
+    public void exit() {
+        exit = true;
 
+    }
 }
