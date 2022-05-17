@@ -23,7 +23,7 @@ public class Server {
 
         System.out.println("[SERVER] Waiting for client connection...");
         int i = 0;
-        while (true){
+       do {
             i++;
             //wait for clients
             Socket client = server.accept();
@@ -32,7 +32,7 @@ public class Server {
             ClientHandler clientThread = new ClientHandler(client);
             clients.add(clientThread);
             pool.execute(clientThread);
-        }
+        } while (i<Constants.getNumPlayers());
 
         new GameHandler(Constants.getNumPlayers(), Constants.isGameMode(), clients);
     }
