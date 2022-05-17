@@ -81,7 +81,7 @@ public class Controller {
             int player = (firstPlayer + i) % model.gameRules[0];
             gameHandler.newMessage(player, "Your assistant cards:");
             gameHandler.printAssistantCards(player);
-            gameHandler.messageToAll("player " + player + " play your assistant card:");
+            gameHandler.newMessage(player,"player " + player + " play your assistant card:");
 
             cards[player] = Integer.parseInt(gameHandler.requestInformation(ObjectsToSelect.ASSISTANT_CARD, cards, player));
         }
