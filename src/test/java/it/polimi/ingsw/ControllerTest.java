@@ -12,7 +12,7 @@ public class ControllerTest {
 
     @BeforeEach
     void setUp(){
-        controller = new Controller(2, false);
+
     }
 
     /**

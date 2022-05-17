@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Constants.Constants;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,25 +13,27 @@ public class Server {
 
     private static ArrayList<ClientHandler> clients = new ArrayList<>();
     private static ExecutorService pool = Executors.newFixedThreadPool(3);
+    private static GameHandler gameHandler;
 
 
 
     public static void main(String[] args) throws IOException {
-        //creo server
+        //server creation
         ServerSocket server = new ServerSocket(1234);
 
         System.out.println("[SERVER] Waiting for client connection...");
         int i = 0;
         while (true){
             i++;
-            //aspetto client
+            //wait for clients
             Socket client = server.accept();
             System.out.println("[SERVER] Client " + i + " connected!");
 
             ClientHandler clientThread = new ClientHandler(client);
             clients.add(clientThread);
             pool.execute(clientThread);
-
         }
+
+        new GameHandler(Constants.getNumPlayers(), Constants.isGameMode(), clients);
     }
 }

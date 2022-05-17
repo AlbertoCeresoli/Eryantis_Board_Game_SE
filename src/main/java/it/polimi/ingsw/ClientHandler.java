@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.MessageType;
 
 import java.io.*;
@@ -13,8 +14,7 @@ public class ClientHandler implements Runnable {
     private final PrintWriter out;
     private static final ArrayList<ClientHandler> clients = new ArrayList<>();
     private static int id;
-    private static Controller controller;
-    private static int numberOfPlayers;
+    private String nickName;
     private boolean isActive;
 
     public ClientHandler(Socket clientSocket) throws IOException {
@@ -25,9 +25,6 @@ public class ClientHandler implements Runnable {
         clients.add(this);
     }
 
-    public static Controller getController() {
-        return controller;
-    }
 
     @Override
     public void run() {
@@ -85,32 +82,31 @@ public class ClientHandler implements Runnable {
 
     private void setUp() throws IOException, InterruptedException {
         String request;
-        boolean gameMode = false;
+
+        out.println(MessageType.EASY_MESSAGE.getType() + "\nInsert your nickname: \nEND OF MESSAGE");
+        request = in.readLine();
+        nickName=request;
+
         if (clients.size() == 1) {
             do {
                 out.println(MessageType.EASY_MESSAGE.getType() + "\nSelect Game Mode: 0 = easy/ 1 = hard\nEND OF MESSAGE");
                 request = in.readLine();
             } while (!request.equals("0") && !request.equals("1"));
             if (request.equals("0")) {
-                gameMode = false;
+                Constants.setGameMode(false);
             } else {
-                gameMode = true;
+                Constants.setGameMode(true);
             }
             do {
                 out.println(MessageType.EASY_MESSAGE.getType() + "\nSelect Number of Players: 2 / 3\nEND OF MESSAGE");
                 request = in.readLine();
             } while (!request.equals("2") && !request.equals("3"));
             if (request.equals("2")) {
-                numberOfPlayers = 2;
+                Constants.setNumPlayers(2);
             } else {
-                numberOfPlayers = 3;
+                Constants.setNumPlayers(3);
             }
             out.println(MessageType.EASY_MESSAGE.getType() + "\n[SERVER] Waiting for other players to join...\nEND OF MESSAGE");
-        }
-        if (clients.size() == numberOfPlayers) {
-            controller = new Controller(clients.size(), gameMode);
-            outToAll("[SERVER] Controller created!! Game starting...\nEND OF MESSAGE");
-            System.out.println("[SERVER] Controller created");
         }
     }
 
@@ -120,11 +116,15 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private void sendMessage(String msg) {
+    public void sendMessage(String msg) {
         out.println(MessageType.EASY_MESSAGE.getType() + "\n" + msg + "\nEND OF MESSAGE");
     }
 
-    private String getInformation() throws IOException {
+    public String getInformation() throws IOException {
         return in.readLine();
+    }
+
+    public String getNickName() {
+        return nickName;
     }
 }
