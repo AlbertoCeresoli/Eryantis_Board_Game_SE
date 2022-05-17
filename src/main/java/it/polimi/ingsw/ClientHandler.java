@@ -85,7 +85,7 @@ public class ClientHandler implements Runnable {
 
         out.println(MessageType.EASY_MESSAGE.getType() + "\nInsert your nickname: \nEND OF MESSAGE");
         request = in.readLine();
-        nickName=request;
+        nickName = request;
 
         if (clients.size() == 1) {
             do {
@@ -107,6 +107,9 @@ public class ClientHandler implements Runnable {
                 Constants.setNumPlayers(3);
             }
             out.println(MessageType.EASY_MESSAGE.getType() + "\n[SERVER] Waiting for other players to join...\nEND OF MESSAGE");
+        }
+        if (clients.size() == Constants.getNumPlayers()) {
+            new GameHandler(Constants.getNumPlayers(), Constants.isGameMode(), clients);
         }
     }
 

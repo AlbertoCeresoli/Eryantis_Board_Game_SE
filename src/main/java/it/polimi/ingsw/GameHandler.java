@@ -15,6 +15,8 @@ public class GameHandler {
     Map<String, Integer> nickToIndex;
 
     public GameHandler(int numberPlayers, boolean gameMode, ArrayList<ClientHandler> clients) {
+        indexToNick = new HashMap<>();
+        nickToIndex = new HashMap<>();
         controller = new Controller(numberPlayers, gameMode,this);
         messageGenerator = new MessageGenerator();
         clientHandlers = clients;
