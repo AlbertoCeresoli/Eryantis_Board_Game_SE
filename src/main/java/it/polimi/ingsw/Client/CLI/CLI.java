@@ -8,18 +8,16 @@ import java.net.Socket;
 public class CLI implements Runnable{
     private Socket socket;
     //used to read what is written on the terminal
-    private final BufferedReader clientInput;
-    //used to print on the terminal
-    private final PrintStream clientOutput;
+    private final BufferedReader keyboard;
     //used to get Message objects from server
-    private final ObjectInputStream fromServerInput;
+    private final BufferedReader fromServerInput;
     //used to send to server what is read from keyboard
     private final PrintWriter toServerOutput;
     //
     private final ServerConnection serverConnection;
     private final MessageParserClient parser;
     private final ClientPrinter clientPrinter;
-    private boolean activeGame;
+    private final boolean activeGame;
 
     public static void main(String[] args) throws IOException {
         //connection to server
@@ -33,15 +31,14 @@ public class CLI implements Runnable{
     }
 
     public CLI(Socket socket) throws IOException {
-        this.clientInput = new BufferedReader(new InputStreamReader(System.in));
-        this.clientOutput = new PrintStream(System.out);
-        this.fromServerInput = new ObjectInputStream(socket.getInputStream());
+        this.keyboard = new BufferedReader(new InputStreamReader(System.in));
+        this.fromServerInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.toServerOutput = new PrintWriter(socket.getOutputStream(), true);
-        this.serverConnection = new ServerConnection(socket, this);
-        parser = new MessageParserClient();
-        clientPrinter = new ClientPrinter();
+        this.parser = new MessageParserClient();
+        this.clientPrinter = new ClientPrinter();
         this.activeGame = true;
 
+        this.serverConnection = new ServerConnection(socket, this);
         new Thread(this.serverConnection).start();
     }
 
@@ -49,7 +46,7 @@ public class CLI implements Runnable{
     public void run() {
         while (isActiveGame()) {
             try {
-                String command = clientInput.readLine();
+                String command = keyboard.readLine();
                 toServerOutput.println(command);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -64,15 +61,19 @@ public class CLI implements Runnable{
 
     }
 
-    public void elaborateMessage(Message message) {
-        parser.parseMessages.get(message.getType()).parse(message.getText());
+    public void elaborateMessage(String type, String text) {
+        this.parser.getParseMessages().get(type).parse(text);
     }
 
-    public ObjectInputStream getFromServerInput() {
+    public BufferedReader getFromServerInput() {
         return fromServerInput;
     }
 
     private boolean isActiveGame() {
         return activeGame;
+    }
+
+    public ClientPrinter getClientPrinter() {
+        return clientPrinter;
     }
 }

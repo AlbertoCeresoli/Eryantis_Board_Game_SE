@@ -6,33 +6,37 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MessageParserClient {
-    public static final Map<MessageType, Parser> parseMessages = new HashMap<>();
+    private final Map<String, Parser> parseMessages;
 
     public MessageParserClient() {
+        this.parseMessages = new HashMap<>();
+
         Parser allIslandsParser = new AllIslandsParser();
-        parseMessages.put(MessageType.PRINT_ALL_ISLANDS, allIslandsParser);
+        this.parseMessages.put(MessageType.PRINT_ALL_ISLANDS.getType(), allIslandsParser);
 
         Parser islandParser = new IslandParser();
-        parseMessages.put(MessageType.PRINT_ISLAND, islandParser);
+        this.parseMessages.put(MessageType.PRINT_ISLAND.getType(), islandParser);
 
         Parser allBoardsParser = new AllBoardsParser();
-        parseMessages.put(MessageType.PRINT_ALL_BOARDS, allBoardsParser);
+        this.parseMessages.put(MessageType.PRINT_ALL_BOARDS.getType(), allBoardsParser);
 
         Parser boardParser = new BoardParser();
-        parseMessages.put(MessageType.PRINT_BOARD, boardParser);
+        this.parseMessages.put(MessageType.PRINT_BOARD.getType(), boardParser);
 
         Parser teachersParser = new TeachersParser();
-        parseMessages.put(MessageType.PRINT_TEACHERS, teachersParser);
+        this.parseMessages.put(MessageType.PRINT_TEACHERS.getType(), teachersParser);
 
         Parser cloudsParser = new CloudsParser();
-        parseMessages.put(MessageType.PRINT_ALL_CLOUDS, cloudsParser);
+        this.parseMessages.put(MessageType.PRINT_ALL_CLOUDS.getType(), cloudsParser);
 
         Parser assistantCards = new AssistantCardsParser();
-        parseMessages.put(MessageType.PRINT_ASSISTANT_CARDS, assistantCards);
+        this.parseMessages.put(MessageType.PRINT_ASSISTANT_CARDS.getType(), assistantCards);
 
         Parser defaultParser = new DefaultParser();
-        parseMessages.put(MessageType.EASY_MESSAGE, defaultParser);
+        this.parseMessages.put(MessageType.EASY_MESSAGE.getType(), defaultParser);
     }
 
-
+    public Map<String, Parser> getParseMessages() {
+        return parseMessages;
+    }
 }

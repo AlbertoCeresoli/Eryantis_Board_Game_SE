@@ -8,49 +8,51 @@ import java.net.SocketException;
 import java.util.ArrayList;
 
 public class ClientHandler implements Runnable {
-    private Socket client;
-    private BufferedReader in;
-    private PrintWriter out;
-    private ArrayList<ClientHandler> clients;
+    private final Socket client;
+    private final BufferedReader in;
+    private final PrintWriter out;
+    private static final ArrayList<ClientHandler> clients = new ArrayList<>();
     private static int id;
     private static Controller controller;
     private static int numberOfPlayers;
 
-    public ClientHandler(Socket clientSocket, ArrayList<ClientHandler> clients) throws IOException {
+    public ClientHandler(Socket clientSocket) throws IOException {
         this.client = clientSocket;
-        this.clients = clients;
         in = new BufferedReader(new InputStreamReader(client.getInputStream()));
         out = new PrintWriter(client.getOutputStream(), true);
+        clients.add(this);
+    }
+
+    public static Controller getController() {
+        return controller;
     }
 
     @Override
     public void run() {
         try {
             try {
-                out.println(MessageType.EASY_MESSAGE.toString() + "\n[SERVER] Welcome! You are the player " + clients.size());
-                String request;
+                out.println(MessageType.EASY_MESSAGE.getType() + "\n[SERVER] Welcome! You are the player " + clients.size() + "\nEND OF MESSAGE");
+
                 setUp();
+
                 int i = 0;
+
                 while (true) {
 
-                    request = in.readLine();
-                    out.println(MessageType.EASY_MESSAGE.toString() + request);
+                    String request;
+
+                    do {
+                        request = in.readLine();
+                    } while (request == null);
+
                     if (request.startsWith("/say")) {
                         int firstSpace = request.indexOf(" ");
                         if (firstSpace != -1) {
-                            outToAll(request.substring(firstSpace + 1));
+                            outToAll(request.substring(firstSpace + 1) + "\nEND OF MESSAGE");
                         }
-                    }
-                    if (id != i) {
-                        out.println(MessageType.EASY_MESSAGE.toString() + "\n[SERVER] Non è il tuo turno, aspetta");
                     }
 
-                    if (id == i) {
-                        out.println(MessageType.EASY_MESSAGE.toString() + "\n[SERVER] " + request);
-                        if(request.equalsIgnoreCase("pass")){
-                            i = (i+1)%2;
-                        }
-                    }
+                    out.println(MessageType.EASY_MESSAGE.getType() + "\n" + "[SERVER] " + request + "\nEND OF MESSAGE");
                 }
             } catch (SocketException socketException) {
                 System.out.println("[SERVER] Client disconnected");
@@ -74,7 +76,7 @@ public class ClientHandler implements Runnable {
         boolean gameMode = false;
         if (clients.size() == 1) {
             do {
-                out.println(MessageType.EASY_MESSAGE.toString() + "\nSelect Game Mode: 0 = easy/ 1 = hard");
+                out.println(MessageType.EASY_MESSAGE.getType() + "\nSelect Game Mode: 0 = easy/ 1 = hard\nEND OF MESSAGE");
                 request = in.readLine();
             } while (!request.equals("0") && !request.equals("1"));
             if (request.equals("0")) {
@@ -83,7 +85,7 @@ public class ClientHandler implements Runnable {
                 gameMode = true;
             }
             do {
-                out.println(MessageType.EASY_MESSAGE.toString() + "\nSelect Number of Players: 2 / 3");
+                out.println(MessageType.EASY_MESSAGE.getType() + "\nSelect Number of Players: 2 / 3\nEND OF MESSAGE");
                 request = in.readLine();
             } while (!request.equals("2") && !request.equals("3"));
             if (request.equals("2")) {
@@ -91,23 +93,24 @@ public class ClientHandler implements Runnable {
             } else {
                 numberOfPlayers = 3;
             }
-            out.println(MessageType.EASY_MESSAGE.toString() + "\n[SERVER] Waiting for other players to join...");
+            out.println(MessageType.EASY_MESSAGE.getType() + "\n[SERVER] Waiting for other players to join...\nEND OF MESSAGE");
         }
         if (clients.size() == numberOfPlayers) {
             controller = new Controller(clients.size(), gameMode);
-            outToAll("[SERVER] Controller created!! Game starting...");
+            outToAll("[SERVER] Controller created!! Game starting...\nEND OF MESSAGE");
             System.out.println("[SERVER] Controller created");
         }
     }
 
     private void outToAll(String substring) throws IOException {
         for (ClientHandler client : clients) {
-            client.out.println(MessageType.EASY_MESSAGE.toString() + substring);
+            System.out.println(substring);
+            client.out.println(MessageType.EASY_MESSAGE.getType() + "\n" + substring);
         }
     }
 
-    private void sendMessage(Message request) throws IOException {
-        out.println(MessageType.EASY_MESSAGE.toString() + request.getText());
+    private void sendMessage(String msg) {
+        out.println(MessageType.EASY_MESSAGE.getType() + "\n" + msg + "\nEND OF MESSAGE");
     }
 
     private String getInformation() throws IOException {

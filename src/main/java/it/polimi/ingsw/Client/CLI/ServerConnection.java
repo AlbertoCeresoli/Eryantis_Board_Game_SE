@@ -17,12 +17,29 @@ public class ServerConnection implements Runnable {
     @Override
     public void run() {
         try {
+
             while (true) {
-                Message serverResponse = (Message) cli.getFromServerInput().readObject();
-                if (serverResponse == null) break;
-                this.cli.elaborateMessage(serverResponse);
+
+                String type = "";
+                String text = "";
+                String str;
+
+                do {
+                    str = cli.getFromServerInput().readLine();
+                } while (str == null);
+
+                type = str.toUpperCase();
+                System.out.println("type is " + type);
+
+                while (!(str = cli.getFromServerInput().readLine()).equals("END OF MESSAGE"))
+                    text += str;
+
+                System.out.println("text is " + text);
+
+                this.cli.elaborateMessage(type, text);
+
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {

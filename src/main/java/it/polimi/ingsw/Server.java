@@ -26,7 +26,7 @@ public class Server {
             Socket client = server.accept();
             System.out.println("[SERVER] Client " + i + " connected!");
 
-            ClientHandler clientThread = new ClientHandler(client,clients);
+            ClientHandler clientThread = new ClientHandler(client);
             clients.add(clientThread);
             pool.execute(clientThread);
 
