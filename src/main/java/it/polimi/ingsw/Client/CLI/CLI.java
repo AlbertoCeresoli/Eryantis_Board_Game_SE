@@ -23,7 +23,7 @@ public class CLI implements Runnable{
     public static void main(String[] args) throws IOException {
         //connection to server
         System.out.println("[CLIENT] Waiting for server connection...");
-        Socket socket = new Socket("localhost", 1234);
+        Socket socket = new Socket("10.169.151.1", 1234);
         System.out.println("[CLIENT] Connected to server! [localhost, 1234]");
 
         CLI cli = new CLI(socket);
