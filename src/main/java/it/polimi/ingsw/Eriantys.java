@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Scanner;
 public class Eriantys {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         System.out.println("Welcome to Eriantys!\nWhat do you want to launch?");
         System.out.println("0. SERVER\n1. CLIENT (CLI INTERFACE)");
         System.out.println("\n>Type the number of the desired option!");

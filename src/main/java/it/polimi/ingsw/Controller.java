@@ -18,23 +18,23 @@ public class Controller {
      * Controller's constructor
      * it initializes controller's attributes and calls model's constructor
      */
-    public Controller(int numberPlayers, boolean gameMode, GameHandler gh) {
+    public Controller(GameHandler gh) {
         int[] gameRules = new int[5];
-        gameRules[0] = numberPlayers;
+        gameRules[0] = Constants.getNumPlayers();
         //2 players rules
-        if (numberPlayers == 2) {
+        if (Constants.getNumPlayers() == 2) {
             gameRules[1] = 7;
             gameRules[2] = 8;
             gameRules[3] = 0;
         }
         //3 players rules
-        if (numberPlayers == 3) {
+        if (Constants.getNumPlayers() == 3) {
             gameRules[1] = 9;
             gameRules[2] = 6;
             gameRules[3] = 0;
         }
         //gameMode hard
-        if (gameMode) {
+        if (Constants.isGameMode()) {
             gameRules[4] = 1;
         } else {
             gameRules[4] = 0;
@@ -48,7 +48,7 @@ public class Controller {
     /**
      * Calls the method round until we have a winner
      */
-    public void startGame() {
+    public void startGame() throws InterruptedException {
         model.initializeGame();
 
         //selection of the first player
@@ -67,7 +67,7 @@ public class Controller {
     /**
      *
      */
-    public void round() {
+    public void round() throws InterruptedException {
         int[] cards = new int[model.gameRules[0]];
         int[] playerOrder;
 

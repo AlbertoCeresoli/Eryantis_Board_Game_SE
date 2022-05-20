@@ -6,17 +6,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameHandler {
+public class GameHandler implements Runnable {
     private final Controller controller;
     private final MessageGenerator messageGenerator;
     private final ArrayList<ClientHandler> clientHandlers;
     Map<Integer, String> indexToNick;
     Map<String, Integer> nickToIndex;
 
-    public GameHandler(int numberPlayers, boolean gameMode, ArrayList<ClientHandler> clients) {
+    public GameHandler(ArrayList<ClientHandler> clients) {
         indexToNick = new HashMap<>();
         nickToIndex = new HashMap<>();
-        controller = new Controller(numberPlayers, gameMode,this);
+        controller = new Controller(this);
         messageGenerator = new MessageGenerator();
         clientHandlers = clients;
 
@@ -24,8 +24,15 @@ public class GameHandler {
             indexToNick.put(i, clients.get(i).getNickName());
             nickToIndex.put(clients.get(i).getNickName(), i);
         }
+    }
 
-        controller.startGame();
+    @Override
+    public void run() {
+        try {
+            controller.startGame();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void newMessage(int playerIndex, String s){
@@ -38,13 +45,21 @@ public class GameHandler {
         }
     }
 
-
-    public String requestInformation(ObjectsToSelect selection, int[] cards, int player) {
+    public String requestInformation(ObjectsToSelect selection, int[] cards, int player) throws InterruptedException {
         String result = "";
         Map<MessageType, String> message;
 
+        clientHandlers.get(player).setLatestMessageValid(false);
+        clientHandlers.get(player).setInformationIsNeeded(true);
+
+        synchronized (clientHandlers.get(player).lock) {
+            while (!clientHandlers.get(player).isLatestMessageValid()) {
+                clientHandlers.get(player).lock.wait();
+            }
+        }
+
         result = clientHandlers.get(player).getLatestMessage();
-        clientHandlers.get(player).setLatestMessageUsed(false);
+        clientHandlers.get(player).setLatestMessageValid(false);
 
         //command card
         int cardNumber;
@@ -160,7 +175,7 @@ public class GameHandler {
      *      increase the cost of the card if the boolean firstUsed is =0
      *      collects all the information needed and calls useEffect
      */
-    public void playCard(int cardPlayed, int player) {
+    public void playCard(int cardPlayed, int player) throws InterruptedException {
         Map<Indexes, Integer> index = new HashMap<>();
         Colors color = null;
         Map<Colors, Integer> StudMap1 = new HashMap<>();
