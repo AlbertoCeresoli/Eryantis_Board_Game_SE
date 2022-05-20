@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Constants.Constants;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,8 +22,17 @@ public class Server {
         ServerSocket server = new ServerSocket(1234);
 
         System.out.println("[SERVER] Waiting for client connection...");
-        int i = 0;
-        while (true){
+
+        Socket firstClient = server.accept();
+        System.out.println("[SERVER] Client " + 0 + " connected!");
+
+        ClientHandler firstClientThread = new ClientHandler(firstClient);
+        clients.add(firstClientThread);
+        firstClientThread.gameRulesSelection();
+        pool.execute(firstClientThread);
+
+        int i = 1;
+        while (i< Constants.getNumPlayers()){
             i++;
             //wait for clients
             Socket client = server.accept();
@@ -31,6 +42,9 @@ public class Server {
             clients.add(clientThread);
             pool.execute(clientThread);
         }
+
+        new GameHandler(Constants.getNumPlayers(), Constants.isGameMode(), clients);
+
 
     }
 }

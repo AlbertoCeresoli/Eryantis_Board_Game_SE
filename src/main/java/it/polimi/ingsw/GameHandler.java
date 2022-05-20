@@ -25,7 +25,6 @@ public class GameHandler {
             nickToIndex.put(clients.get(i).getNickName(), i);
         }
 
-
         controller.startGame();
     }
 
@@ -44,15 +43,8 @@ public class GameHandler {
         String result = "";
         Map<MessageType, String> message;
 
-        if (clientHandlers.get(player).isLatestMessageUsed()) {
-            result = clientHandlers.get(player).getLatestMessage();
-            newMessage(player,"result salvato");
-            clientHandlers.get(player).setLatestMessageUsed(false);
-            newMessage(player,"latestMess messo a false");
-        }
-        else {
-            newMessage(player,"non è entrato nell'if");
-        }
+        result = clientHandlers.get(player).getLatestMessage();
+        clientHandlers.get(player).setLatestMessageUsed(false);
 
         //command card
         int cardNumber;

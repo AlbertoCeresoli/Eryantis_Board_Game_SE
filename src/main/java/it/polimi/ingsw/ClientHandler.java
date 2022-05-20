@@ -45,14 +45,16 @@ public class ClientHandler implements Runnable {
         try {
             try {
                 out.println(MessageType.EASY_MESSAGE.getType() + "\n[SERVER] Welcome! You are the player " + clients.size() + "\nEND OF MESSAGE");
-
-                setUp();
+                selectNickName();
+                out.println(MessageType.EASY_MESSAGE.getType() + "\n[SERVER] Waiting for other players to join...\nEND OF MESSAGE");
 
                 while (isActive) {
 
                     String request;
 
-                    request = in.readLine();
+                    do {
+                        request = in.readLine();
+                    } while (request == null);
 
                     if (request.startsWith("/say")) {
                         int firstSpace = request.indexOf(" ");
@@ -69,7 +71,7 @@ public class ClientHandler implements Runnable {
                         System.out.println("Client " + clients.indexOf(this) + " disconnected!");
                         clients.remove(this);
                     }
-                    if (yourTurn){
+                    if (yourTurn && !latestMessageUsed) {
                         latestMessage = request;
                         latestMessageUsed = true;
                     }
@@ -99,36 +101,34 @@ public class ClientHandler implements Runnable {
      * @throws IOException
      * @throws InterruptedException
      */
-    private void setUp() throws IOException, InterruptedException {
+    private void selectNickName() throws IOException, InterruptedException {
         String request;
 
         out.println(MessageType.EASY_MESSAGE.getType() + "\nInsert your nickname: \nEND OF MESSAGE");
         request = in.readLine();
         nickName = request;
+    }
 
-        if (clients.size() == 1) {
-            do {
-                out.println(MessageType.EASY_MESSAGE.getType() + "\nSelect Game Mode: 0 = easy/ 1 = hard\nEND OF MESSAGE");
-                request = in.readLine();
-            } while (!request.equals("0") && !request.equals("1"));
-            if (request.equals("0")) {
-                Constants.setGameMode(false);
-            } else {
-                Constants.setGameMode(true);
-            }
-            do {
-                out.println(MessageType.EASY_MESSAGE.getType() + "\nSelect Number of Players: 2 / 3\nEND OF MESSAGE");
-                request = in.readLine();
-            } while (!request.equals("2") && !request.equals("3"));
-            if (request.equals("2")) {
-                Constants.setNumPlayers(2);
-            } else {
-                Constants.setNumPlayers(3);
-            }
-            out.println(MessageType.EASY_MESSAGE.getType() + "\n[SERVER] Waiting for other players to join...\nEND OF MESSAGE");
+    public void gameRulesSelection() throws IOException {
+        String request;
+
+        do {
+            out.println(MessageType.EASY_MESSAGE.getType() + "\nSelect Game Mode: 0 = easy/ 1 = hard\nEND OF MESSAGE");
+            request = in.readLine();
+        } while (!request.equals("0") && !request.equals("1"));
+        if (request.equals("0")) {
+            Constants.setGameMode(false);
+        } else {
+            Constants.setGameMode(true);
         }
-        if (clients.size() == Constants.getNumPlayers()) {
-            new GameHandler(Constants.getNumPlayers(), Constants.isGameMode(), clients);
+        do {
+            out.println(MessageType.EASY_MESSAGE.getType() + "\nSelect Number of Players: 2 / 3\nEND OF MESSAGE");
+            request = in.readLine();
+        } while (!request.equals("2") && !request.equals("3"));
+        if (request.equals("2")) {
+            Constants.setNumPlayers(2);
+        } else {
+            Constants.setNumPlayers(3);
         }
     }
 
