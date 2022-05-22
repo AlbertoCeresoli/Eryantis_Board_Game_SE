@@ -1,12 +1,19 @@
 package it.polimi.ingsw.Constants;
 
 /**
- * service class that keep global constants used
+ * Service class that keep global constants used
  */
 public final class Constants {
+    public static boolean gameMode;
+    public static int numPlayers;
+    public static final int STUDENTS_IN_ENTRANCE_2_PLAYERS = 7;
+    public static final int STUDENTS_IN_ENTRANCE_3_PLAYERS = 9;
+    public static final int TOWERS_2_PLAYERS = 8;
+    public static final int TOWERS_3_PLAYERS = 6;
+    public static final int STUDENTS_ON_CLOUD_2_PLAYERS = 3;
+    public static final int STUDENTS_ON_CLOUD_3_PLAYERS = 4;
     public static final int NUMBER_OF_ASSISTANT_CARDS = 10;
     public static final int NUMBER_OF_STUDENTS_IN_HALL = 10;
-
     public static final int CARD1_STUDENTS_CAPACITY = 4;
     public static final int CARD1_STUDENTS_TO_MOVE = 1;
     public static final int CARD4_ADDITION_MOVEMENT = 2;
@@ -18,7 +25,6 @@ public final class Constants {
     public static final int CARD11_STUDENTS_CAPACITY = 4;
     public static final int CARD11_STUDENTS_TO_MOVE = 1;
     public static final int CARD12_MAX_STUDENTS_TO_MOVE = 3;
-
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_PINK = "\u001B[35m";
     public static final String ANSI_BLACK = "\u001B[30m";
@@ -33,24 +39,23 @@ public final class Constants {
     public static final String ANSI_RED_BACKGROUND = "\033[101m";
     public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
 
-    public static int numPlayers;
-    public static boolean gameMode;
+    private Constants() {
 
-    public static void setNumPlayers(int numPlayers) {
-        Constants.numPlayers = numPlayers;
-    }
-
-    public static void setGameMode(boolean gameMode) {
-        Constants.gameMode = gameMode;
-    }
-
-    public static int getNumPlayers() {
-        return numPlayers;
     }
 
     public static boolean isGameMode() {
         return gameMode;
     }
 
-    private Constants() {}
+    public static int getNumPlayers() {
+        return numPlayers;
+    }
+
+    public static void setGameMode(boolean gameMode) {
+        Constants.gameMode = gameMode;
+    }
+
+    public static void setNumPlayers(int numPlayers) {
+        Constants.numPlayers = numPlayers;
+    }
 }

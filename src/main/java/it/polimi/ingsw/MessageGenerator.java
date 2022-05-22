@@ -18,14 +18,10 @@ public class MessageGenerator {
         Map<MessageType, String> message = new HashMap<>();
 
         switch (result.toUpperCase()) {
-            case "YELLOW":
-            case "BLUE":
-            case "GREEN":
-            case "RED":
-            case "PINK":
-                message.put(MessageType.CORRECT_INPUT, "The color selected is " + result.toLowerCase());
-            default:
-                message.put(MessageType.NOT_VALID_INPUT, "Not valid input, the color must be yellow, blue, green, red or pink");
+            case "YELLOW", "BLUE", "GREEN", "RED", "PINK" ->
+                    message.put(MessageType.EASY_MESSAGE, "The color selected is " + result.toLowerCase());
+            default ->
+                    message.put(MessageType.NOT_VALID_INPUT, "Not valid input, the color must be yellow, blue, green, red or pink");
         }
         return message;
     }

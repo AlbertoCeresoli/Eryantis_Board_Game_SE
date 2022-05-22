@@ -34,6 +34,16 @@ public class MessageParserClient {
 
         Parser defaultParser = new DefaultParser();
         this.parseMessages.put(MessageType.EASY_MESSAGE.getType(), defaultParser);
+
+        this.parseMessages.put(MessageType.CORRECT_INPUT.getType(), defaultParser);
+
+        this.parseMessages.put(MessageType.NOT_VALID_INPUT.getType(), defaultParser);
+
+        this.parseMessages.put(MessageType.NOT_VALID_INDEX.getType(), defaultParser);
+
+        this.parseMessages.put(MessageType.ALREADY_PLAYED.getType(), defaultParser);
+
+        this.parseMessages.put(MessageType.ALREADY_PLAYED_THIS_TURN.getType(), defaultParser);
     }
 
     public Map<String, Parser> getParseMessages() {

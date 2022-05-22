@@ -8,42 +8,40 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class ClientHandler implements Runnable {
+    private String nickName;
+    private final int id;
     private final Socket client;
     private final BufferedReader in;
     private final PrintWriter out;
     private static final ArrayList<ClientHandler> clients = new ArrayList<>();
-    private final int id;
-    private String nickName;
     private boolean connected;
-    public boolean informationIsNeeded;
     private String latestMessage;
     private boolean latestMessageValid;
+    public boolean informationIsNeeded;
     private boolean yourTurn;
-    public final Object lock;
+    private final Object lock;
 
     /**
-     *  Constructor which instantiates channel dedicated to the handling of each client
+     * Constructor which instantiates channel dedicated to the handling of each client
      * @param clientSocket to connect to the specific client
-     * @throws IOException
      */
     public ClientHandler(Socket clientSocket) throws IOException {
         this.id = clients.size();
         this.client = clientSocket;
+        this.in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+        this.out = new PrintWriter(client.getOutputStream(), true);
         this.connected = true;
-        in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        out = new PrintWriter(client.getOutputStream(), true);
+        this.latestMessage = "";
+        this.latestMessageValid = false;
+        this.yourTurn = false;
+        this.lock = new Object();
+
         clients.add(this);
-
-        latestMessage = "";
-
-        lock = new Object();
-
-        latestMessageValid = false;
-        yourTurn = false;
     }
 
     /**
-     *  The run-method first asks for general info about the client and keep listening on the client's channel elaborating his request depending on what info the controller needs.
+     *  The run-method first asks for general info about the client and keep listening on the client's channel
+     *  elaborating his request depending on what info the controller needs.
      *  <p>Requests which starts with "/" have an higher priority and are handled at server-level (these aren't passed to the game controller)</p>
      */
     @Override
@@ -80,8 +78,18 @@ public class ClientHandler implements Runnable {
     }
 
     private boolean manageRequest(String request) throws IOException {
-        if (request.startsWith("/quit")) {
+        if (request.equalsIgnoreCase("/quit")) {
             quit();
+            return true;
+        }
+
+        if (request.equalsIgnoreCase("/help")) {
+            help();
+            return true;
+        }
+
+        if (request.equalsIgnoreCase("/print")) {
+            print();
             return true;
         }
 
@@ -91,6 +99,30 @@ public class ClientHandler implements Runnable {
         }
 
         return false;
+    }
+
+    private void help() {
+        String helpMessage =
+                "\nThese are common Eryantis commands used in various situations.\n" +
+                "Remember that commands are not case sensitive\n" +
+                "Commands are:\n\n" +
+                "to quit the game and disconnect from server\n" +
+                "   /quit\n\n" +
+                "to print something of the game\n" +
+                "   /print island x             to print a precise island. Insert island's index in place of 'x'\n" +
+                "   /print islands              to print all the islands\n" +
+                "   /print board nickname       to print the board of a player. Insert player's nickname in place of 'nickname'\n" +
+                "   /print boards               to print all the boards\n" +
+                "   /print teachers             to print who controls teachers now\n" +
+                "   /print character cards      to print character cards of the game\n\n" +
+                "to play a character card\n" +
+                "   /play name                  to play a character card. Insert the name of the card in place of 'name'\n";
+
+        sendMessage(helpMessage);
+    }
+
+    private void print() {
+
     }
 
     private void quit() throws IOException {
@@ -106,16 +138,14 @@ public class ClientHandler implements Runnable {
     private void say(String request) throws IOException {
         int firstSpace = request.indexOf(" ");
         if (firstSpace != -1) {
-            outToAll(request.substring(firstSpace + 1) + "\nEND OF MESSAGE");
+            sendMessageToAll(request.substring(firstSpace + 1) + "\nEND OF MESSAGE");
         }
     }
 
     /**
-     * SetUp is the first method used to map all the clients in indexToNick e nickToIndex
-     * @throws IOException
-     * @throws InterruptedException
+     * The method gets from connected client its nickname
      */
-    public void selectNickName() throws IOException, InterruptedException {
+    public void selectNickName() throws IOException {
         String request;
 
         out.println(MessageType.EASY_MESSAGE.getType() + "\nInsert your nickname: \nEND OF MESSAGE");
@@ -147,46 +177,52 @@ public class ClientHandler implements Runnable {
         sendMessage("Type of game has been chosen, wait for other clients to join");
     }
 
-    private void outToAll(String substring) throws IOException {
+    public void sendMessage(String text) {
+        out.println(MessageType.EASY_MESSAGE.getType() + "\n" + text + "\nEND OF MESSAGE");
+    }
+
+    private void sendMessageToAll(String text) {
         for (ClientHandler client : clients) {
-            client.out.println(MessageType.EASY_MESSAGE.getType() + "\n" + substring);
+            client.out.println(MessageType.EASY_MESSAGE.getType() + "\n" + text);
         }
     }
 
-    public void sendMessage(String msg) {
-        out.println(MessageType.EASY_MESSAGE.getType() + "\n" + msg + "\nEND OF MESSAGE");
+    public void sendMessage(MessageType type, String text) {
+        out.println(type.getType() + "\n" + text + "\nEND OF MESSAGE");
+    }
+
+    public void sendMessageToAll(MessageType type, String text) {
+        for (ClientHandler client : clients) {
+            client.out.println(type + "\n" + text + "\nEND OF MESSAGE");
+        }
     }
 
     public String getNickName() {
         return nickName;
     }
 
-    public String getLatestMessage() {
-        return latestMessage;
+    public Socket getClient() {
+        return client;
     }
 
-    public void setLatestMessageValid(boolean latestMessageValid) {
-        this.latestMessageValid = latestMessageValid;
+    public String getLatestMessage() {
+        return latestMessage;
     }
 
     public boolean isLatestMessageValid() {
         return latestMessageValid;
     }
 
+    public Object getLock() {
+        return lock;
+    }
+
+    public void setLatestMessageValid(boolean latestMessageValid) {
+        this.latestMessageValid = latestMessageValid;
+    }
+
     public void setYourTurn(boolean yourTurn) {
         this.yourTurn = yourTurn;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public PrintWriter getOut() {
-        return out;
-    }
-
-    public Socket getClient() {
-        return client;
     }
 
     public void setInformationIsNeeded(boolean informationIsNeeded) {

@@ -58,6 +58,7 @@ public class Server {
         player.selectNickName();
         while (!checkNickname(player.getNickName())) {
             player.sendMessage("Nickname you choose is not available, please insert a new one (");
+            player.selectNickName();
         }
 
         synchronized (clients) {

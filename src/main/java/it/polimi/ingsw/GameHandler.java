@@ -7,18 +7,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GameHandler implements Runnable {
+    private final ArrayList<ClientHandler> clientHandlers;
     private final Controller controller;
     private final MessageGenerator messageGenerator;
-    private final ArrayList<ClientHandler> clientHandlers;
     Map<Integer, String> indexToNick;
     Map<String, Integer> nickToIndex;
 
     public GameHandler(ArrayList<ClientHandler> clients) {
+        clientHandlers = clients;
+        controller = new Controller(this);
         indexToNick = new HashMap<>();
         nickToIndex = new HashMap<>();
-        controller = new Controller(this);
         messageGenerator = new MessageGenerator();
-        clientHandlers = clients;
 
         for (int i = 0; i < clients.size(); i++) {
             indexToNick.put(i, clients.get(i).getNickName());
@@ -39,6 +39,11 @@ public class GameHandler implements Runnable {
         clientHandlers.get(playerIndex).sendMessage(s);
     }
 
+    public void newMessage(int playerIndex, MessageType type, String text) {
+        clientHandlers.get(playerIndex).sendMessage(type, text);
+
+    }
+
     public void messageToAll(String s){
         for (int i=0; i<controller.getModel().gameRules[0]; i++) {
             clientHandlers.get(i).sendMessage(s);
@@ -46,20 +51,8 @@ public class GameHandler implements Runnable {
     }
 
     public String requestInformation(ObjectsToSelect selection, int[] cards, int player) throws InterruptedException {
-        String result = "";
+        String result = getLatestMessageFromPlayer(player);
         Map<MessageType, String> message;
-
-        clientHandlers.get(player).setLatestMessageValid(false);
-        clientHandlers.get(player).setInformationIsNeeded(true);
-
-        synchronized (clientHandlers.get(player).lock) {
-            while (!clientHandlers.get(player).isLatestMessageValid()) {
-                clientHandlers.get(player).lock.wait();
-            }
-        }
-
-        result = clientHandlers.get(player).getLatestMessage();
-        clientHandlers.get(player).setLatestMessageValid(false);
 
         //command card
         int cardNumber;
@@ -166,6 +159,38 @@ public class GameHandler implements Runnable {
         }
 
         return "false";
+    }
+
+    /**
+     * The method is called by requestInformation and is used to read the attribute latestMessage from turn's player.
+     *
+     * When method starts, it initializes booleans of the client used to indicate if latestMessage has a valid content
+     * and setting to true the need of a new message.
+     *
+     * When the message will be inserted, and it is ready to be read, the method saves the string and returns it,
+     * ready to be elaborated from request information
+     *
+     * @param player is the index of the player is playing now
+     * @return the string inserted by the player
+     */
+    private String getLatestMessageFromPlayer(int player) throws InterruptedException {
+        String result = "";
+
+        clientHandlers.get(player).setLatestMessageValid(false);
+        clientHandlers.get(player).setInformationIsNeeded(true);
+
+        synchronized (clientHandlers.get(player).getLock()) {
+            while (!clientHandlers.get(player).isLatestMessageValid()) {
+                clientHandlers.get(player).getLock().wait();
+            }
+        }
+
+        clientHandlers.get(player).setInformationIsNeeded(false);
+
+        result = clientHandlers.get(player).getLatestMessage();
+        clientHandlers.get(player).setLatestMessageValid(false);
+
+        return result;
     }
 
     /**
@@ -292,7 +317,7 @@ public class GameHandler implements Runnable {
     public void printStudents(int player, int playerIndex){
         String s;
         s = PrintMessageGenerator.printBoard(controller.getModel().getPlayerInteraction().getPlayer(playerIndex).getBoard(), indexToNick.get(playerIndex), controller.getModel().getIslandInteraction().getTowersByPlayer()[playerIndex]);
-        newMessage(player, s);
+        newMessage(player, MessageType.PRINT_BOARD, s);
     }
 
     public void printIslands(int player){
@@ -309,9 +334,8 @@ public class GameHandler implements Runnable {
     }
 
     public void printAssistantCards(int player){
-        String s = "metodo da implementare";
-        //Mario returns a message
-        newMessage(player, s);
+        String s = PrintMessageGenerator.printAssistantCards(controller.getModel().getPlayerInteraction().getPlayer(player).getAssistants());
+        newMessage(player, MessageType.PRINT_ASSISTANT_CARDS, s);
     }
 
     public void printCharacterCards(int player){

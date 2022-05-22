@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Objects;
 
 public class CLI implements Runnable{
     private Socket socket;
@@ -67,6 +68,10 @@ public class CLI implements Runnable{
 
     public void elaborateMessage(String type, String text) {
         this.parser.getParseMessages().get(type).parse(text);
+
+        if (text.equals("Disconnected")) {
+            serverConnection.exit();
+        }
     }
 
     public BufferedReader getFromServerInput() {

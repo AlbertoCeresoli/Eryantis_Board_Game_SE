@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Model.Island.Island;
+import it.polimi.ingsw.Model.Player.AssistantCard;
 import it.polimi.ingsw.Model.Player.Board;
 
 import java.util.ArrayList;
@@ -12,6 +13,36 @@ import java.util.Map;
  * that will be sent to the client then as server's response
  */
 public class PrintMessageGenerator {
+
+    public static String printAssistantCards(ArrayList<AssistantCard> assistantCards) {
+        String msg = "";
+
+        int availableCards = 0;
+
+        for (int i = 0; i < assistantCards.size(); i++) {
+            if (assistantCards.get(i).getCardState() == 2)
+                availableCards++;
+        }
+
+        msg += availableCards + "\n";
+
+        for (int i = 0; i < assistantCards.size() - 1; i++) {
+            if (assistantCards.get(i).getCardState() == 2) {
+                msg += (i + 1) + "\n";
+                msg += assistantCards.get(i).getPriority() + "\n";
+                msg += assistantCards.get(i).getSteps() + "\n";
+            }
+        }
+
+        msg += (assistantCards.size() -1 + 1) + "\n";
+        msg += assistantCards.get(assistantCards.size() - 1).getPriority() + "\n";
+        msg += assistantCards.get(assistantCards.size() - 1).getSteps();
+
+        return msg;
+    }
+
+
+
     /**
      * Gets all information from objects in input in order to create a string (containing data of the island) that will be parsed,
      * elaborated and then printed on client side
@@ -118,7 +149,7 @@ public class PrintMessageGenerator {
         }
 
         //adds number of towers on the board
-        msg += towers;
+        msg += towers + "\n";
 
         msg += "END OF MESSAGE";
 
