@@ -35,10 +35,21 @@ public class GameHandler implements Runnable {
         }
     }
 
-    public void newMessage(int playerIndex, String s){
+    /**
+     * Calls methods to print "S" to the selected player
+     * @param playerIndex   that has to receive the message
+     * @param s the message itself
+     */
+     public void newMessage(int playerIndex, String s){
         clientHandlers.get(playerIndex).sendMessage(s);
     }
 
+    /**
+     * As above but MessageType is a parameter required for the elaboration of certain prints
+     * @param playerIndex   that has to receive the message
+     * @param type the type of the message
+     * @param text the message itself
+     */
     public void newMessage(int playerIndex, MessageType type, String text) {
         clientHandlers.get(playerIndex).sendMessage(type, text);
 
@@ -50,6 +61,14 @@ public class GameHandler implements Runnable {
         }
     }
 
+    /**
+     * This method scans every input from the player checking whether the player used a specific keyword for information printing. In this case it prints what the player needs; then it continues the round tasks giving the input to the controller
+     * @param selection what the controller needs to continue the game
+     * @param cards the character card in this game
+     * @param player    the actual player
+     * @return  iterates until the last input is the one which satisfies the controller
+     * @throws InterruptedException
+     */
     public String requestInformation(ObjectsToSelect selection, int[] cards, int player) throws InterruptedException {
         String result = getLatestMessageFromPlayer(player);
         Map<MessageType, String> message;
@@ -347,4 +366,5 @@ public class GameHandler implements Runnable {
     public ArrayList<ClientHandler> getClientHandlers() {
         return clientHandlers;
     }
+
 }

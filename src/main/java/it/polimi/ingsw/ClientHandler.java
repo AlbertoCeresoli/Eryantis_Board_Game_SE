@@ -77,6 +77,12 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    /**
+     * This method manages the high-priority request from the player calling the specific method.
+     * @param request   string from keyboard
+     * @return  true if the request has been managed server-level
+     * @throws IOException
+     */
     private boolean manageRequest(String request) throws IOException {
         if (request.equalsIgnoreCase("/quit")) {
             quit();
@@ -101,6 +107,9 @@ public class ClientHandler implements Runnable {
         return false;
     }
 
+    /**
+     * Prints on screen a default message containing the main requests
+     */
     private void help() {
         String helpMessage =
                 "\nThese are common Eryantis commands used in various situations.\n" +
@@ -122,9 +131,13 @@ public class ClientHandler implements Runnable {
     }
 
     private void print() {
-
+//TODO
     }
 
+    /**
+     * Closes all the streams and connection for a client
+     * @throws IOException
+     */
     private void quit() throws IOException {
         connected = false;
         out.println(MessageType.EASY_MESSAGE.getType() + "\nDisconnected\nEND OF MESSAGE");
@@ -135,6 +148,11 @@ public class ClientHandler implements Runnable {
         clients.remove(id);
     }
 
+    /**
+     * Implements a simple communication between all players
+     * @param request   the message to send
+     * @throws IOException
+     */
     private void say(String request) throws IOException {
         int firstSpace = request.indexOf(" ");
         if (firstSpace != -1) {
@@ -153,6 +171,10 @@ public class ClientHandler implements Runnable {
         nickName = request;
     }
 
+    /**
+     * This method runs when the first client connects and asks for the settings he wants to play with
+     * @throws IOException
+     */
     public void gameRulesSelection() throws IOException {
         String request;
 
@@ -177,10 +199,18 @@ public class ClientHandler implements Runnable {
         sendMessage("Type of game has been chosen, wait for other clients to join");
     }
 
+    /**
+     * Prints "text" to the player's screen
+     * @param text  to be printed
+     */
     public void sendMessage(String text) {
         out.println(MessageType.EASY_MESSAGE.getType() + "\n" + text + "\nEND OF MESSAGE");
     }
 
+    /**
+     * Print "text" to every players' screen
+     * @param text  to be printed
+     */
     private void sendMessageToAll(String text) {
         for (ClientHandler client : clients) {
             client.out.println(MessageType.EASY_MESSAGE.getType() + "\n" + text);
