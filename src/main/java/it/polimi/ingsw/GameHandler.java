@@ -35,23 +35,29 @@ public class GameHandler implements Runnable {
         }
     }
 
-    public void newMessage(int playerIndex, String s){
+    public void newMessage(int playerIndex, String s) {
         clientHandlers.get(playerIndex).sendMessage(s);
     }
 
-    public void newMessage(int playerIndex, MessageType type, String text) {
-        clientHandlers.get(playerIndex).sendMessage(type, text);
-
+    public void newMessage(int playerIndex, MessageType type, String s) {
+        clientHandlers.get(playerIndex).sendMessage(type, s);
     }
 
-    public void messageToAll(String s){
-        for (int i=0; i<controller.getModel().gameRules[0]; i++) {
-            clientHandlers.get(i).sendMessage(s);
+    public void messageToAll(String s) {
+        for (ClientHandler clientHandler : clientHandlers) {
+            clientHandler.sendMessage(s);
+        }
+    }
+
+    public void messageToAll(MessageType type, String s) {
+        for (ClientHandler clientHandler : clientHandlers) {
+            clientHandler.sendMessage(type, s);
         }
     }
 
     public String requestInformation(ObjectsToSelect selection, int[] cards, int player) throws InterruptedException {
         String result = getLatestMessageFromPlayer(player);
+
         Map<MessageType, String> message;
 
         //command card
@@ -117,27 +123,19 @@ public class GameHandler implements Runnable {
             return requestInformation(selection, cards, player);
         }
 
-        //help
-        if (result.equalsIgnoreCase("HELP")) {
-            newMessage(player, "Students: shows all the students in the board");
-            newMessage(player, "Islands: shows all the islands of the game");
-            newMessage(player, "Clouds: shows all the clouds");
-            newMessage(player, "Teachers: shows all the teachers");
-            newMessage(player, "Card: if you want to play a character card");
-            newMessage(player, "Character cards: shows the effects of the character cards");
-            newMessage(player, "Assistant cards: shows the playable assistant cards");
-            return requestInformation(selection, cards, player);
-        }
-
         //creation of the message based on the object requested
         message = switch (selection) {
             case COLOR -> messageGenerator.colorSelection(result);
             case PLACE -> messageGenerator.placeSelection(result);
-            case ISLAND -> messageGenerator.islandSelection(result, controller.getModel().getIslandInteraction().getIslands().size());
-            case STEPS -> messageGenerator.stepsSelection(result, controller.getModel().getPlayerInteraction().getPlayer(player).getAssistants().get(cards[player]).getSteps());
+            case ISLAND ->
+                    messageGenerator.islandSelection(result, controller.getModel().getIslandInteraction().getIslands().size());
+            case STEPS ->
+                    messageGenerator.stepsSelection(result, controller.getModel().getPlayerInteraction().getPlayer(player).getAssistants().get(cards[player]).getSteps());
             case PLAYER -> messageGenerator.playerIndexSelection(result, controller.getModel().gameRules[0]);
-            case ASSISTANT_CARD -> messageGenerator.assistantSelection(result, controller.getModel().gameRules[0], cards, controller.getModel().getPlayerInteraction().getPlayers().get(player).getAssistants());
-            case CLOUD -> messageGenerator.cloudSelection(result, controller.getModel().gameRules[0], controller.getModel().getBagNClouds());
+            case ASSISTANT_CARD ->
+                    messageGenerator.assistantSelection(result, controller.getModel().gameRules[0], cards, controller.getModel().getPlayerInteraction().getPlayers().get(player).getAssistants());
+            case CLOUD ->
+                    messageGenerator.cloudSelection(result, controller.getModel().gameRules[0], controller.getModel().getBagNClouds());
             case CHARACTER_CARD -> messageGenerator.characterCardSelection(result);
         };
 
@@ -163,10 +161,10 @@ public class GameHandler implements Runnable {
 
     /**
      * The method is called by requestInformation and is used to read the attribute latestMessage from turn's player.
-     *
+     * <p>
      * When method starts, it initializes booleans of the client used to indicate if latestMessage has a valid content
      * and setting to true the need of a new message.
-     *
+     * <p>
      * When the message will be inserted, and it is ready to be read, the method saves the string and returns it,
      * ready to be elaborated from request information
      *
@@ -174,7 +172,7 @@ public class GameHandler implements Runnable {
      * @return the string inserted by the player
      */
     private String getLatestMessageFromPlayer(int player) throws InterruptedException {
-        String result = "";
+        String result;
 
         clientHandlers.get(player).setLatestMessageValid(false);
         clientHandlers.get(player).setInformationIsNeeded(true);
@@ -194,11 +192,11 @@ public class GameHandler implements Runnable {
     }
 
     /**
-     * if the cost of the card is higher then the coins of the player it will do nothing
+     * if the cost of the card is higher than the coins of the player it will do nothing
      * if the cost is lower:
-     *      reduce the coins in the hand of the player
-     *      increase the cost of the card if the boolean firstUsed is =0
-     *      collects all the information needed and calls useEffect
+     * reduce the coins in the hand of the player
+     * increase the cost of the card if the boolean firstUsed is =0
+     * collects all the information needed and calls useEffect
      */
     public void playCard(int cardPlayed, int player) throws InterruptedException {
         Map<Indexes, Integer> index = new HashMap<>();
@@ -307,38 +305,38 @@ public class GameHandler implements Runnable {
     /**
      * prints methods TODO
      */
-    public void printClouds(int player){
+    public void printClouds(int player) {
         String s;
         s = PrintMessageGenerator.printClouds(controller.getModel().getBagNClouds().getClouds());
         newMessage(player, s);
     }
 
 
-    public void printStudents(int player, int playerIndex){
+    public void printStudents(int player, int playerIndex) {
         String s;
         s = PrintMessageGenerator.printBoard(controller.getModel().getPlayerInteraction().getPlayer(playerIndex).getBoard(), indexToNick.get(playerIndex), controller.getModel().getIslandInteraction().getTowersByPlayer()[playerIndex]);
         newMessage(player, MessageType.PRINT_BOARD, s);
     }
 
-    public void printIslands(int player){
+    public void printIslands(int player) {
         String s;
         s = PrintMessageGenerator.printAllIslands(controller.getModel().getIslandInteraction().getIslands(), controller.getModel().getIslandInteraction().getMotherNature(), indexToNick);
         //Mario, returns a message
-        newMessage(player, s);
+        newMessage(player, MessageType.PRINT_ALL_ISLANDS, s);
     }
 
-    public void printTeachers(int player){
+    public void printTeachers(int player) {
         String s;
         s = PrintMessageGenerator.printTeachers(controller.getModel().getIslandInteraction().getTeachers(), indexToNick);
         newMessage(player, s);
     }
 
-    public void printAssistantCards(int player){
+    public void printAssistantCards(int player) {
         String s = PrintMessageGenerator.printAssistantCards(controller.getModel().getPlayerInteraction().getPlayer(player).getAssistants());
         newMessage(player, MessageType.PRINT_ASSISTANT_CARDS, s);
     }
 
-    public void printCharacterCards(int player){
+    public void printCharacterCards(int player) {
         String s = "metodo da implementare";
         //Mario, returns a message
         newMessage(player, s);

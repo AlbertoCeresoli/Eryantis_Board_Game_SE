@@ -23,6 +23,7 @@ public class ClientHandler implements Runnable {
 
     /**
      * Constructor which instantiates channel dedicated to the handling of each client
+     *
      * @param clientSocket to connect to the specific client
      */
     public ClientHandler(Socket clientSocket) throws IOException {
@@ -40,9 +41,9 @@ public class ClientHandler implements Runnable {
     }
 
     /**
-     *  The run-method first asks for general info about the client and keep listening on the client's channel
-     *  elaborating his request depending on what info the controller needs.
-     *  <p>Requests which starts with "/" have an higher priority and are handled at server-level (these aren't passed to the game controller)</p>
+     * The run-method first asks for general info about the client and keep listening on the client's channel
+     * elaborating his request depending on what info the controller needs.
+     * <p>Requests which starts with "/" have an higher priority and are handled at server-level (these aren't passed to the game controller)</p>
      */
     @Override
     public void run() {
@@ -66,8 +67,7 @@ public class ClientHandler implements Runnable {
                                 lock.notifyAll();
                             }
                         }
-                    }
-                    else {
+                    } else {
                         sendMessage("Not your turn now, please wait");
                     }
                 }
@@ -135,7 +135,7 @@ public class ClientHandler implements Runnable {
         clients.remove(id);
     }
 
-    private void say(String request) throws IOException {
+    private void say(String request) {
         int firstSpace = request.indexOf(" ");
         if (firstSpace != -1) {
             sendMessageToAll(request.substring(firstSpace + 1) + "\nEND OF MESSAGE");

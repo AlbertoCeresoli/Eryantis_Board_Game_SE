@@ -21,7 +21,7 @@ public class Model {
     /**
      * Model Constructor, it initializes everything
      *
-     * @param gameRules     array with specific constants referred to the played gameMode
+     * @param gameRules array with specific constants referred to the played gameMode
      */
     public Model(int[] gameRules) {
         this.gameRules = gameRules;
@@ -39,7 +39,8 @@ public class Model {
     }
 
     /**
-     *  initializeGame calls other initializer methods and instantiates bagNClouds
+     * initializeGame calls other initializer methods and instantiates bagNClouds
+     *
      * @return true if everything gone good
      */
     public boolean initializeGame() {
@@ -51,7 +52,7 @@ public class Model {
     }
 
     /**
-     *  initializeEntrance sets the entrances of all players' boards
+     * initializeEntrance sets the entrances of all players' boards
      */
     private void initializeEntrance() {
         //creates a temporary HashMap
@@ -64,8 +65,8 @@ public class Model {
     }
 
     /**
-     *  initializeIsland sets the first students in the islands,
-     *  then fills the bags with the correct amount of remaining students
+     * initializeIsland sets the first students in the islands,
+     * then fills the bags with the correct amount of remaining students
      */
 
     private void initializeIsland() {
@@ -82,16 +83,17 @@ public class Model {
     }
 
     /**
-     *      this moves 1 student per time from the entrance to the hall
-     *      then it checks whether the control of the teacher changes
-     *      if the student placed is the 3rd, 6th or 9th of that color, it adds a coin to that player
+     * this moves 1 student per time from the entrance to the hall
+     * then it checks whether the control of the teacher changes
+     * if the student placed is the 3rd, 6th or 9th of that color, it adds a coin to that player
+     *
      * @param studColor color of the student to be moved
      * @param player    player who moves the student
      */
     public boolean moveFromEntranceToHall(Colors studColor, int player) {
         //creates the map with the student to move
         Map<Colors, Integer> temp = new HashMap<>();
-        for (Colors c : Colors.values()){
+        for (Colors c : Colors.values()) {
             temp.put(c, 0);
         }
         temp.put(studColor, 1);
@@ -100,19 +102,19 @@ public class Model {
 
         //remove from entrance
         result = playerInteraction.getPlayers().get(player).getBoard().removeFromEntrance(temp);
-        if (!result){
+        if (!result) {
             return false;
         }
 
         //add to hall
         playerInteraction.getPlayers().get(player).getBoard().addToHall(temp);
         newTeacherController = playerInteraction.checkTeacher(studColor, player);
-        if (newTeacherController.size()==1){
+        if (newTeacherController.size() == 1) {
             islandInteraction.setTeacher(newTeacherController.get(0), studColor);
         }
 
         //check for the addCoin
-        if(playerInteraction.getPlayers().get(player).getBoard().getStudHall().get(studColor)%3 == 0) {
+        if (playerInteraction.getPlayers().get(player).getBoard().getStudHall().get(studColor) % 3 == 0) {
             playerInteraction.getPlayers().get(player).addCoin();
         }
         return true;
@@ -120,15 +122,16 @@ public class Model {
 
 
     /**
-     *  this moves 1 student per time from the entrance to the island
-     * @param studColor     color of the student to be moved
+     * this moves 1 student per time from the entrance to the island
+     *
+     * @param studColor color of the student to be moved
      * @param player    player who moves the student
      * @param island    index of the island where the student will be moved to
      */
     public boolean moveFromEntranceToIsland(Colors studColor, int player, int island) {
         //creates the map with the student to move
         Map<Colors, Integer> temp = new HashMap<>();
-        for (Colors c : Colors.values()){
+        for (Colors c : Colors.values()) {
             temp.put(c, 0);
         }
         temp.put(studColor, 1);
@@ -142,14 +145,15 @@ public class Model {
     }
 
     /**
-     *  this move the entire array of students to the entrance of the caller
-     * @param player    index of the player who moves the cloud
-     * @param cloudIndex     index of th cloud he gets
+     * this move the entire array of students to the entrance of the caller
+     *
+     * @param player     index of the player who moves the cloud
+     * @param cloudIndex index of th cloud he gets
      */
     public boolean studentsCloudToEntrance(int player, int cloudIndex) {
         //creates the map with the students to move
         Map<Colors, Integer> temp = new HashMap<>();
-        for(Colors c : Colors.values()){
+        for (Colors c : Colors.values()) {
             temp.put(c, bagNClouds.getClouds().get(cloudIndex).get(c));
         }
         //remove the students from the cloud
@@ -160,9 +164,10 @@ public class Model {
     }
 
     /**
-     *  check if one of the statements which determine the end of the game are satisfied
-     *  -no students left in the bag
-     *  -a player used every assistant card in his hand
+     * check if one of the statements which determine the end of the game are satisfied
+     * -no students left in the bag
+     * -a player used every assistant card in his hand
+     *
      * @return true if the game need to finish
      */
     public boolean endGame() {
@@ -170,22 +175,26 @@ public class Model {
         boolean noMoreAC = true;
 
         if (bagNClouds.isEmpty())
-             check = true;
+            check = true;
         for (int i = 0; i < playerInteraction.getPlayers().size(); i++) {
             for (int j = 0; j < 10; j++) {
                 if (playerInteraction.getPlayers().get(i).getAssistants().get(j).getCardState() != 0) {
                     noMoreAC = false;
+                    break;
                 }
             }
-            if (noMoreAC) {check = true;}
+            if (noMoreAC) {
+                check = true;
+            }
         }
 
         return check;
     }
 
     /**
-     *  finds the player with the less amount of towers left in his board
-     *  in case of draw, finds the one who controls more teachers
+     * finds the player with the less amount of towers left in his board
+     * in case of draw, finds the one who controls more teachers
+     *
      * @return the index of the winner player
      */
     public int getWinner() {
@@ -204,11 +213,11 @@ public class Model {
         int i = 0;
         OptionalInt maxT;
         while (i >= 0 && i < nTeachers.length) {
-            if(i != winner) {
+            if (i != winner) {
                 if (islandInteraction.getTowersByPlayer()[i] == winnerTowers) {
                     maxT = Arrays.stream(nTeachers).max();
                     for (int j = 0; j < nTeachers.length; j++) {
-                        if(j != winner) {
+                        if (j != winner) {
                             if (nTeachers[j] == maxT.getAsInt() && nTeachers[winner] != maxT.getAsInt()) {
                                 return j;
                             }
@@ -225,8 +234,9 @@ public class Model {
     }
 
     /**
-     *  draw and instantiates 3 random character cards out of the 12 available
-     * @return  a CharacterCards[] array containing the 3 drawn cards
+     * draw and instantiates 3 random character cards out of the 12 available
+     *
+     * @return a CharacterCards[] array containing the 3 drawn cards
      */
     public CharacterCards[] drawCharacterCards() {
         CharacterCards[] cards;
@@ -246,51 +256,35 @@ public class Model {
             rnd = bucket.get(position);
             bucket.remove(position);
             switch (rnd) {
-                case 0:
+                case 0 -> {
                     studs = bagNClouds.drawStudents(Constants.CARD1_STUDENTS_CAPACITY);
                     cards[i] = new Card1(1, islandInteraction, bagNClouds, studs);
-                    break;
-                case 1:
-                    cards[i] = new Card2(2, playerInteraction);
-                    break;
-                case 2:
-                    cards[i] = new Card3(3, islandInteraction);
-                    break;
-                case 3:
-                    cards[i] = new Card4(1, playerInteraction);
-                    break;
-                case 4:
-                    cards[i] = new Card5(2, islandInteraction);
-                    break;
-                case 5:
-                    cards[i] = new Card6(3, islandInteraction);
-                    break;
-                case 6:
+                }
+                case 1 -> cards[i] = new Card2(2, playerInteraction);
+                case 2 -> cards[i] = new Card3(3, islandInteraction);
+                case 3 -> cards[i] = new Card4(1, playerInteraction);
+                case 4 -> cards[i] = new Card5(2, islandInteraction);
+                case 5 -> cards[i] = new Card6(3, islandInteraction);
+                case 6 -> {
                     studs = bagNClouds.drawStudents(Constants.CARD7_STUDENTS_CAPACITY);
                     cards[i] = new Card7(1, playerInteraction, studs);
-                    break;
-                case 7:
-                    cards[i] = new Card8(2, islandInteraction);
-                    break;
-                case 8:
-                    cards[i] = new Card9(3, islandInteraction);
-                    break;
-                case 9:
-                    cards[i] = new Card10(1, playerInteraction, islandInteraction);
-                    break;
-                case 10:
+                }
+                case 7 -> cards[i] = new Card8(2, islandInteraction);
+                case 8 -> cards[i] = new Card9(3, islandInteraction);
+                case 9 -> cards[i] = new Card10(1, playerInteraction, islandInteraction);
+                case 10 -> {
                     studs = bagNClouds.drawStudents(Constants.CARD11_STUDENTS_CAPACITY);
                     cards[i] = new Card11(2, playerInteraction, islandInteraction, bagNClouds, studs);
-                    break;
-                case 11:
-                    cards[i] = new Card12(3, playerInteraction, bagNClouds);
-                    break;
+                }
+                case 11 -> cards[i] = new Card12(3, playerInteraction, bagNClouds);
             }
         }
         return cards;
     }
+
     /**
-     *  moves mother nature adding the steps choose by the player [mod n] where n is the number of islands "left"
+     * moves mother nature adding the steps choose by the player [mod n] where n is the number of islands "left"
+     *
      * @param steps number of steps Mother Nature has to do
      */
     public boolean moveMN(int steps) throws EndGameException {
@@ -298,12 +292,12 @@ public class Model {
         MN += steps;
         MN %= (islandInteraction.getIslands().size());
         islandInteraction.setMotherNature(MN);
-        if(islandInteraction.getIslands().get(MN).getInhibitionCards() > 0){
+        if (islandInteraction.getIslands().get(MN).getInhibitionCards() > 0) {
             islandInteraction.getIslands().get(MN).removeInhibitionCard();
             islandInteraction.addInhibitionCard();
             return true;
         }
-        if (islandInteraction.getIslands().get(MN).getInhibitionCards() == 0){
+        if (islandInteraction.getIslands().get(MN).getInhibitionCards() == 0) {
             islandInteraction.calculateInfluence(MN, gameRules[0]);
         }
         return true;

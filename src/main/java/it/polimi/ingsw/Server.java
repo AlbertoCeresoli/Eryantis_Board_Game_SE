@@ -83,6 +83,7 @@ public class Server {
 
     /**
      * The method controls if nickname chosen by a player that is connecting is already used or not
+     *
      * @param nickname that has just been chosen
      * @return true or false depending on the availability of chosen nickname
      */

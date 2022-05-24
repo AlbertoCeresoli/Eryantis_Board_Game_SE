@@ -26,7 +26,7 @@ public class ClientPrinter {
     }
 
     public static void printAssistantCards(ArrayList<int[]> cardsInformation) {
-        System.out.println("Your available Assistants Cards are:");
+        System.out.println("\nYour available Assistants Cards are:");
         for (int i = 0; i < cardsInformation.get(0).length; i++) {
             System.out.println("Assistant Card " + cardsInformation.get(0)[i] + ":");
             System.out.println("     Priority: " + cardsInformation.get(1)[i] + "     Steps: " + cardsInformation.get(2)[i]);
@@ -34,7 +34,7 @@ public class ClientPrinter {
     }
 
     public static void printIsland(Map<Colors, Integer> students, int towers, int inhCards, String controller, int islandIndex, boolean MN) {
-        System.out.println("Island " + islandIndex + ", controlled by " + controller + "\n");
+        System.out.println("\nIsland " + islandIndex + ", controlled by " + controller + "\n");
 
         printIslandStudents(students, islandIndex, MN);
         if (towers != 0) {
@@ -46,7 +46,7 @@ public class ClientPrinter {
     }
 
     public static void printIslandStudents(Map<Colors, Integer> students, int islandIndex, boolean MN) {
-        System.out.println("Students on the island:\n");
+        System.out.println("\nStudents on the island:\n");
 
         if (MN) {
             printMN();
@@ -155,7 +155,7 @@ public class ClientPrinter {
             }
         }
 
-        System.out.println("Board of " + nickname + "\n");
+        System.out.println("\nBoard of " + nickname + "\n");
         System.out.println("Entrance:          Hall:\n");
 
         int i = 0;
@@ -183,7 +183,7 @@ public class ClientPrinter {
     }
 
     public static void printTeachers(Map<Colors, String> teachers) {
-        System.out.println("Teachers are controlled by:\n");
+        System.out.println("\nTeachers are controlled by:\n");
         for (Colors c : Colors.values()) {
             System.out.println(colorsChars.get(c) + teachers.get(c));
         }

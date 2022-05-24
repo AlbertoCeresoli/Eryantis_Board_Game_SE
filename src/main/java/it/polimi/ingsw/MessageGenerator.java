@@ -19,7 +19,7 @@ public class MessageGenerator {
 
         switch (result.toUpperCase()) {
             case "YELLOW", "BLUE", "GREEN", "RED", "PINK" ->
-                    message.put(MessageType.EASY_MESSAGE, "The color selected is " + result.toLowerCase());
+                    message.put(MessageType.CORRECT_INPUT, "The color selected is " + result.toLowerCase());
             default ->
                     message.put(MessageType.NOT_VALID_INPUT, "Not valid input, the color must be yellow, blue, green, red or pink");
         }
