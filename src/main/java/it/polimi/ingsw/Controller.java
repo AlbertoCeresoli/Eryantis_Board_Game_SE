@@ -77,46 +77,38 @@ public class Controller {
      * This is the method which continue iterating giving the rhythm to all the turn phases. It responds to the needs of the controller providing all the input from the players.
      */
     public void round() throws InterruptedException {
-        //planning phase
         planningPhase();
 
-        //action phase
-        //for the number of players
-        Colors color = null;
-
-        actionPhase(lastAssistantCardsPlayed, roundPlayerOrder, color);
+        actionPhase();
     }
 
     /**
-     * During the action phase the players play following the playerOrder array. They move students from thei entrance to hall/islands
+     * During the action phase the players play following the playerOrder array. They move students from their entrance to hall/islands
      * and then mother nature to calculate influence on that island
-     * @param cards
-     * @param playerOrder
-     * @param color
      * @throws InterruptedException
      */
-    private void actionPhase(int[] cards, int[] playerOrder, Colors color) throws InterruptedException {
-        String temp;
-        int index;
+    private void actionPhase() throws InterruptedException {
+        Colors color = null;
+
         //for the number of players
         for (int i = 0; i < model.gameRules[0]; i++) {
             gameHandler.getClientHandlers().get(actualTurnPlayer).setYourTurn(false);
-            actualTurnPlayer = playerOrder[i];
+            actualTurnPlayer = roundPlayerOrder[i];
             gameHandler.getClientHandlers().get(actualTurnPlayer).setYourTurn(true);
             gameHandler.newMessage(actualTurnPlayer, "Player " + actualTurnPlayer + ": it's your turn");
 
             //1) student movement
             //for the students to move
             for (int j = 0; j < model.gameRules[0] + 1; j++) {
-                color = colorSelection(cards, color);
+                color = colorSelection(lastAssistantCardsPlayed, color);
 
-                studentDestination(cards, color);
+                studentDestination(lastAssistantCardsPlayed, color);
             }
 
             //MN movement
-            if (moveMN(cards)) return;
+            if (moveMN(lastAssistantCardsPlayed)) return;
 
-            cloudSelection(cards);
+            cloudSelection(lastAssistantCardsPlayed);
 
             checkEnd();
         }
@@ -288,7 +280,7 @@ public class Controller {
             gameHandler.printAssistantCards(actualTurnPlayer);
             gameHandler.newMessage(actualTurnPlayer, gameHandler.getClientHandlers().get(actualTurnPlayer).getNickName() + " play your assistant card");
 
-            String temp = "";
+            String temp;
 
             do {
                 temp = gameHandler.requestInformation(ObjectsToSelect.ASSISTANT_CARD, cards, actualTurnPlayer);
