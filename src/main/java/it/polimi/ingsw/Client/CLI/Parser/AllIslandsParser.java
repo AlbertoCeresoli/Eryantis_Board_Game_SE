@@ -20,8 +20,8 @@ public class AllIslandsParser implements Parser {
             island += scanner.next() + "\n";
             island += scanner.next() + "\n";
 
-            Parser islandPrinter = new IslandParser();
-            islandPrinter.parse(island);
+            Parser islandParser = new IslandParser();
+            islandParser.parse(island);
         }
 
         scanner.close();

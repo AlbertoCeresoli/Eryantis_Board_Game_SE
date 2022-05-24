@@ -108,30 +108,30 @@ public class GameHandler implements Runnable {
 
         //extra commands
         //print all the students of the player
-        if (result.equalsIgnoreCase("STUDENTS")) {
+        if (result.equalsIgnoreCase("BOARD")) {
             int index;
             newMessage(player, "Select the player:");
             index = Integer.parseInt(requestInformation(ObjectsToSelect.PLAYER, cards, player));
             printStudents(player, index);
-            return requestInformation(selection, cards, player);
+            return "false";
         }
 
         //Show islands
         if (result.equalsIgnoreCase("ISLANDS")) {
             printIslands(player);
-            return requestInformation(selection, cards, player);
+            return "false";
         }
 
         //Show clouds
         if (result.equalsIgnoreCase("CLOUDS")) {
             printClouds(player);
-            return requestInformation(selection, cards, player);
+            return "false";
         }
 
         //Show teachers
         if (result.equalsIgnoreCase("TEACHERS")) {
             printTeachers(player);
-            return requestInformation(selection, cards, player);
+            return "false";
         }
 
         //Show assistant cards
@@ -140,7 +140,7 @@ public class GameHandler implements Runnable {
             newMessage(player, "Select the player:");
             index = Integer.parseInt(requestInformation(ObjectsToSelect.PLAYER, cards, player));
             printAssistantCards(index);
-            return requestInformation(selection, cards, player);
+            return "false";
         }
 
         //creation of the message based on the object requested
@@ -162,21 +162,11 @@ public class GameHandler implements Runnable {
         if (message.containsKey(MessageType.CORRECT_INPUT)) {
             newMessage(player, message.get(MessageType.CORRECT_INPUT));
             return result;
-        } else if (message.containsKey(MessageType.NOT_VALID_INPUT)) {
-            newMessage(player, message.get(MessageType.NOT_VALID_INPUT));
-            return requestInformation(selection, cards, player);
-        } else if (message.containsKey(MessageType.NOT_VALID_INDEX)) {
-            newMessage(player, message.get(MessageType.NOT_VALID_INDEX));
-            return requestInformation(selection, cards, player);
-        } else if (message.containsKey(MessageType.ALREADY_PLAYED)) {
-            newMessage(player, message.get(MessageType.ALREADY_PLAYED));
-            return requestInformation(selection, cards, player);
-        } else if (message.containsKey(MessageType.ALREADY_PLAYED_THIS_TURN)) {
-            newMessage(player, message.get(MessageType.ALREADY_PLAYED_THIS_TURN));
-            return requestInformation(selection, cards, player);
         }
-
-        return "false";
+        else {
+            newMessage(player, "no bene");
+            return "false";
+        }
     }
 
     /**
@@ -328,7 +318,7 @@ public class GameHandler implements Runnable {
     public void printClouds(int player) {
         String s;
         s = PrintMessageGenerator.printClouds(controller.getModel().getBagNClouds().getClouds());
-        newMessage(player, s);
+        newMessage(player, MessageType.PRINT_ALL_CLOUDS, s);
     }
 
 
@@ -348,7 +338,7 @@ public class GameHandler implements Runnable {
     public void printTeachers(int player) {
         String s;
         s = PrintMessageGenerator.printTeachers(controller.getModel().getIslandInteraction().getTeachers(), indexToNick);
-        newMessage(player, s);
+        newMessage(player, MessageType.PRINT_TEACHERS, s);
     }
 
     public void printAssistantCards(int player) {

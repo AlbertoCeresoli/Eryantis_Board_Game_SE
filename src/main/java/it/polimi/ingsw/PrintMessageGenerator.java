@@ -82,9 +82,7 @@ public class PrintMessageGenerator {
         msg += island.getnTowers() + "\n";
 
         //adds number of inhibition cards on the island
-        msg += island.getInhibitionCards() + "\n";
-
-        msg += "END OF MESSAGE";
+        msg += island.getInhibitionCards();
 
         return msg;
     }
@@ -105,6 +103,8 @@ public class PrintMessageGenerator {
         //string where information will be added
         String msg = "";
 
+        msg += islands.size() + "\n";
+
         //will indicates if mother nature is on actual island or not
         boolean MN;
 
@@ -113,8 +113,6 @@ public class PrintMessageGenerator {
             MN = MNIndex == i;
             msg += printIsland(islands.get(i), i, MN, players) + "\n";
         }
-
-        msg += "END OF MESSAGE";
 
         return msg;
     }
@@ -151,8 +149,6 @@ public class PrintMessageGenerator {
         //adds number of towers on the board
         msg += towers + "\n";
 
-        msg += "END OF MESSAGE";
-
         return msg;
     }
 
@@ -176,8 +172,6 @@ public class PrintMessageGenerator {
         for (int i = 0; i < boards.size(); i++) {
             msg += printBoard(boards.get(i), players.get(i), towers[i]) + "\n";
         }
-
-        msg += "END OF MESSAGE";
 
         return msg;
     }
@@ -205,8 +199,6 @@ public class PrintMessageGenerator {
             }
         }
 
-        msg += "END OF MESSAGE";
-
         return msg;
     }
 
@@ -231,8 +223,6 @@ public class PrintMessageGenerator {
         for (Colors c : Colors.values()) {
             msg += players.get(teachers.get(c)) + "\n";
         }
-
-        msg += "END OF MESSAGE";
 
         return msg;
     }
