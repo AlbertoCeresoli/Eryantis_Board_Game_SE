@@ -13,7 +13,13 @@ public class TeachersParser implements Parser {
         Scanner scanner = new Scanner(s);
         Map<Colors, String> teachers = new HashMap<>();
         for (Colors c : Colors.values()) {
-            teachers.put(c, scanner.next());
+            String temp = scanner.next();
+
+            if (temp.equals("null")) {
+                temp = "Nobody";
+            }
+
+            teachers.put(c, temp);
         }
 
         scanner.close();

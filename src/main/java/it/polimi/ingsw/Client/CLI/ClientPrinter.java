@@ -55,11 +55,11 @@ public class ClientPrinter {
         System.out.println(
                 "      " + Constants.ANSI_GREEN_BACKGROUND + "         " + Constants.ANSI_RESET + "      \n" +
                         "    " + Constants.ANSI_GREEN_BACKGROUND + "             " + Constants.ANSI_RESET + "    \n" +
-                        "  " + Constants.ANSI_GREEN_BACKGROUND + "      " + Constants.ANSI_RESET + Constants.ANSI_PINK + students.get(Colors.PINK) + Constants.ANSI_GREEN_BACKGROUND + "   " + Constants.ANSI_RESET + Constants.ANSI_YELLOW + students.get(Colors.YELLOW) + Constants.ANSI_GREEN_BACKGROUND + "      " + Constants.ANSI_RESET + "  \n" +
+                        "  " + Constants.ANSI_GREEN_BACKGROUND + "     " + Constants.ANSI_RESET + " " + Constants.ANSI_PINK + students.get(Colors.PINK) + Constants.ANSI_RESET + " " + Constants.ANSI_GREEN_BACKGROUND + " " + Constants.ANSI_RESET + " " + Constants.ANSI_YELLOW + students.get(Colors.YELLOW) + Constants.ANSI_RESET + " " + Constants.ANSI_GREEN_BACKGROUND + "     " + Constants.ANSI_RESET + "  \n" +
                         Constants.ANSI_GREEN_BACKGROUND + "                     " + Constants.ANSI_RESET + "\n" +
-                        Constants.ANSI_GREEN_BACKGROUND + "      " + Constants.ANSI_RESET + Constants.ANSI_RED + students.get(Colors.RED) + Constants.ANSI_RESET + Constants.ANSI_GREEN_BACKGROUND + "       " + Constants.ANSI_RESET + Constants.ANSI_GREEN + students.get(Colors.GREEN) + Constants.ANSI_RESET + Constants.ANSI_GREEN_BACKGROUND + "      " + Constants.ANSI_RESET + "\n" +
+                        Constants.ANSI_GREEN_BACKGROUND + "     " + Constants.ANSI_RESET + " " + Constants.ANSI_RED + students.get(Colors.RED) + Constants.ANSI_RESET + " " + Constants.ANSI_GREEN_BACKGROUND + "      " + Constants.ANSI_RESET + " " + Constants.ANSI_GREEN + students.get(Colors.GREEN) + Constants.ANSI_RESET + " " + Constants.ANSI_GREEN_BACKGROUND + "     " + Constants.ANSI_RESET + "\n" +
                         Constants.ANSI_GREEN_BACKGROUND + "                     " + Constants.ANSI_RESET + "\n" +
-                        Constants.ANSI_YELLOW_BACKGROUND + "    " + Constants.ANSI_GREEN_BACKGROUND + "      " + Constants.ANSI_RESET + Constants.ANSI_BLUE + students.get(Colors.BLUE) + Constants.ANSI_RESET + Constants.ANSI_GREEN_BACKGROUND + "          " + Constants.ANSI_RESET + "\n" +
+                        Constants.ANSI_YELLOW_BACKGROUND + "    " + Constants.ANSI_GREEN_BACKGROUND + "     " + Constants.ANSI_RESET + " " + Constants.ANSI_BLUE + students.get(Colors.BLUE) + Constants.ANSI_RESET + " " + Constants.ANSI_GREEN_BACKGROUND + "         " + Constants.ANSI_RESET + "\n" +
                         "  " + Constants.ANSI_YELLOW_BACKGROUND + "    " + Constants.ANSI_GREEN_BACKGROUND + "             " + Constants.ANSI_RESET + "\n" +
                         "    " + Constants.ANSI_YELLOW_BACKGROUND + "    " + Constants.ANSI_GREEN_BACKGROUND + "         " + Constants.ANSI_RESET + "\n" +
                         "      " + Constants.ANSI_YELLOW_BACKGROUND + Constants.ANSI_BLACK + "Island " + islandIndex + Constants.ANSI_RESET + "\n"
@@ -187,20 +187,21 @@ public class ClientPrinter {
         for (Colors c : Colors.values()) {
             System.out.println(colorsChars.get(c) + teachers.get(c));
         }
-        System.out.println();
+        System.out.println(Constants.ANSI_RESET);
     }
 
     public static void printClouds(ArrayList<Map<Colors, Integer>> clouds) {
+        System.out.println();
         for (int i = 0; i < clouds.size(); i++) {
             System.out.print(Constants.ANSI_RESET + "     " + Constants.ANSI_WHITE_BACKGROUND + "            " + Constants.ANSI_RESET + "       ");
         }
         System.out.println();
         for (int i = 0; i < clouds.size(); i++) {
-            System.out.print(Constants.ANSI_RESET + " " + Constants.ANSI_WHITE_BACKGROUND + "         " + Constants.ANSI_RESET + Constants.ANSI_YELLOW + clouds.get(i).get(Colors.YELLOW) + Constants.ANSI_WHITE_BACKGROUND + "          " + Constants.ANSI_RESET + "   ");
+            System.out.print(Constants.ANSI_RESET + " " + Constants.ANSI_WHITE_BACKGROUND + "        " + Constants.ANSI_RESET + Constants.ANSI_RESET + " " + Constants.ANSI_YELLOW + clouds.get(i).get(Colors.YELLOW) + Constants.ANSI_RESET + " " + Constants.ANSI_WHITE_BACKGROUND + "         " + Constants.ANSI_RESET + "   ");
         }
         System.out.println();
         for (int i = 0; i < clouds.size(); i++) {
-            System.out.print(Constants.ANSI_WHITE_BACKGROUND + "      " + Constants.ANSI_RESET + Constants.ANSI_GREEN + clouds.get(i).get(Colors.GREEN) + Constants.ANSI_WHITE_BACKGROUND + "        " + Constants.ANSI_RESET + Constants.ANSI_BLUE + clouds.get(i).get(Colors.BLUE) + Constants.ANSI_WHITE_BACKGROUND + "      " + Constants.ANSI_RESET + "  ");
+            System.out.print(Constants.ANSI_WHITE_BACKGROUND + "     " + Constants.ANSI_RESET + Constants.ANSI_RESET + " " + Constants.ANSI_GREEN + clouds.get(i).get(Colors.GREEN) + Constants.ANSI_RESET + " " + Constants.ANSI_WHITE_BACKGROUND + "      " + Constants.ANSI_RESET + " " + Constants.ANSI_BLUE + clouds.get(i).get(Colors.BLUE) + Constants.ANSI_RESET + " " + Constants.ANSI_WHITE_BACKGROUND + "     " + Constants.ANSI_RESET + "  ");
         }
         System.out.println();
         for (int i = 0; i < clouds.size(); i++) {
@@ -208,7 +209,7 @@ public class ClientPrinter {
         }
         System.out.println();
         for (int i = 0; i < clouds.size(); i++) {
-            System.out.print(Constants.ANSI_RESET + " " + Constants.ANSI_WHITE_BACKGROUND + "       " + Constants.ANSI_RESET + Constants.ANSI_RED + clouds.get(i).get(Colors.RED) + Constants.ANSI_WHITE_BACKGROUND + "    " + Constants.ANSI_RESET + Constants.ANSI_PINK + clouds.get(i).get(Colors.PINK) + Constants.ANSI_WHITE_BACKGROUND + "       " + Constants.ANSI_RESET + "   ");
+            System.out.print(Constants.ANSI_RESET + " " + Constants.ANSI_WHITE_BACKGROUND + "      " + Constants.ANSI_RESET + " " + Constants.ANSI_RED + clouds.get(i).get(Colors.RED) + Constants.ANSI_RESET + " " + Constants.ANSI_WHITE_BACKGROUND + "  " + Constants.ANSI_RESET + " " + Constants.ANSI_PINK + clouds.get(i).get(Colors.PINK) + Constants.ANSI_RESET + " " + Constants.ANSI_WHITE_BACKGROUND + "      " + Constants.ANSI_RESET + "   ");
         }
         System.out.println();
         for (int i = 0; i < clouds.size(); i++) {

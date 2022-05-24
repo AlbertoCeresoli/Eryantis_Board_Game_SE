@@ -134,7 +134,11 @@ public class Controller {
         int index;
         gameHandler.newMessage(actualTurnPlayer, "Player" + actualTurnPlayer + ": How many steps you want MN to do?");
         gameHandler.newMessage(actualTurnPlayer, "you can choose from 1 to " + model.getPlayerInteraction().getPlayer(actualTurnPlayer).getAssistants().get(cards[actualTurnPlayer]).getSteps());
-        temp = gameHandler.requestInformation(ObjectsToSelect.STEPS, cards, actualTurnPlayer);
+
+        do {
+            temp = gameHandler.requestInformation(ObjectsToSelect.STEPS, cards, actualTurnPlayer);
+        } while (temp.equals("false"));
+
         index = Integer.parseInt(temp);
         try {
             model.moveMN(index);
@@ -173,7 +177,10 @@ public class Controller {
         gameHandler.newMessage(actualTurnPlayer, "You have to select the cloud with the students you want in your entrance");
         gameHandler.printClouds(actualTurnPlayer);
         gameHandler.newMessage(actualTurnPlayer, "Select the cloud index:");
-        temp = gameHandler.requestInformation(ObjectsToSelect.CLOUD, cards, actualTurnPlayer);
+        do {
+            temp = gameHandler.requestInformation(ObjectsToSelect.CLOUD, cards, actualTurnPlayer);
+        } while (temp.equals("false"));
+
         index = Integer.parseInt(temp);
         model.studentsCloudToEntrance(actualTurnPlayer, index);
         gameHandler.newMessage(actualTurnPlayer, "Cloud " + index + " students moved in the Entrance of player " + actualTurnPlayer);
@@ -201,7 +208,10 @@ public class Controller {
         }
         if (temp.equalsIgnoreCase("Island")) {
             gameHandler.newMessage(actualTurnPlayer, "Select the island:");
-            temp = gameHandler.requestInformation(ObjectsToSelect.ISLAND, cards, actualTurnPlayer);
+            do {
+                temp = gameHandler.requestInformation(ObjectsToSelect.ISLAND, cards, actualTurnPlayer);
+            } while (temp.equals("false"));
+
             index = Integer.parseInt(temp);
             model.moveFromEntranceToIsland(color, actualTurnPlayer, index);
             gameHandler.newMessage(actualTurnPlayer, "One " + color + " student moved from entrance to island " + index);
@@ -223,7 +233,11 @@ public class Controller {
         while (result) {
             gameHandler.newMessage(actualTurnPlayer, "Select the color of the student you want to move:");
             gameHandler.printStudents(actualTurnPlayer, actualTurnPlayer);
-            temp = gameHandler.requestInformation(ObjectsToSelect.COLOR, cards, actualTurnPlayer);
+
+            do {
+                temp = gameHandler.requestInformation(ObjectsToSelect.COLOR, cards, actualTurnPlayer);
+            } while (temp.equals("false"));
+
             color = Colors.valueOf(temp.toUpperCase());
             if (model.getPlayerInteraction().getPlayer(actualTurnPlayer).getBoard().getStudEntrance().get(color) > 0) {
                 result = false;
@@ -274,7 +288,13 @@ public class Controller {
             gameHandler.printAssistantCards(actualTurnPlayer);
             gameHandler.newMessage(actualTurnPlayer, gameHandler.getClientHandlers().get(actualTurnPlayer).getNickName() + " play your assistant card");
 
-            cards[actualTurnPlayer] = Integer.parseInt(gameHandler.requestInformation(ObjectsToSelect.ASSISTANT_CARD, cards, actualTurnPlayer));
+            String temp = "";
+
+            do {
+                temp = gameHandler.requestInformation(ObjectsToSelect.ASSISTANT_CARD, cards, actualTurnPlayer);
+            } while (temp.equals("false"));
+
+            cards[actualTurnPlayer] = Integer.parseInt(temp);
         }
 
         return cards;
