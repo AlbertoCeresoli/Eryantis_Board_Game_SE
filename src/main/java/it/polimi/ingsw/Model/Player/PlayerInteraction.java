@@ -15,15 +15,15 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
 
     /**
      * preset: nPlayers==2 or nPlayers==3 TODO
-     *
+     * <p>
      * playerInteraction's constructor
      * it creates a Player class for each player and
      * also creates teacherInterface and initialize it to normalCheck
      */
-    public PlayerInteraction (int numPlayers){
+    public PlayerInteraction(int numPlayers) {
         players = new ArrayList<>();
-        teacherInterface=new NormalCheck();
-        for (int i=0; i<numPlayers; i++){
+        teacherInterface = new NormalCheck();
+        for (int i = 0; i < numPlayers; i++) {
             Player player = new Player();
             players.add(player);
         }
@@ -31,13 +31,13 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
 
     /**
      * preset: 0 <= actualPlayer < nPlayers TODO
-     *
+     * <p>
      * Creates a temporary arraylist of integers
      * it collects in temp all the students with the specified color in the hall of each player
      * calls the correct checkTeacher following the TeacherInterface
      */
     @Override
-    public ArrayList<Integer> checkTeacher(Colors studColor, int actualPlayer){
+    public ArrayList<Integer> checkTeacher(Colors studColor, int actualPlayer) {
         ArrayList<Integer> temp = new ArrayList<>();
         for (Player player : players) {
             temp.add(player.getBoard().getStudHall().get(studColor));
@@ -47,29 +47,29 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
 
     /**
      * preset: 0 <= cards[i] < NUMBER_OF_ASSISTANT_CARDS TODO
-     *
+     * <p>
      * for each player:
-     *     player[i].FixHand[Cards[i]]
-     *     it calculates the players order for this round
+     * player[i].FixHand[Cards[i]]
+     * it calculates the players order for this round
      */
-    public int[] playAssistantCard(int[] cards){
+    public int[] playAssistantCard(int[] cards) {
         int[] playerOrder = new int[players.size()];
-        ArrayList<Integer> playerIndex= new ArrayList<>();
+        ArrayList<Integer> playerIndex = new ArrayList<>();
 
-        for (int i=0; i< players.size(); i++){
+        for (int i = 0; i < players.size(); i++) {
             players.get(i).fixHand(cards[i]);
         }
 
         //fill the array playerIndex
-        for (int i=0; i< players.size(); i++){
+        for (int i = 0; i < players.size(); i++) {
             playerIndex.add(i);
         }
 
         // order the array
         playerIndex.sort((Integer x, Integer y) ->
-                        players.get(x).getAssistants().get(cards[x]).getPriority()-
-                                            players.get(y).getAssistants().get(cards[y]).getPriority());
-        for(int i=0; i<playerIndex.size(); i++){
+                players.get(x).getAssistants().get(cards[x]).getPriority() -
+                        players.get(y).getAssistants().get(cards[y]).getPriority());
+        for (int i = 0; i < playerIndex.size(); i++) {
             playerOrder[i] = playerIndex.get(i);
         }
 
@@ -84,7 +84,7 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
         return players;
     }
 
-    public Player getPlayer(int playerIndex){
+    public Player getPlayer(int playerIndex) {
         return players.get(playerIndex);
     }
 
@@ -126,8 +126,7 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
             if (player.getBoard().getStudHall().get(color) <= Constants.CARD12_MAX_STUDENTS_TO_MOVE) {
                 count += player.getBoard().getStudHall().get(color);
                 player.getBoard().getStudHall().put(color, 0);
-            }
-            else {
+            } else {
                 count += 3;
                 player.getBoard().getStudHall().put(color, player.getBoard().getStudHall().get(color) - Constants.CARD12_MAX_STUDENTS_TO_MOVE);
             }
@@ -136,6 +135,10 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
         return count;
     }
 
+    /**
+     * implements the card-4 effect
+     * @param playerIndex who uses this effect
+     */
     @Override
     public void addStepsToMNMovement(int playerIndex) {
         Player player = getPlayer(playerIndex);

@@ -16,7 +16,11 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
     private Influence influence;
     private int numberOfInhibitionCards;
 
-    //IslandInteraction's constructor
+    /**
+     * IslandInteraction constructor instantiates the island interaction once creating the arraylist for all the others islands
+     * @param towersPerPlayer depending on the number of player
+     * @param nPlayers who play
+     */
     public IslandInteraction(int towersPerPlayer, int nPlayers) {
         //teachers initialization
         teachers = new HashMap<>();
@@ -41,6 +45,14 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
 
     }
 
+    /**
+     * Whenever the controller of an island changes or a tower needs to be added on an island, this method does it
+     * managing towers in the players' boards
+     * @param player who puts the new tower(s)
+     * @param island which the tower goes on
+     * @return true if the action doesn't fail
+     * @throws EndGameException
+     */
     public boolean placeTower(int player, int island) throws EndGameException {
         int oldController = getIslands().get(island).getControllerIndex();
         int oldNumTowers = getIslands().get(island).getnTowers();
@@ -66,6 +78,12 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
         return true;
     }
 
+    /**
+     * Every time a tower il placed on an island this method checks whether the previous or next island has the same controller,
+     * then, if yes, those islands are merged together as well as students and towers on those islands
+     * @param islandIndex of the island to check
+     * @throws EndGameException if there are only 3 islands left
+     */
     public void mergeIslands(int islandIndex) throws EndGameException {
         int newController = getIslands().get(islandIndex).getControllerIndex();
 
@@ -167,6 +185,13 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
         getIslands().get(islandIndex).addStudents(students);
     }
 
+    /**
+     * Calculate the influence of every player on an island and determines who has the highest one, then if the controller
+     * needs to be changed, it calls placeTower to put the new controller's towers on it.
+     * @param island index
+     * @param numberOfPlayers who play
+     * @throws EndGameException
+     */
     @Override
     public void calculateInfluence(int island, int numberOfPlayers) throws EndGameException {
         ArrayList<Integer> influences = influence.calculateInfluence(teachers, getIslands().get(island), numberOfPlayers);
