@@ -7,8 +7,8 @@
 | Basic rules      | ✅ |
 | Complete rules   | ✅ |
 | Socket           | 🔜 |
-| GUI              | ❌ |
-| CLI              | 🔜 |
+| GUI              | 🔜 |
+| CLI              | ✅ |
 | Multiple games   | ❌ |
 | Persistence      | 💭 |
 | 12 Characters    | ✅ |  
