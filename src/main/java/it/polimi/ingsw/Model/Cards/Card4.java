@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Cards;
 
+import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Model.Player.PlayerInteraction;
@@ -15,10 +16,11 @@ public class Card4 extends CharacterCards {
      */
     public Card4(int cost, PlayerInteraction playerInteraction) {
         super(cost);
-        this.hasAddStepsToMNMovement = playerInteraction;
 
-        effect = "Card effect";
-        cardIndex = 4;
+        this.name = Cards.MAGIC_POSTMAN.getName();
+        this.cardIndex = 4;
+
+        this.hasAddStepsToMNMovement = playerInteraction;
     }
 
     /**
@@ -30,7 +32,8 @@ public class Card4 extends CharacterCards {
      * @param studentArray2 not used
      */
     @Override
-    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
+    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor,
+                             Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
         //setting new possible movement for MN
         hasAddStepsToMNMovement.addStepsToMNMovement(variables.get(Indexes.PLAYER_INDEX));
 

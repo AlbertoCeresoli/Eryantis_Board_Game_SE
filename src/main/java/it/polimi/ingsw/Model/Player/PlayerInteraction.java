@@ -123,12 +123,12 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
         int count = 0;
 
         for (Player player : this.players) {
-            if (player.getBoard().getStudHall().get(color) <= Constants.CARD12_MAX_STUDENTS_TO_MOVE) {
+            if (player.getBoard().getStudHall().get(color) <= Constants.THIEF_MAX_STUDENTS_TO_MOVE) {
                 count += player.getBoard().getStudHall().get(color);
                 player.getBoard().getStudHall().put(color, 0);
             } else {
                 count += 3;
-                player.getBoard().getStudHall().put(color, player.getBoard().getStudHall().get(color) - Constants.CARD12_MAX_STUDENTS_TO_MOVE);
+                player.getBoard().getStudHall().put(color, player.getBoard().getStudHall().get(color) - Constants.THIEF_MAX_STUDENTS_TO_MOVE);
             }
         }
 
@@ -151,6 +151,6 @@ public class PlayerInteraction implements hasSetTeacherInterface, hasEntrance, h
             }
         }
 
-        assistantCards.get(lastUsedCardIndex).setSteps(assistantCards.get(lastUsedCardIndex).steps + Constants.CARD4_ADDITION_MOVEMENT);
+        assistantCards.get(lastUsedCardIndex).setSteps(assistantCards.get(lastUsedCardIndex).steps + Constants.MAGIC_POSTMAN_ADDITION_MOVEMENT);
     }
 }

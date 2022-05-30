@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Cards;
 
+import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Model.Player.PlayerInteraction;
@@ -10,7 +11,6 @@ import java.util.Map;
 
 public class Card7 extends CharacterCards {
     private final hasEntrance hasEntrance;
-    private final Map<Colors, Integer> students;
 
     /**
      * Card7 constructor
@@ -19,19 +19,19 @@ public class Card7 extends CharacterCards {
      */
     public Card7(int cost, PlayerInteraction playerInteraction, Map<Colors, Integer> students) {
         super(cost);
-        this.hasEntrance = playerInteraction;
-        this.students = new HashMap<>();
 
+        this.name = Cards.JOKER.getName();
+        this.cardIndex = 7;
+
+        this.students = new HashMap<>();
         for (Colors c : Colors.values()) {
             students.put(c, 0);
         }
-
         for (Colors c : Colors.values()) {
             this.students.put(c, students.get(c));
         }
 
-        effect = "Card effect";
-        cardIndex = 7;
+        this.hasEntrance = playerInteraction;
     }
 
     /**
@@ -45,7 +45,8 @@ public class Card7 extends CharacterCards {
      * @param studentArray2 students in the entrance chosen by the player
      */
     @Override
-    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
+    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor,
+                             Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
         //removing students from the entrance of the player
         hasEntrance.removeFromEntrance(variables.get(Indexes.PLAYER_INDEX), studentArray2);
 
@@ -63,9 +64,5 @@ public class Card7 extends CharacterCards {
         hasEntrance.addToEntrance(variables.get(Indexes.PLAYER_INDEX), studentArray1);
 
         return true;
-    }
-
-    public Map<Colors, Integer> getStudents() {
-        return students;
     }
 }

@@ -2,11 +2,12 @@ package it.polimi.ingsw.Client.CLI.Parser;
 
 import it.polimi.ingsw.Constants.Colors;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class AllBoardsParser implements Parser {
     @Override
-    public void parse(String s) {
+    public void parse(String s) throws IOException {
         Scanner scanner = new Scanner(s);
         int numberOfBoards = scanner.nextInt();
         for (int i = 0; i < numberOfBoards; i++) {

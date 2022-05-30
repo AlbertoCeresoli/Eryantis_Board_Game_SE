@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Cards;
 
+import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Model.BagNClouds.BagNClouds;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Indexes;
@@ -20,11 +21,12 @@ public class Card12 extends CharacterCards {
      */
     public Card12(int cost, PlayerInteraction playerInteraction, BagNClouds bagNClouds) {
         super(cost);
+
+        this.name = Cards.THIEF.getName();
+        this.cardIndex = 12;
+
         this.hasCard12Effect = playerInteraction;
         this.hasAddToBag = bagNClouds;
-
-        effect = "Card effect";
-        cardIndex = 12;
     }
 
     /**
@@ -36,7 +38,8 @@ public class Card12 extends CharacterCards {
      * @param studentArray2 not used
      */
     @Override
-    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
+    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor,
+                             Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
         //removing students and counting them
         int count = hasCard12Effect.card12Effect(studentColor);
 

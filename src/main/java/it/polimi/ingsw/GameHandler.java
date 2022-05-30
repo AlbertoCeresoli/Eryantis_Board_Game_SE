@@ -69,13 +69,13 @@ public class GameHandler implements Runnable {
 
     /**
      * This method scans every input from the player checking whether the player used a specific keyword for information printing. In this case it prints what the player needs; then it continues the round tasks giving the input to the controller
+     *
      * @param selection what the controller needs to continue the game
-     * @param cards the character card in this game
      * @param player    the actual player
-     * @return  iterates until the last input is the one which satisfies the controller
+     * @return iterates until the last input is the one which satisfies the controller
      * @throws InterruptedException
      */
-    public String requestInformation(ObjectsToSelect selection, int[] cards, int player) throws InterruptedException {
+    public String requestInformation(ObjectsToSelect selection, int player) throws InterruptedException {
         String result = getLatestMessageFromPlayer(player);
 
         Map<MessageType, String> message;
@@ -84,62 +84,88 @@ public class GameHandler implements Runnable {
         int cardNumber;
 
         //Play a character card
-        if (result.equalsIgnoreCase("CARD")) {
-            if (controller.getModel().gameRules[4] == 1) {
+        if (result.equalsIgnoreCase("/play character card")) {
+            if (Constants.isGameMode()) {
+                newMessage(player, "Character cards are");
                 printCharacterCards(player);
-                newMessage(player, "Number of the card you want to play:");
-                cardNumber = Integer.parseInt(requestInformation(ObjectsToSelect.CHARACTER_CARD, cards, player));
-                playCard(cardNumber, player);
-                return requestInformation(selection, cards, player);
+
+                newMessage(player, "Insert the index of the card you want to play:");
+
+                String temp;
+                do {
+                    temp = requestInformation(ObjectsToSelect.CHARACTER_CARD, player);
+                } while (!temp.equals("false"));
+
+                cardNumber = Integer.parseInt(temp);
+                controller.playCard(cardNumber, player);
             } else {
                 newMessage(player, "You are playing a game in easy mode, there are no character cards");
             }
+
+            return "false";
         }
 
         //Show character cards
-        if (result.equalsIgnoreCase("CHARACTER CARDS")) {
+        if (result.equalsIgnoreCase("/print character cards")) {
             if (controller.getModel().gameRules[4] == 1) {
                 printCharacterCards(player);
-                return requestInformation(selection, cards, player);
             } else {
                 newMessage(player, "You are playing a game in easy mode, there are no character cards");
             }
+
+            return "false";
         }
 
         //extra commands
         //print all the students of the player
-        if (result.equalsIgnoreCase("BOARD")) {
+        if (result.equalsIgnoreCase("/print board")) {
             int index;
             newMessage(player, "Select the player:");
-            index = Integer.parseInt(requestInformation(ObjectsToSelect.PLAYER, cards, player));
-            printStudents(player, index);
+            String temp;
+
+            do {
+                temp = requestInformation(ObjectsToSelect.PLAYER, player);
+            } while (!temp.equals("false"));
+
+            index = Integer.parseInt(temp);
+            printBoard(player, index);
+
             return "false";
         }
 
         //Show islands
-        if (result.equalsIgnoreCase("ISLANDS")) {
+        if (result.equalsIgnoreCase("/print islands")) {
             printIslands(player);
+
+            return "false";
+        }
+
+        if (result.equalsIgnoreCase("/print boards")) {
+            for (int i = 0; i < clientHandlers.size(); i++) {
+                printBoard(player, i);
+            }
+
             return "false";
         }
 
         //Show clouds
-        if (result.equalsIgnoreCase("CLOUDS")) {
+        if (result.equalsIgnoreCase("/print clouds")) {
             printClouds(player);
+
             return "false";
         }
 
         //Show teachers
-        if (result.equalsIgnoreCase("TEACHERS")) {
+        if (result.equalsIgnoreCase("/print teachers")) {
             printTeachers(player);
+
             return "false";
         }
 
         //Show assistant cards
-        if (result.equalsIgnoreCase("ASSISTANT CARDS")) {
-            int index;
-            newMessage(player, "Select the player:");
-            index = Integer.parseInt(requestInformation(ObjectsToSelect.PLAYER, cards, player));
-            printAssistantCards(index);
+        if (result.equalsIgnoreCase("/print assistant cards")) {
+            printAssistantCards(player);
+
             return "false";
         }
 
@@ -150,21 +176,27 @@ public class GameHandler implements Runnable {
             case ISLAND ->
                     messageGenerator.islandSelection(result, controller.getModel().getIslandInteraction().getIslands().size());
             case STEPS ->
-                    messageGenerator.stepsSelection(result, controller.getModel().getPlayerInteraction().getPlayer(player).getAssistants().get(cards[player]).getSteps());
+                    messageGenerator.stepsSelection(result, controller.getModel().getPlayerInteraction().getPlayer(player).getAssistants().get(controller.getLastAssistantCardsPlayed()[player]).getSteps());
             case PLAYER -> messageGenerator.playerIndexSelection(result, controller.getModel().gameRules[0]);
             case ASSISTANT_CARD ->
-                    messageGenerator.assistantSelection(result, controller.getModel().gameRules[0], cards, controller.getModel().getPlayerInteraction().getPlayers().get(player).getAssistants());
+                    messageGenerator.assistantSelection(result, Constants.getNumPlayers(), controller.getLastAssistantCardsPlayed(), controller.getModel().getPlayerInteraction().getPlayers().get(player).getAssistants());
             case CLOUD ->
                     messageGenerator.cloudSelection(result, controller.getModel().gameRules[0], controller.getModel().getBagNClouds());
             case CHARACTER_CARD -> messageGenerator.characterCardSelection(result);
         };
 
         if (message.containsKey(MessageType.CORRECT_INPUT)) {
+            System.out.println(message.get(MessageType.CORRECT_INPUT));
             newMessage(player, message.get(MessageType.CORRECT_INPUT));
             return result;
         }
         else {
-            newMessage(player, "no bene");
+            for (MessageType type : message.keySet()) {
+                if (!type.equals(MessageType.CORRECT_INPUT)) {
+                    newMessage(player, type, message.get(type));
+                }
+            }
+
             return "false";
         }
     }
@@ -202,117 +234,6 @@ public class GameHandler implements Runnable {
     }
 
     /**
-     * if the cost of the card is higher than the coins of the player it will do nothing
-     * if the cost is lower:
-     * reduce the coins in the hand of the player
-     * increase the cost of the card if the boolean firstUsed is =0
-     * collects all the information needed and calls useEffect
-     */
-    public void playCard(int cardPlayed, int player) throws InterruptedException {
-        Map<Indexes, Integer> index = new HashMap<>();
-        Colors color = null;
-        Map<Colors, Integer> StudMap1 = new HashMap<>();
-        Map<Colors, Integer> StudMap2 = new HashMap<>();
-
-        for (Indexes i : Indexes.values()) {
-            index.put(i, -1);
-        }
-        for (Colors c : Colors.values()) {
-            StudMap1.put(c, 0);
-        }
-        for (Colors c : Colors.values()) {
-            StudMap2.put(c, 0);
-        }
-
-        if (!(controller.getModel().getCharacterCards()[cardPlayed].isUsedThisTurn())) {
-            if (controller.getModel().getPlayerInteraction().getPlayer(player).getCoins() >= controller.getModel().getCharacterCards()[cardPlayed].getCost()) {
-                controller.getModel().getPlayerInteraction().getPlayer(player).removeCoins(controller.getModel().getCharacterCards()[cardPlayed].getCost());
-                if (!(controller.getModel().getCharacterCards()[cardPlayed].isUsedThisGame())) {
-                    controller.getModel().getCharacterCards()[cardPlayed].increaseCost();
-                }
-
-                switch (controller.getModel().getCharacterCards()[cardPlayed].getCardIndex()) {
-                    case 1:
-                        newMessage(player, "Select the colors of the student you want to move from the Card to the island");
-                        for (int i = 0; i < Constants.CARD1_STUDENTS_TO_MOVE; i++) {
-                            StudMap1.put(Colors.valueOf(requestInformation(ObjectsToSelect.COLOR, null, -1)), 1);
-                        }
-                        newMessage(player, "Select the island:");
-                        index.put(Indexes.ISLAND_INDEX, Integer.parseInt(requestInformation(ObjectsToSelect.ISLAND, null, -1)));
-                        break;
-                    case 2:
-                    case 6:
-                        break;
-                    case 3:
-                        newMessage(player, "Select the island where you want to calculate the influence:");
-                        index.put(Indexes.ISLAND_INDEX, Integer.parseInt(requestInformation(ObjectsToSelect.ISLAND, null, -1)));
-                        break;
-                    case 4:
-                    case 8:
-                        index.put(Indexes.PLAYER_INDEX, player);
-                        break;
-                    case 5:
-                        newMessage(player, "Select the island where you want to add an inhibition card:");
-                        index.put(Indexes.ISLAND_INDEX, Integer.parseInt(requestInformation(ObjectsToSelect.ISLAND, null, -1)));
-                        break;
-                    case 7:
-                        index.put(Indexes.PLAYER_INDEX, player);
-                        newMessage(player, "Select the students you want to take from the card:");
-                        for (int i = 0; i < Constants.CARD7_MAX_STUDENTS_TO_MOVE; i++) {
-                            StudMap1.put(Colors.valueOf(requestInformation(ObjectsToSelect.COLOR, null, -1)), 1);
-                        }
-                        newMessage(player, "Select the students you want to remove from the Entrance:");
-                        for (int i = 0; i < Constants.CARD7_MAX_STUDENTS_TO_MOVE; i++) {
-                            StudMap2.put(Colors.valueOf(requestInformation(ObjectsToSelect.COLOR, null, -1)), 1);
-                        }
-                        break;
-                    case 9:
-                        newMessage(player, "Select the colors of the student you want to exclude from the calculate influence");
-                        color = Colors.valueOf(requestInformation(ObjectsToSelect.COLOR, null, -1));
-                        break;
-                    case 10:
-                        index.put(Indexes.PLAYER_INDEX, player);
-                        newMessage(player, "Select the students in Entrance:");
-                        for (int i = 0; i < Constants.CARD10_MAX_STUDENTS_TO_MOVE; i++) {
-                            StudMap1.put(Colors.valueOf(requestInformation(ObjectsToSelect.COLOR, null, -1)), 1);
-                        }
-                        newMessage(player, "Select the students in Hall:");
-                        for (int i = 0; i < Constants.CARD10_MAX_STUDENTS_TO_MOVE; i++) {
-                            StudMap2.put(Colors.valueOf(requestInformation(ObjectsToSelect.COLOR, null, -1)), 1);
-                        }
-                        break;
-                    case 11:
-                        index.put(Indexes.PLAYER_INDEX, 1);
-                        newMessage(player, "Select the student you want take from the card and put in your Entrance:");
-                        color = Colors.valueOf(requestInformation(ObjectsToSelect.COLOR, null, -1));
-                        break;
-                    case 12:
-                        newMessage(player, "Select the color of students that will be removed from the Hall:");
-                        color = Colors.valueOf(requestInformation(ObjectsToSelect.COLOR, null, -1));
-                        break;
-                }
-
-                newMessage(player, "carta " + controller.getModel().getCharacterCards()[cardPlayed].getCardIndex() + " played");
-
-                /*
-                try {
-                    model.getCharacterCards()[cardPlayed].useEffect(index, color, StudMap1, StudMap2);
-                }
-                catch (OutOfBoundException o) {
-
-                }
-                */
-
-            } else {
-                newMessage(player, "You don't have enough coins");
-            }
-        } else {
-            newMessage(player, "This card has already been played this turn");
-        }
-    }
-
-
-    /**
      * prints methods TODO
      */
     public void printClouds(int player) {
@@ -322,7 +243,7 @@ public class GameHandler implements Runnable {
     }
 
 
-    public void printStudents(int player, int playerIndex) {
+    public void printBoard(int player, int playerIndex) {
         String s;
         s = PrintMessageGenerator.printBoard(controller.getModel().getPlayerInteraction().getPlayer(playerIndex).getBoard(), indexToNick.get(playerIndex), controller.getModel().getIslandInteraction().getTowersByPlayer()[playerIndex]);
         newMessage(player, MessageType.PRINT_BOARD, s);
@@ -347,9 +268,9 @@ public class GameHandler implements Runnable {
     }
 
     public void printCharacterCards(int player) {
-        String s = "metodo da implementare";
-        //Mario, returns a message
-        newMessage(player, s);
+        String s = PrintMessageGenerator.printCharacterCards(controller.getModel().getCharacterCards());
+
+        newMessage(player, MessageType.PRINT_CHARACTER_CARDS, s);
     }
 
     public ArrayList<ClientHandler> getClientHandlers() {

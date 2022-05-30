@@ -50,6 +50,6 @@ public class Card4Test {
         //saving new number of steps after change
         int newAssistantSteps = playerInteraction.getPlayer(playerIndex).getAssistants().get(assistantIndex).getSteps();
 
-        assertEquals(oldAssistantSteps + Constants.CARD4_ADDITION_MOVEMENT, newAssistantSteps);
+        assertEquals(oldAssistantSteps + Constants.MAGIC_POSTMAN_ADDITION_MOVEMENT, newAssistantSteps);
     }
 }

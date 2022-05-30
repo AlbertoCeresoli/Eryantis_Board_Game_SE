@@ -240,7 +240,7 @@ public class Model {
      */
     public CharacterCards[] drawCharacterCards() {
         CharacterCards[] cards;
-        cards = new CharacterCards[3];
+        cards = new CharacterCards[Constants.NUMBER_OF_CHARACTER_CARDS];
         Map<Colors, Integer> studs;
 
         Random random = new Random();
@@ -257,7 +257,7 @@ public class Model {
             bucket.remove(position);
             switch (rnd) {
                 case 0 -> {
-                    studs = bagNClouds.drawStudents(Constants.CARD1_STUDENTS_CAPACITY);
+                    studs = bagNClouds.drawStudents(Constants.MONK_STUDENTS_CAPACITY);
                     cards[i] = new Card1(1, islandInteraction, bagNClouds, studs);
                 }
                 case 1 -> cards[i] = new Card2(2, playerInteraction);
@@ -266,14 +266,14 @@ public class Model {
                 case 4 -> cards[i] = new Card5(2, islandInteraction);
                 case 5 -> cards[i] = new Card6(3, islandInteraction);
                 case 6 -> {
-                    studs = bagNClouds.drawStudents(Constants.CARD7_STUDENTS_CAPACITY);
+                    studs = bagNClouds.drawStudents(Constants.JOKER_STUDENTS_CAPACITY);
                     cards[i] = new Card7(1, playerInteraction, studs);
                 }
                 case 7 -> cards[i] = new Card8(2, islandInteraction);
                 case 8 -> cards[i] = new Card9(3, islandInteraction);
                 case 9 -> cards[i] = new Card10(1, playerInteraction, islandInteraction);
                 case 10 -> {
-                    studs = bagNClouds.drawStudents(Constants.CARD11_STUDENTS_CAPACITY);
+                    studs = bagNClouds.drawStudents(Constants.SPOILED_PRINCESS_STUDENTS_CAPACITY);
                     cards[i] = new Card11(2, playerInteraction, islandInteraction, bagNClouds, studs);
                 }
                 case 11 -> cards[i] = new Card12(3, playerInteraction, bagNClouds);

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Cards;
 
+import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Model.BagNClouds.BagNClouds;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
@@ -14,7 +15,6 @@ import java.util.Map;
 
 public class Card1 extends CharacterCards {
     private final hasAddToIsland hasAddToIsland;
-    private final Map<Colors, Integer> students;
     private final hasDrawStudents hasDrawStudents;
 
     /**
@@ -25,20 +25,20 @@ public class Card1 extends CharacterCards {
      */
     public Card1(int cost, IslandInteraction islandInteraction, BagNClouds bagNClouds, Map<Colors, Integer> students) {
         super(cost);
-        this.hasAddToIsland = islandInteraction;
-        this.hasDrawStudents = bagNClouds;
+
+        this.name = Cards.MONK.getName();
+        this.cardIndex = 1;
 
         this.students = new HashMap<>();
         for (Colors c : Colors.values()) {
             this.students.put(c, 0);
         }
-
         for (Colors c : Colors.values()) {
             this.students.put(c, students.get(c));
         }
 
-        effect = "Card effect";
-        cardIndex = 1;
+        this.hasAddToIsland = islandInteraction;
+        this.hasDrawStudents = bagNClouds;
     }
 
     /**
@@ -51,7 +51,8 @@ public class Card1 extends CharacterCards {
      * @param studentArray2 not used
      */
     @Override
-    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
+    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor,
+                             Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
         //removing student chosen from the card
         for (Colors c : Colors.values()) {
             students.put(c, students.get(c) - studentArray1.get(c));
@@ -61,7 +62,7 @@ public class Card1 extends CharacterCards {
         this.hasAddToIsland.addToIsland(variables.get(Indexes.ISLAND_INDEX), studentArray1);
 
         //drawing a student from the bag and putting it on the card
-        Map<Colors, Integer> temp = hasDrawStudents.drawStudents(Constants.CARD1_STUDENTS_TO_MOVE);
+        Map<Colors, Integer> temp = hasDrawStudents.drawStudents(Constants.MONK_STUDENTS_TO_MOVE);
         for (Colors c : Colors.values()) {
             students.put(c, students.get(c) + temp.get(c));
         }

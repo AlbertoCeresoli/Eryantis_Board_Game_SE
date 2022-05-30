@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Objects;
 
 public class CLI implements Runnable{
     private Socket socket;
@@ -15,7 +14,6 @@ public class CLI implements Runnable{
     private final BufferedReader fromServerInput;
     //used to send to server what is read from keyboard
     private final PrintWriter toServerOutput;
-    //
     private final ServerConnection serverConnection;
     private final MessageParserClient parser;
     private final ClientPrinter clientPrinter;
@@ -66,7 +64,7 @@ public class CLI implements Runnable{
 
     }
 
-    public void elaborateMessage(String type, String text) {
+    public void elaborateMessage(String type, String text) throws IOException {
         this.parser.getParseMessages().get(type).parse(text);
 
         if (text.equals("Disconnected")) {

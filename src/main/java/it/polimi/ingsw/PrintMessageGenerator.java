@@ -1,6 +1,8 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
+import it.polimi.ingsw.Model.Cards.CharacterCards;
 import it.polimi.ingsw.Model.Island.Island;
 import it.polimi.ingsw.Model.Player.AssistantCard;
 import it.polimi.ingsw.Model.Player.Board;
@@ -222,6 +224,28 @@ public class PrintMessageGenerator {
         //adds nickname of player that owns the teacher, for each color
         for (Colors c : Colors.values()) {
             msg += players.get(teachers.get(c)) + "\n";
+        }
+
+        return msg;
+    }
+
+    public static String printCharacterCards(CharacterCards[] characterCards) {
+        String msg = "";
+        int i;
+
+        for (i = 0; i < Constants.NUMBER_OF_CHARACTER_CARDS; i++) {
+            msg += characterCards[i].getName() + "\n";
+            msg += characterCards[i].getCost() + "\n";
+
+            if (characterCards[i].getStudents() != null) {
+                msg += 1 + "\n";
+                for (Colors c : Colors.values()) {
+                    msg += characterCards[i].getStudents().get(c) + "\n";
+                }
+            }
+            else {
+                msg += 0 + "\n";
+            }
         }
 
         return msg;

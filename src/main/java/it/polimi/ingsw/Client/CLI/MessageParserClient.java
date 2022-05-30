@@ -29,8 +29,11 @@ public class MessageParserClient {
         Parser cloudsParser = new CloudsParser();
         this.parseMessages.put(MessageType.PRINT_ALL_CLOUDS.getType(), cloudsParser);
 
-        Parser assistantCards = new AssistantCardsParser();
-        this.parseMessages.put(MessageType.PRINT_ASSISTANT_CARDS.getType(), assistantCards);
+        Parser assistantCardsParser = new AssistantCardsParser();
+        this.parseMessages.put(MessageType.PRINT_ASSISTANT_CARDS.getType(), assistantCardsParser);
+
+        Parser characterCardsParser = new CharacterCardsParser();
+        this.parseMessages.put(MessageType.PRINT_CHARACTER_CARDS.getType(), characterCardsParser);
 
         Parser defaultParser = new DefaultParser();
         this.parseMessages.put(MessageType.EASY_MESSAGE.getType(), defaultParser);

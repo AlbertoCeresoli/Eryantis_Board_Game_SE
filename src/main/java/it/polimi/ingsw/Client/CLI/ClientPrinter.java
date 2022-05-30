@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.CLI;
 
+import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
 
@@ -8,10 +9,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ClientPrinter {
+    private static final Map<String, String> characterCardEffects = new HashMap<>();
     private static final Map<Colors, String> colorsChars = new HashMap<>();
     private static final Map<Colors, String> colorsBackground = new HashMap<>();
 
     public ClientPrinter() {
+        characterCardEffects.put(Cards.MONK.getName(), Constants.MONK_EFFECT);
+        characterCardEffects.put(Cards.HERALD.getName(), Constants.HERALD_EFFECT);
+        characterCardEffects.put(Cards.FARMER.getName(), Constants.FARMER_EFFECT);
+        characterCardEffects.put(Cards.MINSTREL.getName(), Constants.MINSTREL_EFFECT);
+        characterCardEffects.put(Cards.JOKER.getName(), Constants.JOKER_EFFECT);
+        characterCardEffects.put(Cards.THIEF.getName(), Constants.THIEF_EFFECT);
+        characterCardEffects.put(Cards.SPOILED_PRINCESS.getName(), Constants.SPOILED_PRINCESS_EFFECT);
+        characterCardEffects.put(Cards.CENTAUR.getName(), Constants.CENTAUR_EFFECT);
+        characterCardEffects.put(Cards.MAGIC_POSTMAN.getName(), Constants.MAGIC_POSTMAN_EFFECT);
+        characterCardEffects.put(Cards.GRANDMA_HERBS.getName(), Constants.GRANDMA_HERBS_EFFECT);
+        characterCardEffects.put(Cards.KNIGHT.getName(), Constants.KNIGHT_EFFECT);
+        characterCardEffects.put(Cards.MUSHROOMS_MAN.getName(), Constants.MUSHROOMS_MAN_EFFECT);
+
         colorsChars.put(Colors.YELLOW, Constants.ANSI_YELLOW);
         colorsChars.put(Colors.BLUE, Constants.ANSI_BLUE);
         colorsChars.put(Colors.GREEN, Constants.ANSI_GREEN);
@@ -216,5 +231,22 @@ public class ClientPrinter {
             System.out.print(Constants.ANSI_RESET + "     " + Constants.ANSI_WHITE_BACKGROUND + Constants.ANSI_BLACK + "   Cloud " + i + "  " + Constants.ANSI_RESET + "       ");
         }
         System.out.println("\n");
+    }
+
+    public static void printCharacterCard(String name, int cost) {
+        System.out.println("Character card: " + name);
+        System.out.println("Cost: " + cost + "\n");
+        System.out.println("Description:");
+        System.out.println(characterCardEffects.get(name) + "\n");
+    }
+
+    public static void printCharacterCard(String name, int cost, Map<Colors, Integer> students) {
+        printCharacterCard(name, cost);
+
+        for (Colors c : Colors.values()) {
+            for (int i = 0; i < students.get(c); i++) {
+                System.out.print(colorsBackground.get(c) + "  " + Constants.ANSI_RESET + "  ");
+            }
+        }
     }
 }

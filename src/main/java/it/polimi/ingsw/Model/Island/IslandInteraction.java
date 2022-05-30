@@ -36,7 +36,7 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
         for(int i = 0; i < 12; i++){
             islands.add(i,new Island());
         }
-        numberOfInhibitionCards = Constants.CARD5_NUMBER_INHIBITION_CARD;
+        numberOfInhibitionCards = Constants.GRANDMA_HERBS_NUMBER_INHIBITION_CARD;
         influence = new NormalEffect();
 
 

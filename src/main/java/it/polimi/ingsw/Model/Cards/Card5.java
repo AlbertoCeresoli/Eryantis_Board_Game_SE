@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Cards;
 
+import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Exceptions.OutOfBoundException;
@@ -16,10 +17,12 @@ public class Card5 extends CharacterCards {
      */
     public Card5(int cost, IslandInteraction islandInteraction) {
         super(cost);
+
+        this.name = Cards.GRANDMA_HERBS.getName();
+        this.cardIndex = 5;
+
         this.hasInhibitionCard = islandInteraction;
 
-        effect = "Card effect";
-        cardIndex = 5;
     }
 
     /**
@@ -31,7 +34,8 @@ public class Card5 extends CharacterCards {
      * @param studentArray2 not used
      */
     @Override
-    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) throws OutOfBoundException {
+    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor,
+                             Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
         //removing inhibition card from islandInteraction and adding it to the chosen island
         hasInhibitionCard.removeInhibitionCard();
         hasInhibitionCard.addInhibitionCard(variables.get(Indexes.ISLAND_INDEX));

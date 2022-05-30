@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Cards;
 
+import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Model.Influence.Card9Effect;
@@ -16,10 +17,11 @@ public class Card9 extends CharacterCards {
      */
     public Card9(int cost, IslandInteraction islandInteraction) {
         super(cost);
-        hasSetInfluence = islandInteraction;
 
-        effect = "Card effect";
-        cardIndex = 9;
+        this.name = Cards.MUSHROOMS_MAN.getName();
+        this.cardIndex = 9;
+
+        this.hasSetInfluence = islandInteraction;
     }
 
     /**
@@ -32,7 +34,8 @@ public class Card9 extends CharacterCards {
      * @param studentArray2 not used
      */
     @Override
-    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
+    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor,
+                             Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
         //changing reference of Influence
         hasSetInfluence.setInfluence(new Card9Effect(studentColor));
 

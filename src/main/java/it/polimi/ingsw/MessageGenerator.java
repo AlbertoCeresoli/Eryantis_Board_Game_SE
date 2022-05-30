@@ -101,22 +101,20 @@ public class MessageGenerator {
 
     public Map<MessageType, String> assistantSelection(String result, int numPlayers, int[] cardsPlayed, ArrayList<AssistantCard> assistants){
         Map<MessageType, String> message = new HashMap<>();
-        String temp;
         boolean alreadyPlayed = false;
         int card;
 
-        temp = result;
         try {
-            card = Integer.parseInt(temp);
+            card = Integer.parseInt(result);
 
-            for (int i=0; i<numPlayers; i++){
+            for (int i = 0; i < numPlayers; i++) {
                 if (card == cardsPlayed[i]) {
                     alreadyPlayed = true;
                     break;
                 }
             }
 
-            if(card>=0 && card< Constants.NUMBER_OF_ASSISTANT_CARDS){
+            if(card >= 0 && card < Constants.NUMBER_OF_ASSISTANT_CARDS){
                 if (assistants.get(card).getCardState()==2 && !alreadyPlayed){
                     message.put(MessageType.CORRECT_INPUT, card + " card selected");
                 }

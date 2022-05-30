@@ -2,11 +2,12 @@ package it.polimi.ingsw.Client.CLI.Parser;
 
 import it.polimi.ingsw.Constants.Colors;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class AllIslandsParser implements Parser {
     @Override
-    public void parse(String s) {
+    public void parse(String s) throws IOException {
         Scanner scanner = new Scanner(s);
         int numberOfIslands = scanner.nextInt();
         for (int i = 0; i < numberOfIslands; i++) {

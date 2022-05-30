@@ -123,7 +123,9 @@ public class ClientHandler implements Runnable {
                 "   /print islands              to print all the islands\n" +
                 "   /print board nickname       to print the board of a player. Insert player's nickname in place of 'nickname'\n" +
                 "   /print boards               to print all the boards\n" +
+                "   /print assistant cards      to print all the assistant cards\n" +
                 "   /print teachers             to print who controls teachers now\n" +
+                "   /print clouds               to print all the clouds\n" +
                 "   /print character cards      to print character cards of the game\n\n" +
                 "to play a character card\n" +
                 "   /play name                  to play a character card. Insert the name of the card in place of 'name'\n";

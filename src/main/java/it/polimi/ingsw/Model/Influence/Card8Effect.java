@@ -20,7 +20,7 @@ public class Card8Effect extends OtherEffect {
      */
     @Override
     ArrayList<Integer> extra(Map<Colors, Integer> teachers, Island island, ArrayList<Integer> influences) {
-        influences.set(this.playerIndex, influences.get(playerIndex) + Constants.CARD8_ADDITIONAL_INFLUENCE_POINTS);
+        influences.set(this.playerIndex, influences.get(playerIndex) + Constants.KNIGHT_ADDITIONAL_INFLUENCE_POINTS);
         return influences;
     }
 }

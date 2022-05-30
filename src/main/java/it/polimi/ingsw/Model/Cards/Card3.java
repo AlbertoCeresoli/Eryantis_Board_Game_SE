@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Cards;
 
+import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Exceptions.EndGameException;
@@ -16,10 +17,11 @@ public class Card3 extends CharacterCards {
      */
     public Card3(int cost, IslandInteraction islandInteraction) {
         super(cost);
-        this.hasCalculateInfluence = islandInteraction;
 
-        effect = "Card effect";
-        cardIndex = 3;
+        this.name = Cards.HERALD.getName();
+        this.cardIndex = 3;
+
+        this.hasCalculateInfluence = islandInteraction;
     }
 
     /**
@@ -31,7 +33,9 @@ public class Card3 extends CharacterCards {
      * @param studentArray2 not used
      */
     @Override
-    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) throws EndGameException {
+    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor,
+                             Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2)
+            throws EndGameException {
         //calling calculate influence on the chosen island
         this.hasCalculateInfluence.calculateInfluence(variables.get(Indexes.ISLAND_INDEX), variables.get(Indexes.NUMBER_OF_PLAYERS));
 

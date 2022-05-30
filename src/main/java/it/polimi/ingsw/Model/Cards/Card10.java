@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Cards;
 
+import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Model.Island.IslandInteraction;
@@ -23,13 +24,14 @@ public class Card10 extends CharacterCards {
      */
     public Card10(int cost, PlayerInteraction playerInteraction, IslandInteraction islandInteraction) {
         super(cost);
-        hasEntrance = playerInteraction;
-        hasHall = playerInteraction;
-        hasCheckTeacher = playerInteraction;
-        hasSetTeacher = islandInteraction;
 
-        effect = "Card effect";
-        cardIndex = 10;
+        this.name = Cards.MINSTREL.getName();
+        this.cardIndex = 10;
+
+        this.hasEntrance = playerInteraction;
+        this.hasHall = playerInteraction;
+        this.hasCheckTeacher = playerInteraction;
+        this.hasSetTeacher = islandInteraction;
     }
 
     /**
@@ -46,7 +48,8 @@ public class Card10 extends CharacterCards {
      * @param studentArray2 students from hall
      */
     @Override
-    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
+    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor,
+                             Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
         //removing students from entrance
         hasEntrance.removeFromEntrance(variables.get(Indexes.PLAYER_INDEX), studentArray1);
 

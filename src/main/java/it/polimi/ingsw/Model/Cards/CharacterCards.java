@@ -11,11 +11,12 @@ import java.lang.reflect.Parameter;
 import java.util.Map;
 
 public abstract class CharacterCards {
+    protected String name;
+    protected int cardIndex;
     private int cost;
+    protected Map<Colors, Integer> students;
     private boolean usedThisTurn;
     private boolean usedThisGame;
-    protected String effect;
-    protected int cardIndex;
 
     /**
      * CharacterCards' constructor
@@ -28,7 +29,8 @@ public abstract class CharacterCards {
         this.usedThisTurn = false;
     }
 
-    abstract public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) throws OutOfBoundException, StudentNotAvailableException, WrongArrayException, EndGameException;
+    abstract public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor,
+                                      Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) throws EndGameException;
 
     /**
      * Cost has to be increased only when the card is used for the first time.
@@ -42,6 +44,10 @@ public abstract class CharacterCards {
         return cost;
     }
 
+    public Map<Colors, Integer> getStudents() {
+        return students;
+    }
+
     public boolean isUsedThisTurn() {
         return usedThisTurn;
     }
@@ -50,12 +56,12 @@ public abstract class CharacterCards {
         return usedThisGame;
     }
 
-    public String getEffect() {
-        return effect;
-    }
-
     public int getCardIndex() {
         return cardIndex;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setCost(int cost) {

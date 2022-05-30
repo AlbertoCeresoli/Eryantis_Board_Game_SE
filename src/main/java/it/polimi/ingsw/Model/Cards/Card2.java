@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Cards;
 
+import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Model.Player.PlayerInteraction;
@@ -16,10 +17,11 @@ public class Card2 extends CharacterCards {
      */
     public Card2(int cost, PlayerInteraction playerInteraction) {
         super(cost);
-        this.hasSetTeacherInterface = playerInteraction;
 
-        effect = "Card effect";
-        cardIndex = 2;
+        this.name = Cards.FARMER.getName();
+        this.cardIndex = 2;
+
+        this.hasSetTeacherInterface = playerInteraction;
     }
 
     /**
@@ -31,7 +33,8 @@ public class Card2 extends CharacterCards {
      * @param studentArray2 not used
      */
     @Override
-    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor, Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
+    public boolean useEffect(Map<Indexes, Integer> variables, Colors studentColor,
+                             Map<Colors, Integer> studentArray1, Map<Colors, Integer> studentArray2) {
         //changing reference of TeacherInterface
         hasSetTeacherInterface.setTeacherInterface(new EqualCheck());
 
