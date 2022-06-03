@@ -29,13 +29,7 @@ public class Card1 extends CharacterCards {
         this.name = Cards.MONK.getName();
         this.cardIndex = 1;
 
-        this.students = new HashMap<>();
-        for (Colors c : Colors.values()) {
-            this.students.put(c, 0);
-        }
-        for (Colors c : Colors.values()) {
-            this.students.put(c, students.get(c));
-        }
+        this.students = students;
 
         this.hasAddToIsland = islandInteraction;
         this.hasDrawStudents = bagNClouds;

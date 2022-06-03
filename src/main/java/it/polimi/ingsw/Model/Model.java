@@ -31,11 +31,6 @@ public class Model {
         bagNClouds = new BagNClouds(this.gameRules[0]);
         //calls islandInteraction's constructor (input: nTowers)
         islandInteraction = new IslandInteraction(this.gameRules[2], this.gameRules[0]);
-        // if the gameMode is hard: calls draw3CC
-        if (this.gameRules[4] == 1) {
-            this.characterCards = this.drawCharacterCards();
-        }
-
     }
 
     /**
@@ -48,6 +43,10 @@ public class Model {
         initializeIsland();
         //Calls initializeEntrance
         initializeEntrance();
+        // if the gameMode is hard: calls draw3CC
+        if (Constants.isGameMode()) {
+            this.characterCards = this.drawCharacterCards();
+        }
         return true;
     }
 

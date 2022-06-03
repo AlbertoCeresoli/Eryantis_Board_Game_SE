@@ -41,20 +41,20 @@ public class BagNClouds implements hasAddToBag, hasDrawStudents {
      */
     @Override
     public Map<Colors, Integer> drawStudents(int n) {
-        Map<Colors, Integer> students= new HashMap<>();
+        Map<Colors, Integer> students = new HashMap<>();
         int temp;
         Random rand = new Random();
-        for (Colors c : Colors.values()){
+        for (Colors c : Colors.values()) {
             students.put(c, 0);
         }
-
-        for (int i=0; i<n; i++){
-            if (bag.size()>0){
+        for (int i = 0; i < n; i++) {
+            if (bag.size() > 0) {
                 temp = rand.nextInt(bag.size());
                 students.put(bag.get(temp), students.get(bag.get(temp)) + 1);
                 bag.remove(temp);
             }
         }
+
         return students;
     }
 

@@ -23,13 +23,7 @@ public class Card7 extends CharacterCards {
         this.name = Cards.JOKER.getName();
         this.cardIndex = 7;
 
-        this.students = new HashMap<>();
-        for (Colors c : Colors.values()) {
-            students.put(c, 0);
-        }
-        for (Colors c : Colors.values()) {
-            this.students.put(c, students.get(c));
-        }
+        this.students = students;
 
         this.hasEntrance = playerInteraction;
     }

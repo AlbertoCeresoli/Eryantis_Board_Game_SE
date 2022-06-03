@@ -34,13 +34,7 @@ public class Card11 extends CharacterCards {
         this.name = Cards.SPOILED_PRINCESS.getName();
         this.cardIndex = 11;
 
-        this.students = new HashMap<>();
-        for (Colors c : Colors.values()) {
-            this.students.put(c, 0);
-        }
-        for (Colors c : Colors.values()) {
-            this.students.put(c, students.get(c));
-        }
+        this.students = students;
 
         this.hasHall = playerInteraction;
         this.hasCheckTeacher = playerInteraction;

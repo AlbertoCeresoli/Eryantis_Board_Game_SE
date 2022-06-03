@@ -234,7 +234,7 @@ public class ClientPrinter {
     }
 
     public static void printCharacterCard(String name, int cost) {
-        System.out.println("Character card: " + name);
+        System.out.println("\nCharacter card: " + name);
         System.out.println("Cost: " + cost + "\n");
         System.out.println("Description:");
         System.out.println(characterCardEffects.get(name) + "\n");
@@ -248,5 +248,7 @@ public class ClientPrinter {
                 System.out.print(colorsBackground.get(c) + "  " + Constants.ANSI_RESET + "  ");
             }
         }
+
+        System.out.println();
     }
 }

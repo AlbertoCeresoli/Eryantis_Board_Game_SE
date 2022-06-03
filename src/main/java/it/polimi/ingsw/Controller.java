@@ -168,8 +168,6 @@ public class Controller {
                 temp = gameHandler.requestInformation(ObjectsToSelect.ASSISTANT_CARD, actualTurnPlayer);
             } while (temp.equals("false"));
 
-            System.out.println("sono fuori");
-
             lastAssistantCardsPlayed[actualTurnPlayer] = Integer.parseInt(temp);
         }
     }
