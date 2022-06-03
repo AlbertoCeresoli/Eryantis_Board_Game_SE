@@ -1,7 +1,9 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.Constants;
-import it.polimi.ingsw.Constants.MessageType;
+import it.polimi.ingsw.Messages.DisconnectionMessage;
+import it.polimi.ingsw.Messages.EasyMessage;
+import it.polimi.ingsw.Messages.Message;
 
 import java.io.*;
 import java.net.Socket;
@@ -11,8 +13,8 @@ public class ClientHandler implements Runnable {
     private String nickName;
     private final int id;
     private final Socket client;
-    private final BufferedReader in;
-    private final PrintWriter out;
+    private final ObjectInputStream in;
+    private final ObjectOutputStream out;
     private static final ArrayList<ClientHandler> clients = new ArrayList<>();
     private boolean connected;
     private String latestMessage;
@@ -29,8 +31,8 @@ public class ClientHandler implements Runnable {
     public ClientHandler(Socket clientSocket) throws IOException {
         this.id = clients.size();
         this.client = clientSocket;
-        this.in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        this.out = new PrintWriter(client.getOutputStream(), true);
+        this.in = new ObjectInputStream(clientSocket.getInputStream());
+        this.out = new ObjectOutputStream(clientSocket.getOutputStream());
         this.connected = true;
         this.latestMessage = "";
         this.latestMessageValid = false;
@@ -49,10 +51,10 @@ public class ClientHandler implements Runnable {
     public void run() {
         try {
             while (connected) {
-                String request;
+                EasyMessage request;
 
                 do {
-                    request = in.readLine();
+                    request = (EasyMessage) in.readObject();
                 } while (request == null);
 
                 boolean requestHasBeenManaged = manageRequest(request);
@@ -61,7 +63,7 @@ public class ClientHandler implements Runnable {
                     if (yourTurn) {
                         if (informationIsNeeded && !latestMessageValid) {
                             synchronized (lock) {
-                                latestMessage = request;
+                                latestMessage = request.getText();
                                 informationIsNeeded = false;
                                 latestMessageValid = true;
                                 lock.notifyAll();
@@ -69,22 +71,24 @@ public class ClientHandler implements Runnable {
                         }
                     }
                     else {
-                        sendMessage("Not your turn now, please wait");
+                        sendMessage(new EasyMessage("Not your turn now, please wait"));
                     }
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException();
         }
     }
 
     /**
      * This method manages the high-priority request from the player calling the specific method.
-     * @param request   string from keyboard
+     * @param message   string from keyboard
      * @return  true if the request has been managed server-level
      * @throws IOException
      */
-    private boolean manageRequest(String request) throws IOException {
+    private boolean manageRequest(EasyMessage message) throws IOException {
+        String request = message.getText();
+
         if (request.equalsIgnoreCase("/quit")) {
             quit();
             return true;
@@ -111,9 +115,9 @@ public class ClientHandler implements Runnable {
     /**
      * Prints on screen a default message containing the main requests
      */
-    private void help() {
+    private void help() throws IOException {
         String helpMessage =
-                "\nThese are common Eryantis commands used in various situations.\n" +
+                "\nThese are common Eriantys commands used in various situations.\n" +
                 "Remember that commands are not case sensitive\n" +
                 "Commands are:\n\n" +
                 "to quit the game and disconnect from server\n" +
@@ -130,7 +134,7 @@ public class ClientHandler implements Runnable {
                 "to play a character card\n" +
                 "   /play name                  to play a character card. Insert the name of the card in place of 'name'\n";
 
-        sendMessage(helpMessage);
+        sendMessage(new EasyMessage(helpMessage));
     }
 
     private void print() {
@@ -143,7 +147,7 @@ public class ClientHandler implements Runnable {
      */
     private void quit() throws IOException {
         connected = false;
-        out.println(MessageType.EASY_MESSAGE.getType() + "\nDisconnected\nEND OF MESSAGE");
+        sendMessage(new DisconnectionMessage());
         out.close();
         in.close();
         client.close();
@@ -155,77 +159,76 @@ public class ClientHandler implements Runnable {
      * Implements a simple communication between all players
      * @param request   the message to send
      */
-    private void say(String request) {
+    private void say(String request) throws IOException {
         int firstSpace = request.indexOf(" ");
         if (firstSpace != -1) {
-            sendMessageToAll(request.substring(firstSpace + 1) + "\nEND OF MESSAGE");
+            sendMessageToAll(new EasyMessage(request.substring(firstSpace + 1)));
         }
     }
 
     /**
      * The method gets from connected client its nickname
      */
-    public void selectNickName() throws IOException {
-        String request;
+    public void selectNickName() throws IOException, ClassNotFoundException {
+        EasyMessage request;
 
-        out.println(MessageType.EASY_MESSAGE.getType() + "\nInsert your nickname: \nEND OF MESSAGE");
-        request = in.readLine();
-        nickName = request;
+        sendMessage(new EasyMessage("Insert your nickname: "));
+        do {
+            request = (EasyMessage) in.readObject();
+        } while (request == null);
+
+        nickName = request.getText();
     }
 
     /**
      * This method runs when the first client connects and asks for the settings he wants to play with
      * @throws IOException
      */
-    public void gameRulesSelection() throws IOException {
-        String request;
+    public void gameRulesSelection() throws IOException, ClassNotFoundException {
+        EasyMessage request;
 
         do {
-            out.println(MessageType.EASY_MESSAGE.getType() + "\nSelect Game Mode: 0 = easy/ 1 = hard\nEND OF MESSAGE");
-            request = in.readLine();
-        } while (!request.equals("0") && !request.equals("1"));
+            sendMessage(new EasyMessage("Select Game Mode: 0 = easy/ 1 = hard"));
+            do {
+                request = (EasyMessage) in.readObject();
+            } while (request == null);
+        } while (!request.getText().equals("0") && !request.getText().equals("1"));
 
-        Constants.setGameMode(!request.equals("0"));
+        Constants.setGameMode(!request.getText().equals("0"));
 
         do {
-            out.println(MessageType.EASY_MESSAGE.getType() + "\nSelect Number of Players: 2 / 3\nEND OF MESSAGE");
-            request = in.readLine();
-        } while (!request.equals("2") && !request.equals("3"));
+            sendMessage(new EasyMessage("Select Number of Players: 2 / 3"));
+            do {
+                request = (EasyMessage) in.readObject();
+            } while (request == null);
+        } while (!request.getText().equals("2") && !request.getText().equals("3"));
 
-        if (request.equals("2")) {
+        if (request.getText().equals("2")) {
             Constants.setNumPlayers(2);
         } else {
             Constants.setNumPlayers(3);
         }
 
-        sendMessage("Type of game has been chosen, wait for other clients to join");
+        sendMessage(new EasyMessage("Type of game has been chosen, wait for other clients to join"));
     }
 
     /**
      * Prints "text" to the player's screen
-     * @param text  to be printed
+     * @param message  to be printed
      */
-    public void sendMessage(String text) {
-        out.println(MessageType.EASY_MESSAGE.getType() + "\n" + text + "\nEND OF MESSAGE");
+    public void sendMessage(Message message) throws IOException {
+        out.reset();
+        out.writeObject(message);
+        out.flush();
     }
 
     /**
      * Print "text" to every players' screen
-     * @param text  to be printed
+     * @param message  to be printed
      */
-    private void sendMessageToAll(String text) {
+    private void sendMessageToAll(Message message) throws IOException {
         for (ClientHandler client : clients) {
-            client.out.println(MessageType.EASY_MESSAGE.getType() + "\n" + text);
-        }
-    }
-
-    public void sendMessage(MessageType type, String text) {
-        out.println(type.getType() + "\n" + text + "\nEND OF MESSAGE");
-    }
-
-    public void sendMessageToAll(MessageType type, String text) {
-        for (ClientHandler client : clients) {
-            client.out.println(type + "\n" + text + "\nEND OF MESSAGE");
+            client.sendMessage(message);
         }
     }
 

@@ -1,7 +1,12 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.*;
+import it.polimi.ingsw.Messages.EasyMessage;
+import it.polimi.ingsw.Messages.ErrorMessages.ErrorMessage;
+import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.Messages.PrintMessages.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,15 +19,15 @@ public class GameHandler implements Runnable {
     Map<String, Integer> nickToIndex;
 
     public GameHandler(ArrayList<ClientHandler> clients) {
-        clientHandlers = clients;
-        controller = new Controller(this);
-        indexToNick = new HashMap<>();
-        nickToIndex = new HashMap<>();
-        messageGenerator = new MessageGenerator();
+        this.clientHandlers = clients;
+        this.controller = new Controller(this);
+        this.indexToNick = new HashMap<>();
+        this.nickToIndex = new HashMap<>();
+        this.messageGenerator = new MessageGenerator();
 
         for (int i = 0; i < clients.size(); i++) {
-            indexToNick.put(i, clients.get(i).getNickName());
-            nickToIndex.put(clients.get(i).getNickName(), i);
+            this.indexToNick.put(i, clients.get(i).getNickName());
+            this.nickToIndex.put(clients.get(i).getNickName(), i);
         }
     }
 
@@ -36,49 +41,61 @@ public class GameHandler implements Runnable {
     }
 
     /**
-     * Calls methods to print "S" to the selected player
+     * The method sends the string in input to the client putting it into an EasyMessage, so it has just to be printed
      * @param playerIndex   that has to receive the message
      * @param s the message itself
      */
-     public void newMessage(int playerIndex, String s){
-        clientHandlers.get(playerIndex).sendMessage(s);
+    public void newMessage(int playerIndex, String s) {
+        try {
+            clientHandlers.get(playerIndex).sendMessage(new EasyMessage(s));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    /**
-     * As above but MessageType is a parameter required for the elaboration of certain prints
-     * @param playerIndex   that has to receive the message
-     * @param type the type of the message
-     * @param text the message itself
-     */
-    public void newMessage(int playerIndex, MessageType type, String text) {
-        clientHandlers.get(playerIndex).sendMessage(type, text);
-
+    public void newMessage(int playerIndex, Message message) {
+        try {
+            clientHandlers.get(playerIndex).sendMessage(message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void messageToAll(String s) {
         for (ClientHandler clientHandler : clientHandlers) {
-            clientHandler.sendMessage(s);
+            try {
+                clientHandler.sendMessage(new EasyMessage(s));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    public void messageToAll(MessageType type, String s) {
+    public void messageToAll(Message message) {
         for (ClientHandler clientHandler : clientHandlers) {
-            clientHandler.sendMessage(type, s);
+            try {
+                clientHandler.sendMessage(message);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     /**
-     * This method scans every input from the player checking whether the player used a specific keyword for information printing. In this case it prints what the player needs; then it continues the round tasks giving the input to the controller
+     * This method scans every input from the player checking whether the player
+     * used a specific keyword for information printing.
+     * In this case it prints what the player needs;
+     * then it continues the round tasks giving the input to the controller
      *
      * @param selection what the controller needs to continue the game
      * @param player    the actual player
      * @return iterates until the last input is the one which satisfies the controller
      * @throws InterruptedException
      */
-    public String requestInformation(ObjectsToSelect selection, int player) throws InterruptedException {
+    public String requestInformation(ObjectsToSelect selection, int player) throws InterruptedException, IOException {
         String result = getLatestMessageFromPlayer(player);
 
-        Map<MessageType, String> message;
+        Message message;
 
         //command card
         int cardNumber;
@@ -107,7 +124,7 @@ public class GameHandler implements Runnable {
 
         //Show character cards
         if (result.equalsIgnoreCase("/print character cards")) {
-            if (controller.getModel().gameRules[4] == 1) {
+            if (Constants.isGameMode()) {
                 printCharacterCards(player);
             } else {
                 newMessage(player, "You are playing a game in easy mode, there are no character cards");
@@ -185,19 +202,12 @@ public class GameHandler implements Runnable {
             case CHARACTER_CARD -> messageGenerator.characterCardSelection(result);
         };
 
-        if (message.containsKey(MessageType.CORRECT_INPUT)) {
-            System.out.println(message.get(MessageType.CORRECT_INPUT));
-            newMessage(player, message.get(MessageType.CORRECT_INPUT));
-            return result;
-        }
-        else {
-            for (MessageType type : message.keySet()) {
-                if (!type.equals(MessageType.CORRECT_INPUT)) {
-                    newMessage(player, type, message.get(type));
-                }
-            }
+        newMessage(player, message);
 
+        if (message instanceof ErrorMessage) {
             return "false";
+        } else {
+            return result;
         }
     }
 
@@ -237,40 +247,42 @@ public class GameHandler implements Runnable {
      * prints methods TODO
      */
     public void printClouds(int player) {
-        String s;
-        s = PrintMessageGenerator.printClouds(controller.getModel().getBagNClouds().getClouds());
-        newMessage(player, MessageType.PRINT_ALL_CLOUDS, s);
+        Message message;
+        message = new PrintCloudsMessage(controller.getModel().getBagNClouds().getClouds());
+        newMessage(player, message);
     }
 
 
     public void printBoard(int player, int playerIndex) {
-        String s;
-        s = PrintMessageGenerator.printBoard(controller.getModel().getPlayerInteraction().getPlayer(playerIndex).getBoard(), indexToNick.get(playerIndex), controller.getModel().getIslandInteraction().getTowersByPlayer()[playerIndex]);
-        newMessage(player, MessageType.PRINT_BOARD, s);
+        Message message;
+        message = new PrintBoardMessage(indexToNick.get(playerIndex),
+                controller.getModel().getPlayerInteraction().getPlayer(playerIndex).getBoard(),
+                controller.getModel().getIslandInteraction().getTowersByPlayer()[playerIndex]);
+        newMessage(player, message);
     }
 
     public void printIslands(int player) {
-        String s;
-        s = PrintMessageGenerator.printAllIslands(controller.getModel().getIslandInteraction().getIslands(), controller.getModel().getIslandInteraction().getMotherNature(), indexToNick);
-        //Mario, returns a message
-        newMessage(player, MessageType.PRINT_ALL_ISLANDS, s);
+        Message message;
+        message = new PrintIslandsMessage(controller.getModel().getIslandInteraction().getIslands(), controller.getModel().getIslandInteraction().getMotherNature(), indexToNick);
+        newMessage(player, message);
     }
 
     public void printTeachers(int player) {
-        String s;
-        s = PrintMessageGenerator.printTeachers(controller.getModel().getIslandInteraction().getTeachers(), indexToNick);
-        newMessage(player, MessageType.PRINT_TEACHERS, s);
+        Message message;
+        message = new PrintTeachersMessage(controller.getModel().getIslandInteraction().getTeachers(), indexToNick);
+        newMessage(player, message);
     }
 
     public void printAssistantCards(int player) {
-        String s = PrintMessageGenerator.printAssistantCards(controller.getModel().getPlayerInteraction().getPlayer(player).getAssistants());
-        newMessage(player, MessageType.PRINT_ASSISTANT_CARDS, s);
+        Message message;
+        message = new PrintAssistantCardsMessage(controller.getModel().getPlayerInteraction().getPlayer(player).getAssistants());
+        newMessage(player, message);
     }
 
     public void printCharacterCards(int player) {
-        String s = PrintMessageGenerator.printCharacterCards(controller.getModel().getCharacterCards());
-
-        newMessage(player, MessageType.PRINT_CHARACTER_CARDS, s);
+        Message message;
+        message = new PrintCharacterCardsMessage(controller.getModel().getCharacterCards());
+        newMessage(player, message);
     }
 
     public ArrayList<ClientHandler> getClientHandlers() {

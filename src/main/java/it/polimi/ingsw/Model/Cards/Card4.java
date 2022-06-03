@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Model.Player.PlayerInteraction;
 import it.polimi.ingsw.Model.Player.hasAddStepsToMNMovement;
@@ -15,7 +16,7 @@ public class Card4 extends CharacterCards {
      * Card4 constructor
      */
     public Card4(int cost, PlayerInteraction playerInteraction) {
-        super(cost);
+        super(cost, Constants.MAGIC_POSTMAN_EFFECT);
 
         this.name = Cards.MAGIC_POSTMAN.getName();
         this.cardIndex = 4;

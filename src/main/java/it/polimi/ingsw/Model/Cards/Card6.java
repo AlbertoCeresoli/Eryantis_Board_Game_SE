@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Model.Influence.Card6Effect;
 import it.polimi.ingsw.Model.Island.IslandInteraction;
@@ -16,7 +17,7 @@ public class Card6 extends CharacterCards {
      * Card6 constructor
      */
     public Card6(int cost, IslandInteraction islandInteraction) {
-        super(cost);
+        super(cost, Constants.CENTAUR_EFFECT);
 
         this.name = Cards.CENTAUR.getName();
         this.cardIndex = 6;

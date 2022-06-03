@@ -13,6 +13,7 @@ import java.util.Map;
 public abstract class CharacterCards {
     protected String name;
     protected int cardIndex;
+    private final String effect;
     private int cost;
     protected Map<Colors, Integer> students;
     private boolean usedThisTurn;
@@ -23,8 +24,9 @@ public abstract class CharacterCards {
      *
      * @param cost is the number of coins needed in order to use the card
      */
-    public CharacterCards(int cost) {
+    public CharacterCards(int cost, String effect) {
         this.cost = cost;
+        this.effect = effect;
         this.usedThisGame = false;
         this.usedThisTurn = false;
     }
@@ -74,5 +76,9 @@ public abstract class CharacterCards {
 
     public void setUsedThisGame(boolean usedThisGame) {
         this.usedThisGame = usedThisGame;
+    }
+
+    public String getEffect() {
+        return effect;
     }
 }

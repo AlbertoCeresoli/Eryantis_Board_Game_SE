@@ -1,86 +1,128 @@
 package it.polimi.ingsw.Client.CLI;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import it.polimi.ingsw.Messages.DisconnectionMessage;
+import it.polimi.ingsw.Messages.EasyMessage;
+import it.polimi.ingsw.Messages.ErrorMessages.AlreadyPlayedErrorMessage;
+import it.polimi.ingsw.Messages.ErrorMessages.ErrorMessage;
+import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.Messages.PrintMessages.*;
+
+import java.io.*;
 import java.net.Socket;
 
-public class CLI implements Runnable{
-    private Socket socket;
-    //used to read what is written on the terminal
-    private final BufferedReader keyboard;
-    //used to get Message objects from server
-    private final BufferedReader fromServerInput;
-    //used to send to server what is read from keyboard
-    private final PrintWriter toServerOutput;
-    private final ServerConnection serverConnection;
-    private final MessageParserClient parser;
-    private final ClientPrinter clientPrinter;
-    private final boolean activeGame;
+public class CLI implements Runnable {
+	private final Socket socket;
+	//used to read what is written on the terminal
+	private final BufferedReader keyboard;
+	//used to get Message objects from server
+	private final ObjectInputStream fromServerInput;
+	//used to send to server what is read from keyboard
+	private final ObjectOutputStream toServerOutput;
+	private final ServerConnection serverConnection;
+	private final ClientPrinter clientPrinter;
+	private boolean activeGame;
 
-    public static void main(String[] args) throws IOException {
-        //connection to server
-        System.out.println("[CLIENT] Waiting for server connection...");
-        Socket socket = new Socket("localhost", 1234);
-        System.out.println("[CLIENT] Connected to server! [localhost, 1234]");
+	public static void main(String[] args) throws IOException {
+		//connection to server
+		System.out.println("[CLIENT] Waiting for server connection...");
+		Socket socket = new Socket("localhost", 1234);
+		System.out.println("[CLIENT] Connected to server! [localhost, 1234]");
 
-        CLI cli = new CLI(socket);
+		CLI cli = new CLI(socket);
 
-        cli.run();
-    }
+		cli.run();
+	}
 
-    public CLI(Socket socket) throws IOException {
-        this.keyboard = new BufferedReader(new InputStreamReader(System.in));
-        this.fromServerInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        this.toServerOutput = new PrintWriter(socket.getOutputStream(), true);
-        this.parser = new MessageParserClient();
-        this.clientPrinter = new ClientPrinter();
-        this.activeGame = true;
+	public CLI(Socket socket) throws IOException {
+		this.socket = socket;
+		this.keyboard = new BufferedReader(new InputStreamReader(System.in));
+		this.toServerOutput = new ObjectOutputStream(socket.getOutputStream());
+		this.toServerOutput.flush();
+		this.fromServerInput = new ObjectInputStream(socket.getInputStream());
+		this.clientPrinter = new ClientPrinter();
+		this.activeGame = true;
 
-        this.serverConnection = new ServerConnection(socket, this);
-        new Thread(this.serverConnection).start();
-    }
+		this.serverConnection = new ServerConnection(socket, this);
+		new Thread(this.serverConnection).start();
+	}
 
-    @Override
-    public void run() {
-        while (isActiveGame()) {
-            try {
-                String command = keyboard.readLine();
-                toServerOutput.println(command);
-                if (command.equals("/quit")) {
-                    serverConnection.exit();
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+	@Override
+	public void run() {
+		while (isActiveGame()) {
+			try {
+				String command = keyboard.readLine();
+				sendMessageToServer(new EasyMessage(command));
+				if (command.equals("/quit")) {
+					serverConnection.exit();
+				}
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
 
-        try {
-            socket.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+		try {
+			this.socket.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
-    }
+	}
 
-    public void elaborateMessage(String type, String text) throws IOException {
-        this.parser.getParseMessages().get(type).parse(text);
+	public void sendMessageToServer(Message message) throws IOException {
+		toServerOutput.reset();
+		toServerOutput.writeObject(message);
+		toServerOutput.flush();
+	}
 
-        if (text.equals("Disconnected")) {
-            serverConnection.exit();
-        }
-    }
+	public void elaborateMessage(Message message) throws IOException {
+		if (message instanceof EasyMessage) {
+			ClientPrinter.easyPrint(((EasyMessage) message).getText());
+		}
+		if (message instanceof PrintMessage) {
+			elaboratePrintMessage((PrintMessage) message);
+		}
+		if (message instanceof ErrorMessage) {
+			elaborateErrorMessage((ErrorMessage) message);
+		}
+		if (message instanceof DisconnectionMessage) {
+			activeGame = false;
+			serverConnection.exit();
+		}
+	}
 
-    public BufferedReader getFromServerInput() {
-        return fromServerInput;
-    }
+	public void elaboratePrintMessage(PrintMessage message) {
+		if (message instanceof PrintAssistantCardsMessage) {
+			ClientPrinter.printAssistantCards((PrintAssistantCardsMessage) message);
+		}
+		if (message instanceof PrintBoardMessage) {
+			ClientPrinter.printBoard((PrintBoardMessage) message);
+		}
+		if (message instanceof PrintCharacterCardsMessage) {
+			ClientPrinter.printCharacterCards((PrintCharacterCardsMessage) message);
+		}
+		if (message instanceof PrintCloudsMessage) {
+			ClientPrinter.printClouds((PrintCloudsMessage) message);
+		}
+		if (message instanceof PrintIslandMessage) {
+			ClientPrinter.printIsland((PrintIslandMessage) message);
+		}
+		if (message instanceof PrintIslandsMessage) {
+			ClientPrinter.printIslands((PrintIslandsMessage) message);
+		}
+		if (message instanceof PrintTeachersMessage) {
+			ClientPrinter.printTeachers((PrintTeachersMessage) message);
+		}
+	}
 
-    private boolean isActiveGame() {
-        return activeGame;
-    }
+	public void elaborateErrorMessage(ErrorMessage message) {
+		ClientPrinter.easyPrint(message.getText());
+	}
 
-    public ClientPrinter getClientPrinter() {
-        return clientPrinter;
-    }
+	public ObjectInputStream getFromServerInput() {
+		return fromServerInput;
+	}
+
+	private boolean isActiveGame() {
+		return activeGame;
+	}
 }

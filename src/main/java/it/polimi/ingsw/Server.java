@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.Constants;
+import it.polimi.ingsw.Messages.EasyMessage;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -13,7 +14,7 @@ public class Server {
     static ServerSocket serverSocket;
     private static final ArrayList<ClientHandler> clients = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException {
         //server creation
         serverSocket = new ServerSocket(1234);
         System.out.println("[SERVER] Waiting for client connection...");
@@ -33,7 +34,7 @@ public class Server {
         Runnable acceptClient = () -> {
             try {
                 manageNewPlayer(client);
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException | InterruptedException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         };
@@ -51,31 +52,31 @@ public class Server {
      *
      * <p>Checks on clients.size are done in a synchronized block of the code</p>
      */
-    public static void manageNewPlayer(Socket client) throws IOException, InterruptedException {
+    public static void manageNewPlayer(Socket client) throws IOException, InterruptedException, ClassNotFoundException {
         System.out.println("[SERVER] Client connected");
 
         ClientHandler player = new ClientHandler(client);
         player.selectNickName();
         while (!checkNickname(player.getNickName())) {
-            player.sendMessage("Nickname you choose is not available, please insert a new one (");
+            player.sendMessage(new EasyMessage("Nickname you choose is not available, please insert a new one: "));
             player.selectNickName();
         }
 
         synchronized (clients) {
             if (clients.size() == 0) {
                 clients.add(player);
-                player.sendMessage("Correctly connected to the game");
+                player.sendMessage(new EasyMessage("You are the first player, please select game mode"));
                 player.gameRulesSelection();
             } else if (clients.size() < Constants.getNumPlayers()) {
                 clients.add(player);
                 if (clients.size() == Constants.getNumPlayers()) {
-                    player.sendMessage("Correctly connected to the game, you were the last client needed, game will start now...");
+                    player.sendMessage(new EasyMessage("Correctly connected to the game, you were the last client needed, game will start now..."));
                     createGame();
                 } else {
-                    player.sendMessage("Correctly connected to the game, wait for other clients");
+                    player.sendMessage(new EasyMessage("Correctly connected to the game, wait for other clients"));
                 }
             } else if (clients.size() == Constants.getNumPlayers() - 1) {
-                player.sendMessage("All requested clients are already connected, please try again later");
+                player.sendMessage(new EasyMessage("All requested clients are already connected, please try again later"));
                 player.getClient().close();
             }
         }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Model.Influence.Card8Effect;
 import it.polimi.ingsw.Model.Island.IslandInteraction;
@@ -16,7 +17,7 @@ public class Card8 extends CharacterCards {
      * Card8 constructor
      */
     public Card8(int cost, IslandInteraction islandInteraction) {
-        super(cost);
+        super(cost, Constants.KNIGHT_EFFECT);
 
         this.name = Cards.KNIGHT.getName();
         this.cardIndex = 8;

@@ -29,7 +29,7 @@ public class Card11 extends CharacterCards {
      * @param students   students located on the card
      */
     public Card11(int cost, PlayerInteraction playerInteraction, IslandInteraction islandInteraction, BagNClouds bagNClouds, Map<Colors, Integer> students) {
-        super(cost);
+        super(cost, Constants.SPOILED_PRINCESS_EFFECT);
 
         this.name = Cards.SPOILED_PRINCESS.getName();
         this.cardIndex = 11;

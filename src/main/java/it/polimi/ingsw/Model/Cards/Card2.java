@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Model.Player.PlayerInteraction;
 import it.polimi.ingsw.Model.Teacher.EqualCheck;
@@ -16,7 +17,7 @@ public class Card2 extends CharacterCards {
      * Card2 constructor
      */
     public Card2(int cost, PlayerInteraction playerInteraction) {
-        super(cost);
+        super(cost, Constants.FARMER_EFFECT);
 
         this.name = Cards.FARMER.getName();
         this.cardIndex = 2;

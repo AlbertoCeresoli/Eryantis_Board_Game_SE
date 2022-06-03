@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Model.Island.IslandInteraction;
 import it.polimi.ingsw.Model.Island.hasSetTeacher;
@@ -23,7 +24,7 @@ public class Card10 extends CharacterCards {
      * Card10 constructor
      */
     public Card10(int cost, PlayerInteraction playerInteraction, IslandInteraction islandInteraction) {
-        super(cost);
+        super(cost, Constants.MINSTREL_EFFECT);
 
         this.name = Cards.MINSTREL.getName();
         this.cardIndex = 10;

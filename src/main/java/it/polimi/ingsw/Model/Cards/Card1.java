@@ -24,7 +24,7 @@ public class Card1 extends CharacterCards {
      * @param students   students located on the card
      */
     public Card1(int cost, IslandInteraction islandInteraction, BagNClouds bagNClouds, Map<Colors, Integer> students) {
-        super(cost);
+        super(cost, Constants.MONK_EFFECT);
 
         this.name = Cards.MONK.getName();
         this.cardIndex = 1;

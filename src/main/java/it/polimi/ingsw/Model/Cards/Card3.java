@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Exceptions.EndGameException;
 import it.polimi.ingsw.Model.Island.IslandInteraction;
@@ -16,7 +17,7 @@ public class Card3 extends CharacterCards {
      * Card3 constructor
      */
     public Card3(int cost, IslandInteraction islandInteraction) {
-        super(cost);
+        super(cost, Constants.HERALD_EFFECT);
 
         this.name = Cards.HERALD.getName();
         this.cardIndex = 3;

@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Model.Influence.Card9Effect;
 import it.polimi.ingsw.Model.Island.IslandInteraction;
@@ -16,7 +17,7 @@ public class Card9 extends CharacterCards {
      * Card9 constructor
      */
     public Card9(int cost, IslandInteraction islandInteraction) {
-        super(cost);
+        super(cost, Constants.MUSHROOMS_MAN_EFFECT);
 
         this.name = Cards.MUSHROOMS_MAN.getName();
         this.cardIndex = 9;

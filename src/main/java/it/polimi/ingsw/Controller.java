@@ -4,6 +4,7 @@ import it.polimi.ingsw.Constants.*;
 import it.polimi.ingsw.Exceptions.EndGameException;
 import it.polimi.ingsw.Model.Model;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -26,14 +27,14 @@ public class Controller {
         gameRules[0] = Constants.getNumPlayers();
         //2 players rules
         if (Constants.getNumPlayers() == 2) {
-            gameRules[1] = 7;
-            gameRules[2] = 8;
+            gameRules[1] = Constants.STUDENTS_IN_ENTRANCE_2_PLAYERS;
+            gameRules[2] = Constants.TOWERS_2_PLAYERS;
             gameRules[3] = 0;
         }
         //3 players rules
         if (Constants.getNumPlayers() == 3) {
-            gameRules[1] = 9;
-            gameRules[2] = 6;
+            gameRules[1] = Constants.STUDENTS_IN_ENTRANCE_3_PLAYERS;
+            gameRules[2] = Constants.TOWERS_3_PLAYERS;
             gameRules[3] = 0;
         }
         //gameMode hard
@@ -42,6 +43,7 @@ public class Controller {
         } else {
             gameRules[4] = 0;
         }
+
         model = new Model(gameRules);
         gameHandler = gh;
 
@@ -79,9 +81,12 @@ public class Controller {
      * This is the method which continue iterating giving the rhythm to all the turn phases. It responds to the needs of the controller providing all the input from the players.
      */
     public void round() throws InterruptedException {
-        planningPhase();
-
-        actionPhase();
+        try {
+            planningPhase();
+            actionPhase();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -89,7 +94,7 @@ public class Controller {
      * and their order of play in the action phase is decided up to the priority of the cards they choose.
      * @throws InterruptedException
      */
-    private void planningPhase() throws InterruptedException {
+    private void planningPhase() throws InterruptedException, IOException {
         //fill the clouds with the new students
         model.getBagNClouds().studentsBagToCloud();
 
@@ -108,7 +113,7 @@ public class Controller {
      * and then mother nature to calculate influence on that island
      * @throws InterruptedException
      */
-    private void actionPhase() throws InterruptedException {
+    private void actionPhase() throws InterruptedException, IOException {
         Colors color = null;
 
         //for the number of players
@@ -119,15 +124,15 @@ public class Controller {
             //1) student movement
             //for the students to move
             for (int j = 0; j < model.gameRules[0] + 1; j++) {
-                color = colorSelection(lastAssistantCardsPlayed, color);
+                color = colorSelection(color);
 
-                studentDestination(lastAssistantCardsPlayed, color);
+                studentDestination(color);
             }
 
             //MN movement
             if (moveMN(lastAssistantCardsPlayed)) return;
 
-            cloudSelection(lastAssistantCardsPlayed);
+            cloudSelection();
 
             checkEnd();
         }
@@ -145,11 +150,10 @@ public class Controller {
 
     /**
      * Every player chooses the assistant card to play, an array represents the state of the playability of their assistant cards while
-     * another array contains the cards played by each player in this turn
-     * @return  the array containing the card played in this turn
+     * another array contains the cards played by each player in this turn. Sets the array containing the card played in this turn
      * @throws InterruptedException
      */
-    private void playAssistantCards() throws InterruptedException {
+    private void playAssistantCards() throws InterruptedException, IOException {
         //initializes index of the card played by the player to -1
         for (int i = 0; i < Constants.getNumPlayers(); i++) {
             lastAssistantCardsPlayed[i] = -1;
@@ -197,12 +201,11 @@ public class Controller {
 
     /**
      * Let the player select the color of the student he wants to move making sure he has at least one of that color in his entrance
-     * @param cards cards played this turn
      * @param color color chosen (initialized NULL)
      * @return color chosen
      * @throws InterruptedException
      */
-    private Colors colorSelection(int[] cards, Colors color) throws InterruptedException {
+    private Colors colorSelection(Colors color) throws InterruptedException, IOException {
         String temp;
         boolean result = true;
         //select the color of the student to move
@@ -226,11 +229,10 @@ public class Controller {
 
     /**
      *  The player needs to provide the place where the student has to be moved
-     * @param cards played this turn
      * @param color of the student to be moved
      * @throws InterruptedException
      */
-    private void studentDestination(int[] cards, Colors color) throws InterruptedException {
+    private void studentDestination(Colors color) throws InterruptedException, IOException {
         String temp;
         int index;
         //select the place
@@ -264,7 +266,7 @@ public class Controller {
      * @return true (ending the game) if an EndGameException occurs
      * @throws InterruptedException
      */
-    private boolean moveMN(int[] cards) throws InterruptedException {
+    private boolean moveMN(int[] cards) throws InterruptedException, IOException {
         String temp;
         int index;
         gameHandler.newMessage(actualTurnPlayer, "Player" + actualTurnPlayer + ": How many steps you want MN to do?");
@@ -287,10 +289,9 @@ public class Controller {
 
     /**
      * At the end of every action phase the player has to select a cloud to re-fill his entrance
-     * @param cards cards played in that turn
      * @throws InterruptedException
      */
-    private void cloudSelection(int[] cards) throws InterruptedException {
+    private void cloudSelection() throws InterruptedException, IOException {
         String temp;
         int index;
         //cloud selection
@@ -328,7 +329,7 @@ public class Controller {
      * increase the cost of the card if the boolean firstUsed is =0
      * collects all the information needed and calls useEffect
      */
-    public void playCard(int cardPlayed, int player) throws InterruptedException {
+    public void playCard(int cardPlayed, int player) throws InterruptedException, IOException {
         Map<Indexes, Integer> index = new HashMap<>();
         Colors color = null;
         Map<Colors, Integer> StudMap1 = new HashMap<>();
@@ -517,7 +518,7 @@ public class Controller {
         }
     }
 
-    public Colors selectColor() throws InterruptedException {
+    public Colors selectColor() throws InterruptedException, IOException {
         Colors color;
 
         String temp;
@@ -531,7 +532,7 @@ public class Controller {
         return color;
     }
 
-    public int selectIslandIndex() throws InterruptedException {
+    public int selectIslandIndex() throws InterruptedException, IOException {
         String temp;
 
         do {

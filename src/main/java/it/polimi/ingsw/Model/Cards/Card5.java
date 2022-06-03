@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Exceptions.OutOfBoundException;
 import it.polimi.ingsw.Model.Island.IslandInteraction;
@@ -16,7 +17,7 @@ public class Card5 extends CharacterCards {
      * Card5 constructor
      */
     public Card5(int cost, IslandInteraction islandInteraction) {
-        super(cost);
+        super(cost, Constants.GRANDMA_HERBS_EFFECT);
 
         this.name = Cards.GRANDMA_HERBS.getName();
         this.cardIndex = 5;

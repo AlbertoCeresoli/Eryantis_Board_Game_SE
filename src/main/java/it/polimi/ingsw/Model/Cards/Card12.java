@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Constants.Cards;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Model.BagNClouds.BagNClouds;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Indexes;
@@ -20,7 +21,7 @@ public class Card12 extends CharacterCards {
      * @param bagNClouds bagNClouds reference used to draw students in useEffect
      */
     public Card12(int cost, PlayerInteraction playerInteraction, BagNClouds bagNClouds) {
-        super(cost);
+        super(cost, Constants.THIEF_EFFECT);
 
         this.name = Cards.THIEF.getName();
         this.cardIndex = 12;

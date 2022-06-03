@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Constants.Cards;
 import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Model.Player.PlayerInteraction;
 import it.polimi.ingsw.Model.Player.hasEntrance;
@@ -18,7 +19,7 @@ public class Card7 extends CharacterCards {
      * @param students students located on the card
      */
     public Card7(int cost, PlayerInteraction playerInteraction, Map<Colors, Integer> students) {
-        super(cost);
+        super(cost, Constants.JOKER_EFFECT);
 
         this.name = Cards.JOKER.getName();
         this.cardIndex = 7;
