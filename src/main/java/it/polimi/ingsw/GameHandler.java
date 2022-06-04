@@ -2,13 +2,14 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.*;
 import it.polimi.ingsw.Messages.EasyMessage;
-import it.polimi.ingsw.Messages.ErrorMessages.ErrorMessage;
+import it.polimi.ingsw.Messages.ErrorMessages.*;
 import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Messages.PrintMessages.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class GameHandler implements Runnable {
@@ -26,8 +27,8 @@ public class GameHandler implements Runnable {
         this.messageGenerator = new MessageGenerator();
 
         for (int i = 0; i < clients.size(); i++) {
-            this.indexToNick.put(i, clients.get(i).getNickName());
-            this.nickToIndex.put(clients.get(i).getNickName(), i);
+            this.indexToNick.put(i, clients.get(i).getNickName().toLowerCase());
+            this.nickToIndex.put(clients.get(i).getNickName().toLowerCase(), i);
         }
     }
 
@@ -93,9 +94,9 @@ public class GameHandler implements Runnable {
      * @throws InterruptedException
      */
     public String requestInformation(ObjectsToSelect selection, int player) throws InterruptedException, IOException {
-        String result = getLatestMessageFromPlayer(player);
+        String result = getLatestMessageFromPlayer(player).toLowerCase();
 
-        Message message;
+        Message message = null;
 
         //command card
         int cardNumber;
@@ -135,17 +136,38 @@ public class GameHandler implements Runnable {
 
         //extra commands
         //print all the students of the player
-        if (result.equalsIgnoreCase("/print board")) {
-            int index;
-            newMessage(player, "Select the player:");
-            String temp;
+        if (result.startsWith("/print board ")) {
+            String nick = result.substring(13).toLowerCase();
 
-            do {
-                temp = requestInformation(ObjectsToSelect.PLAYER, player);
-            } while (!temp.equals("false"));
+            if (nickToIndex.containsKey(nick)) {
+                int index = nickToIndex.get(nick);
+                printBoard(player, index);
 
-            index = Integer.parseInt(temp);
-            printBoard(player, index);
+            }
+            else {
+                newMessage(player, "There is not such player in this game");
+            }
+
+            return "false";
+        }
+
+        //prints an island of player choice
+        if (result.startsWith("/print island ")) {
+            try {
+                int index = Integer.parseInt(result.substring(14));
+                if (index > 0 && index < controller.getModel().getIslandInteraction().getIslands().size()){
+                    printIsland(player, index);
+                }
+                else {
+                    message = new NotValidIndexErrorMessage("Not valid index, the input must be between (0 - " +
+                    (controller.getModel().getIslandInteraction().getIslands().size() - 1) + ")");
+                }
+            } catch (NumberFormatException e) {
+                message = new NotValidInputErrorMessage("Not valid Input, the input must be an int between (0 - " +
+                        (controller.getModel().getIslandInteraction().getIslands().size() - 1) + ")");
+            }
+
+            newMessage(player, message);
 
             return "false";
         }
@@ -204,7 +226,8 @@ public class GameHandler implements Runnable {
 
         newMessage(player, message);
 
-        if (message instanceof ErrorMessage) {
+        if (message instanceof AlreadyPlayedErrorMessage || message instanceof AlreadyPlayedThisTurnErrorMessage ||
+                message instanceof NotValidInputErrorMessage || message instanceof NotValidIndexErrorMessage) {
             return "false";
         } else {
             return result;
@@ -258,6 +281,13 @@ public class GameHandler implements Runnable {
         message = new PrintBoardMessage(indexToNick.get(playerIndex),
                 controller.getModel().getPlayerInteraction().getPlayer(playerIndex).getBoard(),
                 controller.getModel().getIslandInteraction().getTowersByPlayer()[playerIndex]);
+        newMessage(player, message);
+    }
+
+    private void printIsland(int player, int index) {
+        Message message;
+        message = new PrintIslandMessage(controller.getModel().getIslandInteraction().getIslands().get(index), index,
+                controller.getModel().getIslandInteraction().getMotherNature() == index, indexToNick);
         newMessage(player, message);
     }
 

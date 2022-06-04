@@ -294,10 +294,12 @@ public class Controller {
     private void cloudSelection() throws InterruptedException, IOException {
         String temp;
         int index;
+
         //cloud selection
         gameHandler.newMessage(actualTurnPlayer, "You have to select the cloud with the students you want in your entrance");
         gameHandler.printClouds(actualTurnPlayer);
         gameHandler.newMessage(actualTurnPlayer, "Select the cloud index:");
+
         do {
             temp = gameHandler.requestInformation(ObjectsToSelect.CLOUD, actualTurnPlayer);
         } while (temp.equals("false"));

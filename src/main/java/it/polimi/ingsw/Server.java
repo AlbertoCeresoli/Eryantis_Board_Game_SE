@@ -92,7 +92,7 @@ public class Server {
         boolean check = true;
 
         for (ClientHandler client : clients) {
-            if (client.getNickName().equals(nickname)) {
+            if (client.getNickName().equalsIgnoreCase(nickname)) {
                 check = false;
                 break;
             }

@@ -8,6 +8,7 @@ import it.polimi.ingsw.Messages.Message;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ClientHandler implements Runnable {
     private String nickName;
@@ -177,7 +178,7 @@ public class ClientHandler implements Runnable {
             request = (EasyMessage) in.readObject();
         } while (request == null);
 
-        nickName = request.getText();
+        nickName = request.getText().toLowerCase();
     }
 
     /**

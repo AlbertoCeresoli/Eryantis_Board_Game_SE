@@ -196,14 +196,18 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
     public void calculateInfluence(int island, int numberOfPlayers) throws EndGameException {
         ArrayList<Integer> influences = influence.calculateInfluence(teachers, getIslands().get(island), numberOfPlayers);
         int maxI = Collections.max(influences);
-        for (int i = 0; i < numberOfPlayers; i++){
-            if(influences.get(i) == maxI){
-                if(i == getIslands().get(island).getControllerIndex()){
-                    return;
-                }
-                else{
-                    placeTower(i, island);
-                }
+        int numberOfPlayersThatHasMaxInfluence = 0;
+        int playerThatHasMaxInfluence = 0;
+        for (int i = 0; i < numberOfPlayers; i++) {
+            if (influences.get(i) == maxI) {
+                playerThatHasMaxInfluence = i;
+                numberOfPlayersThatHasMaxInfluence++;
+            }
+        }
+
+        if (numberOfPlayersThatHasMaxInfluence == 1) {
+            if(playerThatHasMaxInfluence != getIslands().get(island).getControllerIndex()){
+                placeTower(playerThatHasMaxInfluence, island);
             }
         }
     }

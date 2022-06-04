@@ -254,18 +254,21 @@ public class ClientPrinter {
 		System.out.println("\n");
 	}
 
-	public static void printCharacterCard(String name, int cost, String effect, Map<Colors, Integer> students) {
+	public static void printCharacterCard(String name, int cost, String effect, boolean areThereStudentsOnTheCard, ArrayList<Map<Colors, Integer>> students) {
 		System.out.println("\nCharacter card: " + name);
 		System.out.println("Cost: " + cost + "\n");
 		System.out.println("Description:");
 		System.out.println(effect + "\n");
-		if (students != null) {
+		if (areThereStudentsOnTheCard) {
 			for (Colors c : Colors.values()) {
-				for (int i = 0; i < students.get(c); i++) {
+				for (int i = 0; i < students.get(0).get(c); i++) {
 					System.out.print(colorsBackground.get(c) + "  " + Constants.ANSI_RESET + "  ");
 				}
 			}
+
+			students.remove(0);
 		}
+
 
 		System.out.println();
 	}
@@ -273,7 +276,7 @@ public class ClientPrinter {
 	public static void printCharacterCards(PrintCharacterCardsMessage message) {
 		for (int i = 0; i < message.getNames().length; i++) {
 			printCharacterCard(message.getNames()[i], message.getCosts()[i],
-					message.getEffects()[i], message.getStudents().get(i));
+					message.getEffects()[i], message.getAreThereStudentsOnTheCard()[i], message.getStudents());
 		}
 	}
 
