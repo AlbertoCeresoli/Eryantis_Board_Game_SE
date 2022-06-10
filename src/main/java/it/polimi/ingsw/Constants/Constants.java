@@ -4,23 +4,15 @@ package it.polimi.ingsw.Constants;
  * Service class that keep global constants used
  */
 public final class Constants {
-    public static boolean gameMode;
-    public static int numPlayers;
-
-
     public static final int STUDENTS_IN_ENTRANCE_2_PLAYERS = 7;
     public static final int STUDENTS_IN_ENTRANCE_3_PLAYERS = 9;
     public static final int TOWERS_2_PLAYERS = 8;
     public static final int TOWERS_3_PLAYERS = 6;
     public static final int STUDENTS_ON_CLOUD_2_PLAYERS = 3;
     public static final int STUDENTS_ON_CLOUD_3_PLAYERS = 4;
-
-
     public static final int NUMBER_OF_ASSISTANT_CARDS = 10;
     public static final int NUMBER_OF_CHARACTER_CARDS = 3;
     public static final int NUMBER_OF_STUDENTS_IN_HALL = 10;
-
-
     public static final int MONK_STUDENTS_CAPACITY = 4;
     public static final int MONK_STUDENTS_TO_MOVE = 1;
     public static final int MAGIC_POSTMAN_ADDITION_MOVEMENT = 2;
@@ -32,8 +24,6 @@ public final class Constants {
     public static final int SPOILED_PRINCESS_STUDENTS_CAPACITY = 4;
     public static final int SPOILED_PRINCESS_STUDENTS_TO_MOVE = 1;
     public static final int THIEF_MAX_STUDENTS_TO_MOVE = 3;
-
-
     public static final String MONK_EFFECT = "At the start of the game, draw 4 students and put then upon this card.\n" +
             "\u001B[43m\u001B[30mEFFECT\u001B[0m: Take 1 student from the card and put it on an island of your choice. " +
             "Then, draw 1 student from the bag and put it on this card.";
@@ -66,8 +56,6 @@ public final class Constants {
     public static final String THIEF_EFFECT = "\u001B[43m\u001B[30mEFFECT\u001B[0m: Choose a color; each player (you are included) " +
             "has to put in the bag 3 students of that color that has in the Hall. Who has less than 3 student will remove " +
             "all the students of that color in the Hall.";
-
-
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_PINK = "\u001B[35m";
     public static final String ANSI_BLACK = "\u001B[30m";
@@ -81,6 +69,8 @@ public final class Constants {
     public static final String ANSI_BLUE_BACKGROUND = "\033[104m";
     public static final String ANSI_RED_BACKGROUND = "\033[101m";
     public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+    public static boolean gameMode;
+    public static int numPlayers;
 
     private Constants() {
 
@@ -90,12 +80,12 @@ public final class Constants {
         return gameMode;
     }
 
-    public static int getNumPlayers() {
-        return numPlayers;
-    }
-
     public static void setGameMode(boolean gameMode) {
         Constants.gameMode = gameMode;
+    }
+
+    public static int getNumPlayers() {
+        return numPlayers;
     }
 
     public static void setNumPlayers(int numPlayers) {

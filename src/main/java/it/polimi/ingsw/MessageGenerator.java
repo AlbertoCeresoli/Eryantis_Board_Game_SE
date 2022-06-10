@@ -17,7 +17,7 @@ public class MessageGenerator {
 
     }
 
-    public Message colorSelection(String result){
+    public Message colorSelection(String result) {
         Message message;
 
 
@@ -30,85 +30,77 @@ public class MessageGenerator {
         return message;
     }
 
-    public Message placeSelection(String result){
+    public Message placeSelection(String result) {
         Message message;
 
         if (result.equalsIgnoreCase("ISLAND")) {
             message = new EasyMessage("You have selected island");
-        }
-        else if (result.equalsIgnoreCase("HALL")){
+        } else if (result.equalsIgnoreCase("HALL")) {
             message = new EasyMessage("You have selected hall");
-        }
-        else {
+        } else {
             message = new NotValidInputErrorMessage("Not valid Input, you can select Island or Hall");
         }
         return message;
     }
 
-    public Message islandSelection(String result, int islandSize){
+    public Message islandSelection(String result, int islandSize) {
         Message message;
 
         int index;
 
-        try{
+        try {
             index = Integer.parseInt(result);
-            if (index < 0 || index > islandSize){
+            if (index < 0 || index > islandSize) {
                 message = new NotValidIndexErrorMessage("Not valid index, the input must be in (0 - " + islandSize + ")");
-            }
-            else {
+            } else {
                 message = new EasyMessage("You have selected the island " + index);
             }
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             message = new NotValidInputErrorMessage("Not valid format, the input must be an number in (0 - " + islandSize + ")");
         }
 
         return message;
     }
 
-    public Message stepsSelection(String result, int maxSteps){
+    public Message stepsSelection(String result, int maxSteps) {
         Message message;
 
         int index;
 
-        try{
+        try {
             index = Integer.parseInt(result);
-            if (index < 0 || index > maxSteps){
+            if (index < 0 || index > maxSteps) {
                 message = new NotValidIndexErrorMessage("Not valid index, the input must be in (1 - " + maxSteps + ")");
-            }
-            else {
+            } else {
                 message = new EasyMessage("You have selected " + index + " steps");
             }
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             message = new NotValidInputErrorMessage("Not valid format, the input must be an number in (0 - " + maxSteps + ")");
         }
 
         return message;
     }
 
-    public Message playerIndexSelection(String result, int numPlayers){
+    public Message playerIndexSelection(String result, int numPlayers) {
         Message message;
 
         int index;
 
-        try{
+        try {
             index = Integer.parseInt(result);
-            if (index < 0 || index > numPlayers){
+            if (index < 0 || index > numPlayers) {
                 message = new NotValidIndexErrorMessage("Not valid index, the input must be in (0 - " + (numPlayers - 1) + ")");
-            }
-            else {
+            } else {
                 message = new EasyMessage("You have selected player" + index);
             }
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             message = new NotValidInputErrorMessage("Not valid format, the input must be an number in (0 - " + numPlayers + ")");
         }
 
         return message;
     }
 
-    public Message assistantSelection(String result, int numPlayers, int[] cardsPlayed, ArrayList<AssistantCard> assistants){
+    public Message assistantSelection(String result, int numPlayers, int[] cardsPlayed, ArrayList<AssistantCard> assistants) {
         Message message = null;
 
         boolean alreadyPlayed = false;
@@ -125,18 +117,15 @@ public class MessageGenerator {
                 }
             }
 
-            if(card >= 0 && card < Constants.NUMBER_OF_ASSISTANT_CARDS){
-                if (assistants.get(card).getCardState()==2 && !alreadyPlayed){
+            if (card >= 0 && card < Constants.NUMBER_OF_ASSISTANT_CARDS) {
+                if (assistants.get(card).getCardState() == 2 && !alreadyPlayed) {
                     message = new EasyMessage(card + " card selected");
-                }
-                else if (alreadyPlayed){
+                } else if (alreadyPlayed) {
                     message = new AlreadyPlayedThisTurnErrorMessage("Another player has already played this card in this round");
-                }
-                else if (assistants.get(card).getCardState() != 2){
+                } else if (assistants.get(card).getCardState() != 2) {
                     message = new AlreadyPlayedErrorMessage("You have already played this card");
                 }
-            }
-            else {
+            } else {
                 message = new NotValidIndexErrorMessage("Not valid card value");
             }
         } catch (NumberFormatException e) {
@@ -146,44 +135,40 @@ public class MessageGenerator {
         return message;
     }
 
-    public Message cloudSelection(String result, int numPlayers, BagNClouds bagNClouds){
+    public Message cloudSelection(String result, int numPlayers, BagNClouds bagNClouds) {
         Message message;
 
         int index;
 
-        try{
+        try {
             index = Integer.parseInt(result);
-            if (index < 0 || index > numPlayers){
+            if (index < 0 || index > numPlayers) {
                 message = new NotValidIndexErrorMessage("Not valid index, the input must be in (0 - " + (numPlayers - 1) + ")");
-            }
-            else if (!bagNClouds.emptyCloud(index))
+            } else if (!bagNClouds.emptyCloud(index))
                 message = new EasyMessage("Cloud number " + index + " selected");
-            else{
+            else {
                 message = new AlreadyPlayedErrorMessage("The cloud you have selected is already empty, select another one");
             }
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             message = new NotValidInputErrorMessage("Not valid Input, the input must be an int between (0 - " + (numPlayers - 1) + ")");
         }
 
         return message;
     }
 
-    public Message characterCardSelection(String result){
+    public Message characterCardSelection(String result) {
         Message message;
 
         int index;
 
-        try{
+        try {
             index = Integer.parseInt(result);
-            if (index>=0 && index <3){
+            if (index >= 0 && index < 3) {
                 message = new EasyMessage("Card " + index + " selected");
-            }
-            else {
+            } else {
                 message = new NotValidIndexErrorMessage("Not valid index, the input must be 0 or 1 or 2");
             }
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             message = new NotValidInputErrorMessage("Not valid input, the input must be 0 or 1 or 2");
         }
 

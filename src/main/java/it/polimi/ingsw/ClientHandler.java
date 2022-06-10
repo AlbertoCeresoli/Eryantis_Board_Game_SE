@@ -70,8 +70,7 @@ public class ClientHandler implements Runnable {
                                 lock.notifyAll();
                             }
                         }
-                    }
-                    else {
+                    } else {
                         sendMessage(new EasyMessage("Not your turn now, please wait"));
                     }
                 }
@@ -83,8 +82,9 @@ public class ClientHandler implements Runnable {
 
     /**
      * This method manages the high-priority request from the player calling the specific method.
-     * @param message   string from keyboard
-     * @return  true if the request has been managed server-level
+     *
+     * @param message string from keyboard
+     * @return true if the request has been managed server-level
      * @throws IOException
      */
     private boolean manageRequest(EasyMessage message) throws IOException {
@@ -119,21 +119,21 @@ public class ClientHandler implements Runnable {
     private void help() throws IOException {
         String helpMessage =
                 "\nThese are common Eriantys commands used in various situations.\n" +
-                "Remember that commands are not case sensitive\n" +
-                "Commands are:\n\n" +
-                "to quit the game and disconnect from server\n" +
-                "   /quit\n\n" +
-                "to print something of the game\n" +
-                "   /print island x             to print a precise island. Insert island's index in place of 'x'\n" +
-                "   /print islands              to print all the islands\n" +
-                "   /print board nickname       to print the board of a player. Insert player's nickname in place of 'nickname'\n" +
-                "   /print boards               to print all the boards\n" +
-                "   /print assistant cards      to print all the assistant cards\n" +
-                "   /print teachers             to print who controls teachers now\n" +
-                "   /print clouds               to print all the clouds\n" +
-                "   /print character cards      to print character cards of the game\n\n" +
-                "to play a character card\n" +
-                "   /play name                  to play a character card. Insert the name of the card in place of 'name'\n";
+                        "Remember that commands are not case sensitive\n" +
+                        "Commands are:\n\n" +
+                        "to quit the game and disconnect from server\n" +
+                        "   /quit\n\n" +
+                        "to print something of the game\n" +
+                        "   /print island x             to print a precise island. Insert island's index in place of 'x'\n" +
+                        "   /print islands              to print all the islands\n" +
+                        "   /print board nickname       to print the board of a player. Insert player's nickname in place of 'nickname'\n" +
+                        "   /print boards               to print all the boards\n" +
+                        "   /print assistant cards      to print all the assistant cards\n" +
+                        "   /print teachers             to print who controls teachers now\n" +
+                        "   /print clouds               to print all the clouds\n" +
+                        "   /print character cards      to print character cards of the game\n\n" +
+                        "to play a character card\n" +
+                        "   /play name                  to play a character card. Insert the name of the card in place of 'name'\n";
 
         sendMessage(new EasyMessage(helpMessage));
     }
@@ -144,6 +144,7 @@ public class ClientHandler implements Runnable {
 
     /**
      * Closes all the streams and connection for a client
+     *
      * @throws IOException
      */
     private void quit() throws IOException {
@@ -158,7 +159,8 @@ public class ClientHandler implements Runnable {
 
     /**
      * Implements a simple communication between all players
-     * @param request   the message to send
+     *
+     * @param request the message to send
      */
     private void say(String request) throws IOException {
         int firstSpace = request.indexOf(" ");
@@ -183,6 +185,7 @@ public class ClientHandler implements Runnable {
 
     /**
      * This method runs when the first client connects and asks for the settings he wants to play with
+     *
      * @throws IOException
      */
     public void gameRulesSelection() throws IOException, ClassNotFoundException {
@@ -215,7 +218,8 @@ public class ClientHandler implements Runnable {
 
     /**
      * Prints "text" to the player's screen
-     * @param message  to be printed
+     *
+     * @param message to be printed
      */
     public void sendMessage(Message message) throws IOException {
         out.reset();
@@ -225,7 +229,8 @@ public class ClientHandler implements Runnable {
 
     /**
      * Print "text" to every players' screen
-     * @param message  to be printed
+     *
+     * @param message to be printed
      */
     private void sendMessageToAll(Message message) throws IOException {
         for (ClientHandler client : clients) {
