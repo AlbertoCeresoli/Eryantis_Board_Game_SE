@@ -119,7 +119,7 @@ public class Controller {
         //for the number of players
         for (int i = 0; i < model.gameRules[0]; i++) {
             nextTurnPlayer(roundPlayerOrder[i]);
-            gameHandler.newMessage(actualTurnPlayer, "Player " + actualTurnPlayer + ": it's your turn");
+            gameHandler.newMessage(actualTurnPlayer, "\n" + gameHandler.indexToNick.get(actualTurnPlayer) + ": it's your turn");
 
             //1) student movement
             //for the students to move
@@ -164,7 +164,7 @@ public class Controller {
             nextTurnPlayer((firstPlayer + i) % Constants.getNumPlayers());
 
             gameHandler.printAssistantCards(actualTurnPlayer);
-            gameHandler.newMessage(actualTurnPlayer, gameHandler.getClientHandlers().get(actualTurnPlayer).getNickName() + " play your assistant card");
+            gameHandler.newMessage(actualTurnPlayer, gameHandler.indexToNick.get(actualTurnPlayer) + " play your assistant card");
 
             String temp;
 
@@ -193,7 +193,7 @@ public class Controller {
      * @param playerOrder
      */
     private void printPlayerOrder(int[] playerOrder) {
-        gameHandler.messageToAll("Players order of the round will be:");
+        gameHandler.messageToAll("\nPlayers order of the round will be:");
         for (int i = 0; i < model.gameRules[0]; i++) {
             gameHandler.messageToAll((i + 1) + ". " + gameHandler.getClientHandlers().get(playerOrder[i]).getNickName());
         }
@@ -221,7 +221,7 @@ public class Controller {
             if (model.getPlayerInteraction().getPlayer(actualTurnPlayer).getBoard().getStudEntrance().get(color) > 0) {
                 result = false;
             } else {
-                gameHandler.newMessage(actualTurnPlayer, "you don't have " + color + " students in Entrance");
+                gameHandler.newMessage(actualTurnPlayer, "You don't have " + color + " students in Entrance");
             }
         }
         return color;
@@ -269,8 +269,11 @@ public class Controller {
     private boolean moveMN(int[] cards) throws InterruptedException, IOException {
         String temp;
         int index;
-        gameHandler.newMessage(actualTurnPlayer, "Player" + actualTurnPlayer + ": How many steps you want MN to do?");
-        gameHandler.newMessage(actualTurnPlayer, "you can choose from 1 to " + model.getPlayerInteraction().getPlayer(actualTurnPlayer).getAssistants().get(cards[actualTurnPlayer]).getSteps());
+        gameHandler.newMessage(actualTurnPlayer, gameHandler.indexToNick.get(actualTurnPlayer) +
+                ": How many steps you want MN to do?");
+        gameHandler.newMessage(actualTurnPlayer, "You can choose from 1 to " +
+                model.getPlayerInteraction().getPlayer(actualTurnPlayer).getAssistants().
+                        get(cards[actualTurnPlayer]).getSteps());
 
         do {
             temp = gameHandler.requestInformation(ObjectsToSelect.STEPS, actualTurnPlayer);
@@ -306,7 +309,8 @@ public class Controller {
 
         index = Integer.parseInt(temp);
         model.studentsCloudToEntrance(actualTurnPlayer, index);
-        gameHandler.newMessage(actualTurnPlayer, "Cloud " + index + " students moved in the Entrance of player " + actualTurnPlayer);
+        gameHandler.newMessage(actualTurnPlayer, "Cloud " + index + " students moved in the Entrance of " +
+                gameHandler.indexToNick.get(actualTurnPlayer));
     }
 
     /**

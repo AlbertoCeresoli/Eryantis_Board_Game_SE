@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.CLI;
 
+import it.polimi.ingsw.Messages.DisconnectionMessage;
 import it.polimi.ingsw.Messages.Message;
 
 import java.io.IOException;
@@ -34,18 +35,18 @@ public class ServerConnection implements Runnable {
 					message = (Message) cli.getFromServerInput().readObject();
 				} while (message == null);
 
-				this.cli.elaborateMessage(message);
+				if (message instanceof DisconnectionMessage) {
+					synchronized (server) {
+						exit();
+						server.notifyAll();
+					}
+				} else {
+					this.cli.elaborateMessage(message);
+				}
 			}
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				this.server.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
-
 	}
 
 	/**
@@ -53,5 +54,10 @@ public class ServerConnection implements Runnable {
 	 */
 	public void exit() {
 		exit = true;
+
+	}
+
+	public boolean isExit() {
+		return exit;
 	}
 }

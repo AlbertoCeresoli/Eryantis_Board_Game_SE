@@ -1,8 +1,6 @@
 package it.polimi.ingsw.Client.CLI;
 
-import it.polimi.ingsw.Messages.DisconnectionMessage;
 import it.polimi.ingsw.Messages.EasyMessage;
-import it.polimi.ingsw.Messages.ErrorMessages.AlreadyPlayedErrorMessage;
 import it.polimi.ingsw.Messages.ErrorMessages.ErrorMessage;
 import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Messages.PrintMessages.*;
@@ -48,24 +46,27 @@ public class CLI implements Runnable {
 
 	@Override
 	public void run() {
-		while (isActiveGame()) {
+		while (activeGame) {
 			try {
 				String command = keyboard.readLine();
-				sendMessageToServer(new EasyMessage(command));
-				if (command.equals("/quit")) {
-					serverConnection.exit();
+				if (command.equalsIgnoreCase("/quit")) {
+					activeGame = false;
 				}
+				sendMessageToServer(new EasyMessage(command));
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
 		}
 
-		try {
-			this.socket.close();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+		synchronized (socket) {
+			while (!serverConnection.isExit()) {
+				try {
+					socket.wait();
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+			}
 		}
-
 	}
 
 	public void sendMessageToServer(Message message) throws IOException {
@@ -83,10 +84,6 @@ public class CLI implements Runnable {
 		}
 		if (message instanceof ErrorMessage) {
 			elaborateErrorMessage((ErrorMessage) message);
-		}
-		if (message instanceof DisconnectionMessage) {
-			activeGame = false;
-			serverConnection.exit();
 		}
 	}
 
@@ -122,7 +119,4 @@ public class CLI implements Runnable {
 		return fromServerInput;
 	}
 
-	private boolean isActiveGame() {
-		return activeGame;
-	}
 }

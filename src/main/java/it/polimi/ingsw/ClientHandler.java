@@ -88,7 +88,7 @@ public class ClientHandler implements Runnable {
      * @throws IOException
      */
     private boolean manageRequest(EasyMessage message) throws IOException {
-        String request = message.getText();
+        String request = message.getText().toLowerCase();
 
         if (request.equalsIgnoreCase("/quit")) {
             quit();
@@ -97,11 +97,6 @@ public class ClientHandler implements Runnable {
 
         if (request.equalsIgnoreCase("/help")) {
             help();
-            return true;
-        }
-
-        if (request.equalsIgnoreCase("/print")) {
-            print();
             return true;
         }
 
@@ -136,10 +131,6 @@ public class ClientHandler implements Runnable {
                         "   /play name                  to play a character card. Insert the name of the card in place of 'name'\n";
 
         sendMessage(new EasyMessage(helpMessage));
-    }
-
-    private void print() {
-//TODO
     }
 
     /**

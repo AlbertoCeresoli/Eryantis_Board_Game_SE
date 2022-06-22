@@ -51,12 +51,12 @@ public class MessageGenerator {
         try {
             index = Integer.parseInt(result);
             if (index < 0 || index > islandSize) {
-                message = new NotValidIndexErrorMessage("Not valid index, the input must be in (0 - " + islandSize + ")");
+                message = new NotValidIndexErrorMessage("Not valid index, the input must be in (0 - " + (islandSize - 1) + ")");
             } else {
                 message = new EasyMessage("You have selected the island " + index);
             }
         } catch (NumberFormatException e) {
-            message = new NotValidInputErrorMessage("Not valid format, the input must be an number in (0 - " + islandSize + ")");
+            message = new NotValidInputErrorMessage("Not valid format, the input must be an number in (0 - " + (islandSize - 1) + ")");
         }
 
         return message;

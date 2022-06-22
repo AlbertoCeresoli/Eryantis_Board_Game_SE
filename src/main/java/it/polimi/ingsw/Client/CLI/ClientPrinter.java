@@ -61,7 +61,7 @@ public class ClientPrinter {
 		int islandIndex = message.getIslandIndex();
 		boolean MN = message.isMotherNatureInHere();
 
-		System.out.println("\nIsland " + islandIndex + ", controlled by " + controller + "\n");
+		System.out.println("\nIsland " + islandIndex + ", controlled by " + controller);
 
 		printIslandStudents(students, islandIndex, MN);
 		if (towers != 0) {
@@ -73,7 +73,7 @@ public class ClientPrinter {
 	}
 
 	public static void printIslandStudents(Map<Colors, Integer> students, int islandIndex, boolean MN) {
-		System.out.println("\nStudents on the island:\n");
+		System.out.println("Students on the island:\n");
 
 		if (MN) {
 			printMN();
@@ -89,7 +89,7 @@ public class ClientPrinter {
 						Constants.ANSI_YELLOW_BACKGROUND + "    " + Constants.ANSI_GREEN_BACKGROUND + "     " + Constants.ANSI_RESET + " " + Constants.ANSI_BLUE + students.get(Colors.BLUE) + Constants.ANSI_RESET + " " + Constants.ANSI_GREEN_BACKGROUND + "         " + Constants.ANSI_RESET + "\n" +
 						"  " + Constants.ANSI_YELLOW_BACKGROUND + "    " + Constants.ANSI_GREEN_BACKGROUND + "             " + Constants.ANSI_RESET + "\n" +
 						"    " + Constants.ANSI_YELLOW_BACKGROUND + "    " + Constants.ANSI_GREEN_BACKGROUND + "         " + Constants.ANSI_RESET + "\n" +
-						"      " + Constants.ANSI_YELLOW_BACKGROUND + Constants.ANSI_BLACK + "Island " + islandIndex + Constants.ANSI_RESET + "\n"
+						"      " + Constants.ANSI_YELLOW_BACKGROUND + Constants.ANSI_BLACK + "Island " + islandIndex + Constants.ANSI_RESET + "\n\n"
 		);
 	}
 

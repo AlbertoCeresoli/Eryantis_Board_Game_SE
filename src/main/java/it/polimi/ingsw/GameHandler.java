@@ -266,9 +266,6 @@ public class GameHandler implements Runnable {
         return result;
     }
 
-    /**
-     * prints methods TODO
-     */
     public void printClouds(int player) {
         Message message;
         message = new PrintCloudsMessage(controller.getModel().getBagNClouds().getClouds());

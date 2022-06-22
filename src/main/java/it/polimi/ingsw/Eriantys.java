@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Eriantys {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         System.out.println("Welcome to Eriantys!\nWhat do you want to launch?");
         System.out.println("0. SERVER\n1. CLIENT (CLI INTERFACE)");
         System.out.println("\n>Type the number of the desired option!");
@@ -20,8 +20,20 @@ public class Eriantys {
         } while (input != 0 && input != 1);
 
         switch (input) {
-            case 0 -> Server.main(null);
-            case 1 -> CLI.main(null);
+            case 0 -> {
+                try {
+                    Server.main(null);
+                } catch (IOException e) {
+                    System.out.println("Cannot launch server on the port chosen, maybe it is already occupied");
+                }
+            }
+            case 1 -> {
+                try {
+                    CLI.main(null);
+                } catch (IOException e) {
+                    System.out.println("Server is down at the moment, it is not possible to connect to Eriantys");
+                }
+            }
         }
     }
 }
