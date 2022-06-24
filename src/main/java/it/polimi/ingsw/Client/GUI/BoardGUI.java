@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Client.CLI.GUI;
+package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
