@@ -9,7 +9,6 @@ import it.polimi.ingsw.Messages.PrintMessages.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class GameHandler implements Runnable {
@@ -316,4 +315,7 @@ public class GameHandler implements Runnable {
         return clientHandlers;
     }
 
+    public Map<Integer, String> getIndexToNick() {
+        return indexToNick;
+    }
 }

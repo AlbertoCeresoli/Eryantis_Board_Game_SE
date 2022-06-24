@@ -1,5 +1,11 @@
 package it.polimi.ingsw.Constants;
 
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
+import javafx.scene.Node;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
+
 /**
  * Service class that keep global constants used
  */
@@ -91,4 +97,60 @@ public final class Constants {
     public static void setNumPlayers(int numPlayers) {
         Constants.numPlayers = numPlayers;
     }
+
+
+    //GUI
+    private static boolean somethingClicked = false;
+
+    public static void moveObject(Node node, double X, double Y, Rectangle rectOpaqueBackground){
+        TranslateTransition transition = new TranslateTransition();
+        transition.setNode(node);
+        transition.setDuration(Duration.millis(1000));
+        transition.setByX(X);
+        transition.setByY(Y);
+        transition.setOnFinished(Event -> {
+            rectOpaqueBackground.setWidth(1000);
+            rectOpaqueBackground.setHeight(600);
+        });
+        transition.play();
+    }
+
+    public static void zoomObject(Node node, double scaleValueX, double scaleValueY){
+        ScaleTransition scale = new ScaleTransition();
+        scale.setNode(node);
+        scale.setDuration(Duration.millis(1000));
+        scale.setByX(scaleValueX);
+        scale.setByY(scaleValueY);
+
+        scale.play();
+    }
+
+    public static void zoomBackObject(Node node, double scaleValueX, double scaleValueY){
+        ScaleTransition reduction = new ScaleTransition();
+        reduction.setNode(node);
+        reduction.setDuration(Duration.millis(1000));
+        reduction.setByX(scaleValueX);
+        reduction.setByY(scaleValueY);
+        reduction.play();
+    }
+
+    public static void moveBackObject(Node node, double X, double Y){
+        TranslateTransition moveBack = new TranslateTransition();
+        moveBack.setNode(node);
+        moveBack.setDuration(Duration.millis(1000));
+        moveBack.setByX(X);
+        moveBack.setByY(Y);
+        moveBack.setOnFinished(Event -> setSomethingClicked(false));
+        moveBack.play();
+    }
+
+    //methods for the boolean somethingClicked
+    public static boolean isSomethingClicked() {
+        return somethingClicked;
+    }
+
+    public static void setSomethingClicked(boolean bool) {
+        somethingClicked = bool;
+    }
+
 }

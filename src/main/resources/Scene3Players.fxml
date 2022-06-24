@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.CLI.GUI.ControllerScene3Players">
+   <children>
+      <Rectangle fx:id="rctBlue" fill="#69bae9" height="300.0" layoutY="200.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="800.0" />
+      <Rectangle fx:id="player2Table" fill="#51a143" height="100.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
+      <Rectangle fx:id="chatZone" fill="WHITE" height="600.0" layoutX="800.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+      <Rectangle fx:id="player3Table" fill="#51a143" height="100.0" layoutY="100.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
+      <Rectangle fx:id="player1Table" fill="#51a143" height="100.0" layoutY="500.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
+      <ImageView fx:id="imgPlayer1Board" fitHeight="150.0" fitWidth="200.0" layoutX="178.0" layoutY="506.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgCoin1" fitHeight="100.0" fitWidth="100.0" layoutX="399.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="lblplayer1" layoutX="14.0" layoutY="516.0" text="Player1">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label fx:id="lblPlayer1Name" layoutX="14.0" layoutY="551.0" text="NicknamePlayer1">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <ImageView fx:id="imgPlayer3Board" fitHeight="150.0" fitWidth="200.0" layoutX="178.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgCoin3" fitHeight="100.0" fitWidth="100.0" layoutX="398.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="lblplayer3" layoutX="14.0" layoutY="117.0" text="Player3">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblPlayer3Name" layoutX="14.0" layoutY="154.0" prefHeight="27.0" prefWidth="137.0" text="NicknamePlayer3" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="imgPlayer2Board" fitHeight="150.0" fitWidth="200.0" layoutX="178.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgCoin2" fitHeight="100.0" fitWidth="100.0" layoutX="399.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="lblplayer2" layoutX="14.0" layoutY="14.0" text="Player2">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblPlayer2Name" layoutX="14.0" layoutY="50.0" text="NicknamePlayer2">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="assistantCard0" fitHeight="150.0" fitWidth="100.0" layoutX="504.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="assistantCard1" fitHeight="150.0" fitWidth="100.0" layoutX="524.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="assistantCard2" fitHeight="150.0" fitWidth="100.0" layoutX="544.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="assistantCard3" fitHeight="150.0" fitWidth="100.0" layoutX="564.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="assistantCard4" fitHeight="150.0" fitWidth="100.0" layoutX="584.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="assistantCard5" fitHeight="150.0" fitWidth="100.0" layoutX="604.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="assistantCard6" fitHeight="150.0" fitWidth="100.0" layoutX="624.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="assistantCard7" fitHeight="150.0" fitWidth="100.0" layoutX="644.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="assistantCard8" fitHeight="150.0" fitWidth="100.0" layoutX="664.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="assistantCard9" fitHeight="150.0" fitWidth="100.0" layoutX="684.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
+      <TextArea fx:id="txtAreaChat" editable="false" layoutX="800.0" prefHeight="575.0" prefWidth="200.0" />
+      <TextField fx:id="txtField" layoutX="801.0" layoutY="574.0" prefHeight="25.0" prefWidth="198.0" />
+      <Rectangle fx:id="rectOpaqueBackground" arcHeight="5.0" arcWidth="5.0" fill="#111111" height="1.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="1.0" />
+      <ImageView fx:id="island1" fitHeight="71.0" fitWidth="87.0" layoutX="21.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="island2" fitHeight="71.0" fitWidth="87.0" layoutX="87.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="island3" fitHeight="71.0" fitWidth="87.0" layoutX="220.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="island4" fitHeight="71.0" fitWidth="87.0" layoutX="372.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="island5" fitHeight="71.0" fitWidth="87.0" layoutX="518.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="island6" fitHeight="71.0" fitWidth="87.0" layoutX="661.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="island7" fitHeight="71.0" fitWidth="87.0" layoutX="691.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="island8" fitHeight="71.0" fitWidth="87.0" layoutX="561.0" layoutY="404.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="island9" fitHeight="71.0" fitWidth="87.0" layoutX="437.0" layoutY="411.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="island10" fitHeight="71.0" fitWidth="87.0" layoutX="321.0" layoutY="404.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="island11" fitHeight="71.0" fitWidth="87.0" layoutX="191.0" layoutY="404.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="island12" fitHeight="71.0" fitWidth="87.0" layoutX="54.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="cloud1" fitHeight="71.0" fitWidth="71.0" layoutX="424.0" layoutY="306.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="cloud2" fitHeight="71.0" fitWidth="71.0" layoutX="509.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="cloud3" fitHeight="71.0" fitWidth="71.0" layoutX="589.0" layoutY="306.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="zoomSymbol" fitHeight="27.0" fitWidth="35.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/Other_objects/zoomSimble.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
