@@ -36,7 +36,11 @@ public class Eriantys {
                 }
             }
             case 2 -> {
-                GUI.main(null);
+                try {
+                    GUI.main(null);
+                } catch (IOException e) {
+                    System.out.println("Server is down at the moment, it is not possible to connect to Eriantys");
+                }
             }
         }
     }

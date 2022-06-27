@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Client.CLI;
+package it.polimi.ingsw.Client;
 
 import it.polimi.ingsw.Messages.DisconnectionMessage;
 import it.polimi.ingsw.Messages.Message;
@@ -10,14 +10,14 @@ import java.net.Socket;
  * The task of the class is to read what comes from server and prepare the message to be elaborated from CLI.
  * ServerConnection runs on its own thread
  */
-public class ServerConnection implements Runnable {
+public class FromServerMessagesReader implements Runnable {
 	private final Socket server;
-	private final CLI cli;
+	private final UI ui;
 	private boolean exit;
 
-	public ServerConnection(Socket socket, CLI cli) {
+	public FromServerMessagesReader(Socket socket, UI ui) {
 		this.server = socket;
-		this.cli = cli;
+		this.ui = ui;
 		this.exit = false;
 	}
 
@@ -32,7 +32,7 @@ public class ServerConnection implements Runnable {
 			while (!exit) {
 				Message message;
 				do {
-					message = (Message) cli.getFromServerInput().readObject();
+					message = (Message) ui.getFromServerInput().readObject();
 				} while (message == null);
 
 				if (message instanceof DisconnectionMessage) {
@@ -41,7 +41,7 @@ public class ServerConnection implements Runnable {
 						server.notifyAll();
 					}
 				} else {
-					this.cli.elaborateMessage(message);
+					this.ui.elaborateMessage(message);
 				}
 			}
 		} catch (IOException | ClassNotFoundException e) {

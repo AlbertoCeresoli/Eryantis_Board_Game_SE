@@ -3,13 +3,12 @@ package it.polimi.ingsw.Messages.PrintMessages;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Model.Island.Island;
 
-import java.awt.font.TextHitInfo;
 import java.util.Map;
 
 public class PrintIslandMessage implements PrintMessage{
 	private final int islandIndex;
 	private final String islandController;
-	private Map<Colors, Integer> students;
+	private final Map<Colors, Integer> students;
 	private final boolean motherNatureInHere;
 	private final int numberOfTowers;
 	private final int inhibitionCards;

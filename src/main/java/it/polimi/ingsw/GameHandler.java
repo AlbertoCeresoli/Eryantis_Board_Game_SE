@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GameHandler implements Runnable {
+    //TODO pay attention to clientHandlers: it has to be synchronized everytime someone uses the arrayList
     private final ArrayList<ClientHandler> clientHandlers;
     private final Controller controller;
     private final MessageGenerator messageGenerator;
@@ -40,6 +41,9 @@ public class GameHandler implements Runnable {
         }
     }
 
+    //TODO substitute easy messages
+
+    //TODO synchronize
     /**
      * The method sends the string in input to the client putting it into an EasyMessage, so it has just to be printed
      * @param playerIndex   that has to receive the message
@@ -53,6 +57,7 @@ public class GameHandler implements Runnable {
         }
     }
 
+    //TODO synchronize
     public void newMessage(int playerIndex, Message message) {
         try {
             clientHandlers.get(playerIndex).sendMessage(message);
@@ -62,21 +67,25 @@ public class GameHandler implements Runnable {
     }
 
     public void messageToAll(String s) {
-        for (ClientHandler clientHandler : clientHandlers) {
-            try {
-                clientHandler.sendMessage(new EasyMessage(s));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        synchronized (clientHandlers) {
+            for (ClientHandler clientHandler : clientHandlers) {
+                try {
+                    clientHandler.sendMessage(new EasyMessage(s));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
 
     public void messageToAll(Message message) {
-        for (ClientHandler clientHandler : clientHandlers) {
-            try {
-                clientHandler.sendMessage(message);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        synchronized (clientHandlers) {
+            for (ClientHandler clientHandler : clientHandlers) {
+                try {
+                    clientHandler.sendMessage(message);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
@@ -90,12 +99,11 @@ public class GameHandler implements Runnable {
      * @param selection what the controller needs to continue the game
      * @param player    the actual player
      * @return iterates until the last input is the one which satisfies the controller
-     * @throws InterruptedException
      */
     public String requestInformation(ObjectsToSelect selection, int player) throws InterruptedException, IOException {
         String result = getLatestMessageFromPlayer(player).toLowerCase();
 
-        Message message = null;
+        Message message;
 
         //command card
         int cardNumber;
@@ -103,9 +111,9 @@ public class GameHandler implements Runnable {
         //Play a character card
         if (result.equalsIgnoreCase("/play character card")) {
             if (Constants.isGameMode()) {
-                newMessage(player, "Character cards are");
-                printCharacterCards(player);
+                newMessage(player, printCharacterCards());
 
+                //TODO characterCardSelectionMessage
                 newMessage(player, "Insert the index of the card you want to play:");
 
                 String temp;
@@ -115,6 +123,7 @@ public class GameHandler implements Runnable {
 
                 cardNumber = Integer.parseInt(temp);
                 controller.playCard(cardNumber, player);
+                //TODO if necessary send an UpdateMessage
             } else {
                 newMessage(player, "You are playing a game in easy mode, there are no character cards");
             }
@@ -125,7 +134,7 @@ public class GameHandler implements Runnable {
         //Show character cards
         if (result.equalsIgnoreCase("/print character cards")) {
             if (Constants.isGameMode()) {
-                printCharacterCards(player);
+                newMessage(player, printCharacterCards());
             } else {
                 newMessage(player, "You are playing a game in easy mode, there are no character cards");
             }
@@ -140,7 +149,7 @@ public class GameHandler implements Runnable {
 
             if (nickToIndex.containsKey(nick)) {
                 int index = nickToIndex.get(nick);
-                printBoard(player, index);
+                newMessage(player, printBoard(index));
 
             }
             else {
@@ -155,32 +164,30 @@ public class GameHandler implements Runnable {
             try {
                 int index = Integer.parseInt(result.substring(14));
                 if (index > 0 && index < controller.getModel().getIslandInteraction().getIslands().size()){
-                    printIsland(player, index);
+                    newMessage(player, printIsland(index));
                 }
                 else {
-                    message = new NotValidIndexErrorMessage("Not valid index, the input must be between (0 - " +
-                    (controller.getModel().getIslandInteraction().getIslands().size() - 1) + ")");
+                    newMessage(player, new NotValidIndexErrorMessage("Not valid index, the input must be between (0 - " +
+                    (controller.getModel().getIslandInteraction().getIslands().size() - 1) + ")"));
                 }
             } catch (NumberFormatException e) {
-                message = new NotValidInputErrorMessage("Not valid Input, the input must be an int between (0 - " +
-                        (controller.getModel().getIslandInteraction().getIslands().size() - 1) + ")");
+                newMessage(player, new NotValidInputErrorMessage("Not valid Input, the input must be an int between (0 - " +
+                        (controller.getModel().getIslandInteraction().getIslands().size() - 1) + ")"));
             }
-
-            newMessage(player, message);
 
             return "false";
         }
 
         //Show islands
         if (result.equalsIgnoreCase("/print islands")) {
-            printIslands(player);
+            newMessage(player, printIslands());
 
             return "false";
         }
 
         if (result.equalsIgnoreCase("/print boards")) {
             for (int i = 0; i < clientHandlers.size(); i++) {
-                printBoard(player, i);
+                newMessage(player, printBoard(i));
             }
 
             return "false";
@@ -188,25 +195,26 @@ public class GameHandler implements Runnable {
 
         //Show clouds
         if (result.equalsIgnoreCase("/print clouds")) {
-            printClouds(player);
+            newMessage(player, printClouds());
 
             return "false";
         }
 
         //Show teachers
         if (result.equalsIgnoreCase("/print teachers")) {
-            printTeachers(player);
+            newMessage(player, printTeachers());
 
             return "false";
         }
 
         //Show assistant cards
         if (result.equalsIgnoreCase("/print assistant cards")) {
-            printAssistantCards(player);
+            newMessage(player, printAssistantCards(player));
 
             return "false";
         }
 
+        //TODO check methods of message generator for messages exchanged
         //creation of the message based on the object requested
         message = switch (selection) {
             case COLOR -> messageGenerator.colorSelection(result);
@@ -265,50 +273,51 @@ public class GameHandler implements Runnable {
         return result;
     }
 
-    public void printClouds(int player) {
-        Message message;
+    public PrintCloudsMessage printClouds() {
+        PrintCloudsMessage message;
         message = new PrintCloudsMessage(controller.getModel().getBagNClouds().getClouds());
-        newMessage(player, message);
+        return message;
     }
 
 
-    public void printBoard(int player, int playerIndex) {
-        Message message;
+    public PrintBoardMessage printBoard(int playerIndex) {
+        PrintBoardMessage message;
         message = new PrintBoardMessage(indexToNick.get(playerIndex),
                 controller.getModel().getPlayerInteraction().getPlayer(playerIndex).getBoard(),
                 controller.getModel().getIslandInteraction().getTowersByPlayer()[playerIndex]);
-        newMessage(player, message);
+        return message;
     }
 
-    private void printIsland(int player, int index) {
-        Message message;
+    private PrintIslandMessage printIsland(int index) {
+        PrintIslandMessage message;
         message = new PrintIslandMessage(controller.getModel().getIslandInteraction().getIslands().get(index), index,
                 controller.getModel().getIslandInteraction().getMotherNature() == index, indexToNick);
-        newMessage(player, message);
+        return message;
     }
 
-    public void printIslands(int player) {
-        Message message;
-        message = new PrintIslandsMessage(controller.getModel().getIslandInteraction().getIslands(), controller.getModel().getIslandInteraction().getMotherNature(), indexToNick);
-        newMessage(player, message);
+    public PrintIslandsMessage printIslands() {
+        PrintIslandsMessage message;
+        message = new PrintIslandsMessage(controller.getModel().getIslandInteraction().getIslands(),
+                controller.getModel().getIslandInteraction().getMotherNature(), indexToNick);
+        return message;
     }
 
-    public void printTeachers(int player) {
-        Message message;
+    public PrintTeachersMessage printTeachers() {
+        PrintTeachersMessage message;
         message = new PrintTeachersMessage(controller.getModel().getIslandInteraction().getTeachers(), indexToNick);
-        newMessage(player, message);
+        return message;
     }
 
-    public void printAssistantCards(int player) {
-        Message message;
+    public PrintAssistantCardsMessage printAssistantCards(int player) {
+        PrintAssistantCardsMessage message;
         message = new PrintAssistantCardsMessage(controller.getModel().getPlayerInteraction().getPlayer(player).getAssistants());
-        newMessage(player, message);
+        return message;
     }
 
-    public void printCharacterCards(int player) {
-        Message message;
+    public PrintCharacterCardsMessage printCharacterCards() {
+        PrintCharacterCardsMessage message;
         message = new PrintCharacterCardsMessage(controller.getModel().getCharacterCards());
-        newMessage(player, message);
+        return message;
     }
 
     public ArrayList<ClientHandler> getClientHandlers() {

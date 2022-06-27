@@ -1,14 +1,17 @@
 package it.polimi.ingsw.Client.CLI;
 
-import it.polimi.ingsw.Messages.EasyMessage;
+import it.polimi.ingsw.Client.FromServerMessagesReader;
+import it.polimi.ingsw.Client.UI;
+import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Messages.ErrorMessages.ErrorMessage;
-import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Messages.PrintMessages.*;
+import it.polimi.ingsw.Messages.SelectionMessages.*;
+import it.polimi.ingsw.Messages.UpdateMessages.*;
 
 import java.io.*;
 import java.net.Socket;
 
-public class CLI implements Runnable {
+public class CLI implements Runnable, UI {
 	private final Socket socket;
 	//used to read what is written on the terminal
 	private final BufferedReader keyboard;
@@ -16,7 +19,7 @@ public class CLI implements Runnable {
 	private final ObjectInputStream fromServerInput;
 	//used to send to server what is read from keyboard
 	private final ObjectOutputStream toServerOutput;
-	private final ServerConnection serverConnection;
+	private final FromServerMessagesReader fromServerMessagesReader;
 	private final ClientPrinter clientPrinter;
 	private boolean activeGame;
 
@@ -40,8 +43,8 @@ public class CLI implements Runnable {
 		this.clientPrinter = new ClientPrinter();
 		this.activeGame = true;
 
-		this.serverConnection = new ServerConnection(socket, this);
-		new Thread(this.serverConnection).start();
+		this.fromServerMessagesReader = new FromServerMessagesReader(socket, this);
+		new Thread(this.fromServerMessagesReader).start();
 	}
 
 	@Override
@@ -59,7 +62,7 @@ public class CLI implements Runnable {
 		}
 
 		synchronized (socket) {
-			while (!serverConnection.isExit()) {
+			while (!fromServerMessagesReader.isExit()) {
 				try {
 					socket.wait();
 				} catch (InterruptedException e) {
@@ -75,15 +78,67 @@ public class CLI implements Runnable {
 		toServerOutput.flush();
 	}
 
-	public void elaborateMessage(Message message) throws IOException {
+	public void elaborateMessage(Message message) {
 		if (message instanceof EasyMessage) {
 			ClientPrinter.easyPrint(((EasyMessage) message).getText());
+		}
+		if (message instanceof UpdateMessage) {
+			elaborateUpdateMessage((UpdateMessage) message);
+		}
+		if (message instanceof SelectionMessage) {
+			elaborateSelectionMessage((SelectionMessage) message);
 		}
 		if (message instanceof PrintMessage) {
 			elaboratePrintMessage((PrintMessage) message);
 		}
 		if (message instanceof ErrorMessage) {
 			elaborateErrorMessage((ErrorMessage) message);
+		}
+	}
+
+	private void elaborateUpdateMessage(UpdateMessage message) {
+		if (message instanceof CloudsUpdateMessage) {
+			ClientPrinter.easyPrint("Students on the clouds have been changed. They are:");
+			ClientPrinter.printClouds(((CloudsUpdateMessage) message).getPrintCloudsMessage());
+		}
+		if (message instanceof TeachersUpdateMessage) {
+			ClientPrinter.easyPrint("Students have been moved from or to the hall. Teachers now are:");
+			ClientPrinter.printTeachers(((TeachersUpdateMessage) message).getPrintTeachersMessage());
+		}
+		if (message instanceof StudentMovedUpdateMessage) {
+			ClientPrinter.printStudentMovement((StudentMovedUpdateMessage) message);
+		}
+		if (message instanceof MotherNatureUpdateMessage) {
+			ClientPrinter.easyPrint("Mother Nature has been moved to Island " + ((MotherNatureUpdateMessage) message).getPosition());
+		}
+	}
+
+	private void elaborateSelectionMessage(SelectionMessage message) {
+		if (message instanceof AssistantCardSelectionMessage) {
+			ClientPrinter.easyPrint("It is your turn to play an Assistant Card");
+			ClientPrinter.printAssistantCards(((AssistantCardSelectionMessage) message).getPrintAssistantCardsMessage());
+		}
+		if (message instanceof ColorSelectionMessage) {
+			ClientPrinter.easyPrint("Select the color of the student you want to move");
+			elaboratePrintMessage(((ColorSelectionMessage) message).getPrintMessage());
+		}
+		if (message instanceof StudentDestinationSelectionMessage) {
+			ClientPrinter.easyPrint("Where do you want to put the student? Choose one between Hall or Island");
+		}
+		if (message instanceof IslandSelectionMessage) {
+			ClientPrinter.easyPrint("Select an island between " +
+					((IslandSelectionMessage) message).getMinimumIndex() + " and " +
+					((IslandSelectionMessage) message).getMaximumIndex());
+		}
+		if (message instanceof MNStepsSelectionMessage) {
+			int minSteps = ((MNStepsSelectionMessage) message).getMinSteps();
+			int maxSteps = ((MNStepsSelectionMessage) message).getMaxSteps();
+			ClientPrinter.easyPrint("It is time to move Mother Nature. How many steps you want her to do? " +
+					"Choose a number from " + minSteps + " to " + maxSteps);
+		}
+		if (message instanceof CloudSelectionMessage) {
+			ClientPrinter.printClouds(((CloudSelectionMessage) message).getPrintCloudsMessage());
+			ClientPrinter.easyPrint("Insert the index of the cloud you want to choose");
 		}
 	}
 

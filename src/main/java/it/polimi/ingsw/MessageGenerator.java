@@ -75,7 +75,7 @@ public class MessageGenerator {
                 message = new EasyMessage("You have selected " + index + " steps");
             }
         } catch (NumberFormatException e) {
-            message = new NotValidInputErrorMessage("Not valid format, the input must be an number in (0 - " + maxSteps + ")");
+            message = new NotValidInputErrorMessage("Not valid format, the input must be an number in (1 - " + maxSteps + ")");
         }
 
         return message;

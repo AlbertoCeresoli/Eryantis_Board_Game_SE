@@ -8,7 +8,6 @@ import it.polimi.ingsw.Messages.Message;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class ClientHandler implements Runnable {
     private String nickName;
@@ -85,7 +84,6 @@ public class ClientHandler implements Runnable {
      *
      * @param message string from keyboard
      * @return true if the request has been managed server-level
-     * @throws IOException
      */
     private boolean manageRequest(EasyMessage message) throws IOException {
         String request = message.getText().toLowerCase();
@@ -135,8 +133,6 @@ public class ClientHandler implements Runnable {
 
     /**
      * Closes all the streams and connection for a client
-     *
-     * @throws IOException
      */
     private void quit() throws IOException {
         connected = false;
@@ -176,8 +172,6 @@ public class ClientHandler implements Runnable {
 
     /**
      * This method runs when the first client connects and asks for the settings he wants to play with
-     *
-     * @throws IOException
      */
     public void gameRulesSelection() throws IOException, ClassNotFoundException {
         EasyMessage request;

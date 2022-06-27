@@ -2,6 +2,10 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.*;
 import it.polimi.ingsw.Exceptions.EndGameException;
+import it.polimi.ingsw.Messages.*;
+import it.polimi.ingsw.Messages.PrintMessages.PrintCloudsMessage;
+import it.polimi.ingsw.Messages.SelectionMessages.*;
+import it.polimi.ingsw.Messages.UpdateMessages.*;
 import it.polimi.ingsw.Model.Model;
 
 import java.io.IOException;
@@ -92,11 +96,14 @@ public class Controller {
     /**
      * In the first part of the round the cloud tiles are filled with students, then each player plays an assistant cards
      * and their order of play in the action phase is decided up to the priority of the cards they choose.
-     * @throws InterruptedException
      */
     private void planningPhase() throws InterruptedException, IOException {
         //fill the clouds with the new students
         model.getBagNClouds().studentsBagToCloud();
+
+        gameHandler.messageToAll(new CloudsUpdateMessage(new PrintCloudsMessage(model.getBagNClouds().getClouds())));
+
+        gameHandler.messageToAll(new EasyMessage("Time to play assistant cards"));
 
         //getting assistant cards that players decided to play
         playAssistantCards();
@@ -111,15 +118,17 @@ public class Controller {
     /**
      * During the action phase the players play following the playerOrder array. They move students from their entrance to hall/islands
      * and then mother nature to calculate influence on that island
-     * @throws InterruptedException
      */
     private void actionPhase() throws InterruptedException, IOException {
         Colors color = null;
 
+        gameHandler.messageToAll("Action Phase starts");
+
+        waitMessage(roundPlayerOrder[0]);
+
         //for the number of players
         for (int i = 0; i < model.gameRules[0]; i++) {
             nextTurnPlayer(roundPlayerOrder[i]);
-            gameHandler.newMessage(actualTurnPlayer, "\n" + gameHandler.indexToNick.get(actualTurnPlayer) + ": it's your turn");
 
             //1) student movement
             //for the students to move
@@ -151,7 +160,6 @@ public class Controller {
     /**
      * Every player chooses the assistant card to play, an array represents the state of the playability of their assistant cards while
      * another array contains the cards played by each player in this turn. Sets the array containing the card played in this turn
-     * @throws InterruptedException
      */
     private void playAssistantCards() throws InterruptedException, IOException {
         //initializes index of the card played by the player to -1
@@ -163,8 +171,12 @@ public class Controller {
         for (int i = 0; i < Constants.getNumPlayers(); i++) {
             nextTurnPlayer((firstPlayer + i) % Constants.getNumPlayers());
 
-            gameHandler.printAssistantCards(actualTurnPlayer);
-            gameHandler.newMessage(actualTurnPlayer, gameHandler.indexToNick.get(actualTurnPlayer) + " play your assistant card");
+            waitMessage(actualTurnPlayer);
+
+            synchronized (gameHandler.getClientHandlers()) {
+                gameHandler.newMessage(actualTurnPlayer,
+                        new AssistantCardSelectionMessage(gameHandler.printAssistantCards(actualTurnPlayer)));
+            }
 
             String temp;
 
@@ -173,6 +185,16 @@ public class Controller {
             } while (temp.equals("false"));
 
             lastAssistantCardsPlayed[actualTurnPlayer] = Integer.parseInt(temp);
+        }
+    }
+
+    private void waitMessage(int actualTurnPlayer) {
+        synchronized (gameHandler.getClientHandlers()) {
+            for (int i = 0; i < gameHandler.getClientHandlers().size(); i++) {
+                if (i != actualTurnPlayer) {
+                    gameHandler.newMessage(i, "Wait for your turn");
+                }
+            }
         }
     }
 
@@ -190,7 +212,6 @@ public class Controller {
 
     /**
      * Printer
-     * @param playerOrder
      */
     private void printPlayerOrder(int[] playerOrder) {
         gameHandler.messageToAll("\nPlayers order of the round will be:");
@@ -203,15 +224,13 @@ public class Controller {
      * Let the player select the color of the student he wants to move making sure he has at least one of that color in his entrance
      * @param color color chosen (initialized NULL)
      * @return color chosen
-     * @throws InterruptedException
      */
     private Colors colorSelection(Colors color) throws InterruptedException, IOException {
         String temp;
         boolean result = true;
         //select the color of the student to move
         while (result) {
-            gameHandler.newMessage(actualTurnPlayer, "Select the color of the student you want to move:");
-            gameHandler.printBoard(actualTurnPlayer, actualTurnPlayer);
+            gameHandler.newMessage(actualTurnPlayer, new ColorSelectionMessage(gameHandler.printBoard(actualTurnPlayer)));
 
             do {
                 temp = gameHandler.requestInformation(ObjectsToSelect.COLOR, actualTurnPlayer);
@@ -230,32 +249,36 @@ public class Controller {
     /**
      *  The player needs to provide the place where the student has to be moved
      * @param color of the student to be moved
-     * @throws InterruptedException
      */
     private void studentDestination(Colors color) throws InterruptedException, IOException {
         String temp;
         int index;
+
         //select the place
-        gameHandler.newMessage(actualTurnPlayer, "Where do you want to put the " + color + " student (Hall or Island)");
-        temp = gameHandler.requestInformation(ObjectsToSelect.PLACE, actualTurnPlayer);
-        while (temp.equals("false")) {
+        gameHandler.newMessage(actualTurnPlayer, new StudentDestinationSelectionMessage());
+
+        do {
             temp = gameHandler.requestInformation(ObjectsToSelect.PLACE, actualTurnPlayer);
-        }
+
+        } while (temp.equals("false"));
+
         if (temp.equalsIgnoreCase("Hall")) {
             model.moveFromEntranceToHall(color, actualTurnPlayer);
-            gameHandler.newMessage(actualTurnPlayer, "One " + color + " student moved from entrance to hall");
-            gameHandler.printTeachers(actualTurnPlayer);
+            gameHandler.messageToAll(new StudentMovedUpdateMessage(gameHandler.indexToNick.get(actualTurnPlayer), "Entrance", "Hall", color));
+            gameHandler.messageToAll(new TeachersUpdateMessage(gameHandler.printTeachers()));
         }
+
         if (temp.equalsIgnoreCase("Island")) {
-            gameHandler.newMessage(actualTurnPlayer, "Select the island:");
+            gameHandler.newMessage(actualTurnPlayer, new IslandSelectionMessage(0, model.getIslandInteraction().getIslands().size() - 1));
+
             do {
                 temp = gameHandler.requestInformation(ObjectsToSelect.ISLAND, actualTurnPlayer);
             } while (temp.equals("false"));
 
             index = Integer.parseInt(temp);
             model.moveFromEntranceToIsland(color, actualTurnPlayer, index);
-            gameHandler.newMessage(actualTurnPlayer, "One " + color + " student moved from entrance to island " + index);
-            gameHandler.printIslands(actualTurnPlayer);
+            gameHandler.messageToAll(new StudentMovedUpdateMessage(gameHandler.indexToNick.get(actualTurnPlayer),
+                    "Entrance", "Island", index, color));
         }
     }
 
@@ -264,44 +287,46 @@ public class Controller {
      * Eventually checkEnd looks for a candidate winner if model.moveMN throws an EndGameException
      * @param cards cards played this turn to not exceed the max amount of steps for mother nature
      * @return true (ending the game) if an EndGameException occurs
-     * @throws InterruptedException
      */
     private boolean moveMN(int[] cards) throws InterruptedException, IOException {
         String temp;
         int index;
-        gameHandler.newMessage(actualTurnPlayer, gameHandler.indexToNick.get(actualTurnPlayer) +
-                ": How many steps you want MN to do?");
-        gameHandler.newMessage(actualTurnPlayer, "You can choose from 1 to " +
-                model.getPlayerInteraction().getPlayer(actualTurnPlayer).getAssistants().
-                        get(cards[actualTurnPlayer]).getSteps());
+
+        int maxSteps = model.getPlayerInteraction().getPlayer(actualTurnPlayer).getAssistants().
+                get(cards[actualTurnPlayer]).getSteps();
+
+        gameHandler.newMessage(actualTurnPlayer, new MNStepsSelectionMessage(1, maxSteps));
 
         do {
             temp = gameHandler.requestInformation(ObjectsToSelect.STEPS, actualTurnPlayer);
         } while (temp.equals("false"));
 
+
         index = Integer.parseInt(temp);
         try {
             model.moveMN(index);
+
+            gameHandler.messageToAll(new MotherNatureUpdateMessage(model.getIslandInteraction().getMotherNature()));
+
+            //TODO
+            //gameHandler.messageToAll(new IslandsUpdateMessage());
         } catch (EndGameException e) {
             checkEnd();
             return true;
         }
-        gameHandler.newMessage(actualTurnPlayer, "MN moved " + index + "steps");
+
         return false;
     }
 
     /**
      * At the end of every action phase the player has to select a cloud to re-fill his entrance
-     * @throws InterruptedException
      */
     private void cloudSelection() throws InterruptedException, IOException {
         String temp;
         int index;
 
         //cloud selection
-        gameHandler.newMessage(actualTurnPlayer, "You have to select the cloud with the students you want in your entrance");
-        gameHandler.printClouds(actualTurnPlayer);
-        gameHandler.newMessage(actualTurnPlayer, "Select the cloud index:");
+        gameHandler.newMessage(actualTurnPlayer, new CloudSelectionMessage(gameHandler.printClouds()));
 
         do {
             temp = gameHandler.requestInformation(ObjectsToSelect.CLOUD, actualTurnPlayer);
@@ -309,8 +334,12 @@ public class Controller {
 
         index = Integer.parseInt(temp);
         model.studentsCloudToEntrance(actualTurnPlayer, index);
-        gameHandler.newMessage(actualTurnPlayer, "Cloud " + index + " students moved in the Entrance of " +
-                gameHandler.indexToNick.get(actualTurnPlayer));
+
+        gameHandler.messageToAll(new CloudsUpdateMessage(gameHandler.printClouds()));
+        gameHandler.messageToAll(new BoardUpdateMessage(model.getPlayerInteraction().getPlayer(actualTurnPlayer).getBoard().getStudEntrance(),
+                model.getPlayerInteraction().getPlayer(actualTurnPlayer).getBoard().getStudHall(),
+                gameHandler.indexToNick.get(actualTurnPlayer), actualTurnPlayer,
+                model.getIslandInteraction().getTowersByPlayer()[actualTurnPlayer]));
     }
 
     /**
@@ -557,10 +586,6 @@ public class Controller {
      */
     public Model getModel() {
         return model;
-    }
-
-    public int getActualTurnPlayer() {
-        return actualTurnPlayer;
     }
 
     public int[] getLastAssistantCardsPlayed() {
