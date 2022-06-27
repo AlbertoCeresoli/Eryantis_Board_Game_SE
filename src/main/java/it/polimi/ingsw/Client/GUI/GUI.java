@@ -167,5 +167,6 @@ public class GUI extends Application {
         for (int numCloud = 0; numCloud<Constants.getNumPlayers(); numCloud++){
             controller.getPrinter().modifyCloud(numCloud, clouds.getClouds().get(numCloud));
         }
+
     }
 }
