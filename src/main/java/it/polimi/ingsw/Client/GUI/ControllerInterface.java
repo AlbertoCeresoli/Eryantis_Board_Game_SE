@@ -19,17 +19,29 @@ public interface ControllerInterface {
 
     void setNicknames(Map<Integer, String> indexToNick);
 
-    public void selectColor();
+    void selectColor();
 
-    public void selectAC();
+    void selectAC();
 
-    public void selectIsland();
+    void selectIsland();
 
-    public void selectCloud();
+    void selectCloud();
 
-    public void selectSteps(int maxSteps);
+    void selectSteps(int maxSteps);
 
-    public void selectPlace();
+    void selectPlace();
 
-    public void quitGUI();
+    void quitGUI();
+
+    void selectIP();
+
+    void selectNickname();
+
+    void selectServerPort();
+
+    void selectNumPlayers();
+
+    void selectGamemode();
+
+    GUIPrinter getPrinter();
 }

@@ -3,15 +3,15 @@ package it.polimi.ingsw.Client.GUI;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.TypesOfUpdate;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -85,7 +85,7 @@ public class ControllerScene3Players implements ControllerInterface {
         stages.add(primaryStage);
 
         //creation of the arrayList of island, cloud, characterCard and boards imageViews
-        boards = new ArrayList<ImageView>();
+        boards = new ArrayList<>();
         boards.add(imgPlayer1Board);
         boards.add(imgPlayer2Board);
         boards.add(imgPlayer3Board);
@@ -166,35 +166,17 @@ public class ControllerScene3Players implements ControllerInterface {
 
     public void updateGame(TypesOfUpdate selection, int index, Colors c, int num, HashMap<Colors, Integer> cloudStudents, int newController){
         switch (selection) {
-            case STUDENTS_IN_ENTRANCE:
-                printer.modifyStudInEntrance(index, c, num);
-                break;
-            case STUDENTS_IN_HALL:
-                printer.modifyStudInHall(index, c, num);
-                break;
-            case TOWERS_ON_BOARD:
-                printer.modifyTowersOnBoard(index, num);
-                break;
-            case CLOUDS:
-                printer.modifyCloud(index, cloudStudents);
-                break;
-            case STUDENTS_ON_ISLAND:
-                printer.modifyIsland(index, c, num);
-                break;
-            case MN:
-                printer.modifyMNPosition(index);
-                break;
-            case CONTROLLER_ISLAND:
-                printer.modifyController(index, newController);
-                break;
-            case ASSISTANT_CARD_USED:
-                printer.modifyAssistantCards(num);
-                break;
-            case COINS:
-                printer.modifyCoins(index, num);
-                break;
-            default:
-                break;
+            case STUDENTS_IN_ENTRANCE -> printer.modifyStudInEntrance(index, c, num);
+            case STUDENTS_IN_HALL -> printer.modifyStudInHall(index, c, num);
+            case TOWERS_ON_BOARD -> printer.modifyTowersOnBoard(index, num);
+            case CLOUDS -> printer.modifyCloud(index, cloudStudents);
+            case STUDENTS_ON_ISLAND -> printer.modifyIsland(index, c, num);
+            case MN -> printer.modifyMNPosition(index);
+            case CONTROLLER_ISLAND -> printer.modifyController(index, newController);
+            case ASSISTANT_CARD_USED -> printer.modifyAssistantCards(num);
+            case COINS -> printer.modifyCoins(index, num);
+            default -> {
+            }
         }
     }
 
@@ -232,17 +214,10 @@ public class ControllerScene3Players implements ControllerInterface {
         characterCard2.setOnMouseClicked(mouseEvent -> onClickCharacterCards());
         characterCard3.setOnMouseClicked(mouseEvent -> onClickCharacterCards());
 
-        txtField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                switch (event.getCode()) {
-                    case ENTER:
-                        txtAreaChat.appendText( txtField.getText() + "\n");
-                        txtField.clear();
-                        break;
-                    default:
-                        break;
-                }
+        txtField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                txtAreaChat.appendText(txtField.getText() + "\n");
+                txtField.clear();
             }
         });
     }
@@ -255,12 +230,6 @@ public class ControllerScene3Players implements ControllerInterface {
 
             ArrayList<ImageView> images;
             images = printer.zoomBoard(numBoard, rectOpaqueBackground, anchorPane);
-
-            images.forEach((image) -> {
-                image.setOnMouseClicked(mouseEvent -> {
-                    System.out.println("Ciao");
-                });
-            });
 
             rectOpaqueBackground.setOnMouseClicked(mouseEvent -> {
                 printer.zoomBackBoard(numBoard, images, anchorPane);
@@ -275,9 +244,7 @@ public class ControllerScene3Players implements ControllerInterface {
         if (!Constants.isSomethingClicked()) {
             Constants.setSomethingClicked(true);
             printer.zoomIsland(numIsland, rectOpaqueBackground);
-            rectOpaqueBackground.setOnMouseClicked(mouseEvent -> {
-                printer.moveBackIsland(numIsland, rectOpaqueBackground);
-            });
+            rectOpaqueBackground.setOnMouseClicked(mouseEvent -> printer.moveBackIsland(numIsland, rectOpaqueBackground));
         }
     }
 
@@ -691,13 +658,242 @@ public class ControllerScene3Players implements ControllerInterface {
         stageSel.show();
     }
 
+    public void selectIP(){
+        Stage stageSel = new Stage();
+        stages.add(stageSel);
+        AnchorPane anchorPaneSel = new AnchorPane();
+        Scene sceneSel = new Scene(anchorPaneSel);
+        stageSel.setHeight(150);
+        stageSel.setWidth(240);
+        Image cranioLogo = new Image("file:src/main/resources/Images/LOGO.png");
+        stageSel.getIcons().add(cranioLogo);
+
+        Rectangle blueBackground = new Rectangle();
+        blueBackground.setHeight(150);
+        blueBackground.setWidth(240);
+        blueBackground.setLayoutX(0);
+        blueBackground.setLayoutY(0);
+        blueBackground.setFill(Paint.valueOf("#69bae9"));
+
+        anchorPaneSel.getChildren().add(blueBackground);
+
+        Label lblSelection = new Label();
+        lblSelection.setLayoutX(30);
+        lblSelection.setLayoutY(20);
+        lblSelection.setText("Insert the IP address:");
+        anchorPaneSel.getChildren().add(lblSelection);
+
+        TextField txtSelection = new TextField();
+        txtSelection.setLayoutX(30);
+        txtSelection.setLayoutY(50);
+        txtSelection.setMaxWidth(220);
+        anchorPaneSel.getChildren().add(txtSelection);
+
+        txtSelection.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                gui.print(txtSelection.getText());
+                stageSel.close();
+            }
+        });
+
+        stageSel.setScene(sceneSel);
+        stageSel.show();
+    }
+
+    public void selectNickname(){
+        Stage stageSel = new Stage();
+        stages.add(stageSel);
+        AnchorPane anchorPaneSel = new AnchorPane();
+        Scene sceneSel = new Scene(anchorPaneSel);
+        stageSel.setHeight(150);
+        stageSel.setWidth(240);
+        Image cranioLogo = new Image("file:src/main/resources/Images/LOGO.png");
+        stageSel.getIcons().add(cranioLogo);
+
+        Rectangle blueBackground = new Rectangle();
+        blueBackground.setHeight(150);
+        blueBackground.setWidth(240);
+        blueBackground.setLayoutX(0);
+        blueBackground.setLayoutY(0);
+        blueBackground.setFill(Paint.valueOf("#69bae9"));
+
+        anchorPaneSel.getChildren().add(blueBackground);
+
+        Label lblSelection = new Label();
+        lblSelection.setLayoutX(30);
+        lblSelection.setLayoutY(20);
+        lblSelection.setText("Insert your nickname:");
+        anchorPaneSel.getChildren().add(lblSelection);
+
+        TextField txtSelection = new TextField();
+        txtSelection.setLayoutX(30);
+        txtSelection.setLayoutY(50);
+        txtSelection.setMaxWidth(220);
+        anchorPaneSel.getChildren().add(txtSelection);
+
+        txtSelection.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                gui.print(txtSelection.getText());
+                stageSel.close();
+            }
+        });
+
+        stageSel.setScene(sceneSel);
+        stageSel.show();
+    }
+
+    public void selectServerPort(){
+        Stage stageSel = new Stage();
+        stages.add(stageSel);
+        AnchorPane anchorPaneSel = new AnchorPane();
+        Scene sceneSel = new Scene(anchorPaneSel);
+        stageSel.setHeight(150);
+        stageSel.setWidth(240);
+        Image cranioLogo = new Image("file:src/main/resources/Images/LOGO.png");
+        stageSel.getIcons().add(cranioLogo);
+
+        Rectangle blueBackground = new Rectangle();
+        blueBackground.setHeight(150);
+        blueBackground.setWidth(240);
+        blueBackground.setLayoutX(0);
+        blueBackground.setLayoutY(0);
+        blueBackground.setFill(Paint.valueOf("#69bae9"));
+
+        anchorPaneSel.getChildren().add(blueBackground);
+
+        Label lblSelection = new Label();
+        lblSelection.setLayoutX(30);
+        lblSelection.setLayoutY(20);
+        lblSelection.setText("Insert the server port:");
+        anchorPaneSel.getChildren().add(lblSelection);
+
+        TextField txtSelection = new TextField();
+        txtSelection.setLayoutX(30);
+        txtSelection.setLayoutY(50);
+        txtSelection.setMaxWidth(220);
+        anchorPaneSel.getChildren().add(txtSelection);
+
+        txtSelection.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                gui.print(txtSelection.getText());
+                stageSel.close();
+            }
+        });
+
+        stageSel.setScene(sceneSel);
+        stageSel.show();
+    }
+
+    public void selectNumPlayers(){
+        Stage stageSel = new Stage();
+        stages.add(stageSel);
+        AnchorPane anchorPaneSel = new AnchorPane();
+        Scene sceneSel = new Scene(anchorPaneSel);
+        stageSel.setHeight(150);
+        stageSel.setWidth(240);
+        Image cranioLogo = new Image("file:src/main/resources/Images/LOGO.png");
+        stageSel.getIcons().add(cranioLogo);
+
+        Rectangle blueBackground = new Rectangle();
+        blueBackground.setHeight(150);
+        blueBackground.setWidth(240);
+        blueBackground.setLayoutX(0);
+        blueBackground.setLayoutY(0);
+        blueBackground.setFill(Paint.valueOf("#69bae9"));
+
+        anchorPaneSel.getChildren().add(blueBackground);
+
+        Label lblSelection = new Label();
+        lblSelection.setLayoutX(30);
+        lblSelection.setLayoutY(20);
+        lblSelection.setText("Select the number of players:");
+        anchorPaneSel.getChildren().add(lblSelection);
+
+        Button btn2PLayers = new Button();
+        btn2PLayers.setLayoutX(30);
+        btn2PLayers.setLayoutY(50);
+        btn2PLayers.maxWidth(80);
+        btn2PLayers.setText("2 players");
+        anchorPaneSel.getChildren().add(btn2PLayers);
+
+        Button btn3PLayers = new Button();
+        btn3PLayers.setLayoutX(140);
+        btn3PLayers.setLayoutY(50);
+        btn3PLayers.maxWidth(80);
+        btn2PLayers.setText("3 players");
+        anchorPaneSel.getChildren().add(btn3PLayers);
+
+        btn2PLayers.setOnMouseClicked(mouseEvent -> {
+            gui.print("2");
+            stageSel.close();
+        });
+
+        btn3PLayers.setOnMouseClicked(mouseEvent -> {
+            gui.print("3");
+            stageSel.close();
+        });
+
+        stageSel.setScene(sceneSel);
+        stageSel.show();
+    }
+
+    public void selectGamemode(){
+        Stage stageSel = new Stage();
+        stages.add(stageSel);
+        AnchorPane anchorPaneSel = new AnchorPane();
+        Scene sceneSel = new Scene(anchorPaneSel);
+        stageSel.setHeight(150);
+        stageSel.setWidth(240);
+        Image cranioLogo = new Image("file:src/main/resources/Images/LOGO.png");
+        stageSel.getIcons().add(cranioLogo);
+
+        Rectangle blueBackground = new Rectangle();
+        blueBackground.setHeight(150);
+        blueBackground.setWidth(240);
+        blueBackground.setLayoutX(0);
+        blueBackground.setLayoutY(0);
+        blueBackground.setFill(Paint.valueOf("#69bae9"));
+
+        anchorPaneSel.getChildren().add(blueBackground);
+
+        Label lblSelection = new Label();
+        lblSelection.setLayoutX(30);
+        lblSelection.setLayoutY(20);
+        lblSelection.setText("Select the gamemode:");
+        anchorPaneSel.getChildren().add(lblSelection);
+
+        Button btnEasy = new Button();
+        btnEasy.setLayoutX(30);
+        btnEasy.setLayoutY(50);
+        btnEasy.maxWidth(80);
+        btnEasy.setText("EASY");
+        anchorPaneSel.getChildren().add(btnEasy);
+
+        Button btnHard = new Button();
+        btnHard.setLayoutX(140);
+        btnHard.setLayoutY(50);
+        btnHard.maxWidth(80);
+        btnHard.setText("HARD");
+        anchorPaneSel.getChildren().add(btnHard);
+
+        btnEasy.setOnMouseClicked(mouseEvent -> {
+            gui.print("0");
+            stageSel.close();
+        });
+
+        btnHard.setOnMouseClicked(mouseEvent -> {
+            gui.print("1");
+            stageSel.close();
+        });
+
+        stageSel.setScene(sceneSel);
+        stageSel.show();
+    }
+
     public void quitGUI(){
         stages.forEach(Stage::close);
     }
 
-    /**
-     * Set and get methods
-     */
     public GUIPrinter getPrinter() {
         return printer;
     }

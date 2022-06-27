@@ -11,6 +11,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class GUIPrinter {
     private ArrayList<IslandGUI> islands;
@@ -153,7 +154,7 @@ public class GUIPrinter {
         boards.get(numPlayer).updateTowers(numAdded);
     }
 
-    public void modifyCloud(int cloudIndex, HashMap<Colors, Integer> cloud){
+    public void modifyCloud(int cloudIndex, Map<Colors, Integer> cloud){
         clouds.get(cloudIndex).setStudents(cloud);
     }
 

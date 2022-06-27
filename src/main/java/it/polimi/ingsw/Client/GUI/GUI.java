@@ -6,6 +6,11 @@ import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.TypesOfUpdate;
 import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.Messages.PrintMessages.PrintBoardMessage;
+import it.polimi.ingsw.Messages.PrintMessages.PrintCloudsMessage;
+import it.polimi.ingsw.Messages.PrintMessages.PrintIslandMessage;
+import it.polimi.ingsw.Messages.PrintMessages.PrintIslandsMessage;
+import it.polimi.ingsw.Messages.UpdateMessages.TableUpdateMessage;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +26,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class GUI extends Application {
@@ -60,6 +66,8 @@ public class GUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //initial stage
+        Constants.setNumPlayers(2);
+        Constants.setGameMode(true);
 
 
         //the stage (first layer) is already created by the start method
@@ -86,6 +94,8 @@ public class GUI extends Application {
         //set the Scene to the stage and make the stage visible, this lines must be at the end of the start method
         stage.setScene(scene);
         stage.show();
+
+        controller.selectGamemode();
     }
 
     //TODO sostituire con un metodo che invia il messaggio al server
@@ -118,4 +128,44 @@ public class GUI extends Application {
     }
 
      */
+
+    public void initializeGUI(TableUpdateMessage message){
+        //set dei nicknames
+        controller.setNicknames(message.getPlayers());
+
+        //set students on board
+        PrintBoardMessage[] boards = message.getPrintBoardMessages();
+        for (int numPlayer=0; numPlayer<Constants.getNumPlayers(); numPlayer++){
+            Map<Colors, Integer> entrance = boards[numPlayer].getEntrance();
+            Map<Colors, Integer> hall = boards[numPlayer].getHall();
+            for(Colors c: Colors.values()){
+                controller.getPrinter().modifyStudInEntrance(numPlayer, c, entrance.get(c));
+                controller.getPrinter().modifyStudInHall(numPlayer, c, hall.get(c));
+            }
+            controller.getPrinter().modifyTowersOnBoard(numPlayer, boards[numPlayer].getNumberOfTowers());
+        }
+
+        //set students on islands
+        PrintIslandsMessage islands = message.getPrintIslandsMessage();
+        for (int numIsland=0; numIsland<12; numIsland++){
+            PrintIslandMessage island = islands.getIslandMessages().get(numIsland);
+
+            Map<Colors, Integer> students = island.getStudents();
+            for (Colors c: Colors.values()) {
+                controller.getPrinter().modifyIsland(numIsland, c, students.get(c));
+            }
+
+            //controller? numTowers? inibitionCard? TODO
+
+            if (island.isMotherNatureInHere()) {
+                controller.getPrinter().modifyMNPosition(numIsland);
+            }
+        }
+
+        //set students on clouds
+        PrintCloudsMessage clouds = message.getPrintCloudsMessage();
+        for (int numCloud = 0; numCloud<Constants.getNumPlayers(); numCloud++){
+            controller.getPrinter().modifyCloud(numCloud, clouds.getClouds().get(numCloud));
+        }
+    }
 }
