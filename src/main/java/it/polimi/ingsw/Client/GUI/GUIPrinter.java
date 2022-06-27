@@ -2,6 +2,8 @@ package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -16,13 +18,14 @@ public class GUIPrinter {
     private ArrayList<AssistantCardGUI> assistants;
     private ArrayList<BoardGUI> boards;
     private ArrayList<CoinGUI> coins;
+    private ArrayList<CharacterCardGUI> characterCards;
 
     public void printBoards(ArrayList<ImageView> boardImageViews, AnchorPane anchorPane){
         ArrayList<Image> boardImages = new ArrayList<>();
-        boardImages.add(new Image("file:src/main/resources/Images/PLANCIA.png"));
-        boardImages.add(new Image("file:src/main/resources/Images/PLANCIA.png"));
+        boardImages.add(new Image("file:src/main/resources/Images/BOARD.png"));
+        boardImages.add(new Image("file:src/main/resources/Images/BOARD.png"));
         if (Constants.getNumPlayers() == 3){
-            boardImages.add(new Image("file:src/main/resources/Images/PLANCIA.png"));
+            boardImages.add(new Image("file:src/main/resources/Images/BOARD.png"));
         }
 
         boards = new ArrayList<>();
@@ -32,19 +35,7 @@ public class GUIPrinter {
     }
 
     public void printIslandsOnTable(ArrayList<ImageView> islandImageViews, AnchorPane anchorPane){
-        ArrayList<Image> islandImages = new ArrayList<>();
-        islandImages.add(new Image("file:src/main/resources/Images/Islands/Isola1.png"));
-        islandImages.add(new Image("file:src/main/resources/Images/Islands/Isola2.png"));
-        islandImages.add(new Image("file:src/main/resources/Images/Islands/Isola3.png"));
-        islandImages.add(new Image("file:src/main/resources/Images/Islands/Isola4.png"));
-        islandImages.add(new Image("file:src/main/resources/Images/Islands/Isola5.png"));
-        islandImages.add(new Image("file:src/main/resources/Images/Islands/Isola6.png"));
-        islandImages.add(new Image("file:src/main/resources/Images/Islands/Isola7.png"));
-        islandImages.add(new Image("file:src/main/resources/Images/Islands/Isola8.png"));
-        islandImages.add(new Image("file:src/main/resources/Images/Islands/Isola9.png"));
-        islandImages.add(new Image("file:src/main/resources/Images/Islands/Isola10.png"));
-        islandImages.add(new Image("file:src/main/resources/Images/Islands/Isola11.png"));
-        islandImages.add(new Image("file:src/main/resources/Images/Islands/Isola12.png"));
+        ArrayList<Image> islandImages = Constants.createArrayImagesIslands();
 
         islands = new ArrayList<>();
         for (int numIsland = 0; numIsland<12; numIsland++){
@@ -53,10 +44,7 @@ public class GUIPrinter {
     }
 
     public void printCloudsOnTable(ArrayList<ImageView> cloudImageViews, AnchorPane anchorPane){
-        ArrayList<Image> cloudImages = new ArrayList<>();
-        cloudImages.add(new Image("file:src/main/resources/Images/Clouds/2_Players/3_Players/3P_Cloud1.png"));
-        cloudImages.add(new Image("file:src/main/resources/Images/Clouds/2_Players/3_Players/3P_Cloud2.png"));
-        cloudImages.add(new Image("file:src/main/resources/Images/Clouds/2_Players/3_Players/3P_Cloud3.png"));
+        ArrayList<Image> cloudImages = Constants.createArrayImagesClouds();
 
         clouds = new ArrayList<>();
         for (int numCloud = 0; numCloud < Constants.getNumPlayers(); numCloud++){
@@ -65,23 +53,12 @@ public class GUIPrinter {
     }
 
     public void printAssistantCards(ArrayList<ImageView> assistantCardsImageViews, AnchorPane anchorPane){
-        ArrayList<Image> assistantCards = new ArrayList<>();
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistente (1).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistente (2).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistente (3).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistente (4).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistente (5).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistente (6).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistente (7).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistente (8).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistente (9).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistente (10).png"));
+        ArrayList<Image> assistantCards = Constants.createArrayImagesAC();
 
         assistants= new ArrayList<>();
         for (int numAC = 0; numAC<10; numAC++){
             assistants.add(new AssistantCardGUI(assistantCardsImageViews.get(numAC), assistantCards.get(numAC), anchorPane));
         }
-        assistants.get(4).assistantUsed(); //TODO
     }
 
     public void printCoins(ArrayList<ImageView> coinsImageViews, AnchorPane anchorPane){
@@ -89,6 +66,13 @@ public class GUIPrinter {
         Image coinImage = new Image("file:src/main/resources/Images/Other_objects/Coin.png");
         for(int numPlayer = 0; numPlayer < Constants.getNumPlayers(); numPlayer++){
             coins.add(new CoinGUI(coinsImageViews.get(numPlayer), coinImage, anchorPane));
+        }
+    }
+
+    public void printCharacterCards(ArrayList<ImageView> ccImageViews, AnchorPane anchorPane){
+        characterCards= new ArrayList<>();
+        for(int numCC=0; numCC<3; numCC++){
+            characterCards.add(new CharacterCardGUI(ccImageViews.get(numCC), anchorPane));
         }
     }
 
@@ -135,6 +119,23 @@ public class GUIPrinter {
 
     public void zoomBackBoard(int numBoard, ArrayList<ImageView> images, AnchorPane anchorPane){
         boards.get(numBoard).zoomBackBoard(images, anchorPane);
+    }
+
+    public ArrayList<TextArea> zoomCC(Rectangle rectOpaqueBackground, AnchorPane anchorPane){
+        ArrayList<TextArea> labels = new ArrayList<>();
+
+        for (int numCC = 0; numCC < 3; numCC++){
+            characterCards.get(numCC).setCCToFront();
+            labels.add(characterCards.get(numCC).zoomCC(numCC, rectOpaqueBackground, anchorPane));
+        }
+
+        return labels;
+    }
+
+    public void zoomBackCC(ArrayList<TextArea> effects, AnchorPane anchorPane){
+        for (int numCC = 0; numCC < 3; numCC++){
+            characterCards.get(numCC).zoomBackCC(numCC, effects, anchorPane);
+        }
     }
 
     /**

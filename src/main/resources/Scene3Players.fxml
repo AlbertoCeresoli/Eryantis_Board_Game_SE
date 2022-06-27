@@ -16,7 +16,7 @@
       <Rectangle fx:id="chatZone" fill="WHITE" height="600.0" layoutX="800.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
       <Rectangle fx:id="player3Table" fill="#51a143" height="100.0" layoutY="100.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
       <Rectangle fx:id="player1Table" fill="#51a143" height="100.0" layoutY="500.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
-      <ImageView fx:id="imgPlayer1Board" fitHeight="150.0" fitWidth="200.0" layoutX="178.0" layoutY="506.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgPlayer1Board" fitHeight="90.0" fitWidth="200.0" layoutX="178.0" layoutY="506.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="imgCoin1" fitHeight="100.0" fitWidth="100.0" layoutX="399.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="lblplayer1" layoutX="14.0" layoutY="516.0" text="Player1">
          <font>
@@ -26,7 +26,7 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <ImageView fx:id="imgPlayer3Board" fitHeight="150.0" fitWidth="200.0" layoutX="178.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgPlayer3Board" fitHeight="90.0" fitWidth="200.0" layoutX="178.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="imgCoin3" fitHeight="100.0" fitWidth="100.0" layoutX="398.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="lblplayer3" layoutX="14.0" layoutY="117.0" text="Player3">
          <font>
@@ -38,7 +38,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <ImageView fx:id="imgPlayer2Board" fitHeight="150.0" fitWidth="200.0" layoutX="178.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgPlayer2Board" fitHeight="90.0" fitWidth="200.0" layoutX="178.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="imgCoin2" fitHeight="100.0" fitWidth="100.0" layoutX="399.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="lblplayer2" layoutX="14.0" layoutY="14.0" text="Player2">
          <font>
@@ -83,5 +83,8 @@
             <Image url="@Images/Other_objects/zoomSimble.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="characterCard1" fitHeight="90.0" fitWidth="60.0" layoutX="136.0" layoutY="296.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="characterCard2" fitHeight="90.0" fitWidth="60.0" layoutX="205.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="characterCard3" fitHeight="90.0" fitWidth="60.0" layoutX="279.0" layoutY="296.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

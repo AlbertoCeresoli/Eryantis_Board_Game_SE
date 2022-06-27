@@ -7,7 +7,9 @@ import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.TypesOfUpdate;
 import it.polimi.ingsw.Messages.Message;
 import javafx.application.Application;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -57,9 +59,11 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        //initial stage
+
+
         //the stage (first layer) is already created by the start method
         stageSettings(stage); //method that implements all the stage proprieties
-        Constants.setNumPlayers(2);
 
         //creation of the scene (we must add at least a root node at the scene, the basic root node is the Group)
         FXMLLoader loader;
@@ -75,13 +79,18 @@ public class GUI extends Application {
 
         //creation of the controller and of the printer
         controller = loader.getController();
-        controller.setUp();
+        controller.setUp(this, stage);
         controller.printTable();
         controller.startEventHandling(); //event handling for the click on the images
 
         //set the Scene to the stage and make the stage visible, this lines must be at the end of the start method
         stage.setScene(scene);
         stage.show();
+    }
+
+    //TODO sostituire con un metodo che invia il messaggio al server
+    public void print(String selection){
+        System.out.println(selection);
     }
 
 

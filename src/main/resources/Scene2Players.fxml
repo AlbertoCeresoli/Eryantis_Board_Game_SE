@@ -62,12 +62,15 @@
       <ImageView fx:id="island10" fitHeight="71.0" fitWidth="87.0" layoutX="310.0" layoutY="367.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="island11" fitHeight="71.0" fitWidth="87.0" layoutX="180.0" layoutY="367.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="island12" fitHeight="71.0" fitWidth="87.0" layoutX="43.0" layoutY="357.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="cloud1" fitHeight="71.0" fitWidth="71.0" layoutX="362.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="cloud1" fitHeight="71.0" fitWidth="71.0" layoutX="378.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="cloud2" fitHeight="71.0" fitWidth="71.0" layoutX="509.0" layoutY="250.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="zoomSymbol" fitHeight="27.0" fitWidth="35.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/Other_objects/zoomSimble.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="characterCard1" fitHeight="90.0" fitWidth="60.0" layoutX="124.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="characterCard2" fitHeight="90.0" fitWidth="60.0" layoutX="194.0" layoutY="255.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="characterCard3" fitHeight="90.0" fitWidth="60.0" layoutX="275.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

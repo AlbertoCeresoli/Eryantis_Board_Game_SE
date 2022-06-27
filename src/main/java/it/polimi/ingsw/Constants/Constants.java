@@ -3,8 +3,11 @@ package it.polimi.ingsw.Constants;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+
+import java.util.ArrayList;
 
 /**
  * Service class that keep global constants used
@@ -31,35 +34,35 @@ public final class Constants {
     public static final int SPOILED_PRINCESS_STUDENTS_TO_MOVE = 1;
     public static final int THIEF_MAX_STUDENTS_TO_MOVE = 3;
     public static final String MONK_EFFECT = "At the start of the game, draw 4 students and put then upon this card.\n" +
-            "\u001B[43m\u001B[30mEFFECT\u001B[0m: Take 1 student from the card and put it on an island of your choice. " +
+            "Take 1 student from the card and put it on an island of your choice. " +
             "Then, draw 1 student from the bag and put it on this card.";
-    public static final String FARMER_EFFECT = "\u001B[43m\u001B[30mEFFECT\u001B[0m: During this turn, " +
+    public static final String FARMER_EFFECT = "During this turn, " +
             "you take control of a teacher even if in your hall you have the same number of student of the player " +
             "that controls them in that moment.";
-    public static final String HERALD_EFFECT = "\u001B[43m\u001B[30mEFFECT\u001B[0m: Choose an island and calculate the influence " +
+    public static final String HERALD_EFFECT = "Choose an island and calculate the influence " +
             "as if Mother Nature has terminated its movement there. In this turn, Mother Nature will move as usual and where " +
             "it will terminate its movement influence will be normally calculated.";
-    public static final String MAGIC_POSTMAN_EFFECT = "\u001B[43m\u001B[30mEFFECT\u001B[0m: You can move Mother Nature up to 2 " +
+    public static final String MAGIC_POSTMAN_EFFECT = "You can move Mother Nature up to 2 " +
             "additional islands with respect to what is indicated on the assistant card you have played this turn.";
     public static final String GRANDMA_HERBS_EFFECT = "At the start of the game, put 4 Inhibition Cards on this card.\n" +
-            "\u001B[43m\u001B[30mEFFECT\u001B[0m: Put an Inhibition Card on an island of your choice. The first time that Mother Nature " +
+            "Put an Inhibition Card on an island of your choice. The first time that Mother Nature " +
             "terminate its movement there, put the inhibition card back to the card WITHOUT calculating the influence " +
             "on the island and putting towers on it.";
-    public static final String CENTAUR_EFFECT = "\u001B[43m\u001B[30mEFFECT\u001B[0m: Towers are not counted during " +
+    public static final String CENTAUR_EFFECT = "Towers are not counted during " +
             "influence calculation on an island (or a group of islands).";
     public static final String JOKER_EFFECT = "At the start of the game, draw 6 students and put them on this card.\n" +
-            "\u001B[43m\u001B[30mEFFECT\u001B[0m: You can take up to 3 students from this card and exchange them " +
+            "You can take up to 3 students from this card and exchange them " +
             "with as many students in your Entrance.";
-    public static final String KNIGHT_EFFECT = "\u001B[43m\u001B[30mEFFECT\u001B[0m: In this turn, you have 2 additional points " +
+    public static final String KNIGHT_EFFECT = "In this turn, you have 2 additional points " +
             "during influence calculation.";
-    public static final String MUSHROOMS_MAN_EFFECT = "\u001B[43m\u001B[30mEFFECT\u001B[0m: Choose a color; in this turn, " +
+    public static final String MUSHROOMS_MAN_EFFECT = "Choose a color; in this turn, " +
             "that color is not counted during influence calculation.";
-    public static final String MINSTREL_EFFECT = "\u001B[43m\u001B[30mEFFECT\u001B[0m: You can exchange up to 2 student " +
+    public static final String MINSTREL_EFFECT = "You can exchange up to 2 student " +
             "between your Entrance and your Hall.";
     public static final String SPOILED_PRINCESS_EFFECT = "At the start of the game, draw 4 students and put them on the card.\n" +
-            "\u001B[43m\u001B[30mEFFECT\u001B[0m: Take 1 student from this card and put it in your Hall. " +
+            "Take 1 student from this card and put it in your Hall. " +
             "Then, draw 1 new student from the bag and put it on this card.";
-    public static final String THIEF_EFFECT = "\u001B[43m\u001B[30mEFFECT\u001B[0m: Choose a color; each player (you are included) " +
+    public static final String THIEF_EFFECT = "Choose a color; each player (you are included) " +
             "has to put in the bag 3 students of that color that has in the Hall. Who has less than 3 student will remove " +
             "all the students of that color in the Hall.";
     public static final String ANSI_RESET = "\u001B[0m";
@@ -142,6 +145,69 @@ public final class Constants {
         moveBack.setByY(Y);
         moveBack.setOnFinished(Event -> setSomethingClicked(false));
         moveBack.play();
+    }
+
+    public static ArrayList<Image> createArrayImagesAC(){
+        ArrayList<Image> assistantCards = new ArrayList<>();
+        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (1).png"));
+        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (2).png"));
+        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (3).png"));
+        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (4).png"));
+        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (5).png"));
+        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (6).png"));
+        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (7).png"));
+        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (8).png"));
+        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (9).png"));
+        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (10).png"));
+
+        return assistantCards;
+    }
+
+    public static ArrayList<Image> createArrayImagesIslands(){
+        ArrayList<Image> islands = new ArrayList<>();
+        islands.add(new Image("file:src/main/resources/Images/Islands/Island1.png"));
+        islands.add(new Image("file:src/main/resources/Images/Islands/Island2.png"));
+        islands.add(new Image("file:src/main/resources/Images/Islands/Island3.png"));
+        islands.add(new Image("file:src/main/resources/Images/Islands/Island4.png"));
+        islands.add(new Image("file:src/main/resources/Images/Islands/Island5.png"));
+        islands.add(new Image("file:src/main/resources/Images/Islands/Island6.png"));
+        islands.add(new Image("file:src/main/resources/Images/Islands/Island7.png"));
+        islands.add(new Image("file:src/main/resources/Images/Islands/Island8.png"));
+        islands.add(new Image("file:src/main/resources/Images/Islands/Island9.png"));
+        islands.add(new Image("file:src/main/resources/Images/Islands/Island10.png"));
+        islands.add(new Image("file:src/main/resources/Images/Islands/Island11.png"));
+        islands.add(new Image("file:src/main/resources/Images/Islands/Island12.png"));
+
+        return islands;
+    }
+
+    public static ArrayList<Image> createArrayImagesCC(){
+        ArrayList<Image> characterCards = new ArrayList<>();
+        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC1.jpg"));
+        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC2.jpg"));
+        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC3.jpg"));
+        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC4.jpg"));
+        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC5.jpg"));
+        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC6.jpg"));
+        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC7.jpg"));
+        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC8.jpg"));
+        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC9.jpg"));
+        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC10.jpg"));
+        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC11.jpg"));
+        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC12.jpg"));
+
+        return characterCards;
+    }
+
+    public static ArrayList<Image> createArrayImagesClouds(){
+        ArrayList<Image> clouds = new ArrayList<>();
+        clouds.add(new Image("file:src/main/resources/Images/Clouds/2_Players/3_Players/3P_Cloud1.png"));
+        clouds.add(new Image("file:src/main/resources/Images/Clouds/2_Players/3_Players/3P_Cloud2.png"));
+        if (numPlayers==3) {
+            clouds.add(new Image("file:src/main/resources/Images/Clouds/2_Players/3_Players/3P_Cloud3.png"));
+        }
+
+        return clouds;
     }
 
     //methods for the boolean somethingClicked
