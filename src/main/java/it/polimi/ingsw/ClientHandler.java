@@ -38,7 +38,6 @@ public class ClientHandler implements Runnable {
         this.latestMessageValid = false;
         this.yourTurn = false;
         this.lock = new Object();
-
         clients.add(this);
     }
 
@@ -75,7 +74,16 @@ public class ClientHandler implements Runnable {
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException();
+            try {
+                in.close();
+                out.close();
+                client.close();
+                System.out.println("Client " + clients.indexOf(this) +  " disconnected");
+                clients.remove(this);
+                sendMessageToAll(new EasyMessage("A client disconnected, game will be aborted..."));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

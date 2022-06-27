@@ -34,8 +34,14 @@ public class Server {
         Runnable acceptClient = () -> {
             try {
                 manageNewPlayer(client);
-            } catch (IOException | InterruptedException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
+            } catch (IOException | ClassNotFoundException e) {
+
+                try {
+                    client.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                System.out.println("Client tried to join but failed...");
             }
         };
 
@@ -52,7 +58,7 @@ public class Server {
      *
      * <p>Checks on clients.size are done in a synchronized block of the code</p>
      */
-    public static void manageNewPlayer(Socket client) throws IOException, InterruptedException, ClassNotFoundException {
+    public static void manageNewPlayer(Socket client) throws IOException, ClassNotFoundException {
         System.out.println("[SERVER] Client connected");
 
         ClientHandler player = new ClientHandler(client);
@@ -64,22 +70,26 @@ public class Server {
 
         synchronized (clients) {
             if (clients.size() == 0) {
-                clients.add(player);
+
                 player.sendMessage(new EasyMessage("You are the first player, please select game mode"));
                 player.gameRulesSelection();
-            } else if (clients.size() < Constants.getNumPlayers()) {
                 clients.add(player);
-                if (clients.size() == Constants.getNumPlayers()) {
+            } else if (clients.size() < Constants.getNumPlayers()) {
+
+                if (clients.size() == Constants.getNumPlayers() -1) {
                     player.sendMessage(new EasyMessage("Correctly connected to the game, you were the last client needed, game will start now..."));
+                    clients.add(player);
                     createGame();
                 } else {
                     player.sendMessage(new EasyMessage("Correctly connected to the game, wait for other clients"));
+                    clients.add(player);
                 }
-            } else if (clients.size() == Constants.getNumPlayers() - 1) {
+            } else if (clients.size() == Constants.getNumPlayers()) {
                 player.sendMessage(new EasyMessage("All requested clients are already connected, please try again later"));
                 player.getClient().close();
             }
         }
+
     }
 
     /**
