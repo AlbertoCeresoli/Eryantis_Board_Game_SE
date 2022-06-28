@@ -27,6 +27,13 @@ public class IslandGUI {
     private ArrayList<Image> studImages;
     private ArrayList<Label> lblColors;
 
+    /**
+     * Binds the ImageView and the Image and memorize the position of the imageView
+     * Also creates all the components of an island
+     * @param imageView imageView of the island
+     * @param image image of the island
+     * @param anchorPane used to add all the components of the island (students, MN and towers)
+     */
     public IslandGUI(ImageView imageView, Image image, AnchorPane anchorPane) {
         this.imageView = imageView;
         this.image = image;
@@ -65,6 +72,9 @@ public class IslandGUI {
         anchorPane.getChildren().add(MN);
     }
 
+    /**
+     * it creates all the ImageViews and Label of the students on the island
+     */
     public void fillStudColors(){
         ImageView green = new ImageView();
         green.setLayoutX(positionX + 25); green.setLayoutY(positionY + 50);
@@ -127,6 +137,9 @@ public class IslandGUI {
         studImages.add(blueImage);
     }
 
+    /**
+     * sets the Island to the front of the stage
+     */
     public void setIslandToFront(){
         imageView.toFront();
         for (Colors c: Colors.values()){
@@ -137,6 +150,10 @@ public class IslandGUI {
         }
     }
 
+    /**
+     * it zooms the island and every component
+     * @param rectOpaqueBackground rectangle put under the island to increase the opacity of the rest of the table
+     */
     public void zoomIsland(Rectangle rectOpaqueBackground){
         rectOpaqueBackground.toFront();
         setIslandToFront();
@@ -160,6 +177,10 @@ public class IslandGUI {
         Constants.zoomObject(MN, 3, 3);
     }
 
+    /**
+     * method used to zoom back the island to the original position with all its components
+     * @param rectOpaqueBackground rectangle put under the island to increase the opacity of the rest of the table
+     */
     public void moveBackIsland(Rectangle rectOpaqueBackground){
         Constants.moveBackObject(imageView, -(500 - imageView.getFitWidth()/2 - imageView.getLayoutX()), -(300 - imageView.getFitHeight()/2 - imageView.getLayoutY()));
         for (Colors c: Colors.values()){
@@ -181,23 +202,40 @@ public class IslandGUI {
         rectOpaqueBackground.setHeight(1);
     }
 
+    /**
+     * changes the controller of the island
+     * @param PlayerIndex index of the new controller
+     */
     public void setController (int PlayerIndex){
         switch (PlayerIndex) {
+            case -1:
+                controller.setImage(new Image ("file:"));
             case 0:
                 controller.setImage(new Image("file:src/main/resources/Images/Other_objects/White_tower.png"));
+                break;
             case 1:
                 controller.setImage(new Image("file:src/main/resources/Images/Other_objects/Grey_tower.png"));
+                break;
             case 2:
                 controller.setImage(new Image("file:src/main/resources/Images/Other_objects/Black_tower.png"));
+                break;
             default: break;
         }
     }
 
+    /**
+     * used to set the students on the island
+     * @param color color of the students to set
+     * @param numStudents number of students
+     */
     public void setNumStudents(Colors color, int numStudents){
         students.put(color, numStudents);
         lblColors.get(color.ordinal()).setText(students.get(color).toString());
     }
 
+    /**
+     * shows or hide the Image of MN
+     */
     public void showMN(){
         if (!isMNPresent()){
             MN.setImage(new Image("file:"));

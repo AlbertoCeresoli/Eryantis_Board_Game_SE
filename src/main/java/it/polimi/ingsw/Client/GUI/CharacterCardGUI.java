@@ -1,8 +1,6 @@
 package it.polimi.ingsw.Client.GUI;
 
-import com.sun.javafx.beans.event.AbstractNotifyListener;
 import it.polimi.ingsw.Constants.Constants;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,7 +17,11 @@ public class CharacterCardGUI {
     private double positionY;
     private String effect;
 
-    public CharacterCardGUI(ImageView imgVw, AnchorPane anchorPane) {
+    /**
+     * Constructor of the character card. memorize the ImageView and his position.
+     * @param imgVw imageView of the character card
+     */
+    public CharacterCardGUI(ImageView imgVw) {
         imageView = imgVw;
         positionX = imgVw.getLayoutX();
         positionY = imgVw.getLayoutY();
@@ -28,6 +30,10 @@ public class CharacterCardGUI {
         effect = Constants.MONK_EFFECT;
     }
 
+    /**
+     * Binds the ImageView with the correct image and effect
+     * @param index of the characted card
+     */
     public void setCC(int index){
         ArrayList<Image> CCImages = Constants.createArrayImagesCC();
         image = CCImages.get(index);
@@ -75,10 +81,20 @@ public class CharacterCardGUI {
         }
     }
 
+    /**
+     * puts the character card to the front of the stage
+     */
     public void setCCToFront(){
         imageView.toFront();
     }
 
+    /**
+     * zooms the imageView of the character card and creates the TextArea of the effect
+     * @param numCC used to set the position of the card on the stage
+     * @param rectOpaqueBackground rectangle put under the character cards to increase the opacity of the rest of the table
+     * @param anchorPane used to add the text area
+     * @return returns the text area created
+     */
     public TextArea zoomCC(int numCC, Rectangle rectOpaqueBackground, AnchorPane anchorPane){
         Constants.moveObject(imageView, 150 + 260 * numCC - imageView.getLayoutX(), 300 - imageView.getLayoutY(), rectOpaqueBackground);
         Constants.zoomObject(imageView, 2, 2);
@@ -95,6 +111,12 @@ public class CharacterCardGUI {
         return txtEffect;
     }
 
+    /**
+     * zooms back the character card to the original position and delete the text area of the character card zoomed
+     * @param numCC used to move to the correct position the character card
+     * @param effects arraylist of all the textAreas created during the zoom
+     * @param anchorPane used to remove the textArea
+     */
     public void zoomBackCC(int numCC, ArrayList<TextArea> effects, AnchorPane anchorPane){
         Constants.moveBackObject(imageView, -(150 + 260 * numCC - imageView.getLayoutX()), -(300 - imageView.getLayoutY()));
         Constants.zoomObject(imageView, -2, -2);
