@@ -53,11 +53,12 @@ public class CLI implements Runnable, UI {
 			try {
 				String command = keyboard.readLine();
 				if (command.equalsIgnoreCase("/quit")) {
-					activeGame = false;
+					exit();
 				}
 				sendMessageToServer(new EasyMessage(command));
 			} catch (IOException e) {
-				throw new RuntimeException(e);
+				System.out.println("Due to communication problems you cannot play anymore. You will be disconnected...");
+				exit();
 			}
 		}
 
@@ -102,15 +103,17 @@ public class CLI implements Runnable, UI {
 			ClientPrinter.printClouds(((CloudsUpdateMessage) message).getPrintCloudsMessage());
 		}
 		if (message instanceof TeachersUpdateMessage) {
-			ClientPrinter.easyPrint("Students have been moved from or to the hall. Teachers now are:");
+			ClientPrinter.easyPrint("Students have been moved from or to the hall. Teachers are now:");
 			ClientPrinter.printTeachers(((TeachersUpdateMessage) message).getPrintTeachersMessage());
 		}
 		if (message instanceof StudentMovedUpdateMessage) {
 			ClientPrinter.printStudentMovement((StudentMovedUpdateMessage) message);
 		}
-		if (message instanceof MotherNatureUpdateMessage) {
-			ClientPrinter.easyPrint("Mother Nature has been moved to Island " + ((MotherNatureUpdateMessage) message).getPosition());
+		if (message instanceof IslandsUpdateMessage) {
+			ClientPrinter.easyPrint("Mother Nature has been moved. Islands are now:");
+			ClientPrinter.printIslands(((IslandsUpdateMessage) message).getPrintIslandsMessage());
 		}
+
 	}
 
 	private void elaborateSelectionMessage(SelectionMessage message) {
@@ -174,4 +177,12 @@ public class CLI implements Runnable, UI {
 		return fromServerInput;
 	}
 
+	public void exit() {
+		this.activeGame = false;
+		try {
+			this.keyboard.close();
+		} catch (IOException ignored) {
+
+		}
+	}
 }

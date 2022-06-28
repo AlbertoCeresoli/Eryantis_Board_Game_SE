@@ -28,8 +28,8 @@ public class FromServerMessagesReader implements Runnable {
 	 */
 	@Override
 	public void run() {
-		try {
-			while (!exit) {
+		while (!exit) {
+			try {
 				Message message;
 				do {
 					message = (Message) ui.getFromServerInput().readObject();
@@ -43,9 +43,10 @@ public class FromServerMessagesReader implements Runnable {
 				} else {
 					this.ui.elaborateMessage(message);
 				}
+			} catch (IOException | ClassNotFoundException e) {
+				exit();
+				ui.exit();
 			}
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -54,7 +55,6 @@ public class FromServerMessagesReader implements Runnable {
 	 */
 	public void exit() {
 		exit = true;
-
 	}
 
 	public boolean isExit() {

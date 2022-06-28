@@ -6,14 +6,14 @@ import it.polimi.ingsw.Messages.PrintMessages.PrintIslandsMessage;
 
 import java.util.Map;
 
-public class TableUpdateMessage implements UpdateMessage {
+public class EriantysUpdateMessage implements UpdateMessage {
     private final Map<Integer, String> players;
     private final PrintBoardMessage[] printBoardMessages;
     private final PrintIslandsMessage printIslandsMessage;
     private final PrintCloudsMessage printCloudsMessage;
 
-    public TableUpdateMessage(Map<Integer, String> players, PrintBoardMessage[] printBoardMessages,
-                              PrintIslandsMessage printIslandsMessage, PrintCloudsMessage printCloudsMessage) {
+    public EriantysUpdateMessage(Map<Integer, String> players, PrintBoardMessage[] printBoardMessages,
+                                 PrintIslandsMessage printIslandsMessage, PrintCloudsMessage printCloudsMessage) {
         this.players = players;
         this.printBoardMessages = printBoardMessages;
         this.printIslandsMessage = printIslandsMessage;

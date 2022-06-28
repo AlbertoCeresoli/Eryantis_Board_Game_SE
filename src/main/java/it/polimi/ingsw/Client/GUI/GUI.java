@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Client.GUI;
 
-import it.polimi.ingsw.Client.FromServerMessagesReader;
-import it.polimi.ingsw.Client.UI;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.TypesOfUpdate;
@@ -10,11 +8,9 @@ import it.polimi.ingsw.Messages.PrintMessages.PrintBoardMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintCloudsMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintIslandMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintIslandsMessage;
-import it.polimi.ingsw.Messages.UpdateMessages.TableUpdateMessage;
+import it.polimi.ingsw.Messages.UpdateMessages.EriantysUpdateMessage;
 import javafx.application.Application;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -22,9 +18,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -129,7 +122,7 @@ public class GUI extends Application {
 
      */
 
-    public void initializeGUI(TableUpdateMessage message){
+    public void initializeGUI(EriantysUpdateMessage message){
         //set dei nicknames
         controller.setNicknames(message.getPlayers());
 

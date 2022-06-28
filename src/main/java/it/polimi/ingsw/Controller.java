@@ -3,7 +3,9 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.Constants.*;
 import it.polimi.ingsw.Exceptions.EndGameException;
 import it.polimi.ingsw.Messages.*;
+import it.polimi.ingsw.Messages.PrintMessages.PrintBoardMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintCloudsMessage;
+import it.polimi.ingsw.Messages.PrintMessages.PrintIslandsMessage;
 import it.polimi.ingsw.Messages.SelectionMessages.*;
 import it.polimi.ingsw.Messages.UpdateMessages.*;
 import it.polimi.ingsw.Model.Model;
@@ -61,6 +63,15 @@ public class Controller {
     public void startGame() throws InterruptedException {
         model.initializeGame();
 
+        PrintBoardMessage[] printBoardMessages = new PrintBoardMessage[Constants.getNumPlayers()];
+        for (int i = 0; i < Constants.getNumPlayers(); i++) {
+            printBoardMessages[i] = new PrintBoardMessage(gameHandler.indexToNick.get(i), model.getPlayerInteraction().getPlayer(i).getBoard(),
+                    model.getIslandInteraction().getTowersByPlayer()[i]);
+        }
+
+        gameHandler.messageToAll(new EriantysUpdateMessage(gameHandler.indexToNick, printBoardMessages,
+                gameHandler.printIslands(), gameHandler.printClouds()));
+
         firstPlayer();
 
         while (!end) {
@@ -102,8 +113,6 @@ public class Controller {
         model.getBagNClouds().studentsBagToCloud();
 
         gameHandler.messageToAll(new CloudsUpdateMessage(new PrintCloudsMessage(model.getBagNClouds().getClouds())));
-
-        gameHandler.messageToAll(new EasyMessage("Time to play assistant cards"));
 
         //getting assistant cards that players decided to play
         playAssistantCards();
@@ -306,10 +315,8 @@ public class Controller {
         try {
             model.moveMN(index);
 
-            gameHandler.messageToAll(new MotherNatureUpdateMessage(model.getIslandInteraction().getMotherNature()));
-
-            //TODO
-            //gameHandler.messageToAll(new IslandsUpdateMessage());
+            gameHandler.messageToAll(new IslandsUpdateMessage(gameHandler.printIslands(),
+                    model.getIslandInteraction().getTowersByPlayer()));
         } catch (EndGameException e) {
             checkEnd();
             return true;
