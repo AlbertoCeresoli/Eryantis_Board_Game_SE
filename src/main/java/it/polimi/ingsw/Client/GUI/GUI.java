@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Client.GUI;
 
-import it.polimi.ingsw.Client.FromServerMessagesReader;
-import it.polimi.ingsw.Client.UI;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Constants.TypesOfUpdate;
@@ -20,9 +18,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

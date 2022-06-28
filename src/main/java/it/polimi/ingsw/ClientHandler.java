@@ -81,6 +81,12 @@ public class ClientHandler implements Runnable {
                 System.out.println("Client " + clients.indexOf(this) +  " disconnected");
                 clients.remove(this);
                 sendMessageToAll(new EasyMessage("A client disconnected, game will be aborted..."));
+                for(ClientHandler c : clients){
+                   // sendMessage(new EasyMessage("Disconnection..."));
+                    c.getClient().getInputStream().close();
+                   // c.getClient().getOutputStream().close();
+                    c.getClient().close();
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -145,6 +151,7 @@ public class ClientHandler implements Runnable {
     private void quit() throws IOException {
         connected = false;
         sendMessage(new DisconnectionMessage());
+        sendMessageToAll(new EasyMessage("Client " + id + " disconnected! Game will be aborted..."));
         out.close();
         in.close();
         client.close();
