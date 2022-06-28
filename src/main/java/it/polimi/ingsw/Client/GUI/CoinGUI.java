@@ -14,6 +14,12 @@ public class CoinGUI {
     private Integer numCoins;
     private Label lblCoin;
 
+    /**
+     * constructor of the Coin in the GUI. binds the ImageView and the Image and creates the label with the number of coins
+     * @param imageView imageView of the coin
+     * @param image image of the coin
+     * @param anchorPane used to add the label of the number of coins
+     */
     public CoinGUI(ImageView imageView, Image image, AnchorPane anchorPane) {
         this.imageView = imageView;
         this.image = image;
@@ -32,6 +38,10 @@ public class CoinGUI {
         anchorPane.getChildren().add(lblCoin);
     }
 
+    /**
+     * updates the number of coins and the label
+     * @param coinsAdded number of coins to add/remove
+     */
     public void updateCoins(int coinsAdded){
         numCoins+=coinsAdded;
         lblCoin.setText(numCoins.toString());

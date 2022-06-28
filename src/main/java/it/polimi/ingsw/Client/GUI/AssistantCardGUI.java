@@ -2,7 +2,6 @@ package it.polimi.ingsw.Client.GUI;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 
 public class AssistantCardGUI {
     private final ImageView imageView;
@@ -10,7 +9,12 @@ public class AssistantCardGUI {
     private double positionX;
     private double positionY;
 
-    public AssistantCardGUI(ImageView imageView, Image image, AnchorPane anchorPane) {
+    /**
+     * Constructor of an assistant card in the GUI. Keeps memorized the image set in the ImageView and the ImageView position
+     * @param imageView imageView
+     * @param image image of the assistant card
+     */
+    public AssistantCardGUI(ImageView imageView, Image image) {
         this.imageView = imageView;
         this.image = image;
 
@@ -20,6 +24,9 @@ public class AssistantCardGUI {
         imageView.setImage(image);
     }
 
+    /**
+     * set the opacity of the assistant card at 0.5 when the card is used
+     */
     public void assistantUsed(){
         imageView.setOpacity(0.5);
     }

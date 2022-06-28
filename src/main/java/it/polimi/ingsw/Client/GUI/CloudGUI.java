@@ -20,6 +20,13 @@ public class CloudGUI {
     private ArrayList<ImageView> studColors;
     private ArrayList<Image> studImages;
 
+    /**
+     * Constructor of the cloud. Binds the ImageView and the Image and memorize the position of the ImageView.
+     * Creates all the components on the cloud
+     * @param imageView imageView of the cloud
+     * @param image image of the cloud
+     * @param anchorPane used to add all the components (students) of the cloud to the stage
+     */
     public CloudGUI(ImageView imageView, Image image, AnchorPane anchorPane) {
         this.imageView = imageView;
         this.image = image;
@@ -43,6 +50,9 @@ public class CloudGUI {
         }
     }
 
+    /**
+     * used to create all the imageViews of the students on the cloud
+     */
     public void setUpImageViews(){
         ImageView img1 = new ImageView();
         img1.setLayoutX(positionX + 5); img1.setLayoutY(positionY + 13);
@@ -73,6 +83,9 @@ public class CloudGUI {
         }
     }
 
+    /**
+     * used to fill the arrayList of the students images
+     */
     public void setUpImages(){
         studImages.add(new Image("file:src/main/resources/Images/Students and teachers/Green_S.png"));
         studImages.add(new Image("file:src/main/resources/Images/Students and teachers/Red_S.png"));
@@ -82,6 +95,9 @@ public class CloudGUI {
 
     }
 
+    /**
+     * used to put the cloud and all the components to the front of the stage
+     */
     public void setCloudToFront(){
         imageView.toFront();
         for (int numStud=0; numStud<Constants.getNumPlayers() + 1; numStud++){
@@ -89,6 +105,11 @@ public class CloudGUI {
         }
     }
 
+    /**
+     * zooms the cloud and puts it in the center of the stage
+     * @param numCloud used to move the cloud in the correct position
+     * @param rectOpaqueBackground rectangle put under the clouds to increase the opacity of the rest of the table
+     */
     public void zoomClouds(int numCloud, Rectangle rectOpaqueBackground){
         Constants.moveObject(imageView, 150 + 260 * numCloud - imageView.getLayoutX(), 300 - imageView.getLayoutY(), rectOpaqueBackground);
         Constants.zoomObject(imageView, 2, 2);
@@ -99,6 +120,10 @@ public class CloudGUI {
         }
     }
 
+    /**
+     * zooms back the clouds to the original position
+     * @param numCloud used to move the cloud in the correct original position
+     */
     public void zoomBackClouds(int numCloud){
         Constants.moveBackObject(imageView, -(150 + 260 * numCloud - imageView.getLayoutX()), -(300 - imageView.getLayoutY()));
         Constants.zoomObject(imageView, -2, -2);
@@ -109,6 +134,10 @@ public class CloudGUI {
         }
     }
 
+    /**
+     * method used to set the images of the students on the clouds
+     * @param cloud map of the students to put on the cloud
+     */
     public void setStudents(Map<Colors, Integer> cloud){
         int counter = 0;
         for (Colors c: Colors.values()){

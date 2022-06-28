@@ -36,6 +36,14 @@ public class BoardGUI {
     private Label lblTower;
 
 
+    /**
+     * Constructor of the Board of a Player. Binds the ImageView and the Image and memorize the position of the ImageView.
+     * It also creates all the components on the board (when it's not zoomed)
+     * @param imageView imageView of the board
+     * @param image image of the board
+     * @param anchorPane anchorPane of the stage, used to add all the components of the board
+     * @param numPlayer used to set the color of the towers
+     */
     public BoardGUI(ImageView imageView, Image image, AnchorPane anchorPane, int numPlayer) {
         this.imageView = imageView;
         this.image = image;
@@ -96,6 +104,9 @@ public class BoardGUI {
         anchorPane.getChildren().add(lblTower);
     }
 
+    /**
+     * method used to create all the ImageViews, images and labels of the teachers and the towers
+     */
     public void fillTeachersAndTowers(){
         Image greenImageT = new Image("file:src/main/resources/Images/Students and teachers/Green_T.png");
         teacherImages.add(greenImageT);
@@ -129,6 +140,9 @@ public class BoardGUI {
         lblTower.setText(numTower.toString());
     }
 
+    /**
+     * method used to create all the ImageViews, images and labels of the students in the hall and the entrance
+     */
     public void fillStudColors(){
         Image greenImage = new Image("file:src/main/resources/Images/Students and teachers/Green_S.png");
         studImages.add(greenImage);
@@ -178,6 +192,9 @@ public class BoardGUI {
         studColorsInHall.get(4).setImage(blueImage);
     }
 
+    /**
+     * sets the board (and all the components) to the front of the scene
+     */
     public void setBoardToFront(){
         imageView.toFront();
         for(Colors c: Colors.values()){
@@ -190,6 +207,12 @@ public class BoardGUI {
         }
     }
 
+    /**
+     * zooms the Board and puts it in the center of the stage
+     * @param rectOpaqueBackground rectangle put under the board to increase the opacity of the rest of the table
+     * @param anchorPane used to add all the ImageViews and Images of the zoomed components
+     * @return ArrayList of the ImageViews created
+     */
     public ArrayList<ImageView> zoomBoard(Rectangle rectOpaqueBackground, AnchorPane anchorPane){
         Constants.moveObject(imageView, 500 - imageView.getFitWidth()/2 - imageView.getLayoutX(), 300 - imageView.getFitHeight()/2 - imageView.getLayoutY(), rectOpaqueBackground);
         Constants.zoomObject(imageView, 3, 3);
@@ -247,6 +270,11 @@ public class BoardGUI {
         return images;
     }
 
+    /**
+     * zooms back the board to the original position and puts to front all the components of the board
+     * @param images arrayList of the imageViews created during the zoom, this method will delete them
+     * @param anchorPane used to remove the imageViews
+     */
     public void zoomBackBoard(ArrayList<ImageView> images, AnchorPane anchorPane){
         Constants.zoomBackObject(imageView, -3, -3);
         Constants.moveBackObject(imageView, -(500 - imageView.getFitWidth()/2 - imageView.getLayoutX()), -(300 - imageView.getFitHeight()/2 - imageView.getLayoutY()));
@@ -266,18 +294,32 @@ public class BoardGUI {
         }
     }
 
-    public void updateStudEntrance (Colors c, int nAdded){
-        studInEntrance.put(c, studInEntrance.get(c)+nAdded);
+    /**
+     * changes the number of the students in the Entrance
+     * @param c color of the student to update
+     * @param numStud number of the students
+     */
+    public void setStudEntrance (Colors c, int numStud){
+        studInEntrance.put(c, numStud);
         lblColorsInEntrance.get(c.ordinal()).setText(studInEntrance.get(c).toString());
     }
 
-    public void updateStudHall (Colors c, int nAdded){
-        studInHall.put(c, studInHall.get(c)+nAdded);
+    /**
+     * changes the number of the students in the Hall
+     * @param c color of the student to update
+     * @param numStud new number of the students
+     */
+    public void setStudHall (Colors c, int numStud){
+        studInHall.put(c, numStud);
         lblColorsInHall.get(c.ordinal()).setText(studInHall.get(c).toString());
     }
 
-    public void updateTowers (int nAdded){
-        numTower+=nAdded;
+    /**
+     * changes the number of the towers
+     * @param n number of the towers
+     */
+    public void updateTowers (int n){
+        numTower = n;
         lblTower.setText(numTower.toString());
     }
 }

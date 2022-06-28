@@ -2,46 +2,25 @@ package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.TypesOfUpdate;
-import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public interface ControllerInterface {
 
+    /**
+     * methods in common in the two controllers, one controller is used to modify the GUI when the game is with two players, the other controller is used when the players are 3
+     */
+
     void updateGame(TypesOfUpdate selection, int index, Colors c, int num, HashMap<Colors, Integer> cloudStudents, int newController);
 
-    void setUp(GUI gui, Stage primaryStage);
+    void setUp();
 
     void printTable();
 
     void startEventHandling();
 
     void setNicknames(Map<Integer, String> indexToNick);
-
-    void selectColor();
-
-    void selectAC();
-
-    void selectIsland();
-
-    void selectCloud();
-
-    void selectSteps(int maxSteps);
-
-    void selectPlace();
-
-    void quitGUI();
-
-    void selectIP();
-
-    void selectNickname();
-
-    void selectServerPort();
-
-    void selectNumPlayers();
-
-    void selectGamemode();
 
     GUIPrinter getPrinter();
 }
