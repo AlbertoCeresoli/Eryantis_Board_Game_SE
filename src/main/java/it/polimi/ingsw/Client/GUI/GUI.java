@@ -10,7 +10,7 @@ import it.polimi.ingsw.Messages.PrintMessages.PrintBoardMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintCloudsMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintIslandMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintIslandsMessage;
-import it.polimi.ingsw.Messages.UpdateMessages.TableUpdateMessage;
+import it.polimi.ingsw.Messages.UpdateMessages.EriantysUpdateMessage;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -136,7 +136,7 @@ public class GUI extends Application {
 
      */
 
-    public void initializeGUI(TableUpdateMessage message){
+    public void initializeGUI(EriantysUpdateMessage message){
         //set dei nicknames
         controller.setNicknames(message.getPlayers());
 
