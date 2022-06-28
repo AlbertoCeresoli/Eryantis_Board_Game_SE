@@ -1,11 +1,13 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Constants.*;
+import it.polimi.ingsw.Constants.Colors;
+import it.polimi.ingsw.Constants.Constants;
+import it.polimi.ingsw.Constants.Indexes;
+import it.polimi.ingsw.Constants.ObjectsToSelect;
 import it.polimi.ingsw.Exceptions.EndGameException;
-import it.polimi.ingsw.Messages.*;
+import it.polimi.ingsw.Messages.GameAbortedMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintBoardMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintCloudsMessage;
-import it.polimi.ingsw.Messages.PrintMessages.PrintIslandsMessage;
 import it.polimi.ingsw.Messages.SelectionMessages.*;
 import it.polimi.ingsw.Messages.UpdateMessages.*;
 import it.polimi.ingsw.Model.Model;
@@ -101,6 +103,10 @@ public class Controller {
             actionPhase();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (EndGameException e){
+            int winner = getModel().getWinner();
+            gameHandler.messageToAll("The winner is " + gameHandler.indexToNick.get(winner));
+            gameHandler.messageToAll(new GameAbortedMessage("Game is finished!!"));
         }
     }
 
@@ -128,7 +134,7 @@ public class Controller {
      * During the action phase the players play following the playerOrder array. They move students from their entrance to hall/islands
      * and then mother nature to calculate influence on that island
      */
-    private void actionPhase() throws InterruptedException, IOException {
+    private void actionPhase() throws InterruptedException, IOException, EndGameException {
         Colors color = null;
 
         gameHandler.messageToAll("Action Phase starts");
@@ -148,7 +154,7 @@ public class Controller {
             }
 
             //MN movement
-            if (moveMN(lastAssistantCardsPlayed)) return;
+            moveMN(lastAssistantCardsPlayed);
 
             cloudSelection();
 
@@ -297,7 +303,7 @@ public class Controller {
      * @param cards cards played this turn to not exceed the max amount of steps for mother nature
      * @return true (ending the game) if an EndGameException occurs
      */
-    private boolean moveMN(int[] cards) throws InterruptedException, IOException {
+    private void moveMN(int[] cards) throws InterruptedException, IOException, EndGameException {
         String temp;
         int index;
 
@@ -312,17 +318,11 @@ public class Controller {
 
 
         index = Integer.parseInt(temp);
-        try {
             model.moveMN(index);
 
             gameHandler.messageToAll(new IslandsUpdateMessage(gameHandler.printIslands(),
                     model.getIslandInteraction().getTowersByPlayer()));
-        } catch (EndGameException e) {
-            checkEnd();
-            return true;
-        }
 
-        return false;
     }
 
     /**

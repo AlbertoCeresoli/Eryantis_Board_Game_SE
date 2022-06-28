@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Messages.DisconnectionMessage;
 import it.polimi.ingsw.Messages.EasyMessage;
+import it.polimi.ingsw.Messages.GameAbortedMessage;
 import it.polimi.ingsw.Messages.Message;
 
 import java.io.*;
@@ -22,6 +23,8 @@ public class ClientHandler implements Runnable {
     public boolean informationIsNeeded;
     private boolean yourTurn;
     private final Object lock;
+    private Thread gameHandler;
+    private Server server;
 
     /**
      * Constructor which instantiates channel dedicated to the handling of each client
@@ -80,13 +83,12 @@ public class ClientHandler implements Runnable {
                 client.close();
                 System.out.println("Client " + clients.indexOf(this) +  " disconnected");
                 clients.remove(this);
-                sendMessageToAll(new EasyMessage("A client disconnected, game will be aborted..."));
                 for(ClientHandler c : clients){
-                   // sendMessage(new EasyMessage("Disconnection..."));
-                    c.getClient().getInputStream().close();
-                   // c.getClient().getOutputStream().close();
+                   c.sendMessage(new GameAbortedMessage("A client disconnected, game will be aborted..."));
                     c.getClient().close();
                 }
+                gameHandler.interrupt();
+
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -268,5 +270,13 @@ public class ClientHandler implements Runnable {
 
     public void setInformationIsNeeded(boolean informationIsNeeded) {
         this.informationIsNeeded = informationIsNeeded;
+    }
+
+    public void setGameHandler(GameHandler gameHandler) {
+        this.gameHandler = gameHandler;
+    }
+
+    public void setClients(ArrayList<ClientHandler> clients) {
+
     }
 }

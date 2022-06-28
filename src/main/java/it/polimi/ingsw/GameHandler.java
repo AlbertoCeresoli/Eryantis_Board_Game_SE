@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameHandler implements Runnable {
+public class GameHandler extends Thread {
     //TODO pay attention to clientHandlers: it has to be synchronized everytime someone uses the arrayList
     private final ArrayList<ClientHandler> clientHandlers;
     private final Controller controller;

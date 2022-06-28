@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Client;
 
+import it.polimi.ingsw.Client.CLI.ClientPrinter;
 import it.polimi.ingsw.Messages.DisconnectionMessage;
+import it.polimi.ingsw.Messages.GameAbortedMessage;
 import it.polimi.ingsw.Messages.Message;
 
 import java.io.IOException;
@@ -34,7 +36,11 @@ public class FromServerMessagesReader implements Runnable {
 				do {
 					message = (Message) ui.getFromServerInput().readObject();
 				} while (message == null);
-
+				if (message instanceof GameAbortedMessage) {
+					ClientPrinter.easyPrint(((GameAbortedMessage) message).getText());
+					exit();
+					ui.exit();
+				}
 				if (message instanceof DisconnectionMessage) {
 					synchronized (server) {
 						exit();

@@ -116,10 +116,14 @@ public class Server {
      * in the list are run.
      */
     private static void createGame() {
-        new Thread(new GameHandler(clients)).start();
+        GameHandler gh = new GameHandler(clients);
+        new Thread(gh).start();
 
         ExecutorService pool = Executors.newFixedThreadPool(Constants.getNumPlayers());
-        for (ClientHandler client : clients)
+        for (ClientHandler client : clients) {
             pool.execute(client);
+            client.setGameHandler(gh);
+        }
+        clients.get(0).setClients(clients);
     }
 }

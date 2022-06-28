@@ -57,7 +57,7 @@ public class CLI implements Runnable, UI {
 				}
 				sendMessageToServer(new EasyMessage(command));
 			} catch (IOException e) {
-				System.out.println("Due to communication problems you cannot play anymore. You will be disconnected...");
+				System.out.println("Game over, you will be disconnected...");
 				exit();
 			}
 		}
