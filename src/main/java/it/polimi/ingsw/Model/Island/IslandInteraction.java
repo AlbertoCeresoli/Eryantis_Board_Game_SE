@@ -62,17 +62,16 @@ public class IslandInteraction implements hasAddToIsland, hasCalculateInfluence,
         } else {
             getIslands().get(island).removeTower();
             towersByPlayer[oldController] += oldNumTowers;
-            if (towersByPlayer[player] < towersByPlayer[player] - oldNumTowers){
+            if (towersByPlayer[player] <= towersByPlayer[player] - oldNumTowers){
                 getIslands().get(island).addTower(player, towersByPlayer[player]);
                 towersByPlayer[player] = 0;
             }else{
                 towersByPlayer[player] -= oldNumTowers;
                 getIslands().get(island).addTower(player, oldNumTowers);
             }
-            if(towersByPlayer[player] == 0){
-                throw new EndGameException();
-            }
-
+        }
+        if(towersByPlayer[player] == 0){
+            throw new EndGameException();
         }
         mergeIslands(island);
         return true;
