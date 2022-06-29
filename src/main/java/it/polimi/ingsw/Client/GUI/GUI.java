@@ -1,13 +1,6 @@
 package it.polimi.ingsw.Client.GUI;
 
-import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
-import it.polimi.ingsw.Messages.Message;
-import it.polimi.ingsw.Messages.PrintMessages.PrintBoardMessage;
-import it.polimi.ingsw.Messages.PrintMessages.PrintCloudsMessage;
-import it.polimi.ingsw.Messages.PrintMessages.PrintIslandMessage;
-import it.polimi.ingsw.Messages.PrintMessages.PrintIslandsMessage;
-import it.polimi.ingsw.Messages.UpdateMessages.EriantysUpdateMessage;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,46 +9,18 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class GUI extends Application {
-    /*
-    private final Socket socket;
-    private final ObjectInputStream fromServerInput;
-    private final ObjectOutputStream toServerOutput;
-    private final FromServerMessagesReader fromServerMessagesReader;
-    private boolean activeGame;
-
-     */
     private ControllerInterface controller;
     private Selection selection;
+    private GUINetworkConnection guiNetworkConnection;
     private ArrayList<Stage> stages;
 
-    public static void main(String[] args) throws IOException {
-        System.out.println("[CLIENT] Waiting for server connection...");
-        //Socket socket = new Socket("localhost", 1234);
-        System.out.println("[CLIENT] Connected to server! [localhost, 1234]");
-
-        //GUI gui = new GUI(socket);
-
+    public static void main(String[] args) {
         launch();
     }
-
-    /*public GUI(Socket socket) throws IOException {
-        this.socket = socket;
-        this.toServerOutput = new ObjectOutputStream(socket.getOutputStream());
-        this.toServerOutput.flush();
-        this.fromServerInput = new ObjectInputStream(socket.getInputStream());
-        this.activeGame = true;
-
-        this.fromServerMessagesReader = new FromServerMessagesReader(socket, this);
-        new Thread(this.fromServerMessagesReader).start();
-    }
-     */
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -85,6 +50,8 @@ public class GUI extends Application {
         controller.startEventHandling(); //event handling for the click on the images
 
         selection = new Selection(this);
+        guiNetworkConnection = new GUINetworkConnection(this);
+
         stages = new ArrayList<>();
         stages.add(stage);
 
@@ -114,17 +81,6 @@ public class GUI extends Application {
         stage.setResizable(false); //make the stage not resizable
     }
 
-    //@Override
-    public void elaborateMessage(Message message) {
-
-    }
-
-    /*
-    public ObjectInputStream getFromServerInput() {
-        return fromServerInput;
-    }
-    */
-
     /**
      * add a stage to the ArrayList of open stages
      * @param stage stage to add
@@ -146,5 +102,13 @@ public class GUI extends Application {
      */
     public void quitGUI(){
         stages.forEach(Stage::close);
+    }
+
+    public Selection getSelection() {
+        return selection;
+    }
+
+    public GUINetworkConnection getGuiNetworkConnection() {
+        return guiNetworkConnection;
     }
 }

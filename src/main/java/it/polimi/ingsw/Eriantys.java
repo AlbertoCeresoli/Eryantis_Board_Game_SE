@@ -32,16 +32,10 @@ public class Eriantys {
                 try {
                     CLI.main(null);
                 } catch (IOException e) {
-                    System.out.println("Server is down at the moment, it is not possible to connect to Eriantys");
+                    System.out.println("Connection failed, application will close...");
                 }
             }
-            case 2 -> {
-                try {
-                    GUI.main(null);
-                } catch (IOException e) {
-                    System.out.println("Server is down at the moment, it is not possible to connect to Eriantys");
-                }
-            }
+            case 2 -> GUI.main(null);
         }
     }
 }

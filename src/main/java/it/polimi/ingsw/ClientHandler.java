@@ -5,6 +5,9 @@ import it.polimi.ingsw.Messages.DisconnectionMessage;
 import it.polimi.ingsw.Messages.EasyMessage;
 import it.polimi.ingsw.Messages.GameAbortedMessage;
 import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.Messages.SelectionMessages.GameModeSelectionMessage;
+import it.polimi.ingsw.Messages.SelectionMessages.NicknameSelectionMessage;
+import it.polimi.ingsw.Messages.SelectionMessages.NumberOfPlayersSelectionMessage;
 
 import java.io.*;
 import java.net.Socket;
@@ -179,7 +182,7 @@ public class ClientHandler implements Runnable {
     public void selectNickName() throws IOException, ClassNotFoundException {
         EasyMessage request;
 
-        sendMessage(new EasyMessage("Insert your nickname: "));
+        sendMessage(new NicknameSelectionMessage());
         do {
             request = (EasyMessage) in.readObject();
         } while (request == null);
@@ -194,7 +197,7 @@ public class ClientHandler implements Runnable {
         EasyMessage request;
 
         do {
-            sendMessage(new EasyMessage("Select Game Mode: 0 = easy/ 1 = hard"));
+            sendMessage(new GameModeSelectionMessage());
             do {
                 request = (EasyMessage) in.readObject();
             } while (request == null);
@@ -203,7 +206,7 @@ public class ClientHandler implements Runnable {
         Constants.setGameMode(!request.getText().equals("0"));
 
         do {
-            sendMessage(new EasyMessage("Select Number of Players: 2 / 3"));
+            sendMessage(new NumberOfPlayersSelectionMessage());
             do {
                 request = (EasyMessage) in.readObject();
             } while (request == null);

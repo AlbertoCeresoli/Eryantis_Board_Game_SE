@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Messages.EasyMessage;
+import it.polimi.ingsw.Messages.ErrorMessages.ErrorMessage;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -64,7 +65,7 @@ public class Server {
         ClientHandler player = new ClientHandler(client);
         player.selectNickName();
         while (!checkNickname(player.getNickName())) {
-            player.sendMessage(new EasyMessage("Nickname you choose is not available, please insert a new one: "));
+            player.sendMessage(new ErrorMessage("Nickname you choose is not available, please insert a new one: "));
             player.selectNickName();
         }
 

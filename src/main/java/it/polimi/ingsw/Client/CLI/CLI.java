@@ -10,6 +10,7 @@ import it.polimi.ingsw.Messages.UpdateMessages.*;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class CLI implements Runnable, UI {
 	private final Socket socket;
@@ -25,9 +26,8 @@ public class CLI implements Runnable, UI {
 
 	public static void main(String[] args) throws IOException {
 		//connection to server
-		System.out.println("[CLIENT] Waiting for server connection...");
+		System.out.println("Connecting...");
 		Socket socket = new Socket("localhost", 1234);
-		System.out.println("[CLIENT] Connected to server! [localhost, 1234]");
 
 		CLI cli = new CLI(socket);
 
@@ -113,10 +113,18 @@ public class CLI implements Runnable, UI {
 			ClientPrinter.easyPrint("Mother Nature has been moved. Islands are now:");
 			ClientPrinter.printIslands(((IslandsUpdateMessage) message).getPrintIslandsMessage());
 		}
-
 	}
 
 	private void elaborateSelectionMessage(SelectionMessage message) {
+		if (message instanceof NicknameSelectionMessage) {
+			ClientPrinter.easyPrint("Insert your nickname: ");
+		}
+		if (message instanceof NumberOfPlayersSelectionMessage) {
+			ClientPrinter.easyPrint("Select Number of Players: 2 / 3");
+		}
+		if (message instanceof GameModeSelectionMessage) {
+			ClientPrinter.easyPrint("Select Game Mode: 0 = easy/ 1 = hard");
+		}
 		if (message instanceof AssistantCardSelectionMessage) {
 			ClientPrinter.easyPrint("It is your turn to play an Assistant Card");
 			ClientPrinter.printAssistantCards(((AssistantCardSelectionMessage) message).getPrintAssistantCardsMessage());
