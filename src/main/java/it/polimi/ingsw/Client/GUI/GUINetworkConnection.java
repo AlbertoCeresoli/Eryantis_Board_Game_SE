@@ -25,8 +25,8 @@ public class GUINetworkConnection implements UI {
         this.gui = gui;
 
         //TODO
-        gui.getSelection().selectIP();
-        gui.getSelection().selectServerPort();
+        //gui.getSelection().selectIP();
+        //gui.getSelection().selectServerPort();
 
         this.socket = new Socket("localhost", 1234);
 
@@ -41,10 +41,10 @@ public class GUINetworkConnection implements UI {
     @Override
     public void elaborateMessage(Message message) {
         if (message instanceof EasyMessage) {
-
+            gui.getController().printEasyMessage(((EasyMessage) message).getText());
         }
         if (message instanceof UpdateMessage) {
-            elaborateUpdateMessage((UpdateMessage) message);
+            gui.getController().updateGame((UpdateMessage) message);
         }
         if (message instanceof SelectionMessage) {
             elaborateSelectionMessage((SelectionMessage) message);
@@ -54,24 +54,6 @@ public class GUINetworkConnection implements UI {
         }
         if (message instanceof ErrorMessage) {
             elaborateErrorMessage((ErrorMessage) message);
-        }
-    }
-
-    private void elaborateUpdateMessage(UpdateMessage message) {
-        if (message instanceof EriantysUpdateMessage) {
-
-        }
-        if (message instanceof CloudsUpdateMessage) {
-
-        }
-        if (message instanceof TeachersUpdateMessage) {
-
-        }
-        if (message instanceof StudentMovedUpdateMessage) {
-
-        }
-        if (message instanceof IslandsUpdateMessage) {
-
         }
     }
 
@@ -107,32 +89,41 @@ public class GUINetworkConnection implements UI {
 
     private void elaboratePrintMessage(PrintMessage message) {
         if (message instanceof PrintAssistantCardsMessage) {
-
+            gui.getController().onClickACP1();
         }
         if (message instanceof PrintBoardMessage) {
-
+            gui.getController().onClickBoard(((PrintBoardMessage) message).getNickToIndex().
+                    get(((PrintBoardMessage) message).getNickname()));
         }
         if (message instanceof PrintCharacterCardsMessage) {
-
+            gui.getController().onClickCharacterCards();
         }
         if (message instanceof PrintCloudsMessage) {
-
+            gui.getController().onClickClouds();
         }
         if (message instanceof PrintIslandMessage) {
-
+            gui.getController().zoomIsland(((PrintIslandMessage) message).getIslandIndex());
         }
         if (message instanceof PrintIslandsMessage) {
-
-        }
-        if (message instanceof PrintTeachersMessage) {
-
+            gui.getController().onClickClouds();
         }
     }
 
     private void elaborateErrorMessage(ErrorMessage message) {
-
+        gui.getController().printEasyMessage(message.getText());
     }
 
+    public void sendMessageToServer(String text) {
+        try {
+            toServerOutput.reset();
+            toServerOutput.writeObject(new EasyMessage(text));
+            toServerOutput.flush();
+        } catch (IOException e) {
+            gui.quitGUI();
+        }
+    }
+
+    //TODO
     @Override
     public void exit() {
 

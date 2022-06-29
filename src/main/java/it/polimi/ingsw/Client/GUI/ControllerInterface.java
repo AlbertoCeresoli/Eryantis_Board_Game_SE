@@ -23,4 +23,18 @@ public interface ControllerInterface {
     void setCC(int[] cardIndexes);
 
     GUIPrinter getPrinter();
+
+    void printEasyMessage(String text);
+
+    void onClickACP1();
+
+    void onClickBoard(int numBoard);
+
+    void onClickCharacterCards();
+
+    void onClickClouds();
+
+    void zoomIsland(int numIsland);
+
+    void onClickTable();
 }

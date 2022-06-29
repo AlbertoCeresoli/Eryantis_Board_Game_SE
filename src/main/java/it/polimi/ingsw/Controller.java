@@ -69,7 +69,7 @@ public class Controller {
         PrintBoardMessage[] printBoardMessages = new PrintBoardMessage[Constants.getNumPlayers()];
         for (int i = 0; i < Constants.getNumPlayers(); i++) {
             printBoardMessages[i] = new PrintBoardMessage(gameHandler.indexToNick.get(i), model.getPlayerInteraction().getPlayer(i).getBoard(),
-                    model.getIslandInteraction().getTowersByPlayer()[i]);
+                    model.getIslandInteraction().getTowersByPlayer()[i], gameHandler.nickToIndex);
         }
 
         gameHandler.messageToAll(new EriantysUpdateMessage(gameHandler.indexToNick, printBoardMessages,

@@ -465,4 +465,9 @@ public class ControllerScene2Players implements ControllerInterface {
     public GUIPrinter getPrinter() {
         return printer;
     }
+
+    @Override
+    public void printEasyMessage(String text) {
+        txtAreaChat.appendText(text + "\n");
+    }
 }

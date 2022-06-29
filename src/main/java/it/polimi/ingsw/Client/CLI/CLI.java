@@ -103,7 +103,7 @@ public class CLI implements Runnable, UI {
 			ClientPrinter.printClouds(((CloudsUpdateMessage) message).getPrintCloudsMessage());
 		}
 		if (message instanceof TeachersUpdateMessage) {
-			ClientPrinter.easyPrint("Students have been moved from or to the hall. Teachers are now:");
+			ClientPrinter.easyPrint("Students have been moved from or to the hall.");
 			ClientPrinter.printTeachers(((TeachersUpdateMessage) message).getPrintTeachersMessage());
 		}
 		if (message instanceof StudentMovedUpdateMessage) {

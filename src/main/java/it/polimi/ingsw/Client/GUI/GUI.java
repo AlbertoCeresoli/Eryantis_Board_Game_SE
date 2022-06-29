@@ -60,14 +60,12 @@ public class GUI extends Application {
         stage.show();
 
         stage.setOnCloseRequest(event -> {
-            //chiusura del socket TODO
             quitGUI();
         });
     }
 
-    //TODO sostituire con un metodo che invia il messaggio al server
     public void print(String selection){
-        System.out.println(selection);
+        guiNetworkConnection.sendMessageToServer(selection);
     }
 
 
@@ -102,6 +100,7 @@ public class GUI extends Application {
      */
     public void quitGUI(){
         stages.forEach(Stage::close);
+        guiNetworkConnection.exit();
     }
 
     public Selection getSelection() {
@@ -110,5 +109,9 @@ public class GUI extends Application {
 
     public GUINetworkConnection getGuiNetworkConnection() {
         return guiNetworkConnection;
+    }
+
+    public ControllerInterface getController() {
+        return controller;
     }
 }

@@ -284,7 +284,7 @@ public class GameHandler extends Thread {
         PrintBoardMessage message;
         message = new PrintBoardMessage(indexToNick.get(playerIndex),
                 controller.getModel().getPlayerInteraction().getPlayer(playerIndex).getBoard(),
-                controller.getModel().getIslandInteraction().getTowersByPlayer()[playerIndex]);
+                controller.getModel().getIslandInteraction().getTowersByPlayer()[playerIndex], nickToIndex);
         return message;
     }
 
