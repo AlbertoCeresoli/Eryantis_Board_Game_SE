@@ -4,6 +4,7 @@ import it.polimi.ingsw.Client.CLI.ClientPrinter;
 import it.polimi.ingsw.Messages.DisconnectionMessage;
 import it.polimi.ingsw.Messages.GameAbortedMessage;
 import it.polimi.ingsw.Messages.Message;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.net.Socket;

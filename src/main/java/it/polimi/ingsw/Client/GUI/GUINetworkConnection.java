@@ -8,6 +8,7 @@ import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Messages.PrintMessages.*;
 import it.polimi.ingsw.Messages.SelectionMessages.*;
 import it.polimi.ingsw.Messages.UpdateMessages.*;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -40,6 +41,15 @@ public class GUINetworkConnection implements UI {
 
     @Override
     public void elaborateMessage(Message message) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                elaboration(message);
+            }
+        });
+    }
+
+    private void elaboration(Message message) {
         if (message instanceof EasyMessage) {
             gui.getController().printEasyMessage(((EasyMessage) message).getText());
         }
@@ -122,8 +132,8 @@ public class GUINetworkConnection implements UI {
             gui.quitGUI();
         }
     }
-
     //TODO
+
     @Override
     public void exit() {
 

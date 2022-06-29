@@ -368,7 +368,7 @@ public class Selection {
         });
 
         boardImgView.setOnMouseClicked(mouseEvent -> {
-            gui.print("board");
+            gui.print("hall");
             gui.removeStage(stageSel);
             stageSel.close();
         });
