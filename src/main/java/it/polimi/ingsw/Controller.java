@@ -8,6 +8,7 @@ import it.polimi.ingsw.Exceptions.EndGameException;
 import it.polimi.ingsw.Messages.GameAbortedMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintBoardMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintCloudsMessage;
+import it.polimi.ingsw.Messages.PrintMessages.PrintIslandsMessage;
 import it.polimi.ingsw.Messages.SelectionMessages.*;
 import it.polimi.ingsw.Messages.UpdateMessages.*;
 import it.polimi.ingsw.Model.Model;
@@ -72,7 +73,7 @@ public class Controller {
         }
 
         gameHandler.messageToAll(new EriantysUpdateMessage(gameHandler.indexToNick, printBoardMessages,
-                gameHandler.printIslands(), gameHandler.printClouds()));
+                gameHandler.printIslands(), gameHandler.printClouds(), gameHandler.nickToIndex));
 
         firstPlayer();
 
@@ -279,7 +280,7 @@ public class Controller {
 
         if (temp.equalsIgnoreCase("Hall")) {
             model.moveFromEntranceToHall(color, actualTurnPlayer);
-            gameHandler.messageToAll(new StudentMovedUpdateMessage(gameHandler.indexToNick.get(actualTurnPlayer), "Entrance", "Hall", color));
+            gameHandler.messageToAll(new StudentMovedUpdateMessage(gameHandler.indexToNick.get(actualTurnPlayer), "Entrance", "Hall", color, gameHandler.nickToIndex));
             gameHandler.messageToAll(new TeachersUpdateMessage(gameHandler.printTeachers()));
         }
 
@@ -293,7 +294,7 @@ public class Controller {
             index = Integer.parseInt(temp);
             model.moveFromEntranceToIsland(color, actualTurnPlayer, index);
             gameHandler.messageToAll(new StudentMovedUpdateMessage(gameHandler.indexToNick.get(actualTurnPlayer),
-                    "Entrance", "Island", index, color));
+                    "Entrance", "Island", index, color, gameHandler.nickToIndex));
         }
     }
 
@@ -321,7 +322,7 @@ public class Controller {
             model.moveMN(index);
 
             gameHandler.messageToAll(new IslandsUpdateMessage(gameHandler.printIslands(),
-                    model.getIslandInteraction().getTowersByPlayer()));
+                    model.getIslandInteraction().getTowersByPlayer(), gameHandler.nickToIndex));
 
     }
 

@@ -304,7 +304,7 @@ public class GameHandler extends Thread {
 
     public PrintTeachersMessage printTeachers() {
         PrintTeachersMessage message;
-        message = new PrintTeachersMessage(controller.getModel().getIslandInteraction().getTeachers(), indexToNick);
+        message = new PrintTeachersMessage(controller.getModel().getIslandInteraction().getTeachers(), indexToNick, nickToIndex);
         return message;
     }
 

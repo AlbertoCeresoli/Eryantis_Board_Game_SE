@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Messages.PrintMessages;
 
+import it.polimi.ingsw.GameHandler;
 import it.polimi.ingsw.Model.Island.Island;
 
 import java.util.ArrayList;

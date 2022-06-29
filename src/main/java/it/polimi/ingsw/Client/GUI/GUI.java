@@ -2,7 +2,6 @@ package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
-import it.polimi.ingsw.Constants.TypesOfUpdate;
 import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Messages.PrintMessages.PrintBoardMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintCloudsMessage;
@@ -56,7 +55,6 @@ public class GUI extends Application {
         this.fromServerMessagesReader = new FromServerMessagesReader(socket, this);
         new Thread(this.fromServerMessagesReader).start();
     }
-
      */
 
     @Override
@@ -121,60 +119,24 @@ public class GUI extends Application {
 
     }
 
-    public void showGameChanges(TypesOfUpdate selection, int index, Colors c, int numAdded, HashMap<Colors, Integer> map, int newController){
-        controller.updateGame(selection, index, c, numAdded, map, newController);
-    }
-
-    /*public ObjectInputStream getFromServerInput() {
+    /*
+    public ObjectInputStream getFromServerInput() {
         return fromServerInput;
     }
+    */
 
+    /**
+     * add a stage to the ArrayList of open stages
+     * @param stage stage to add
      */
-
-    public void initializeGUI(EriantysUpdateMessage message){
-        //set dei nicknames
-        controller.setNicknames(message.getPlayers());
-
-        //set students on board
-        PrintBoardMessage[] boards = message.getPrintBoardMessages();
-        for (int numPlayer=0; numPlayer<Constants.getNumPlayers(); numPlayer++){
-            Map<Colors, Integer> entrance = boards[numPlayer].getEntrance();
-            Map<Colors, Integer> hall = boards[numPlayer].getHall();
-            for(Colors c: Colors.values()){
-                controller.getPrinter().modifyStudInEntrance(numPlayer, c, entrance.get(c));
-                controller.getPrinter().modifyStudInHall(numPlayer, c, hall.get(c));
-            }
-            controller.getPrinter().modifyTowersOnBoard(numPlayer, boards[numPlayer].getNumberOfTowers());
-        }
-
-        //set students on islands
-        PrintIslandsMessage islands = message.getPrintIslandsMessage();
-        for (int numIsland=0; numIsland<12; numIsland++){
-            PrintIslandMessage island = islands.getIslandMessages().get(numIsland);
-
-            Map<Colors, Integer> students = island.getStudents();
-            for (Colors c: Colors.values()) {
-                controller.getPrinter().modifyIsland(numIsland, c, students.get(c));
-            }
-
-            //controller? numTowers? inibitionCard? TODO
-
-            if (island.isMotherNatureInHere()) {
-                controller.getPrinter().modifyMNPosition(numIsland);
-            }
-        }
-
-        //set students on clouds
-        PrintCloudsMessage clouds = message.getPrintCloudsMessage();
-        for (int numCloud = 0; numCloud<Constants.getNumPlayers(); numCloud++){
-            controller.getPrinter().modifyCloud(numCloud, clouds.getClouds().get(numCloud));
-        }
-    }
-
     public void addStage(Stage stage){
         stages.add(stage);
     }
 
+    /**
+     * remove a stage to the ArrayList of open stages
+     * @param stage stage to remove
+     */
     public void removeStage(Stage stage){
         stages.remove(stage);
     }

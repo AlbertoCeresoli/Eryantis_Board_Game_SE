@@ -17,11 +17,20 @@ import java.util.Map;
 public class IslandGUI {
     private final ImageView imageView;
     private final Image image;
-    private ImageView controller;
-    private ImageView MN;
-    private boolean MNPresent;
     private double positionX;
     private double positionY;
+
+    private ImageView controller;
+    private Label lblTowers;
+    private int numTowers;
+
+    private ImageView MN;
+    private boolean MNPresent;
+
+    private ImageView imgVwIC;
+    private Label lblIC;
+    private int numIC;
+
     private Map<Colors, Integer> students;
     private ArrayList<ImageView> studColors;
     private ArrayList<Image> studImages;
@@ -42,6 +51,8 @@ public class IslandGUI {
         studImages = new ArrayList<>();
         lblColors = new ArrayList<>();
         MNPresent = true;
+        numTowers = 0;
+        numIC = 0;
 
         for (Colors c: Colors.values()){
             students.put(c, 0);
@@ -62,14 +73,30 @@ public class IslandGUI {
         controller = new ImageView();
         controller.setLayoutX(positionX + 70); controller.setLayoutY(positionY);
         controller.setFitWidth(20); controller.setFitHeight(40);
-        controller.setImage(new Image("file:src/main/resources/Images/Other_objects/Grey_tower.png"));
+        controller.setImage(new Image("file:"));
         anchorPane.getChildren().add(controller);
+
+        lblTowers = new Label();
+        lblTowers.setLayoutX(positionX+70); lblTowers.setLayoutY(positionY);
+        lblTowers.setFont(Font.font(10));
+        lblTowers.setText(String.valueOf(numTowers));
 
         MN = new ImageView();
         MN.setLayoutX(positionX + 60); MN.setLayoutY(positionY + 20);
         MN.setFitWidth(20); MN.setFitHeight(40);
         MN.setImage(new Image("file:src/main/resources/Images/Other_objects/MN.png"));
         anchorPane.getChildren().add(MN);
+
+        imgVwIC = new ImageView();
+        imgVwIC.setLayoutX(positionX + 70); imgVwIC.setLayoutY(positionY + 20);
+        imgVwIC.setFitWidth(20); imgVwIC.setFitHeight(40);
+        imgVwIC.setImage(new Image("file:"));
+        anchorPane.getChildren().add(imgVwIC);
+
+        lblIC = new Label();
+        lblIC.setLayoutX(positionX + 70); lblIC.setLayoutY(positionY + 20);
+        lblIC.setFont(Font.font(10));
+        lblIC.setText(String.valueOf(numIC));
     }
 
     /**
@@ -145,9 +172,12 @@ public class IslandGUI {
         for (Colors c: Colors.values()){
             studColors.get(c.ordinal()).toFront();
             lblColors.get(c.ordinal()).toFront();
-            controller.toFront();
-            MN.toFront();
         }
+        controller.toFront();
+        MN.toFront();
+        lblTowers.toFront();
+        imgVwIC.toFront();
+        lblIC.toFront();
     }
 
     /**
@@ -165,7 +195,10 @@ public class IslandGUI {
             Constants.moveObject(lblColors.get(c.ordinal()), 290 + 100*c.ordinal() - lblColors.get(c.ordinal()).getLayoutX(), 390 - lblColors.get(c.ordinal()).getLayoutY(), rectOpaqueBackground);
         }
         Constants.moveObject(controller, 700 - controller.getLayoutX(), 200 - controller.getLayoutY(), rectOpaqueBackground);
+        Constants.moveObject(lblTowers, 700 - lblTowers.getLayoutX(), 200 - lblTowers.getLayoutY(), rectOpaqueBackground);
         Constants.moveObject(MN, 300 - controller.getLayoutX(), 200 - controller.getLayoutY(), rectOpaqueBackground);
+        Constants.moveObject(imgVwIC, 300 - controller.getLayoutX(), 250 - controller.getLayoutY(), rectOpaqueBackground);
+        Constants.moveObject(lblIC, 300 - controller.getLayoutX(), 250 - controller.getLayoutY(), rectOpaqueBackground);
 
         //scale of every object of the island
         Constants.zoomObject(imageView, 3, 3);
@@ -175,6 +208,9 @@ public class IslandGUI {
         }
         Constants.zoomObject(controller, 3, 3);
         Constants.zoomObject(MN, 3, 3);
+        lblTowers.setFont(Font.font(30));
+        Constants.zoomObject(imgVwIC, 3, 3);
+        lblIC.setFont(Font.font(30));
     }
 
     /**
@@ -188,7 +224,10 @@ public class IslandGUI {
             Constants.moveBackObject(lblColors.get(c.ordinal()), -(290 + 100*c.ordinal() - lblColors.get(c.ordinal()).getLayoutX()), -(390 - lblColors.get(c.ordinal()).getLayoutY()));
         }
         Constants.moveBackObject(controller, -(700 - controller.getLayoutX()), -(200 - controller.getLayoutY()));
+        Constants.moveBackObject(lblTowers, -(700 - lblTowers.getLayoutX()), -(200 - lblTowers.getLayoutY()));
         Constants.moveBackObject(MN, -(300 - controller.getLayoutX()), -(200 - controller.getLayoutY()));
+        Constants.moveBackObject(imgVwIC, -(300 - controller.getLayoutX()), -(250 - controller.getLayoutY()));
+        Constants.moveBackObject(lblIC, -(300 - controller.getLayoutX()), -(250 - controller.getLayoutY()));
 
         Constants.zoomBackObject(imageView, -3, -3);
         for (Colors c: Colors.values()){
@@ -197,6 +236,9 @@ public class IslandGUI {
         }
         Constants.zoomBackObject(controller, -3, -3);
         Constants.zoomBackObject(MN, -3,-3);
+        lblTowers.setFont(Font.font(10));
+        Constants.zoomBackObject(imgVwIC, -3,-3);
+        lblIC.setFont(Font.font(10));
 
         rectOpaqueBackground.setWidth(1);
         rectOpaqueBackground.setHeight(1);
@@ -224,12 +266,29 @@ public class IslandGUI {
     }
 
     /**
+     * used to set the number of towers on the island
+     * @param n number of towers
+     */
+    public void setNumTowers(int n){
+        numTowers=n;
+        lblTowers.setText(String.valueOf(numTowers));
+    }
+
+    public void setNumIC(int n){
+        if (n>=1){
+            imgVwIC.setImage(new Image("file:src/main/resources/Images/Other_objects/InhibitionCard.png"));
+        }
+        numIC=n;
+        lblIC.setText(String.valueOf(numIC));
+    }
+
+    /**
      * used to set the students on the island
      * @param color color of the students to set
-     * @param numStudents number of students
+     * @param n number of students
      */
-    public void setNumStudents(Colors color, int numStudents){
-        students.put(color, numStudents);
+    public void setNumStudents(Colors color, int n){
+        students.put(color, n);
         lblColors.get(color.ordinal()).setText(students.get(color).toString());
     }
 
@@ -243,6 +302,22 @@ public class IslandGUI {
         else if (isMNPresent()){
             MN.setImage(new Image("file:src/main/resources/Images/Other_objects/MN.png"));
         }
+    }
+
+    /**
+     * hides all the components of the island
+     */
+    public void hide(){
+        imageView.toBack();
+        for (Colors c: Colors.values()){
+            studColors.get(c.ordinal()).toBack();
+            lblColors.get(c.ordinal()).toBack();
+        }
+        controller.toBack();
+        MN.toBack();
+        lblTowers.toBack();
+        imgVwIC.toBack();
+        lblIC.toBack();
     }
 
     /**

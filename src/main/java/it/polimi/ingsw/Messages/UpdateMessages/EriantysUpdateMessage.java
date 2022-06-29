@@ -11,13 +11,15 @@ public class EriantysUpdateMessage implements UpdateMessage {
     private final PrintBoardMessage[] printBoardMessages;
     private final PrintIslandsMessage printIslandsMessage;
     private final PrintCloudsMessage printCloudsMessage;
+    Map<String, Integer> nickToIndex;
 
     public EriantysUpdateMessage(Map<Integer, String> players, PrintBoardMessage[] printBoardMessages,
-                                 PrintIslandsMessage printIslandsMessage, PrintCloudsMessage printCloudsMessage) {
+                                 PrintIslandsMessage printIslandsMessage, PrintCloudsMessage printCloudsMessage, Map<String, Integer> nickToIndex) {
         this.players = players;
         this.printBoardMessages = printBoardMessages;
         this.printIslandsMessage = printIslandsMessage;
         this.printCloudsMessage = printCloudsMessage;
+        this.nickToIndex = nickToIndex;
     }
 
     public Map<Integer, String> getPlayers() {
@@ -34,5 +36,9 @@ public class EriantysUpdateMessage implements UpdateMessage {
 
     public PrintCloudsMessage getPrintCloudsMessage() {
         return printCloudsMessage;
+    }
+
+    public Map<String, Integer> getNickToIndex() {
+        return nickToIndex;
     }
 }

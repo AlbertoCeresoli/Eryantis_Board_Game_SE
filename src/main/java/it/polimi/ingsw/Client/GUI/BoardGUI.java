@@ -297,20 +297,20 @@ public class BoardGUI {
     /**
      * changes the number of the students in the Entrance
      * @param c color of the student to update
-     * @param numStud number of the students
+     * @param n number of the students to add/remove
      */
-    public void setStudEntrance (Colors c, int numStud){
-        studInEntrance.put(c, numStud);
+    public void setStudEntrance (Colors c, int n){
+        studInEntrance.put(c, n);
         lblColorsInEntrance.get(c.ordinal()).setText(studInEntrance.get(c).toString());
     }
 
     /**
      * changes the number of the students in the Hall
      * @param c color of the student to update
-     * @param numStud new number of the students
+     * @param n number of the students
      */
-    public void setStudHall (Colors c, int numStud){
-        studInHall.put(c, numStud);
+    public void setStudHall (Colors c, int n){
+        studInHall.put(c, n);
         lblColorsInHall.get(c.ordinal()).setText(studInHall.get(c).toString());
     }
 
@@ -321,5 +321,20 @@ public class BoardGUI {
     public void updateTowers (int n){
         numTower = n;
         lblTower.setText(numTower.toString());
+    }
+
+    /**
+     * changes the teachers on the board
+     * @param colors array of booleans that indicates the teachers on the board
+     */
+    public void updateTeachers (boolean[] colors){
+        for (Colors c: Colors.values()){
+            if (colors[c.ordinal()]){
+                teachers.get(c.ordinal()).setImage(teacherImages.get(c.ordinal()));
+            }
+            else {
+                teachers.get(c.ordinal()).setImage(new Image("file:"));
+            }
+        }
     }
 }

@@ -52,6 +52,25 @@ public class GUIPrinter {
         }
     }
 
+    public void printIsland(int numIsland, int controller, Map<Colors, Integer> Students, boolean mn, int numTower, int numInhibitionCards){
+        islands.get(numIsland).setController(controller);
+
+        for (Colors c: Colors.values()) {
+            islands.get(numIsland).setNumStudents(c, Students.get(c));
+        }
+
+        islands.get(numIsland).setMNPresent(mn);
+        islands.get(numIsland).showMN();
+
+        islands.get(numIsland).setNumTowers(numTower);
+
+        islands.get(numIsland).setNumIC(numInhibitionCards);
+    }
+
+    public void hideIsland(int islandIndex){
+        islands.get(islandIndex).hide();
+    }
+
     /**
      * prints all the clouds on the stage
      * @param cloudImageViews ArrayList of the ImageViews of the clouds
@@ -235,8 +254,8 @@ public class GUIPrinter {
         clouds.get(cloudIndex).setStudents(cloud);
     }
 
-    public void modifyIsland(int islandIndex, Colors c, int numAdded){
-        islands.get(islandIndex).setNumStudents(c, numAdded);
+    public void modifyIsland(int islandIndex, Colors c, int n){
+        islands.get(islandIndex).setNumStudents(c, n);
     }
 
     public void modifyMNPosition(int position){
@@ -250,15 +269,15 @@ public class GUIPrinter {
         islands.get(position).showMN();
     }
 
-    public void modifyController(int islandIndex, int controller){
-        islands.get(islandIndex).setController(controller);
-    }
-
     public void modifyAssistantCards(int assistantCard){
         assistants.get(assistantCard).assistantUsed();
     }
 
     public void modifyCoins(int playerIndex, int coinsAdded){
         coins.get(playerIndex).updateCoins(coinsAdded);
+    }
+
+    public void modifyTeachers(int playerIndex, boolean[] teachers){
+        boards.get(playerIndex).updateTeachers(teachers);
     }
 }

@@ -2,30 +2,23 @@ package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
-import it.polimi.ingsw.Constants.TypesOfUpdate;
+import it.polimi.ingsw.Messages.PrintMessages.*;
+import it.polimi.ingsw.Messages.UpdateMessages.*;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ControllerScene3Players implements ControllerInterface {
     private GUIPrinter printer;
-    private GUI gui;
-    private ArrayList<Stage> stages;
     private ArrayList<ImageView> islands;
     private ArrayList<ImageView> clouds;
     private ArrayList<ImageView> assistantCards;
@@ -156,20 +149,144 @@ public class ControllerScene3Players implements ControllerInterface {
         lblPlayer3Name.setText("ciao3");
     }
 
-    //TODO ancora da modificare dopo l'aggiunta dei messaggi di update
-    public void updateGame(TypesOfUpdate selection, int index, Colors c, int num, HashMap<Colors, Integer> cloudStudents, int newController){
-        switch (selection) {
-            case STUDENTS_IN_ENTRANCE -> printer.modifyStudInEntrance(index, c, num);
-            case STUDENTS_IN_HALL -> printer.modifyStudInHall(index, c, num);
-            case TOWERS_ON_BOARD -> printer.modifyTowersOnBoard(index, num);
-            case CLOUDS -> printer.modifyCloud(index, cloudStudents);
-            case STUDENTS_ON_ISLAND -> printer.modifyIsland(index, c, num);
-            case MN -> printer.modifyMNPosition(index);
-            case CONTROLLER_ISLAND -> printer.modifyController(index, newController);
-            case ASSISTANT_CARD_USED -> printer.modifyAssistantCards(num);
-            case COINS -> printer.modifyCoins(index, num);
-            default -> {
+    @Override
+    public void updateGame(UpdateMessage message) {
+        if (message instanceof BoardUpdateMessage){
+            elaborateBoardUpdateMessage((BoardUpdateMessage) message);
+        }
+        if (message instanceof CloudsUpdateMessage){
+            elaborateCloudsUpdateMessage((CloudsUpdateMessage) message);
+        }
+        if (message instanceof MotherNatureUpdateMessage){
+            elaborateMotherNatureUpdateMessage((MotherNatureUpdateMessage) message);
+        }
+        if (message instanceof StudentMovedUpdateMessage){
+            elaborateStudentMovedUpdateMessage((StudentMovedUpdateMessage) message);
+        }
+        if (message instanceof EriantysUpdateMessage){
+            elaborateEriantysUpdateMessage((EriantysUpdateMessage) message);
+        }
+        if (message instanceof IslandsUpdateMessage){
+            elaborateIslandsUpdateMessage((IslandsUpdateMessage) message);
+        }
+        if (message instanceof TeachersUpdateMessage){
+            elaborateTeachersUpdateMessage((TeachersUpdateMessage) message);
+        }
+    }
+
+    public void elaborateBoardUpdateMessage(BoardUpdateMessage message){
+        Map<Colors, Integer> entrance = message.getEntrance();
+        Map<Colors, Integer> hall = message.getHall();
+        for(Colors c: Colors.values()) {
+            printer.modifyStudInEntrance(message.getPlayerIndex(), c, entrance.get(c));
+            printer.modifyStudInHall(message.getPlayerIndex(), c, hall.get(c));
+        }
+        printer.modifyTowersOnBoard(message.getPlayerIndex(), message.getTowers());
+    }
+
+    public void elaborateCloudsUpdateMessage(CloudsUpdateMessage message){
+        PrintCloudsMessage cloudsMessage = message.getPrintCloudsMessage();
+        for (int numCloud = 0; numCloud<Constants.getNumPlayers(); numCloud++){
+            printer.modifyCloud(numCloud, cloudsMessage.getClouds().get(numCloud));
+        }
+    }
+
+    public void elaborateIslandsUpdateMessage(IslandsUpdateMessage message){
+        ArrayList<PrintIslandMessage> islandMessages = message.getPrintIslandsMessage().getIslandMessages();
+        int[] towers = message.getTowers();
+        Map<String, Integer> nickToIndex = message.getNickToIndex();
+
+        for (int numIsland=0; numIsland < 12; numIsland++){
+            if (towers[numIsland]==0 || towers[numIsland]==1){
+                printer.printIsland(numIsland,
+                        nickToIndex.get(islandMessages.get(numIsland).getIslandController()),
+                        islandMessages.get(numIsland).getStudents(),
+                        islandMessages.get(numIsland).isMotherNatureInHere(),
+                        islandMessages.get(numIsland).getNumberOfTowers(),
+                        islandMessages.get(numIsland).getInhibitionCards()
+                );
             }
+            else {
+                printer.printIsland(numIsland,
+                        nickToIndex.get(islandMessages.get(numIsland).getIslandController()),
+                        islandMessages.get(numIsland).getStudents(),
+                        islandMessages.get(numIsland).isMotherNatureInHere(),
+                        islandMessages.get(numIsland).getNumberOfTowers(),
+                        islandMessages.get(numIsland).getInhibitionCards()
+                );
+                for (int i=1; i<towers[numIsland]; i++){
+                    printer.hideIsland(numIsland + i);
+                }
+                numIsland += towers[numIsland] - 1;
+            }
+        }
+    }
+
+    public void elaborateMotherNatureUpdateMessage(MotherNatureUpdateMessage message){
+        printer.modifyMNPosition(message.getPosition());
+    }
+
+    public void elaborateStudentMovedUpdateMessage(StudentMovedUpdateMessage message){
+        if (Objects.equals(message.getFromWhere().toLowerCase(), "entrance")){
+            printer.modifyStudInEntrance(message.getNickToIndex().get(message.getNickname()), message.getColor(), -1);
+        }
+        if (Objects.equals(message.getToWhere().toLowerCase(), "island")){
+            printer.modifyIsland(message.getIslandIndex(), message.getColor(), + 1);
+        }
+        if (Objects.equals(message.getToWhere().toLowerCase(), "hall")){
+            printer.modifyStudInHall(message.getNickToIndex().get(message.getNickname()), message.getColor(), +1);
+        }
+    }
+
+    public void elaborateTeachersUpdateMessage(TeachersUpdateMessage message){
+        PrintTeachersMessage teachersMessage = message.getPrintTeachersMessage();
+        for (int numPlayer=0; numPlayer<Constants.getNumPlayers(); numPlayer++){
+            boolean[] teachers = new boolean[5];
+            for (Colors c: Colors.values()){
+                if (teachersMessage.getNickToIndex().get(teachersMessage.getTeachers().get(c)) == numPlayer){
+                    teachers[c.ordinal()]=true;
+                }
+                else {
+                    teachers[c.ordinal()]=false;
+                }
+            }
+            printer.modifyTeachers(numPlayer, teachers);
+        }
+    }
+
+    public void elaborateEriantysUpdateMessage(EriantysUpdateMessage message){
+        //set dei nicknames
+        setNicknames(message.getPlayers());
+
+        //set students on board
+        PrintBoardMessage[] boards = message.getPrintBoardMessages();
+        for (int numPlayer=0; numPlayer<Constants.getNumPlayers(); numPlayer++){
+            Map<Colors, Integer> entrance = boards[numPlayer].getEntrance();
+            Map<Colors, Integer> hall = boards[numPlayer].getHall();
+            for(Colors c: Colors.values()){
+                printer.modifyStudInEntrance(numPlayer, c, entrance.get(c));
+                printer.modifyStudInHall(numPlayer, c, hall.get(c));
+            }
+            printer.modifyTowersOnBoard(numPlayer, boards[numPlayer].getNumberOfTowers());
+        }
+
+        //set students on islands
+        PrintIslandsMessage islands = message.getPrintIslandsMessage();
+        for (int numIsland=0; numIsland<12; numIsland++) {
+            PrintIslandMessage island = islands.getIslandMessages().get(numIsland);
+
+            printer.printIsland(numIsland,
+                    message.getNickToIndex().get(island.getIslandController()),
+                    island.getStudents(), islands.getIslandMessages().get(numIsland).isMotherNatureInHere(),
+                    islands.getIslandMessages().get(numIsland).getNumberOfTowers(),
+                    island.getInhibitionCards()
+            );
+        }
+
+        //set students on clouds
+        PrintCloudsMessage clouds = message.getPrintCloudsMessage();
+        for (int numCloud = 0; numCloud<Constants.getNumPlayers(); numCloud++){
+            printer.modifyCloud(numCloud, clouds.getClouds().get(numCloud));
         }
     }
 
