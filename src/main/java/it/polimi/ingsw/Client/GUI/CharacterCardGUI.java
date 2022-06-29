@@ -32,19 +32,19 @@ public class CharacterCardGUI {
         positionY = imgVw.getLayoutY();
 
         studImages = new ArrayList<>();
-        Image greenImage = new Image("file:src/main/resources/Images/Students and teachers/Green_S.png");
+        Image greenImage = new Image("file:../resources/Images/Students and teachers/Green_S.png");
         studImages.add(greenImage);
 
-        Image redImage = new Image("file:src/main/resources/Images/Students and teachers/Red_S.png");
+        Image redImage = new Image("file:../resources/Images/Students and teachers/Red_S.png");
         studImages.add(redImage);
 
-        Image yellowImage = new Image("file:src/main/resources/Images/Students and teachers/Yellow_S.png");
+        Image yellowImage = new Image("file:../resources/Images/Students and teachers/Yellow_S.png");
         studImages.add(yellowImage);
 
-        Image pinkImage = new Image("file:src/main/resources/Images/Students and teachers/Pink_S.png");
+        Image pinkImage = new Image("file:../resources/Images/Students and teachers/Pink_S.png");
         studImages.add(pinkImage);
 
-        Image blueImage = new Image("file:src/main/resources/Images/Students and teachers/Blue_S.png");
+        Image blueImage = new Image("file:../resources/Images/Students and teachers/Blue_S.png");
         studImages.add(blueImage);
     }
 

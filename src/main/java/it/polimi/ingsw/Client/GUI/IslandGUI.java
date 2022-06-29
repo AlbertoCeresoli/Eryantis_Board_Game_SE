@@ -84,7 +84,7 @@ public class IslandGUI {
         MN = new ImageView();
         MN.setLayoutX(positionX + 60); MN.setLayoutY(positionY + 20);
         MN.setFitWidth(20); MN.setFitHeight(40);
-        MN.setImage(new Image("file:src/main/resources/Images/Other_objects/MN.png"));
+        MN.setImage(new Image("file:"));
         anchorPane.getChildren().add(MN);
 
         imgVwIC = new ImageView();
@@ -110,7 +110,7 @@ public class IslandGUI {
         lblGreen.setLayoutX(green.getLayoutX() + 5); lblGreen.setLayoutY(green.getLayoutY());
         lblGreen.setFont(Font.font(15));
         lblColors.add(lblGreen);
-        Image greenImage = new Image("file:src/main/resources/Images/Students and teachers/Green_S.png");
+        Image greenImage = new Image("file:../resources/Images/Students and teachers/Green_S.png");
         green.setImage(greenImage);
         studColors.add(green);
         studImages.add(greenImage);
@@ -122,7 +122,7 @@ public class IslandGUI {
         lblRed.setLayoutX(red.getLayoutX() + 5); lblRed.setLayoutY(red.getLayoutY());
         lblRed.setFont(Font.font(15));
         lblColors.add(lblRed);
-        Image redImage = new Image("file:src/main/resources/Images/Students and teachers/Red_S.png");
+        Image redImage = new Image("file:../resources/Images/Students and teachers/Red_S.png");
         red.setImage(redImage);
         studColors.add(red);
         studImages.add(redImage);
@@ -134,7 +134,7 @@ public class IslandGUI {
         lblYellow.setLayoutX(yellow.getLayoutX() + 5); lblYellow.setLayoutY(yellow.getLayoutY());
         lblYellow.setFont(Font.font(15));
         lblColors.add(lblYellow);
-        Image yellowImage = new Image("file:src/main/resources/Images/Students and teachers/Yellow_S.png");
+        Image yellowImage = new Image("file:../resources/Images/Students and teachers/Yellow_S.png");
         yellow.setImage(yellowImage);
         studColors.add(yellow);
         studImages.add(yellowImage);
@@ -146,7 +146,7 @@ public class IslandGUI {
         lblPink.setLayoutX(pink.getLayoutX() + 5); lblPink.setLayoutY(pink.getLayoutY());
         lblPink.setFont(Font.font(15));
         lblColors.add(lblPink);
-        Image pinkImage = new Image("file:src/main/resources/Images/Students and teachers/Pink_S.png");
+        Image pinkImage = new Image("file:../resources/Images/Students and teachers/Pink_S.png");
         pink.setImage(pinkImage);
         studColors.add(pink);
         studImages.add(pinkImage);
@@ -158,7 +158,7 @@ public class IslandGUI {
         lblBlue.setLayoutX(blue.getLayoutX() + 5); lblBlue.setLayoutY(blue.getLayoutY());
         lblBlue.setFont(Font.font(15));
         lblColors.add(lblBlue);
-        Image blueImage = new Image("file:src/main/resources/Images/Students and teachers/Blue_S.png");
+        Image blueImage = new Image("file:../resources/Images/Students and teachers/Blue_S.png");
         blue.setImage(blueImage);
         studColors.add(blue);
         studImages.add(blueImage);
@@ -253,13 +253,13 @@ public class IslandGUI {
             case -1:
                 controller.setImage(new Image ("file:"));
             case 0:
-                controller.setImage(new Image("file:src/main/resources/Images/Other_objects/White_tower.png"));
+                controller.setImage(new Image("file:../resources/Images/Other_objects/White_tower.png"));
                 break;
             case 1:
-                controller.setImage(new Image("file:src/main/resources/Images/Other_objects/Grey_tower.png"));
+                controller.setImage(new Image("file:../resources/Images/Other_objects/Grey_tower.png"));
                 break;
             case 2:
-                controller.setImage(new Image("file:src/main/resources/Images/Other_objects/Black_tower.png"));
+                controller.setImage(new Image("file:../resources/Images/Other_objects/Black_tower.png"));
                 break;
             default: break;
         }
@@ -276,7 +276,7 @@ public class IslandGUI {
 
     public void setNumIC(int n){
         if (n>=1){
-            imgVwIC.setImage(new Image("file:src/main/resources/Images/Other_objects/InhibitionCard.png"));
+            imgVwIC.setImage(new Image("file:../resources/Images/Other_objects/InhibitionCard.png"));
         }
         numIC=n;
         lblIC.setText(String.valueOf(numIC));
@@ -300,7 +300,7 @@ public class IslandGUI {
             MN.setImage(new Image("file:"));
         }
         else if (isMNPresent()){
-            MN.setImage(new Image("file:src/main/resources/Images/Other_objects/MN.png"));
+            MN.setImage(new Image("file:../resources/Images/Other_objects/MN.png"));
         }
     }
 

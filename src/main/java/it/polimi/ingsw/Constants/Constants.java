@@ -149,62 +149,62 @@ public final class Constants {
 
     public static ArrayList<Image> createArrayImagesAC(){
         ArrayList<Image> assistantCards = new ArrayList<>();
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (1).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (2).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (3).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (4).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (5).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (6).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (7).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (8).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (9).png"));
-        assistantCards.add(new Image ("file:src/main/resources/Images/Assistants/Assistant (10).png"));
+        assistantCards.add(new Image ("file:../resources/Images/Assistants/Assistant (1).png"));
+        assistantCards.add(new Image ("file:../resources/Images/Assistants/Assistant (2).png"));
+        assistantCards.add(new Image ("file:../resources/Images/Assistants/Assistant (3).png"));
+        assistantCards.add(new Image ("file:../resources/Images/Assistants/Assistant (4).png"));
+        assistantCards.add(new Image ("file:../resources/Images/Assistants/Assistant (5).png"));
+        assistantCards.add(new Image ("file:../resources/Images/Assistants/Assistant (6).png"));
+        assistantCards.add(new Image ("file:../resources/Images/Assistants/Assistant (7).png"));
+        assistantCards.add(new Image ("file:../resources/Images/Assistants/Assistant (8).png"));
+        assistantCards.add(new Image ("file:../resources/Images/Assistants/Assistant (9).png"));
+        assistantCards.add(new Image ("file:../resources/Images/Assistants/Assistant (10).png"));
 
         return assistantCards;
     }
 
     public static ArrayList<Image> createArrayImagesIslands(){
         ArrayList<Image> islands = new ArrayList<>();
-        islands.add(new Image("file:src/main/resources/Images/Islands/Island1.png"));
-        islands.add(new Image("file:src/main/resources/Images/Islands/Island2.png"));
-        islands.add(new Image("file:src/main/resources/Images/Islands/Island3.png"));
-        islands.add(new Image("file:src/main/resources/Images/Islands/Island4.png"));
-        islands.add(new Image("file:src/main/resources/Images/Islands/Island5.png"));
-        islands.add(new Image("file:src/main/resources/Images/Islands/Island6.png"));
-        islands.add(new Image("file:src/main/resources/Images/Islands/Island7.png"));
-        islands.add(new Image("file:src/main/resources/Images/Islands/Island8.png"));
-        islands.add(new Image("file:src/main/resources/Images/Islands/Island9.png"));
-        islands.add(new Image("file:src/main/resources/Images/Islands/Island10.png"));
-        islands.add(new Image("file:src/main/resources/Images/Islands/Island11.png"));
-        islands.add(new Image("file:src/main/resources/Images/Islands/Island12.png"));
+        islands.add(new Image("file:../resources/Images/Islands/Island1.png"));
+        islands.add(new Image("file:../resources/Images/Islands/Island2.png"));
+        islands.add(new Image("file:../resources/Images/Islands/Island3.png"));
+        islands.add(new Image("file:../resources/Images/Islands/Island4.png"));
+        islands.add(new Image("file:../resources/Images/Islands/Island5.png"));
+        islands.add(new Image("file:../resources/Images/Islands/Island6.png"));
+        islands.add(new Image("file:../resources/Images/Islands/Island7.png"));
+        islands.add(new Image("file:../resources/Images/Islands/Island8.png"));
+        islands.add(new Image("file:../resources/Images/Islands/Island9.png"));
+        islands.add(new Image("file:../resources/Images/Islands/Island10.png"));
+        islands.add(new Image("file:../resources/Images/Islands/Island11.png"));
+        islands.add(new Image("file:../resources/Images/Islands/Island12.png"));
 
         return islands;
     }
 
     public static ArrayList<Image> createArrayImagesCC(){
         ArrayList<Image> characterCards = new ArrayList<>();
-        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC1.jpg"));
-        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC2.jpg"));
-        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC3.jpg"));
-        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC4.jpg"));
-        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC5.jpg"));
-        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC6.jpg"));
-        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC7.jpg"));
-        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC8.jpg"));
-        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC9.jpg"));
-        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC10.jpg"));
-        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC11.jpg"));
-        characterCards.add(new Image("file:src/main/resources/Images/Character_Cards/CC12.jpg"));
+        characterCards.add(new Image("file:../resources/Images/Character_Cards/CC1.jpg"));
+        characterCards.add(new Image("file:../resources/Images/Character_Cards/CC2.jpg"));
+        characterCards.add(new Image("file:../resources/Images/Character_Cards/CC3.jpg"));
+        characterCards.add(new Image("file:../resources/Images/Character_Cards/CC4.jpg"));
+        characterCards.add(new Image("file:../resources/Images/Character_Cards/CC5.jpg"));
+        characterCards.add(new Image("file:../resources/Images/Character_Cards/CC6.jpg"));
+        characterCards.add(new Image("file:../resources/Images/Character_Cards/CC7.jpg"));
+        characterCards.add(new Image("file:../resources/Images/Character_Cards/CC8.jpg"));
+        characterCards.add(new Image("file:../resources/Images/Character_Cards/CC9.jpg"));
+        characterCards.add(new Image("file:../resources/Images/Character_Cards/CC10.jpg"));
+        characterCards.add(new Image("file:../resources/Images/Character_Cards/CC11.jpg"));
+        characterCards.add(new Image("file:../resources/Images/Character_Cards/CC12.jpg"));
 
         return characterCards;
     }
 
     public static ArrayList<Image> createArrayImagesClouds(){
         ArrayList<Image> clouds = new ArrayList<>();
-        clouds.add(new Image("file:src/main/resources/Images/Clouds/2_Players/3_Players/3P_Cloud1.png"));
-        clouds.add(new Image("file:src/main/resources/Images/Clouds/2_Players/3_Players/3P_Cloud2.png"));
+        clouds.add(new Image("file:../resources/Images/Clouds/2_Players/3_Players/3P_Cloud1.png"));
+        clouds.add(new Image("file:../resources/Images/Clouds/2_Players/3_Players/3P_Cloud2.png"));
         if (numPlayers==3) {
-            clouds.add(new Image("file:src/main/resources/Images/Clouds/2_Players/3_Players/3P_Cloud3.png"));
+            clouds.add(new Image("file:../resources/Images/Clouds/2_Players/3_Players/3P_Cloud3.png"));
         }
 
         return clouds;

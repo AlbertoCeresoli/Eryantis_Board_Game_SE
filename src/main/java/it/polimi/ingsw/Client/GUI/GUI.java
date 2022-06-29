@@ -92,15 +92,6 @@ public class GUI extends Application {
         stage.setScene(scene);
         stage.show();
 
-        controller.setCC(new int[]{1, 5, 3});
-        Map<Colors, Integer> students = new HashMap<>();
-        students.put(Colors.YELLOW, 2);
-        students.put(Colors.GREEN, 2);
-        students.put(Colors.RED, 0);
-        students.put(Colors.BLUE, 0);
-        students.put(Colors.PINK, 0);
-        controller.getPrinter().modifyStudentsOnCharacterCard(1, students);
-
         stage.setOnCloseRequest(event -> {
             //chiusura del socket TODO
             quitGUI();
@@ -115,7 +106,7 @@ public class GUI extends Application {
 
     public void stageSettings(Stage stage){
         //set the icon of the stage
-        Image cranioLogo = new Image("file:src/main/resources/Images/LOGO.png");
+        Image cranioLogo = new Image("file:../resources/Images/LOGO.png");
         stage.getIcons().add(cranioLogo);
 
         stage.setTitle("Eriantys"); //change the title of the stage

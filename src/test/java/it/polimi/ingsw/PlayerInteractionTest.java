@@ -33,7 +33,7 @@ public class PlayerInteractionTest {
     @DisplayName("simple cases normal check")
     void testCheckTeacher(){
         int[] V0 = {1,3,4,3,1};
-        int[] V1 = {0,4,2,3,1};
+        int[] V1 = {0,4,2,3,3};
         //int[] player2 = {5,3,1,7,9};
         int i=0;
         Map<Colors, Integer> player0 = new HashMap<>();
