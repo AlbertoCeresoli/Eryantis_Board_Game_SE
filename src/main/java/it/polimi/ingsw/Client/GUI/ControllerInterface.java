@@ -20,5 +20,7 @@ public interface ControllerInterface {
 
     void setNicknames(Map<Integer, String> indexToNick);
 
+    void setCC(int[] cardIndexes);
+
     GUIPrinter getPrinter();
 }

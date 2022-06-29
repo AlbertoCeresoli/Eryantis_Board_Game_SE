@@ -133,10 +133,10 @@ public class ControllerScene2Players implements ControllerInterface {
             characterCard2.toBack();
             characterCard3.toBack();
         }
+    }
 
-        //setUp of the nicknames TODO delete
-        //lblPlayer1Name.setText("");
-        //lblPlayer2Name.setText("");
+    public void setCC(int[] cardIndexes){
+        printer.setCharacterCards(cardIndexes, anchorPane);
     }
 
     @Override

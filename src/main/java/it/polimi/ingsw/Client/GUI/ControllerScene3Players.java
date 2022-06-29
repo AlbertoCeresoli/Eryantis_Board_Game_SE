@@ -149,6 +149,10 @@ public class ControllerScene3Players implements ControllerInterface {
         lblPlayer3Name.setText("ciao3");
     }
 
+    public void setCC(int[] cardIndexes){
+        printer.setCharacterCards(cardIndexes, anchorPane);
+    }
+
     @Override
     public void updateGame(UpdateMessage message) {
         if (message instanceof BoardUpdateMessage){

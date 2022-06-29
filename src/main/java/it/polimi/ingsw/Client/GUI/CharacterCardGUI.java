@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.GUI;
 
+import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -9,13 +10,17 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class CharacterCardGUI {
     private final ImageView imageView;
     private Image image;
     private double positionX;
     private double positionY;
+    private int index;
     private String effect;
+    private ArrayList<ImageView> students;
+    private ArrayList<Image> studImages;
 
     /**
      * Constructor of the character card. memorize the ImageView and his position.
@@ -26,17 +31,31 @@ public class CharacterCardGUI {
         positionX = imgVw.getLayoutX();
         positionY = imgVw.getLayoutY();
 
-        imageView.setImage(new Image("file:src/main/resources/Images/Character_Cards/CC1.jpg"));
-        effect = Constants.MONK_EFFECT;
+        studImages = new ArrayList<>();
+        Image greenImage = new Image("file:src/main/resources/Images/Students and teachers/Green_S.png");
+        studImages.add(greenImage);
+
+        Image redImage = new Image("file:src/main/resources/Images/Students and teachers/Red_S.png");
+        studImages.add(redImage);
+
+        Image yellowImage = new Image("file:src/main/resources/Images/Students and teachers/Yellow_S.png");
+        studImages.add(yellowImage);
+
+        Image pinkImage = new Image("file:src/main/resources/Images/Students and teachers/Pink_S.png");
+        studImages.add(pinkImage);
+
+        Image blueImage = new Image("file:src/main/resources/Images/Students and teachers/Blue_S.png");
+        studImages.add(blueImage);
     }
 
     /**
      * Binds the ImageView with the correct image and effect
      * @param index of the characted card
      */
-    public void setCC(int index){
+    public void setCC(int index, AnchorPane anchorPane){
+        this.index=index;
         ArrayList<Image> CCImages = Constants.createArrayImagesCC();
-        image = CCImages.get(index);
+        image = CCImages.get(index - 1);
         imageView.setImage(image);
 
         switch (index){
@@ -78,6 +97,46 @@ public class CharacterCardGUI {
                 break;
             default:
                 break;
+        }
+
+        if (index == 1){
+            createStudImageViews(4, anchorPane);
+        }
+        else if (index == 7){
+            createStudImageViews(6, anchorPane);
+        }
+        else if (index == 11){
+            createStudImageViews(4, anchorPane);
+        }
+    }
+
+    /**
+     * creates the imageViews of the students if requested
+     * @param numStuds number of the students
+     * @param anchorPane used to add the imageViews of the students
+     */
+    public void createStudImageViews(int numStuds, AnchorPane anchorPane){
+        students = new ArrayList<>();
+
+        for (int numStud=0; numStud<numStuds; numStud++){
+            ImageView s = new ImageView();
+            s.setLayoutX(positionX + 30 * (numStud % 2));
+            s.setLayoutY(positionY +  30 * (numStud / 2));
+            s.setFitWidth(25); s.setFitHeight(25);
+            anchorPane.getChildren().add(s);
+            students.add(s);
+        }
+    }
+
+    public void setStudents(Map<Colors, Integer> studs){
+        int counter = 0;
+        for (Colors c: Colors.values()){
+            if (studs.get(c)>0){
+                for (int i=0; i<studs.get(c); i++) {
+                    students.get(counter).setImage(studImages.get(c.ordinal()));
+                    counter++;
+                }
+            }
         }
     }
 
@@ -122,5 +181,13 @@ public class CharacterCardGUI {
         Constants.zoomObject(imageView, -2, -2);
 
         anchorPane.getChildren().remove(effects.get(numCC));
+
+        for (int numStud=0; numStud<students.size(); numStud++){
+            students.get(numStud).toFront();
+        }
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

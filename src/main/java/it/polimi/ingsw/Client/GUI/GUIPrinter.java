@@ -277,7 +277,23 @@ public class GUIPrinter {
         coins.get(playerIndex).updateCoins(coinsAdded);
     }
 
+    public void modifyStudentsOnCharacterCard(int cardIndex, Map<Colors, Integer> students){
+        for (int numCard=0; numCard<3; numCard++){
+            if (characterCards.get(numCard).getIndex()== cardIndex){
+                characterCards.get(numCard).setStudents(students);
+            }
+        }
+    }
+
+    public void setCharacterCards(int[] indexes, AnchorPane anchorPane){
+        for (int CardIndex=0; CardIndex < 3; CardIndex++){
+            characterCards.get(CardIndex).setCC(indexes[CardIndex], anchorPane);
+        }
+    }
+
     public void modifyTeachers(int playerIndex, boolean[] teachers){
         boards.get(playerIndex).updateTeachers(teachers);
     }
+
+
 }
