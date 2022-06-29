@@ -470,4 +470,6 @@ public class ControllerScene2Players implements ControllerInterface {
     public void printEasyMessage(String text) {
         txtAreaChat.appendText(text + "\n");
     }
+
+
 }

@@ -68,10 +68,9 @@ public class GUI extends Application {
         guiNetworkConnection.sendMessageToServer(selection);
     }
 
-
     public void stageSettings(Stage stage){
         //set the icon of the stage
-        Image cranioLogo = new Image("file:../resources/Images/LOGO.png");
+        Image cranioLogo = new Image("file:src/resources/Images/LOGO.png");
         stage.getIcons().add(cranioLogo);
 
         stage.setTitle("Eriantys"); //change the title of the stage

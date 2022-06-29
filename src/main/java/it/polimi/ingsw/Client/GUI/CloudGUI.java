@@ -87,11 +87,11 @@ public class CloudGUI {
      * used to fill the arrayList of the students images
      */
     public void setUpImages(){
-        studImages.add(new Image("file:../resources/Images/Students and teachers/Green_S.png"));
-        studImages.add(new Image("file:../resources/Images/Students and teachers/Red_S.png"));
-        studImages.add(new Image("file:../resources/Images/Students and teachers/Yellow_S.png"));
-        studImages.add(new Image("file:../resources/Images/Students and teachers/Pink_S.png"));
-        studImages.add(new Image("file:../resources/Images/Students and teachers/Blue_S.png"));
+        studImages.add(new Image("file:src/resources/Images/Students and teachers/Green_S.png"));
+        studImages.add(new Image("file:src/resources/Images/Students and teachers/Red_S.png"));
+        studImages.add(new Image("file:src/resources/Images/Students and teachers/Yellow_S.png"));
+        studImages.add(new Image("file:src/resources/Images/Students and teachers/Pink_S.png"));
+        studImages.add(new Image("file:src/resources/Images/Students and teachers/Blue_S.png"));
 
     }
 
