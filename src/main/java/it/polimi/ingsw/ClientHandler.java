@@ -27,7 +27,6 @@ public class ClientHandler implements Runnable {
     private boolean yourTurn;
     private final Object lock;
     private Thread gameHandler;
-    private Server server;
 
     /**
      * Constructor which instantiates channel dedicated to the handling of each client
@@ -277,9 +276,5 @@ public class ClientHandler implements Runnable {
 
     public void setGameHandler(GameHandler gameHandler) {
         this.gameHandler = gameHandler;
-    }
-
-    public void setClients(ArrayList<ClientHandler> clients) {
-
     }
 }

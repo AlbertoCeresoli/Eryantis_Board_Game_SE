@@ -23,8 +23,6 @@ public class CLI implements Runnable, UI {
 	private final FromServerMessagesReader fromServerMessagesReader;
 	private final ClientPrinter clientPrinter;
 	private boolean activeGame;
-	private static String IPaddress;
-	private static int serverPort;
 
 	public static void main(String[] args) throws IOException {
 		//connection to server
@@ -33,11 +31,12 @@ public class CLI implements Runnable, UI {
 		Scanner scanner = new Scanner(System.in);
 
 		System.out.println("insert the IP address:");
-		IPaddress = scanner.nextLine();
-		System.out.println("insert the server port:");
-		serverPort = scanner.nextInt();
+		String IPAddress = scanner.nextLine();
 
-		Socket socket = new Socket(IPaddress, serverPort);
+		System.out.println("insert the server port:");
+		int serverPort = scanner.nextInt();
+
+		Socket socket = new Socket(IPAddress, serverPort);
 
 		CLI cli = new CLI(socket);
 

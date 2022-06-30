@@ -125,6 +125,5 @@ public class Server {
             pool.execute(client);
             client.setGameHandler(gh);
         }
-        clients.get(0).setClients(clients);
     }
 }

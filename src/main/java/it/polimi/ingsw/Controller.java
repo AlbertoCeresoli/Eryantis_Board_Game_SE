@@ -117,6 +117,10 @@ public class Controller {
      * and their order of play in the action phase is decided up to the priority of the cards they choose.
      */
     private void planningPhase() throws InterruptedException, IOException {
+        for (int i = 0; i < Constants.getNumPlayers(); i++) {
+            gameHandler.newMessage(i, new AssistantCardUpdateMessage(gameHandler.printAssistantCards(i), i));
+        }
+
         //fill the clouds with the new students
         model.getBagNClouds().studentsBagToCloud();
 
@@ -200,8 +204,6 @@ public class Controller {
             do {
                 temp = gameHandler.requestInformation(ObjectsToSelect.ASSISTANT_CARD, actualTurnPlayer);
             } while (temp.equals("false"));
-
-            gameHandler.newMessage(i, new AssistantCardUpdateMessage(gameHandler.printAssistantCards(i), i));
 
             lastAssistantCardsPlayed[actualTurnPlayer] = Integer.parseInt(temp);
         }
@@ -320,7 +322,6 @@ public class Controller {
      * The player chooses how many steps mother nature will move, then the influence is calculated on the island selected.
      * Eventually checkEnd looks for a candidate winner if model.moveMN throws an EndGameException
      * @param cards cards played this turn to not exceed the max amount of steps for mother nature
-     * @return true (ending the game) if an EndGameException occurs
      */
     private void moveMN(int[] cards) throws InterruptedException, IOException, EndGameException {
         String temp;
