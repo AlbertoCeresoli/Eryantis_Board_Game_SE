@@ -15,6 +15,7 @@ public class Server {
     static ServerSocket serverSocket;
     private static final ArrayList<ClientHandler> clients = new ArrayList<>();
 
+
     public static void main(String[] args) throws IOException {
         //server creation
         serverSocket = new ServerSocket(1234);

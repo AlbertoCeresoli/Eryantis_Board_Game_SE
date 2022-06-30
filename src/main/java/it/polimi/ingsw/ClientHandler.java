@@ -50,6 +50,11 @@ public class ClientHandler implements Runnable {
      * The run-method first asks for general info about the client and keep listening on the client's channel
      * elaborating his request depending on what info the controller needs.
      * <p>Requests which starts with "/" have an higher priority and are handled at server-level (these aren't passed to the game controller)</p>
+     * <p>The first of the two boolean in the if-conditions values are used to check if the game-logic is waiting for input from this specific client,
+     * the second states whether the latestMessage attribute contains a valid input (which hasn't been managed yet); if yes, the
+     * first input provided will be bind to the game-logic's specific request;</p>
+     * <p>At any time, if the channel on which the server is listening goes down due to a disconnection or to a communication issue, an
+     * IOException will be thrown and immediately managed notifying the other players and closing all the sockets</p>
      */
     @Override
     public void run() {
