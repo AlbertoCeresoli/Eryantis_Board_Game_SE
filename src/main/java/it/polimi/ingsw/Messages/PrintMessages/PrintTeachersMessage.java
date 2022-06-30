@@ -7,10 +7,12 @@ import java.util.Map;
 
 public class PrintTeachersMessage implements PrintMessage{
 	private final Map<Colors, String> teachers;
-	Map<String, Integer> nickToIndex;
+	private final Map<String, Integer> nickToIndex;
 
-	public PrintTeachersMessage(Map<Colors, Integer> teachers, Map<Integer, String> players, Map<String, Integer> nickToIndex) {
+	public PrintTeachersMessage(Map<Colors, Integer> teachers, Map<Integer, String> players,
+								Map<String, Integer> nickToIndex) {
 		this.teachers = new HashMap<>();
+		this.nickToIndex = new HashMap<>();
 
 		for (Colors c : Colors.values()) {
 			if (teachers.get(c) == -1) {
@@ -21,7 +23,10 @@ public class PrintTeachersMessage implements PrintMessage{
 			}
 		}
 
-		this.nickToIndex = nickToIndex;
+		for (String nick : nickToIndex.keySet()) {
+			this.nickToIndex.put(nick, nickToIndex.get(nick));
+		}
+		this.nickToIndex.put("Nobody", -1);
 	}
 
 	public Map<Colors, String> getTeachers() {

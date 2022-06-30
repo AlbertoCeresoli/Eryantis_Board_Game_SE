@@ -16,8 +16,8 @@ public class GameHandler extends Thread {
     private final ArrayList<ClientHandler> clientHandlers;
     private final Controller controller;
     private final MessageGenerator messageGenerator;
-    Map<Integer, String> indexToNick;
-    Map<String, Integer> nickToIndex;
+    private final Map<Integer, String> indexToNick;
+    private final Map<String, Integer> nickToIndex;
 
     public GameHandler(ArrayList<ClientHandler> clients) {
         this.clientHandlers = clients;
@@ -29,6 +29,11 @@ public class GameHandler extends Thread {
         for (int i = 0; i < clients.size(); i++) {
             this.indexToNick.put(i, clients.get(i).getNickName().toLowerCase());
             this.nickToIndex.put(clients.get(i).getNickName().toLowerCase(), i);
+
+            for (String nick : nickToIndex.keySet()) {
+                System.out.println(nick);
+                System.out.println(nickToIndex.get(nick));
+            }
         }
     }
 
@@ -284,7 +289,7 @@ public class GameHandler extends Thread {
         PrintBoardMessage message;
         message = new PrintBoardMessage(indexToNick.get(playerIndex),
                 controller.getModel().getPlayerInteraction().getPlayer(playerIndex).getBoard(),
-                controller.getModel().getIslandInteraction().getTowersByPlayer()[playerIndex], nickToIndex);
+                controller.getModel().getIslandInteraction().getTowersByPlayer()[playerIndex], playerIndex);
         return message;
     }
 
@@ -326,5 +331,9 @@ public class GameHandler extends Thread {
 
     public Map<Integer, String> getIndexToNick() {
         return indexToNick;
+    }
+
+    public Map<String, Integer> getNickToIndex() {
+        return nickToIndex;
     }
 }

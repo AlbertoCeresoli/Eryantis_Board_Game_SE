@@ -4,6 +4,7 @@ import it.polimi.ingsw.Messages.PrintMessages.PrintBoardMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintCloudsMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintIslandsMessage;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class EriantysUpdateMessage implements UpdateMessage {
@@ -11,15 +12,26 @@ public class EriantysUpdateMessage implements UpdateMessage {
     private final PrintBoardMessage[] printBoardMessages;
     private final PrintIslandsMessage printIslandsMessage;
     private final PrintCloudsMessage printCloudsMessage;
-    Map<String, Integer> nickToIndex;
+    private final Map<String, Integer> nickToIndex;
 
     public EriantysUpdateMessage(Map<Integer, String> players, PrintBoardMessage[] printBoardMessages,
-                                 PrintIslandsMessage printIslandsMessage, PrintCloudsMessage printCloudsMessage, Map<String, Integer> nickToIndex) {
-        this.players = players;
+                                 PrintIslandsMessage printIslandsMessage, PrintCloudsMessage printCloudsMessage,
+                                 Map<String, Integer> nickToIndex) {
+        this.players = new HashMap<>();
+
+        for (int index : players.keySet()) {
+            this.players.put(index, players.get(index));
+        }
+
         this.printBoardMessages = printBoardMessages;
         this.printIslandsMessage = printIslandsMessage;
         this.printCloudsMessage = printCloudsMessage;
-        this.nickToIndex = nickToIndex;
+
+        this.nickToIndex = new HashMap<>();
+        for (String nick : nickToIndex.keySet()) {
+            this.nickToIndex.put(nick, nickToIndex.get(nick));
+        }
+        this.nickToIndex.put("Nobody", -1);
     }
 
     public Map<Integer, String> getPlayers() {

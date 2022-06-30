@@ -252,6 +252,7 @@ public class IslandGUI {
         switch (PlayerIndex) {
             case -1:
                 controller.setImage(new Image ("file:"));
+                break;
             case 0:
                 controller.setImage(new Image("file:src/resources/Images/Other_objects/White_tower.png"));
                 break;

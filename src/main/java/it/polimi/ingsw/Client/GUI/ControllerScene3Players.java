@@ -276,15 +276,12 @@ public class ControllerScene3Players implements ControllerInterface {
 
         //set students on islands
         PrintIslandsMessage islands = message.getPrintIslandsMessage();
-        for (int numIsland=0; numIsland<12; numIsland++) {
+        for (int numIsland=0; numIsland<islands.getIslandMessages().size(); numIsland++) {
             PrintIslandMessage island = islands.getIslandMessages().get(numIsland);
 
-            printer.printIsland(numIsland,
-                    message.getNickToIndex().get(island.getIslandController()),
-                    island.getStudents(), islands.getIslandMessages().get(numIsland).isMotherNatureInHere(),
-                    islands.getIslandMessages().get(numIsland).getNumberOfTowers(),
-                    island.getInhibitionCards()
-            );
+            printer.printIsland(island.getIslandIndex(), message.getNickToIndex().get(island.getIslandController()),
+                    island.getStudents(), island.isMotherNatureInHere(), island.getNumberOfTowers(),
+                    island.getInhibitionCards());
         }
 
         //set students on clouds

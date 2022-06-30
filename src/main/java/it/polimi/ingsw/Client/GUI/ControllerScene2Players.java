@@ -265,12 +265,9 @@ public class ControllerScene2Players implements ControllerInterface {
         for (int numIsland=0; numIsland<12; numIsland++) {
             PrintIslandMessage island = islands.getIslandMessages().get(numIsland);
 
-            printer.printIsland(numIsland,
-                    message.getNickToIndex().get(island.getIslandController()),
-                    island.getStudents(), islands.getIslandMessages().get(numIsland).isMotherNatureInHere(),
-                    islands.getIslandMessages().get(numIsland).getNumberOfTowers(),
-                    island.getInhibitionCards()
-                    );
+            printer.printIsland(island.getIslandIndex(), message.getNickToIndex().get(island.getIslandController()),
+                    island.getStudents(), island.isMotherNatureInHere(), island.getNumberOfTowers(),
+                    island.getInhibitionCards());
         }
 
         //set students on clouds

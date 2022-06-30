@@ -11,12 +11,12 @@ public class PrintBoardMessage implements PrintMessage{
 	private final Map<Colors, Integer> entrance;
 	private final Map<Colors, Integer> hall;
 	private final int numberOfTowers;
-	private final Map<String, Integer> nickToIndex;
+	private final int playerIndex;
 
 	public PrintBoardMessage(String nickname, Board board,
-							 int towers, Map<String, Integer> nickToIndex) {
-		this.nickname = nickname;
+							 int towers, int index) {
 
+		this.nickname = nickname;
 		this.entrance = new HashMap<>();
 		this.hall = new HashMap<>();
 
@@ -27,10 +27,7 @@ public class PrintBoardMessage implements PrintMessage{
 
 		this.numberOfTowers = towers;
 
-		this.nickToIndex = new HashMap<>();
-		for (String nick : nickToIndex.keySet()) {
-			this.nickToIndex.put(nick, nickToIndex.get(nick));
-		}
+		this.playerIndex = index;
 	}
 
 	public String getNickname() {
@@ -49,7 +46,7 @@ public class PrintBoardMessage implements PrintMessage{
 		return numberOfTowers;
 	}
 
-	public Map<String, Integer> getNickToIndex() {
-		return nickToIndex;
+	public int getPlayerIndex() {
+		return playerIndex;
 	}
 }

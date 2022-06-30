@@ -29,9 +29,6 @@ public class GUINetworkConnection implements UI {
         this.gui = gui;
         Scanner scanner = new Scanner(System.in);
 
-        //TODO
-        //gui.getSelection().selectIP(this);
-        //gui.getSelection().selectServerPort(this);
         System.out.println("insert the IP address:");
         IPaddress = scanner.nextLine();
         System.out.println("insert the server port:");
@@ -110,8 +107,7 @@ public class GUINetworkConnection implements UI {
             gui.getController().onClickACP1();
         }
         if (message instanceof PrintBoardMessage) {
-            gui.getController().onClickBoard(((PrintBoardMessage) message).getNickToIndex().
-                    get(((PrintBoardMessage) message).getNickname()));
+            gui.getController().onClickBoard(((PrintBoardMessage) message).getPlayerIndex());
         }
         if (message instanceof PrintCharacterCardsMessage) {
             gui.getController().onClickCharacterCards();

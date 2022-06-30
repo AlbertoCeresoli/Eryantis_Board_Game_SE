@@ -67,12 +67,13 @@ public class Controller {
 
         PrintBoardMessage[] printBoardMessages = new PrintBoardMessage[Constants.getNumPlayers()];
         for (int i = 0; i < Constants.getNumPlayers(); i++) {
-            printBoardMessages[i] = new PrintBoardMessage(gameHandler.indexToNick.get(i), model.getPlayerInteraction().getPlayer(i).getBoard(),
-                    model.getIslandInteraction().getTowersByPlayer()[i], gameHandler.nickToIndex);
+            printBoardMessages[i] = new PrintBoardMessage(gameHandler.getIndexToNick().get(i),
+                    model.getPlayerInteraction().getPlayer(i).getBoard(),
+                    model.getIslandInteraction().getTowersByPlayer()[i], i);
         }
 
-        gameHandler.messageToAll(new EriantysUpdateMessage(gameHandler.indexToNick, printBoardMessages,
-                gameHandler.printIslands(), gameHandler.printClouds(), gameHandler.nickToIndex));
+        gameHandler.messageToAll(new EriantysUpdateMessage(gameHandler.getIndexToNick(), printBoardMessages,
+                gameHandler.printIslands(), gameHandler.printClouds(), gameHandler.getNickToIndex()));
 
         firstPlayer();
 
@@ -105,7 +106,7 @@ public class Controller {
             throw new RuntimeException(e);
         } catch (EndGameException e){
             int winner = getModel().getWinner();
-            gameHandler.messageToAll("The winner is " + gameHandler.indexToNick.get(winner));
+            gameHandler.messageToAll("The winner is " + gameHandler.getIndexToNick().get(winner));
             gameHandler.messageToAll(new GameAbortedMessage("Game is finished!!"));
         }
     }
@@ -279,7 +280,8 @@ public class Controller {
 
         if (temp.equalsIgnoreCase("Hall")) {
             model.moveFromEntranceToHall(color, actualTurnPlayer);
-            gameHandler.messageToAll(new StudentMovedUpdateMessage(gameHandler.indexToNick.get(actualTurnPlayer), "Entrance", "Hall", color, gameHandler.nickToIndex));
+            gameHandler.messageToAll(new StudentMovedUpdateMessage(gameHandler.getIndexToNick().get(actualTurnPlayer),
+                    "Entrance", "Hall", color, gameHandler.getNickToIndex()));
             gameHandler.messageToAll(new TeachersUpdateMessage(gameHandler.printTeachers()));
         }
 
@@ -292,8 +294,8 @@ public class Controller {
 
             index = Integer.parseInt(temp);
             model.moveFromEntranceToIsland(color, actualTurnPlayer, index);
-            gameHandler.messageToAll(new StudentMovedUpdateMessage(gameHandler.indexToNick.get(actualTurnPlayer),
-                    "Entrance", "Island", index, color, gameHandler.nickToIndex));
+            gameHandler.messageToAll(new StudentMovedUpdateMessage(gameHandler.getIndexToNick().get(actualTurnPlayer),
+                    "Entrance", "Island", index, color, gameHandler.getNickToIndex()));
         }
     }
 
@@ -318,10 +320,10 @@ public class Controller {
 
 
         index = Integer.parseInt(temp);
-            model.moveMN(index);
+        model.moveMN(index);
 
-            gameHandler.messageToAll(new IslandsUpdateMessage(gameHandler.printIslands(),
-                    model.getIslandInteraction().getTowersByPlayer(), gameHandler.nickToIndex));
+        gameHandler.messageToAll(new IslandsUpdateMessage(gameHandler.printIslands(),
+                model.getIslandInteraction().getTowersByPlayer(), gameHandler.getNickToIndex()));
 
     }
 
@@ -345,7 +347,7 @@ public class Controller {
         gameHandler.messageToAll(new CloudsUpdateMessage(gameHandler.printClouds()));
         gameHandler.messageToAll(new BoardUpdateMessage(model.getPlayerInteraction().getPlayer(actualTurnPlayer).getBoard().getStudEntrance(),
                 model.getPlayerInteraction().getPlayer(actualTurnPlayer).getBoard().getStudHall(),
-                gameHandler.indexToNick.get(actualTurnPlayer), actualTurnPlayer,
+                gameHandler.getIndexToNick().get(actualTurnPlayer), actualTurnPlayer,
                 model.getIslandInteraction().getTowersByPlayer()[actualTurnPlayer]));
     }
 
