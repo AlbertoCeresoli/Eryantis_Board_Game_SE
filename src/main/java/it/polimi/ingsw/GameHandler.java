@@ -119,7 +119,7 @@ public class GameHandler extends Thread {
                 String temp;
                 do {
                     temp = requestInformation(ObjectsToSelect.CHARACTER_CARD, player);
-                } while (!temp.equals("false"));
+                } while (temp.equals("false"));
 
                 cardNumber = Integer.parseInt(temp);
                 controller.playCard(cardNumber, player);

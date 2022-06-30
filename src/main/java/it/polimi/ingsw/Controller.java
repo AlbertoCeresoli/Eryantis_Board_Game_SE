@@ -8,7 +8,6 @@ import it.polimi.ingsw.Exceptions.EndGameException;
 import it.polimi.ingsw.Messages.GameAbortedMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintBoardMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintCloudsMessage;
-import it.polimi.ingsw.Messages.PrintMessages.PrintIslandsMessage;
 import it.polimi.ingsw.Messages.SelectionMessages.*;
 import it.polimi.ingsw.Messages.UpdateMessages.*;
 import it.polimi.ingsw.Model.Model;
@@ -536,16 +535,10 @@ public class Controller {
 
                         color = selectColor();
 
-                        while (thatColorIsNotAvailable(getModel().getCharacterCards()[cardPlayed].getStudents(),
-                                color, StudMap1.get(color) + 1)) {
-                            gameHandler.newMessage(player, "That color is not available on the card, please select another one");
-                            color = selectColor();
-                        }
-
                         break;
                 }
 
-                gameHandler.newMessage(player, "Card " + getModel().getCharacterCards()[cardPlayed].getCardIndex() + " played");
+                gameHandler.newMessage(player, "Card " + getModel().getCharacterCards()[cardPlayed].getName() + " played");
 
                 try {
                     getModel().getCharacterCards()[cardPlayed].useEffect(index, color, StudMap1, StudMap2);
@@ -567,10 +560,10 @@ public class Controller {
         String temp;
 
         do {
-            temp = gameHandler.requestInformation(ObjectsToSelect.COLOR, -1);
+            temp = gameHandler.requestInformation(ObjectsToSelect.COLOR, actualTurnPlayer);
         } while (temp.equals("false"));
 
-        color = Colors.valueOf(temp);
+        color = Colors.valueOf(temp.toUpperCase());
 
         return color;
     }
@@ -579,7 +572,7 @@ public class Controller {
         String temp;
 
         do {
-            temp = gameHandler.requestInformation(ObjectsToSelect.ISLAND, -1);
+            temp = gameHandler.requestInformation(ObjectsToSelect.ISLAND, actualTurnPlayer);
         } while (temp.equals("false"));
 
         return Integer.parseInt(temp);
