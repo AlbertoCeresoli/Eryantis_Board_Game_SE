@@ -330,9 +330,11 @@ public class BoardGUI {
     public void updateTeachers (boolean[] colors){
         for (Colors c: Colors.values()){
             if (colors[c.ordinal()]){
+                teachersOnBoard.put(c, true);
                 teachers.get(c.ordinal()).setImage(teacherImages.get(c.ordinal()));
             }
             else {
+                teachersOnBoard.put(c, false);
                 teachers.get(c.ordinal()).setImage(new Image("file:"));
             }
         }

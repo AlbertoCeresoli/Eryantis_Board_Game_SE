@@ -47,7 +47,7 @@
       <ImageView fx:id="assistantCard7" fitHeight="150.0" fitWidth="100.0" layoutX="644.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="assistantCard8" fitHeight="150.0" fitWidth="100.0" layoutX="664.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="assistantCard9" fitHeight="150.0" fitWidth="100.0" layoutX="684.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
-      <TextArea fx:id="txtAreaChat" editable="false" layoutX="800.0" prefHeight="575.0" prefWidth="200.0" />
+      <TextArea fx:id="txtAreaChat" editable="false" layoutX="800.0" prefHeight="575.0" prefWidth="200.0" wrapText="true" />
       <TextField fx:id="txtField" layoutX="801.0" layoutY="574.0" prefHeight="25.0" prefWidth="198.0" />
       <Rectangle fx:id="rectOpaqueBackground" arcHeight="5.0" arcWidth="5.0" fill="#111111" height="1.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="1.0" />
       <ImageView fx:id="island1" fitHeight="71.0" fitWidth="87.0" layoutX="10.0" layoutY="250.0" pickOnBounds="true" preserveRatio="true" />

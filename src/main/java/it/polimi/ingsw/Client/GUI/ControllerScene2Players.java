@@ -187,7 +187,7 @@ public class ControllerScene2Players implements ControllerInterface {
         Map<String, Integer> nickToIndex = message.getNickToIndex();
 
         for (int numIsland=0; numIsland < 12; numIsland++){
-            if (towers[numIsland]==0 || towers[numIsland]==1){
+            if (islandMessages.get(numIsland).getNumberOfTowers()==0 || islandMessages.get(numIsland).getNumberOfTowers()==1){
                 printer.printIsland(numIsland,
                         nickToIndex.get(islandMessages.get(numIsland).getIslandController()),
                         islandMessages.get(numIsland).getStudents(),
@@ -204,11 +204,15 @@ public class ControllerScene2Players implements ControllerInterface {
                         islandMessages.get(numIsland).getNumberOfTowers(),
                         islandMessages.get(numIsland).getInhibitionCards()
                 );
-                for (int i=1; i<towers[numIsland]; i++){
+                for (int i=1; i<islandMessages.get(numIsland).getNumberOfTowers(); i++){
                     printer.hideIsland(numIsland + i);
                 }
-                numIsland += towers[numIsland] - 1;
+                numIsland += islandMessages.get(numIsland).getNumberOfTowers() - 1;
             }
+        }
+
+        for (int numPlayer=0; numPlayer<Constants.getNumPlayers(); numPlayer++){
+            printer.modifyTowersOnBoard(numPlayer, towers[numPlayer]);
         }
     }
 
