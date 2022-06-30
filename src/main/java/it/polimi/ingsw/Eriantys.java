@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Eriantys {
+    /**
+     * This is the main manifest class as it has the main function to let the user choose what he needs to launch between Server, CLI or GUI
+     * @param args
+     */
     public static void main(String[] args) {
         System.out.println("Welcome to Eriantys!\nWhat do you want to launch?");
         System.out.println("0. SERVER\n1. CLIENT (CLI INTERFACE)\n2. CLIENT (GUI INTERFACE)");

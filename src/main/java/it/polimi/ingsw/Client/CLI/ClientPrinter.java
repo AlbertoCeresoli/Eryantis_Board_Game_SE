@@ -12,6 +12,9 @@ public class ClientPrinter {
 	private static final Map<Colors, String> colorsChars = new HashMap<>();
 	private static final Map<Colors, String> colorsBackground = new HashMap<>();
 
+	/**
+	 * These two map are used as references for the ansi color codes
+	 */
 	public ClientPrinter() {
 		colorsChars.put(Colors.YELLOW, Constants.ANSI_YELLOW);
 		colorsChars.put(Colors.BLUE, Constants.ANSI_BLUE);
@@ -26,6 +29,10 @@ public class ClientPrinter {
 		colorsBackground.put(Colors.PINK, Constants.ANSI_PURPLE_BACKGROUND);
 	}
 
+	/**
+	 * Prints the information ofthe assistant cards of the actual turn player
+	 * @param message of request
+	 */
 	public static void printAssistantCards(PrintAssistantCardsMessage message) {
 		int[] states = message.getStateOfCards();
 		int[] priorities = message.getPriority();
@@ -47,12 +54,20 @@ public class ClientPrinter {
 		}
 	}
 
+	/**
+	 * Calls printIsland for every island
+	 * @param message of request
+	 */
 	public static void printIslands(PrintIslandsMessage message) {
 		for (int i = 0; i < message.getIslandMessages().size(); i++) {
 			printIsland(message.getIslandMessages().get(i));
 		}
 	}
 
+	/**
+	 * This prints all the information of a specific island
+	 * @param message of request
+	 */
 	public static void printIsland(PrintIslandMessage message) {
 		Map<Colors, Integer> students = message.getStudents();
 		int towers = message.getNumberOfTowers();
@@ -72,6 +87,12 @@ public class ClientPrinter {
 			printInhCards(inhCards);
 	}
 
+	/**
+	 * This contains the ASCI art for the island and prints it on request
+	 * @param students of that island
+	 * @param islandIndex of that island
+	 * @param MN boolean for Mother Nature presence
+	 */
 	public static void printIslandStudents(Map<Colors, Integer> students, int islandIndex, boolean MN) {
 		System.out.println("Students on the island:\n");
 
@@ -93,6 +114,9 @@ public class ClientPrinter {
 		);
 	}
 
+	/**
+	 * This contains the ASCI art for Mother Nature and prints it on request
+	 */
 	static void printMN() {
 		System.out.println(
 				Constants.ANSI_RESET + "         " + Constants.ANSI_YELLOW_BACKGROUND + "   " + Constants.ANSI_RESET + "\n" +
@@ -101,6 +125,10 @@ public class ClientPrinter {
 		);
 	}
 
+	/**
+	 * This contains the ASCI art for the towers and prints them on request
+	 * @param towers number of towers on that island or on that board
+	 */
 	public static void printTowers(int towers) {
 		for (int i = 0; i < towers; i++) {
 			System.out.print(
@@ -134,6 +162,10 @@ public class ClientPrinter {
 		System.out.println("\n");
 	}
 
+	/**
+	 * This contains the ASCI art for the inhibition cards and prints it on request
+	 * @param inhCards number of inhibition card on a specific island
+	 */
 	public static void printInhCards(int inhCards) {
 		System.out.println("Inhibition cards on the island:\n");
 		for (int i = 0; i < inhCards; i++) {
@@ -174,6 +206,10 @@ public class ClientPrinter {
 		System.out.println("\n");
 	}
 
+	/**
+	 * This contains the ASCI art for the board of a player and prints it on request
+	 * @param message of request
+	 */
 	public static void printBoard(PrintBoardMessage message) {
 		String nickname = message.getNickname();
 		Map<Colors, Integer> entrance = message.getEntrance();
@@ -217,6 +253,10 @@ public class ClientPrinter {
 		printTowers(towers);
 	}
 
+	/**
+	 * This prints the teachers controllers
+	 * @param message of request
+	 */
 	public static void printTeachers(PrintTeachersMessage message) {
 		Map<Colors, String> teachers = message.getTeachers();
 
@@ -227,6 +267,10 @@ public class ClientPrinter {
 		System.out.println(Constants.ANSI_RESET);
 	}
 
+	/**
+	 * This contains the ASCI art for the clouds and prints them on request
+	 * @param message of request
+	 */
 	public static void printClouds(PrintCloudsMessage message) {
 		ArrayList<Map<Colors, Integer>> clouds = message.getClouds();
 
@@ -257,6 +301,14 @@ public class ClientPrinter {
 		System.out.println("\n");
 	}
 
+	/**
+	 * This contains the description of the three character cards in the game and prints them on request
+	 * @param name of the character
+	 * @param cost of the card
+	 * @param effect of the card
+	 * @param areThereStudentsOnTheCard boolean for the presence of students to be managed from the card effect
+	 * @param students if needed on the card
+	 */
 	public static void printCharacterCard(String name, int cost, String effect, boolean areThereStudentsOnTheCard, ArrayList<Map<Colors, Integer>> students) {
 		System.out.println("\nCharacter card: " + name);
 		System.out.println("Cost: " + cost + "\n");
@@ -276,6 +328,10 @@ public class ClientPrinter {
 		System.out.println();
 	}
 
+	/**
+	 * Calls the previous one for each card in the game
+	 * @param message of request
+	 */
 	public static void printCharacterCards(PrintCharacterCardsMessage message) {
 		for (int i = 0; i < message.getNames().length; i++) {
 			printCharacterCard(message.getNames()[i], message.getCosts()[i],
@@ -283,6 +339,10 @@ public class ClientPrinter {
 		}
 	}
 
+	/**
+	 * Defaut text printer for the client
+	 * @param text to be printed
+	 */
 	public static void easyPrint(String text) {
 		System.out.println(text);
 	}

@@ -41,8 +41,6 @@ public class GameHandler extends Thread {
         }
     }
 
-    //TODO substitute easy messages
-
     //TODO synchronize
     /**
      * The method sends the string in input to the client putting it into an EasyMessage, so it has just to be printed
@@ -58,6 +56,12 @@ public class GameHandler extends Thread {
     }
 
     //TODO synchronize
+
+    /**
+     * Sends a text message to a specific player
+     * @param playerIndex of the player whom the message is sent
+     * @param message to be sent
+     */
     public void newMessage(int playerIndex, Message message) {
         try {
             clientHandlers.get(playerIndex).sendMessage(message);
@@ -66,6 +70,10 @@ public class GameHandler extends Thread {
         }
     }
 
+    /**
+     * It sends a message to every client of clientHandlers ArrayList
+     * @param s text message to be sent
+     */
     public void messageToAll(String s) {
         synchronized (clientHandlers) {
             for (ClientHandler clientHandler : clientHandlers) {
@@ -78,6 +86,10 @@ public class GameHandler extends Thread {
         }
     }
 
+    /**
+     * As above but for different message types
+     * @param message to be sent
+     */
     public void messageToAll(Message message) {
         synchronized (clientHandlers) {
             for (ClientHandler clientHandler : clientHandlers) {
@@ -214,7 +226,7 @@ public class GameHandler extends Thread {
             return "false";
         }
 
-        //TODO check methods of message generator for messages exchanged
+
         //creation of the message based on the object requested
         message = switch (selection) {
             case COLOR -> messageGenerator.colorSelection(result);

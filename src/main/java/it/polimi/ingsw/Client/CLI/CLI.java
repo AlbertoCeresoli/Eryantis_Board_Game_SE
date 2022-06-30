@@ -56,6 +56,9 @@ public class CLI implements Runnable, UI {
 		new Thread(this.fromServerMessagesReader).start();
 	}
 
+	/**
+	 * This is the main method of the CLI thread as it keep listening for keyboard input
+	 */
 	@Override
 	public void run() {
 		while (activeGame) {
@@ -88,6 +91,10 @@ public class CLI implements Runnable, UI {
 		toServerOutput.flush();
 	}
 
+	/**
+	 * This method leads every type of incoming messages to their own interpreter
+	 * @param message incoming
+	 */
 	public void elaborateMessage(Message message) {
 		if (message instanceof EasyMessage) {
 			ClientPrinter.easyPrint(((EasyMessage) message).getText());
@@ -106,6 +113,11 @@ public class CLI implements Runnable, UI {
 		}
 	}
 
+	/**
+	 * This is for messages which notify any changes in the board such as students moving or teachers controlled.
+	 * It prints a text message, then calls the specific printer
+	 * @param message incoming
+	 */
 	private void elaborateUpdateMessage(UpdateMessage message) {
 		if (message instanceof CloudsUpdateMessage) {
 			ClientPrinter.easyPrint("Students on the clouds have been changed. They are:");
@@ -123,6 +135,10 @@ public class CLI implements Runnable, UI {
 		}
 	}
 
+	/**
+	 * This is for messages which expect an input from the user next. These are basically text print.
+	 * @param message incoming
+	 */
 	private void elaborateSelectionMessage(SelectionMessage message) {
 		if (message instanceof NicknameSelectionMessage) {
 			ClientPrinter.easyPrint("Insert your nickname: ");
@@ -161,6 +177,10 @@ public class CLI implements Runnable, UI {
 		}
 	}
 
+	/**
+	 * This is every possible information print
+	 * @param message incoming
+	 */
 	public void elaboratePrintMessage(PrintMessage message) {
 		if (message instanceof PrintAssistantCardsMessage) {
 			ClientPrinter.printAssistantCards((PrintAssistantCardsMessage) message);
