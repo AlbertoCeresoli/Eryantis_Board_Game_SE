@@ -38,3 +38,6 @@ In order to open jar files, you need to have a JDK for java installed on your PC
 ```java -jar AM05-1.0-SNAPSHOT-jar-with-dependencies.jar```    
 Now you're ready to play.  
 That's all folks!!!
+### For command-line users  
+In order to enable the ANSI color view from **Windows** prompt interface, you need to run as administrator the .bat file we provided.  For a better experience as CLI users
+we also recommend to choose a window-size first and not to change it for the rest of the game.
