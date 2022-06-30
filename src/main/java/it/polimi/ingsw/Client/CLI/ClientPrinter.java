@@ -3,7 +3,6 @@ package it.polimi.ingsw.Client.CLI;
 import it.polimi.ingsw.Constants.Colors;
 import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Messages.PrintMessages.*;
-import it.polimi.ingsw.Messages.UpdateMessages.StudentMovedUpdateMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -189,6 +188,9 @@ public class ClientPrinter {
 		}
 
 		System.out.println("\nBoard of " + nickname + "\n");
+		if (Constants.isGameMode()) {
+			System.out.println("\nNumber of Coins: " + message.getCoins() + "\n");
+		}
 		System.out.println("Entrance:          Hall:\n");
 
 		int i = 0;
@@ -279,17 +281,6 @@ public class ClientPrinter {
 			printCharacterCard(message.getNames()[i], message.getCosts()[i],
 					message.getEffects()[i], message.getAreThereStudentsOnTheCard()[i], message.getStudents());
 		}
-	}
-
-	public static void printStudentMovement(StudentMovedUpdateMessage message) {
-		System.out.print(message.getNickname() + " moved a " + message.getColor().name() + " student from " +
-				message.getFromWhere() + " to " + message.getToWhere() + " ");
-
-		if (message.getToWhere().equals("Island")) {
-			System.out.print(message.getIslandIndex());
-		}
-
-		System.out.println();
 	}
 
 	public static void easyPrint(String text) {

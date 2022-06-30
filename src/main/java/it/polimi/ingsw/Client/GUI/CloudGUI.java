@@ -149,5 +149,14 @@ public class CloudGUI {
                 }
             }
         }
+
+        if (counter == 0) {
+            for (Colors c : Colors.values()) {
+                students.put(c, 0);
+            }
+            for (int i = 0; i < Constants.getNumPlayers() + 1; i++) {
+                studColors.get(i).setImage(new Image("file:"));
+            }
+        }
     }
 }

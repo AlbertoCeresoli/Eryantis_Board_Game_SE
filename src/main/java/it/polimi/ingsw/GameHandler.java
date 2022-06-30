@@ -29,11 +29,6 @@ public class GameHandler extends Thread {
         for (int i = 0; i < clients.size(); i++) {
             this.indexToNick.put(i, clients.get(i).getNickName().toLowerCase());
             this.nickToIndex.put(clients.get(i).getNickName().toLowerCase(), i);
-
-            for (String nick : nickToIndex.keySet()) {
-                System.out.println(nick);
-                System.out.println(nickToIndex.get(nick));
-            }
         }
     }
 
@@ -289,7 +284,8 @@ public class GameHandler extends Thread {
         PrintBoardMessage message;
         message = new PrintBoardMessage(indexToNick.get(playerIndex),
                 controller.getModel().getPlayerInteraction().getPlayer(playerIndex).getBoard(),
-                controller.getModel().getIslandInteraction().getTowersByPlayer()[playerIndex], playerIndex);
+                controller.getModel().getIslandInteraction().getTowersByPlayer()[playerIndex], playerIndex,
+                controller.getModel().getPlayerInteraction().getPlayer(playerIndex).getCoins());
         return message;
     }
 

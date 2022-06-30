@@ -11,8 +11,10 @@ public class BoardUpdateMessage implements UpdateMessage {
     private final String nickname;
     private final int playerIndex;
     private final int towers;
+    private final int coins;
 
-    public BoardUpdateMessage(Map<Colors, Integer> entrance, Map<Colors, Integer> hall, String nickname, int playerIndex, int towers) {
+    public BoardUpdateMessage(Map<Colors, Integer> entrance, Map<Colors, Integer> hall, String nickname,
+                              int playerIndex, int towers, int coins) {
         this.nickname = nickname;
         this.playerIndex = playerIndex;
         this.entrance = new HashMap<>();
@@ -24,6 +26,7 @@ public class BoardUpdateMessage implements UpdateMessage {
         }
 
         this.towers = towers;
+        this.coins = coins;
     }
 
     public Map<Colors, Integer> getEntrance() {
@@ -44,5 +47,9 @@ public class BoardUpdateMessage implements UpdateMessage {
 
     public int getTowers() {
         return towers;
+    }
+
+    public int getCoins() {
+        return coins;
     }
 }

@@ -150,9 +150,6 @@ public class ControllerScene2Players implements ControllerInterface {
         if (message instanceof MotherNatureUpdateMessage){
             elaborateMotherNatureUpdateMessage((MotherNatureUpdateMessage) message);
         }
-        if (message instanceof StudentMovedUpdateMessage){
-            elaborateStudentMovedUpdateMessage((StudentMovedUpdateMessage) message);
-        }
         if (message instanceof EriantysUpdateMessage){
             elaborateEriantysUpdateMessage((EriantysUpdateMessage) message);
         }
@@ -218,18 +215,6 @@ public class ControllerScene2Players implements ControllerInterface {
 
     public void elaborateMotherNatureUpdateMessage(MotherNatureUpdateMessage message){
         printer.modifyMNPosition(message.getPosition());
-    }
-
-    public void elaborateStudentMovedUpdateMessage(StudentMovedUpdateMessage message){
-        if (Objects.equals(message.getFromWhere().toLowerCase(), "entrance")){
-            printer.modifyStudInEntrance(message.getNickToIndex().get(message.getNickname()), message.getColor(), -1);
-        }
-        if (Objects.equals(message.getToWhere().toLowerCase(), "island")){
-            printer.modifyIsland(message.getIslandIndex(), message.getColor(), + 1);
-        }
-        if (Objects.equals(message.getToWhere().toLowerCase(), "hall")){
-            printer.modifyStudInHall(message.getNickToIndex().get(message.getNickname()), message.getColor(), +1);
-        }
     }
 
     public void elaborateTeachersUpdateMessage(TeachersUpdateMessage message){

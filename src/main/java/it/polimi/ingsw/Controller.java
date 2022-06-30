@@ -69,7 +69,8 @@ public class Controller {
         for (int i = 0; i < Constants.getNumPlayers(); i++) {
             printBoardMessages[i] = new PrintBoardMessage(gameHandler.getIndexToNick().get(i),
                     model.getPlayerInteraction().getPlayer(i).getBoard(),
-                    model.getIslandInteraction().getTowersByPlayer()[i], i);
+                    model.getIslandInteraction().getTowersByPlayer()[i], i,
+                    model.getPlayerInteraction().getPlayer(i).getCoins());
         }
 
         gameHandler.messageToAll(new EriantysUpdateMessage(gameHandler.getIndexToNick(), printBoardMessages,
@@ -200,8 +201,12 @@ public class Controller {
                 temp = gameHandler.requestInformation(ObjectsToSelect.ASSISTANT_CARD, actualTurnPlayer);
             } while (temp.equals("false"));
 
+            gameHandler.newMessage(i, new AssistantCardUpdateMessage(gameHandler.printAssistantCards(i), i));
+
             lastAssistantCardsPlayed[actualTurnPlayer] = Integer.parseInt(temp);
         }
+
+
     }
 
     private void waitMessage(int actualTurnPlayer) {
@@ -280,13 +285,18 @@ public class Controller {
 
         if (temp.equalsIgnoreCase("Hall")) {
             model.moveFromEntranceToHall(color, actualTurnPlayer);
-            gameHandler.messageToAll(new StudentMovedUpdateMessage(gameHandler.getIndexToNick().get(actualTurnPlayer),
-                    "Entrance", "Hall", color, gameHandler.getNickToIndex()));
+            gameHandler.messageToAll(new BoardUpdateMessage(
+                    model.getPlayerInteraction().getPlayer(actualTurnPlayer).getBoard().getStudEntrance(),
+                    model.getPlayerInteraction().getPlayer(actualTurnPlayer).getBoard().getStudHall(),
+                    gameHandler.getIndexToNick().get(actualTurnPlayer),
+                    actualTurnPlayer, model.getIslandInteraction().getTowersByPlayer()[actualTurnPlayer],
+                    model.getPlayerInteraction().getPlayer(actualTurnPlayer).getCoins()));
             gameHandler.messageToAll(new TeachersUpdateMessage(gameHandler.printTeachers()));
         }
 
         if (temp.equalsIgnoreCase("Island")) {
-            gameHandler.newMessage(actualTurnPlayer, new IslandSelectionMessage(0, model.getIslandInteraction().getIslands().size() - 1));
+            gameHandler.newMessage(actualTurnPlayer, new IslandSelectionMessage(0,
+                    model.getIslandInteraction().getIslands().size() - 1));
 
             do {
                 temp = gameHandler.requestInformation(ObjectsToSelect.ISLAND, actualTurnPlayer);
@@ -294,8 +304,15 @@ public class Controller {
 
             index = Integer.parseInt(temp);
             model.moveFromEntranceToIsland(color, actualTurnPlayer, index);
-            gameHandler.messageToAll(new StudentMovedUpdateMessage(gameHandler.getIndexToNick().get(actualTurnPlayer),
-                    "Entrance", "Island", index, color, gameHandler.getNickToIndex()));
+
+            gameHandler.messageToAll(new BoardUpdateMessage(
+                    model.getPlayerInteraction().getPlayer(actualTurnPlayer).getBoard().getStudEntrance(),
+                    model.getPlayerInteraction().getPlayer(actualTurnPlayer).getBoard().getStudHall(),
+                    gameHandler.getIndexToNick().get(actualTurnPlayer),
+                    actualTurnPlayer, model.getIslandInteraction().getTowersByPlayer()[actualTurnPlayer],
+                    model.getPlayerInteraction().getPlayer(actualTurnPlayer).getCoins()));
+            gameHandler.messageToAll(new IslandsUpdateMessage(gameHandler.printIslands(),
+                    model.getIslandInteraction().getTowersByPlayer(), gameHandler.getNickToIndex()));
         }
     }
 
@@ -348,7 +365,8 @@ public class Controller {
         gameHandler.messageToAll(new BoardUpdateMessage(model.getPlayerInteraction().getPlayer(actualTurnPlayer).getBoard().getStudEntrance(),
                 model.getPlayerInteraction().getPlayer(actualTurnPlayer).getBoard().getStudHall(),
                 gameHandler.getIndexToNick().get(actualTurnPlayer), actualTurnPlayer,
-                model.getIslandInteraction().getTowersByPlayer()[actualTurnPlayer]));
+                model.getIslandInteraction().getTowersByPlayer()[actualTurnPlayer],
+                model.getPlayerInteraction().getPlayer(actualTurnPlayer).getCoins()));
     }
 
     /**
