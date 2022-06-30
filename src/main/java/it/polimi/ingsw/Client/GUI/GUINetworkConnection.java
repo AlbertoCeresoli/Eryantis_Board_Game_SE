@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class GUINetworkConnection implements UI {
     private final GUI gui;
@@ -21,15 +22,22 @@ public class GUINetworkConnection implements UI {
     private final ObjectInputStream fromServerInput;
     private final ObjectOutputStream toServerOutput;
     private final FromServerMessagesReader fromServerMessagesReader;
+    private String IPaddress;
+    private int serverPort;
 
     public GUINetworkConnection(GUI gui) throws IOException {
         this.gui = gui;
+        Scanner scanner = new Scanner(System.in);
 
         //TODO
-        //gui.getSelection().selectIP();
-        //gui.getSelection().selectServerPort();
+        //gui.getSelection().selectIP(this);
+        //gui.getSelection().selectServerPort(this);
+        System.out.println("insert the IP address:");
+        IPaddress = scanner.nextLine();
+        System.out.println("insert the server port:");
+        serverPort = scanner.nextInt();
 
-        this.socket = new Socket("localhost", 1234);
+        this.socket = new Socket(IPaddress, serverPort);
 
         this.toServerOutput = new ObjectOutputStream(this.socket.getOutputStream());
         this.toServerOutput.flush();
@@ -158,5 +166,13 @@ public class GUINetworkConnection implements UI {
 
     public FromServerMessagesReader getFromServerMessagesReader() {
         return fromServerMessagesReader;
+    }
+
+    public void setIPaddress(String IPaddress) {
+        this.IPaddress = IPaddress;
+    }
+
+    public void setServerPort(int serverPort) {
+        this.serverPort = serverPort;
     }
 }

@@ -378,52 +378,6 @@ public class Selection {
     }
 
     /**
-     * method used to ask to the player to insert the IP address of the server
-     */
-    public void selectIP(){
-        Stage stageSel = new Stage();
-        gui.addStage(stageSel);
-        AnchorPane anchorPaneSel = new AnchorPane();
-        Scene sceneSel = new Scene(anchorPaneSel);
-        stageSel.setHeight(150);
-        stageSel.setWidth(240);
-        Image cranioLogo = new Image("file:src/resources/Images/LOGO.png");
-        stageSel.getIcons().add(cranioLogo);
-
-        Rectangle blueBackground = new Rectangle();
-        blueBackground.setHeight(150);
-        blueBackground.setWidth(240);
-        blueBackground.setLayoutX(0);
-        blueBackground.setLayoutY(0);
-        blueBackground.setFill(Paint.valueOf("#69bae9"));
-
-        anchorPaneSel.getChildren().add(blueBackground);
-
-        Label lblSelection = new Label();
-        lblSelection.setLayoutX(30);
-        lblSelection.setLayoutY(20);
-        lblSelection.setText("Insert the IP address");
-        anchorPaneSel.getChildren().add(lblSelection);
-
-        TextField txtSelection = new TextField();
-        txtSelection.setLayoutX(30);
-        txtSelection.setLayoutY(50);
-        txtSelection.setMaxWidth(220);
-        anchorPaneSel.getChildren().add(txtSelection);
-
-        stageSel.setScene(sceneSel);
-        stageSel.show();
-
-        txtSelection.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                gui.print(txtSelection.getText());
-                gui.removeStage(stageSel);
-                stageSel.close();
-            }
-        });
-    }
-
-    /**
      * method used to ask to the player to insert the nickname
      */
     public void selectNickname(){
@@ -449,52 +403,6 @@ public class Selection {
         lblSelection.setLayoutX(30);
         lblSelection.setLayoutY(20);
         lblSelection.setText("Insert your nickname:");
-        anchorPaneSel.getChildren().add(lblSelection);
-
-        TextField txtSelection = new TextField();
-        txtSelection.setLayoutX(30);
-        txtSelection.setLayoutY(50);
-        txtSelection.setMaxWidth(220);
-        anchorPaneSel.getChildren().add(txtSelection);
-
-        txtSelection.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                gui.print(txtSelection.getText());
-                gui.removeStage(stageSel);
-                stageSel.close();
-            }
-        });
-
-        stageSel.setScene(sceneSel);
-        stageSel.show();
-    }
-
-    /**
-     * method used to ask to the player to insert the server port
-     */
-    public void selectServerPort(){
-        Stage stageSel = new Stage();
-        gui.addStage(stageSel);
-        AnchorPane anchorPaneSel = new AnchorPane();
-        Scene sceneSel = new Scene(anchorPaneSel);
-        stageSel.setHeight(150);
-        stageSel.setWidth(240);
-        Image cranioLogo = new Image("file:src/resources/Images/LOGO.png");
-        stageSel.getIcons().add(cranioLogo);
-
-        Rectangle blueBackground = new Rectangle();
-        blueBackground.setHeight(150);
-        blueBackground.setWidth(240);
-        blueBackground.setLayoutX(0);
-        blueBackground.setLayoutY(0);
-        blueBackground.setFill(Paint.valueOf("#69bae9"));
-
-        anchorPaneSel.getChildren().add(blueBackground);
-
-        Label lblSelection = new Label();
-        lblSelection.setLayoutX(30);
-        lblSelection.setLayoutY(20);
-        lblSelection.setText("Insert the server port:");
         anchorPaneSel.getChildren().add(lblSelection);
 
         TextField txtSelection = new TextField();

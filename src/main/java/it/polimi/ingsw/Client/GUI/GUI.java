@@ -49,11 +49,11 @@ public class GUI extends Application {
         controller.printTable();
         controller.startEventHandling(); //event handling for the click on the images
 
-        selection = new Selection(this);
-        guiNetworkConnection = new GUINetworkConnection(this);
-
         stages = new ArrayList<>();
         stages.add(stage);
+
+        selection = new Selection(this);
+        guiNetworkConnection = new GUINetworkConnection(this);
 
         //set the Scene to the stage and make the stage visible, this lines must be at the end of the start method
         stage.setScene(scene);
