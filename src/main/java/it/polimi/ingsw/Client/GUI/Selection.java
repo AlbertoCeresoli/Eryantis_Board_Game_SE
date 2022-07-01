@@ -17,10 +17,12 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class Selection {
-    private final GUI gui;
+    private GUI gui;
+    private final GUINetworkConnection guiNetworkConnection;
 
-    public Selection(GUI gui) {
+    public Selection(GUI gui, GUINetworkConnection guiNetworkConnection) {
         this.gui = gui;
+        this.guiNetworkConnection = guiNetworkConnection;
     }
 
     /**
@@ -89,27 +91,27 @@ public class Selection {
         stageSel.show();
 
         greenImgView.setOnMouseClicked(mouseEvent -> {
-            gui.print("green");
+            print("green");
             gui.removeStage(stageSel);
             stageSel.close();
         });
         redImgView.setOnMouseClicked(mouseEvent -> {
-            gui.print("red");
+            print("red");
             gui.removeStage(stageSel);
             stageSel.close();
         });
         yellowImgView.setOnMouseClicked(mouseEvent -> {
-            gui.print("yellow");
+            print("yellow");
             gui.removeStage(stageSel);
             stageSel.close();
         });
         pinkImgView.setOnMouseClicked(mouseEvent -> {
-            gui.print("pink");
+            print("pink");
             gui.removeStage(stageSel);
             stageSel.close();
         });
         blueImgView.setOnMouseClicked(mouseEvent -> {
-            gui.print("blue");
+            print("blue");
             gui.removeStage(stageSel);
             stageSel.close();
         });
@@ -151,7 +153,7 @@ public class Selection {
         }
 
         acImgVw.forEach((image)-> image.setOnMouseClicked(mouseEvent -> {
-            gui.print(String.valueOf(acImgVw.indexOf(image)));
+            print(String.valueOf(acImgVw.indexOf(image)));
             gui.removeStage(stageSel);
             stageSel.close();
         }));
@@ -203,7 +205,7 @@ public class Selection {
         }
 
         islandsImgVw.forEach((image)-> image.setOnMouseClicked(mouseEvent -> {
-            gui.print(String.valueOf(islandsImgVw.indexOf(image)));
+            print(String.valueOf(islandsImgVw.indexOf(image)));
             gui.removeStage(stageSel);
             stageSel.close();
         }));
@@ -255,7 +257,7 @@ public class Selection {
         }
 
         cloudsImgVw.forEach((image)-> image.setOnMouseClicked(mouseEvent -> {
-            gui.print(String.valueOf(cloudsImgVw.indexOf(image)));
+            print(String.valueOf(cloudsImgVw.indexOf(image)));
             gui.removeStage(stageSel);
             stageSel.close();
         }));
@@ -307,7 +309,7 @@ public class Selection {
         }
 
         cloudsImgVw.forEach((image)-> image.setOnMouseClicked(mouseEvent -> {
-            gui.print(String.valueOf(cloudsImgVw.indexOf(image) + 1));
+            print(String.valueOf(cloudsImgVw.indexOf(image) + 1));
             gui.removeStage(stageSel);
             stageSel.close();
         }));
@@ -362,13 +364,13 @@ public class Selection {
         anchorPaneSel.getChildren().add(boardImgView);
 
         islandImgView.setOnMouseClicked(mouseEvent -> {
-            gui.print("island");
+            print("island");
             gui.removeStage(stageSel);
             stageSel.close();
         });
 
         boardImgView.setOnMouseClicked(mouseEvent -> {
-            gui.print("hall");
+            print("hall");
             gui.removeStage(stageSel);
             stageSel.close();
         });
@@ -382,7 +384,6 @@ public class Selection {
      */
     public void selectNickname(){
         Stage stageSel = new Stage();
-        gui.addStage(stageSel);
         AnchorPane anchorPaneSel = new AnchorPane();
         Scene sceneSel = new Scene(anchorPaneSel);
         stageSel.setHeight(150);
@@ -413,8 +414,7 @@ public class Selection {
 
         txtSelection.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                gui.print(txtSelection.getText());
-                gui.removeStage(stageSel);
+                print(txtSelection.getText());
                 stageSel.close();
             }
         });
@@ -428,7 +428,6 @@ public class Selection {
      */
     public void selectNumPlayers(){
         Stage stageSel = new Stage();
-        gui.addStage(stageSel);
         AnchorPane anchorPaneSel = new AnchorPane();
         Scene sceneSel = new Scene(anchorPaneSel);
         stageSel.setHeight(150);
@@ -466,14 +465,12 @@ public class Selection {
         anchorPaneSel.getChildren().add(btn3PLayers);
 
         btn2PLayers.setOnMouseClicked(mouseEvent -> {
-            gui.print("2");
-            gui.removeStage(stageSel);
+            print("2");
             stageSel.close();
         });
 
         btn3PLayers.setOnMouseClicked(mouseEvent -> {
-            gui.print("3");
-            gui.removeStage(stageSel);
+            print("3");
             stageSel.close();
         });
 
@@ -486,7 +483,6 @@ public class Selection {
      */
     public void selectGamemode(){
         Stage stageSel = new Stage();
-        gui.addStage(stageSel);
         AnchorPane anchorPaneSel = new AnchorPane();
         Scene sceneSel = new Scene(anchorPaneSel);
         stageSel.setHeight(150);
@@ -524,18 +520,32 @@ public class Selection {
         anchorPaneSel.getChildren().add(btnHard);
 
         btnEasy.setOnMouseClicked(mouseEvent -> {
-            gui.print("0");
-            gui.removeStage(stageSel);
+            print("0");
             stageSel.close();
         });
 
         btnHard.setOnMouseClicked(mouseEvent -> {
-            gui.print("1");
-            gui.removeStage(stageSel);
+            print("1");
             stageSel.close();
         });
 
         stageSel.setScene(sceneSel);
         stageSel.show();
+    }
+
+    public void print(String selection){
+        guiNetworkConnection.sendMessageToServer(selection);
+    }
+
+    public GUI getGui() {
+        return gui;
+    }
+
+    public GUINetworkConnection getGuiNetworkConnection() {
+        return guiNetworkConnection;
+    }
+
+    public void setGui(GUI gui) {
+        this.gui = gui;
     }
 }

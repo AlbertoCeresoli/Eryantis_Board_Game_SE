@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Client.CLI.CLI;
 import it.polimi.ingsw.Client.GUI.GUI;
+import it.polimi.ingsw.Client.GUI.GUINetworkConnection;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -39,7 +40,9 @@ public class Eriantys {
                     System.out.println("Connection failed, application will close...");
                 }
             }
-            case 2 -> GUI.main(null);
+            case 2 -> {
+                GUI.main(null);
+            }
         }
     }
 }

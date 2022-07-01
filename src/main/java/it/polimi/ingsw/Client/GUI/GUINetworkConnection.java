@@ -2,19 +2,19 @@ package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.Client.FromServerMessagesReader;
 import it.polimi.ingsw.Client.UI;
+import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Messages.EasyMessage;
 import it.polimi.ingsw.Messages.ErrorMessages.ErrorMessage;
+import it.polimi.ingsw.Messages.GameStartsMessage;
 import it.polimi.ingsw.Messages.Message;
+import it.polimi.ingsw.Messages.PlayersNModeMessage;
 import it.polimi.ingsw.Messages.PrintMessages.*;
 import it.polimi.ingsw.Messages.SelectionMessages.*;
 import it.polimi.ingsw.Messages.UpdateMessages.*;
 import javafx.application.Platform;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class GUINetworkConnection implements UI {
     private final GUI gui;
@@ -22,20 +22,10 @@ public class GUINetworkConnection implements UI {
     private final ObjectInputStream fromServerInput;
     private final ObjectOutputStream toServerOutput;
     private final FromServerMessagesReader fromServerMessagesReader;
-    private String IPaddress;
-    private int serverPort;
 
-    public GUINetworkConnection(GUI gui) throws IOException {
+    public GUINetworkConnection(GUI gui, String IPAddress, int serverPort) throws IOException {
         this.gui = gui;
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("insert the IP address:");
-        IPaddress = scanner.nextLine();
-        System.out.println("insert the server port:");
-        serverPort = scanner.nextInt();
-
-        this.socket = new Socket(IPaddress, serverPort);
-
+        this.socket = new Socket(IPAddress, serverPort);
         this.toServerOutput = new ObjectOutputStream(this.socket.getOutputStream());
         this.toServerOutput.flush();
         this.fromServerInput = new ObjectInputStream(this.socket.getInputStream());
@@ -46,6 +36,28 @@ public class GUINetworkConnection implements UI {
 
     @Override
     public void elaborateMessage(Message message) {
+        if (message instanceof NicknameSelectionMessage) {
+            this.gui.readAndSend("Insert your nickname: ");
+        } else if (message instanceof NumberOfPlayersSelectionMessage) {
+            this.gui.readAndSend("Select Number of Players: 2 / 3");
+        } else if (message instanceof GameModeSelectionMessage) {
+            this.gui.readAndSend("Select Game Mode: 0 = easy/ 1 = hard");
+        } else if (message instanceof PlayersNModeMessage) {
+            Constants.setGameMode(((PlayersNModeMessage) message).isGameMode());
+            Constants.setNumPlayers(((PlayersNModeMessage) message).getNumberOfPlayers());
+        } else if (message instanceof GameStartsMessage) {
+            synchronized (this.gui.getLock()) {
+                this.gui.setOk(true);
+                this.gui.getLock().notifyAll();
+            }
+        } else {
+            {
+                runLater(message);
+            }
+        }
+    }
+
+    private void runLater(Message message) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -56,7 +68,11 @@ public class GUINetworkConnection implements UI {
 
     private void elaboration(Message message) {
         if (message instanceof EasyMessage) {
-            gui.getController().printEasyMessage(((EasyMessage) message).getText());
+            try {
+                gui.getController().printEasyMessage(((EasyMessage) message).getText());
+            } catch (NullPointerException ignored) {
+                System.out.println(((EasyMessage) message).getText());
+            }
         }
         if (message instanceof UpdateMessage) {
             gui.getController().updateGame((UpdateMessage) message);
@@ -70,18 +86,13 @@ public class GUINetworkConnection implements UI {
         if (message instanceof ErrorMessage) {
             elaborateErrorMessage((ErrorMessage) message);
         }
+        if (message instanceof PlayersNModeMessage) {
+            Constants.setNumPlayers(((PlayersNModeMessage) message).getNumberOfPlayers());
+            Constants.setGameMode(((PlayersNModeMessage) message).isGameMode());
+        }
     }
 
     private void elaborateSelectionMessage(SelectionMessage message) {
-        if (message instanceof NicknameSelectionMessage) {
-            gui.getSelection().selectNickname();
-        }
-        if (message instanceof NumberOfPlayersSelectionMessage) {
-            gui.getSelection().selectNumPlayers();
-        }
-        if (message instanceof GameModeSelectionMessage) {
-            gui.getSelection().selectGamemode();
-        }
         if (message instanceof AssistantCardSelectionMessage) {
             gui.getSelection().selectAC();
         }
@@ -162,13 +173,5 @@ public class GUINetworkConnection implements UI {
 
     public FromServerMessagesReader getFromServerMessagesReader() {
         return fromServerMessagesReader;
-    }
-
-    public void setIPaddress(String IPaddress) {
-        this.IPaddress = IPaddress;
-    }
-
-    public void setServerPort(int serverPort) {
-        this.serverPort = serverPort;
     }
 }

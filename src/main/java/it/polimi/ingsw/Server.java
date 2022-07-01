@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Messages.EasyMessage;
 import it.polimi.ingsw.Messages.ErrorMessages.ErrorMessage;
+import it.polimi.ingsw.Messages.PlayersNModeMessage;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -76,15 +77,17 @@ public class Server {
                 player.sendMessage(new EasyMessage("You are the first player, please select game mode"));
                 player.gameRulesSelection();
                 clients.add(player);
+                player.sendMessage(new PlayersNModeMessage(Constants.getNumPlayers(), Constants.isGameMode()));
             } else if (clients.size() < Constants.getNumPlayers()) {
-
                 if (clients.size() == Constants.getNumPlayers() -1) {
                     player.sendMessage(new EasyMessage("Correctly connected to the game, you were the last client needed, game will start now..."));
                     clients.add(player);
+                    player.sendMessage(new PlayersNModeMessage(Constants.getNumPlayers(), Constants.isGameMode()));
                     createGame();
                 } else {
                     player.sendMessage(new EasyMessage("Correctly connected to the game, wait for other clients"));
                     clients.add(player);
+                    player.sendMessage(new PlayersNModeMessage(Constants.getNumPlayers(), Constants.isGameMode()));
                 }
             } else if (clients.size() == Constants.getNumPlayers()) {
                 player.sendMessage(new EasyMessage("All requested clients are already connected, please try again later"));

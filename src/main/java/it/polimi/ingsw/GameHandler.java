@@ -49,7 +49,9 @@ public class GameHandler extends Thread {
      */
     public void newMessage(int playerIndex, String s) {
         try {
-            clientHandlers.get(playerIndex).sendMessage(new EasyMessage(s));
+            synchronized (clientHandlers) {
+                clientHandlers.get(playerIndex).sendMessage(new EasyMessage(s));
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -64,7 +66,9 @@ public class GameHandler extends Thread {
      */
     public void newMessage(int playerIndex, Message message) {
         try {
-            clientHandlers.get(playerIndex).sendMessage(message);
+            synchronized (clientHandlers) {
+                clientHandlers.get(playerIndex).sendMessage(message);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -268,8 +272,10 @@ public class GameHandler extends Thread {
     private String getLatestMessageFromPlayer(int player) throws InterruptedException {
         String result;
 
-        clientHandlers.get(player).setLatestMessageValid(false);
-        clientHandlers.get(player).setInformationIsNeeded(true);
+        synchronized (clientHandlers) {
+            clientHandlers.get(player).setLatestMessageValid(false);
+            clientHandlers.get(player).setInformationIsNeeded(true);
+        }
 
         synchronized (clientHandlers.get(player).getLock()) {
             while (!clientHandlers.get(player).isLatestMessageValid()) {
@@ -277,10 +283,12 @@ public class GameHandler extends Thread {
             }
         }
 
-        clientHandlers.get(player).setInformationIsNeeded(false);
+        synchronized (clientHandlers) {
+            clientHandlers.get(player).setInformationIsNeeded(false);
 
-        result = clientHandlers.get(player).getLatestMessage();
-        clientHandlers.get(player).setLatestMessageValid(false);
+            result = clientHandlers.get(player).getLatestMessage();
+            clientHandlers.get(player).setLatestMessageValid(false);
+        }
 
         return result;
     }

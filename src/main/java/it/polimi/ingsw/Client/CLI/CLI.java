@@ -7,6 +7,7 @@ import it.polimi.ingsw.Messages.ErrorMessages.ErrorMessage;
 import it.polimi.ingsw.Messages.PrintMessages.*;
 import it.polimi.ingsw.Messages.SelectionMessages.*;
 import it.polimi.ingsw.Messages.UpdateMessages.*;
+import it.polimi.ingsw.Model.Cards.CharacterCards;
 
 import java.io.*;
 import java.net.Socket;

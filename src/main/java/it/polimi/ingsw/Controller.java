@@ -6,6 +6,7 @@ import it.polimi.ingsw.Constants.Indexes;
 import it.polimi.ingsw.Constants.ObjectsToSelect;
 import it.polimi.ingsw.Exceptions.EndGameException;
 import it.polimi.ingsw.Messages.GameAbortedMessage;
+import it.polimi.ingsw.Messages.GameStartsMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintBoardMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintCloudsMessage;
 import it.polimi.ingsw.Messages.SelectionMessages.*;
@@ -63,6 +64,8 @@ public class Controller {
      * Calls the method round until we have a winner
      */
     public void startGame() throws InterruptedException {
+        gameHandler.messageToAll(new GameStartsMessage());
+
         model.initializeGame();
 
         PrintBoardMessage[] printBoardMessages = new PrintBoardMessage[Constants.getNumPlayers()];
