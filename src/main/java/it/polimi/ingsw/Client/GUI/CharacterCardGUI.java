@@ -34,11 +34,11 @@ public class CharacterCardGUI {
         positionY = imgVw.getLayoutY();
 
         studImages = new ArrayList<>();
-        studImages.add(new Image("file:src/resources/Images/Students and teachers/Green_S.png"));
-        studImages.add(new Image("file:src/resources/Images/Students and teachers/Red_S.png"));
-        studImages.add(new Image("file:src/resources/Images/Students and teachers/Yellow_S.png"));
-        studImages.add(new Image("file:src/resources/Images/Students and teachers/Pink_S.png"));
-        studImages.add(new Image("file:src/resources/Images/Students and teachers/Blue_S.png"));
+        studImages.add(new Image("file:../src/resources/Images/Students and teachers/Green_S.png"));
+        studImages.add(new Image("file:../src/resources/Images/Students and teachers/Red_S.png"));
+        studImages.add(new Image("file:../src/resources/Images/Students and teachers/Yellow_S.png"));
+        studImages.add(new Image("file:../src/resources/Images/Students and teachers/Pink_S.png"));
+        studImages.add(new Image("file:../src/resources/Images/Students and teachers/Blue_S.png"));
     }
 
     /**

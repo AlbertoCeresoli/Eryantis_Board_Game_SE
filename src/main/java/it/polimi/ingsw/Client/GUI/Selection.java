@@ -32,7 +32,7 @@ public class Selection {
         Scene sceneSel = new Scene(anchorPaneSel);
         stageSel.setHeight(110);
         stageSel.setWidth(340);
-        Image cranioLogo = new Image("file:src/resources/Images/LOGO.png");
+        Image cranioLogo = new Image("file:../src/resources/Images/LOGO.png");
         stageSel.getIcons().add(cranioLogo);
 
         Rectangle blueBackground = new Rectangle();
@@ -47,35 +47,35 @@ public class Selection {
         greenImgView.setLayoutY(10);
         greenImgView.setFitHeight(50);
         greenImgView.setFitWidth(50);
-        greenImgView.setImage(new Image("file:src/resources/Images/Students and teachers/Green_S.png"));
+        greenImgView.setImage(new Image("file:../src/resources/Images/Students and teachers/Green_S.png"));
 
         ImageView redImgView = new ImageView();
         redImgView.setLayoutX(80);
         redImgView.setLayoutY(10);
         redImgView.setFitHeight(50);
         redImgView.setFitWidth(50);
-        redImgView.setImage(new Image("file:src/resources/Images/Students and teachers/Red_S.png"));
+        redImgView.setImage(new Image("file:../src/resources/Images/Students and teachers/Red_S.png"));
 
         ImageView yellowImgView = new ImageView();
         yellowImgView.setLayoutX(140);
         yellowImgView.setLayoutY(10);
         yellowImgView.setFitHeight(50);
         yellowImgView.setFitWidth(50);
-        yellowImgView.setImage(new Image("file:src/resources/Images/Students and teachers/Yellow_S.png"));
+        yellowImgView.setImage(new Image("file:../src/resources/Images/Students and teachers/Yellow_S.png"));
 
         ImageView pinkImgView = new ImageView();
         pinkImgView.setLayoutX(200);
         pinkImgView.setLayoutY(10);
         pinkImgView.setFitHeight(50);
         pinkImgView.setFitWidth(50);
-        pinkImgView.setImage(new Image("file:src/resources/Images/Students and teachers/Pink_S.png"));
+        pinkImgView.setImage(new Image("file:../src/resources/Images/Students and teachers/Pink_S.png"));
 
         ImageView blueImgView = new ImageView();
         blueImgView.setLayoutX(260);
         blueImgView.setLayoutY(10);
         blueImgView.setFitHeight(50);
         blueImgView.setFitWidth(50);
-        blueImgView.setImage(new Image("file:src/resources/Images/Students and teachers/Blue_S.png"));
+        blueImgView.setImage(new Image("file:../src/resources/Images/Students and teachers/Blue_S.png"));
 
         anchorPaneSel.getChildren().add(blueBackground);
         anchorPaneSel.getChildren().add(greenImgView);
@@ -124,7 +124,7 @@ public class Selection {
         Scene sceneSel = new Scene(anchorPaneSel);
         stageSel.setHeight(150);
         stageSel.setWidth(630);
-        Image cranioLogo = new Image("file:src/resources/Images/LOGO.png");
+        Image cranioLogo = new Image("file:../src/resources/Images/LOGO.png");
         stageSel.getIcons().add(cranioLogo);
 
         Rectangle blueBackground = new Rectangle();
@@ -168,7 +168,7 @@ public class Selection {
         Scene sceneSel = new Scene(anchorPaneSel);
         stageSel.setHeight(190);
         stageSel.setWidth(450);
-        Image cranioLogo = new Image("file:src/resources/Images/LOGO.png");
+        Image cranioLogo = new Image("file:../src/resources/Images/LOGO.png");
         stageSel.getIcons().add(cranioLogo);
 
         Rectangle blueBackground = new Rectangle();
@@ -220,7 +220,7 @@ public class Selection {
         Scene sceneSel = new Scene(anchorPaneSel);
         stageSel.setHeight(130);
         stageSel.setWidth(20 + Constants.getNumPlayers()*90);
-        Image cranioLogo = new Image("file:src/resources/Images/LOGO.png");
+        Image cranioLogo = new Image("file:../src/resources/Images/LOGO.png");
         stageSel.getIcons().add(cranioLogo);
 
         Rectangle blueBackground = new Rectangle();
@@ -272,7 +272,7 @@ public class Selection {
         Scene sceneSel = new Scene(anchorPaneSel);
         stageSel.setHeight(110);
         stageSel.setWidth(20 + maxSteps*40);
-        Image cranioLogo = new Image("file:src/resources/Images/LOGO.png");
+        Image cranioLogo = new Image("file:../src/resources/Images/LOGO.png");
         stageSel.getIcons().add(cranioLogo);
 
         Rectangle blueBackground = new Rectangle();
@@ -284,7 +284,7 @@ public class Selection {
 
         anchorPaneSel.getChildren().add(blueBackground);
 
-        Image mn = new Image("file:src/resources/Images/Other_objects/MN.png");
+        Image mn = new Image("file:../src/resources/Images/Other_objects/MN.png");
         ArrayList<ImageView> mnImageView = new ArrayList<>();
         for (int numStep=0; numStep<maxSteps; numStep++){
             ImageView imgVw = new ImageView();
@@ -324,7 +324,7 @@ public class Selection {
         Scene sceneSel = new Scene(anchorPaneSel);
         stageSel.setHeight(150);
         stageSel.setWidth(300);
-        Image cranioLogo = new Image("file:src/resources/Images/LOGO.png");
+        Image cranioLogo = new Image("file:../src/resources/Images/LOGO.png");
         stageSel.getIcons().add(cranioLogo);
 
         Rectangle blueBackground = new Rectangle();
@@ -336,7 +336,7 @@ public class Selection {
 
         anchorPaneSel.getChildren().add(blueBackground);
 
-        Image island = new Image("file:src/resources/Images/Islands/Island1.png");
+        Image island = new Image("file:../src/resources/Images/Islands/Island1.png");
 
         ImageView islandImgView = new ImageView();
         islandImgView.setLayoutX(10);
@@ -348,7 +348,7 @@ public class Selection {
         anchorPaneSel.getChildren().add(islandImgView);
 
 
-        Image board = new Image("file:src/resources/Images/BOARD.png");
+        Image board = new Image("file:../src/resources/Images/BOARD.png");
 
         ImageView boardImgView = new ImageView();
         boardImgView.setLayoutX(120);
@@ -384,7 +384,7 @@ public class Selection {
         Scene sceneSel = new Scene(anchorPaneSel);
         stageSel.setHeight(150);
         stageSel.setWidth(240);
-        Image cranioLogo = new Image("file:src/resources/Images/LOGO.png");
+        Image cranioLogo = new Image("file:../src/resources/Images/LOGO.png");
         stageSel.getIcons().add(cranioLogo);
 
         Rectangle blueBackground = new Rectangle();

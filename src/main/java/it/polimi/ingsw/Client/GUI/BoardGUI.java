@@ -58,9 +58,9 @@ public class BoardGUI {
         studImages = new ArrayList<>();
         teacherImages = new ArrayList<>();
         switch (numPlayer) {
-            case 0 -> tower = new Image("file:src/resources/Images/Other_objects/White_tower.png");
-            case 1 -> tower = new Image("file:src/resources/Images/Other_objects/Grey_tower.png");
-            case 2 -> tower = new Image("file:src/resources/Images/Other_objects/Black_tower.png");
+            case 0 -> tower = new Image("file:../src/resources/Images/Other_objects/White_tower.png");
+            case 1 -> tower = new Image("file:../src/resources/Images/Other_objects/Grey_tower.png");
+            case 2 -> tower = new Image("file:../src/resources/Images/Other_objects/Black_tower.png");
             default -> {
             }
         }
@@ -102,19 +102,19 @@ public class BoardGUI {
      * method used to create all the ImageViews, images and labels of the teachers and the towers
      */
     public void fillTeachersAndTowers(){
-        Image greenImageT = new Image("file:src/resources/Images/Students and teachers/Green_T.png");
+        Image greenImageT = new Image("file:../src/resources/Images/Students and teachers/Green_T.png");
         teacherImages.add(greenImageT);
 
-        Image redImageT = new Image("file:src/resources/Images/Students and teachers/Red_T.png");
+        Image redImageT = new Image("file:../src/resources/Images/Students and teachers/Red_T.png");
         teacherImages.add(redImageT);
 
-        Image yellowImageT = new Image("file:src/resources/Images/Students and teachers/Yellow_T.png");
+        Image yellowImageT = new Image("file:../src/resources/Images/Students and teachers/Yellow_T.png");
         teacherImages.add(yellowImageT);
 
-        Image pinkImageT = new Image("file:src/resources/Images/Students and teachers/Pink_T.png");
+        Image pinkImageT = new Image("file:../src/resources/Images/Students and teachers/Pink_T.png");
         teacherImages.add(pinkImageT);
 
-        Image blueImageT = new Image("file:src/resources/Images/Students and teachers/Blue_T.png");
+        Image blueImageT = new Image("file:../src/resources/Images/Students and teachers/Blue_T.png");
         teacherImages.add(blueImageT);
 
         for (Colors c: Colors.values()){
@@ -123,11 +123,11 @@ public class BoardGUI {
             stud.setFitWidth(15); stud.setFitHeight(15);
             teachers.add(stud);
         }
-        teachers.get(0).setImage(redImageT);
-        teachers.get(1).setImage(yellowImageT);
-        teachers.get(2).setImage(pinkImageT);
-        teachers.get(3).setImage(blueImageT);
-        teachers.get(4).setImage(greenImageT);
+        teachers.get(0).setImage(new Image("file:"));
+        teachers.get(1).setImage(new Image("file:"));
+        teachers.get(2).setImage(new Image("file:"));
+        teachers.get(3).setImage(new Image("file:"));
+        teachers.get(4).setImage(new Image("file:"));
 
         lblTower.setLayoutX(positionX + 170); lblTower.setLayoutY(positionY + 20);
         lblTower.setFont(Font.font(30));
@@ -138,19 +138,19 @@ public class BoardGUI {
      * method used to create all the ImageViews, images and labels of the students in the hall and the entrance
      */
     public void fillStudColors(){
-        Image greenImage = new Image("file:src/resources/Images/Students and teachers/Green_S.png");
+        Image greenImage = new Image("file:../src/resources/Images/Students and teachers/Green_S.png");
         studImages.add(greenImage);
 
-        Image redImage = new Image("file:src/resources/Images/Students and teachers/Red_S.png");
+        Image redImage = new Image("file:../src/resources/Images/Students and teachers/Red_S.png");
         studImages.add(redImage);
 
-        Image yellowImage = new Image("file:src/resources/Images/Students and teachers/Yellow_S.png");
+        Image yellowImage = new Image("file:../src/resources/Images/Students and teachers/Yellow_S.png");
         studImages.add(yellowImage);
 
-        Image pinkImage = new Image("file:src/resources/Images/Students and teachers/Pink_S.png");
+        Image pinkImage = new Image("file:../src/resources/Images/Students and teachers/Pink_S.png");
         studImages.add(pinkImage);
 
-        Image blueImage = new Image("file:src/resources/Images/Students and teachers/Blue_S.png");
+        Image blueImage = new Image("file:../src/resources/Images/Students and teachers/Blue_S.png");
         studImages.add(blueImage);
 
         for (Colors c: Colors.values()){

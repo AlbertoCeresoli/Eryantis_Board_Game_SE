@@ -26,10 +26,10 @@ public class GUIPrinter {
      */
     public void printBoards(ArrayList<ImageView> boardImageViews, AnchorPane anchorPane){
         ArrayList<Image> boardImages = new ArrayList<>();
-        boardImages.add(new Image("file:src/resources/Images/BOARD.png"));
-        boardImages.add(new Image("file:src/resources/Images/BOARD.png"));
+        boardImages.add(new Image("file:../src/resources/Images/BOARD.png"));
+        boardImages.add(new Image("file:../src/resources/Images/BOARD.png"));
         if (Constants.getNumPlayers() == 3){
-            boardImages.add(new Image("file:src/resources/Images/BOARD.png"));
+            boardImages.add(new Image("file:../src/resources/Images/BOARD.png"));
         }
 
         boards = new ArrayList<>();
@@ -118,7 +118,7 @@ public class GUIPrinter {
      */
     public void printCoins(ArrayList<ImageView> coinsImageViews, AnchorPane anchorPane){
         coins = new ArrayList<>();
-        Image coinImage = new Image("file:src/resources/Images/Other_objects/Coin.png");
+        Image coinImage = new Image("file:../src/resources/Images/Other_objects/Coin.png");
         for(int numPlayer = 0; numPlayer < Constants.getNumPlayers(); numPlayer++){
             coins.add(new CoinGUI(coinsImageViews.get(numPlayer), coinImage, anchorPane));
         }
