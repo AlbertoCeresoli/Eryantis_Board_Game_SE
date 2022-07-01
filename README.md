@@ -41,5 +41,5 @@ In order to open jar files, you need to have a JDK for java installed on your PC
 Now you're ready to play.  
 
 ### For command-line users  
-In order to enable the ANSI color view from **Windows** prompt interface, you need to run as administrator the .bat file we provided before starting the game.  For a better experience as CLI users
+In order to enable the ANSI color view from **Windows** prompt interface, you may need to run as administrator the .bat file we provided before starting the game.  For a better experience as CLI users
 we also recommend to choose a window-size first and not to change it for the rest of the game.
