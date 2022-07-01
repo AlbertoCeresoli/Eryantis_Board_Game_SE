@@ -9,10 +9,10 @@ import javafx.scene.text.Font;
 public class CoinGUI {
     private final ImageView imageView;
     private final Image image;
-    private double positionX;
-    private double positionY;
+    private final double positionX;
+    private final double positionY;
     private Integer numCoins;
-    private Label lblCoin;
+    private final Label lblCoin;
 
     /**
      * constructor of the Coin in the GUI. binds the ImageView and the Image and creates the label with the number of coins

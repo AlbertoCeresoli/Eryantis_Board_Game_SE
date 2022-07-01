@@ -97,7 +97,7 @@ public class GUI extends Application {
      */
     public void readAndSend(String message) {
         System.out.println(message);
-        String text = "";
+        String text;
         do {
             text = this.scanner.nextLine();
         } while (text.equals(""));
@@ -155,14 +155,6 @@ public class GUI extends Application {
 
     public Object getLock() {
         return lock;
-    }
-
-    public boolean isOk() {
-        return ok;
-    }
-
-    public void setGuiNetworkConnection(GUINetworkConnection guiNetworkConnection) {
-        this.guiNetworkConnection = guiNetworkConnection;
     }
 
     public void setOk(boolean ok) {

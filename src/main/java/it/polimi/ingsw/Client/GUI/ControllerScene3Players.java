@@ -138,8 +138,8 @@ public class ControllerScene3Players implements ControllerInterface {
             characterCards.add(characterCard3);
 
             btnPlayCC = new Button();
-            btnPlayCC.setLayoutY(230);
-            btnPlayCC.setLayoutX(195);
+            btnPlayCC.setLayoutY(291);
+            btnPlayCC.setLayoutX(208);
             btnPlayCC.setText("PLAY CARD");
             anchorPane.getChildren().add(btnPlayCC);
         }
@@ -386,11 +386,13 @@ public class ControllerScene3Players implements ControllerInterface {
         characterCard1.setOnMouseClicked(mouseEvent -> onClickCharacterCards());
         characterCard2.setOnMouseClicked(mouseEvent -> onClickCharacterCards());
         characterCard3.setOnMouseClicked(mouseEvent -> onClickCharacterCards());
-        btnPlayCC.setOnMouseClicked(mouseEvent -> gui.getSelection().print("/play character card"));
-
+        if (Constants.isGameMode()) {
+            btnPlayCC.setOnMouseClicked(mouseEvent -> gui.getSelection().print("/play character card"));
+        }
         txtField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 txtAreaChat.appendText(txtField.getText() + "\n");
+                gui.getSelection().print("/say " + txtField.getText());
                 txtField.clear();
             }
         });

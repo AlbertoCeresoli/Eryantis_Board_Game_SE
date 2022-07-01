@@ -14,11 +14,11 @@ import java.util.Map;
 public class CloudGUI {
     private final ImageView imageView;
     private final Image image;
-    private double positionX;
-    private double positionY;
-    private Map<Colors, Integer> students;
-    private ArrayList<ImageView> studColors;
-    private ArrayList<Image> studImages;
+    private final double positionX;
+    private final double positionY;
+    private final Map<Colors, Integer> students;
+    private final ArrayList<ImageView> studColors;
+    private final ArrayList<Image> studImages;
 
     /**
      * Constructor of the cloud. Binds the ImageView and the Image and memorize the position of the ImageView.

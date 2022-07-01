@@ -8,7 +8,6 @@ import it.polimi.ingsw.Messages.ErrorMessages.ErrorMessage;
 import it.polimi.ingsw.Messages.GameStartsMessage;
 import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Messages.PlayersNModeMessage;
-import it.polimi.ingsw.Messages.PrintMessages.*;
 import it.polimi.ingsw.Messages.SelectionMessages.*;
 import it.polimi.ingsw.Messages.UpdateMessages.*;
 import javafx.application.Platform;
@@ -80,7 +79,7 @@ public class GUINetworkConnection implements UI {
 
     /**
      * sorts the messages sent from the server based on the type of the message (except the ones of the start of the game that are elaborated in elaborateMessage)
-     * @param message
+     * @param message message from the server
      */
     private void elaboration(Message message) {
         if (message instanceof EasyMessage) {
@@ -95,9 +94,6 @@ public class GUINetworkConnection implements UI {
         }
         if (message instanceof SelectionMessage) {
             elaborateSelectionMessage((SelectionMessage) message);
-        }
-        if (message instanceof PrintMessage) {
-            elaboratePrintMessage((PrintMessage) message);
         }
         if (message instanceof ErrorMessage) {
             elaborateErrorMessage((ErrorMessage) message);
@@ -133,31 +129,6 @@ public class GUINetworkConnection implements UI {
         }
         if (message instanceof CharacterCardSelectionMessage) {
             gui.getSelection().selectCCIndex();
-        }
-    }
-
-    /**
-     * elaborates all the print requests sent from the server
-     * @param message PrintMessage sent from the server
-     */
-    private void elaboratePrintMessage(PrintMessage message) {
-        if (message instanceof PrintAssistantCardsMessage) {
-            gui.getController().onClickACP1();
-        }
-        if (message instanceof PrintBoardMessage) {
-            gui.getController().onClickBoard(((PrintBoardMessage) message).getPlayerIndex());
-        }
-        if (message instanceof PrintCharacterCardsMessage) {
-            gui.getController().onClickCharacterCards();
-        }
-        if (message instanceof PrintCloudsMessage) {
-            gui.getController().onClickClouds();
-        }
-        if (message instanceof PrintIslandMessage) {
-            gui.getController().zoomIsland(((PrintIslandMessage) message).getIslandIndex());
-        }
-        if (message instanceof PrintIslandsMessage) {
-            gui.getController().onClickClouds();
         }
     }
 
@@ -199,20 +170,9 @@ public class GUINetworkConnection implements UI {
         return gui;
     }
 
-    public Socket getSocket() {
-        return socket;
-    }
 
     @Override
     public ObjectInputStream getFromServerInput() {
         return fromServerInput;
-    }
-
-    public ObjectOutputStream getToServerOutput() {
-        return toServerOutput;
-    }
-
-    public FromServerMessagesReader getFromServerMessagesReader() {
-        return fromServerMessagesReader;
     }
 }

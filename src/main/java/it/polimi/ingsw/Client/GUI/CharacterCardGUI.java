@@ -16,13 +16,13 @@ import java.util.Map;
 public class CharacterCardGUI {
     private final ImageView imageView;
     private Image image;
-    private double positionX;
-    private double positionY;
+    private final double positionX;
+    private final double positionY;
     private int index;
     private String effect;
     private Map<Colors, Integer> students;
     private ArrayList<ImageView> studColors;
-    private ArrayList<Image> studImages;
+    private final ArrayList<Image> studImages;
 
     /**
      * Constructor of the character card. memorize the ImageView and his position.
@@ -43,7 +43,7 @@ public class CharacterCardGUI {
 
     /**
      * Binds the ImageView with the correct image and effect
-     * @param index of the characted card
+     * @param index of the character card
      */
     public void setCC(int index, String effect, AnchorPane anchorPane){
         this.index= index;
@@ -86,7 +86,7 @@ public class CharacterCardGUI {
     }
 
     /**
-     * set the student's immages of the cards
+     * set the student's images of the cards
      * @param studs Map of the students on the card
      */
     public void setStudents(Map<Colors, Integer> studs){
@@ -118,8 +118,8 @@ public class CharacterCardGUI {
     public void setCCToFront(){
         imageView.toFront();
         if (studColors!=null) {
-            for (int numStud = 0; numStud < studColors.size(); numStud++) {
-                studColors.get(numStud).toFront();
+            for (ImageView studColor : studColors) {
+                studColor.toFront();
             }
         }
     }

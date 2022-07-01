@@ -6,8 +6,8 @@ import javafx.scene.image.ImageView;
 public class AssistantCardGUI {
     private final ImageView imageView;
     private final Image image;
-    private double positionX;
-    private double positionY;
+    private final double positionX;
+    private final double positionY;
 
     /**
      * Constructor of an assistant card in the GUI. Keeps memorized the image set in the ImageView and the ImageView position

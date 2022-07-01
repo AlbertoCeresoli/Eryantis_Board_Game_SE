@@ -16,24 +16,24 @@ import java.util.Map;
 public class BoardGUI {
     private final ImageView imageView;
     private final Image image;
-    private double positionX;
-    private double positionY;
-    private ArrayList<Image> studImages;
-    private ArrayList<Image> teacherImages;
+    private final double positionX;
+    private final double positionY;
+    private final ArrayList<Image> studImages;
+    private final ArrayList<Image> teacherImages;
     private Image tower;
 
-    private Map<Colors, Boolean> teachersOnBoard;
-    private Map<Colors, Integer> studInEntrance;
-    private Map<Colors, Integer> studInHall;
+    private final Map<Colors, Boolean> teachersOnBoard;
+    private final Map<Colors, Integer> studInEntrance;
+    private final Map<Colors, Integer> studInHall;
     private Integer numTower;
 
-    private ArrayList<ImageView> studColorsInEntrance;
-    private ArrayList<ImageView> studColorsInHall;
-    private ArrayList<ImageView> teachers;
+    private final ArrayList<ImageView> studColorsInEntrance;
+    private final ArrayList<ImageView> studColorsInHall;
+    private final ArrayList<ImageView> teachers;
 
-    private ArrayList<Label> lblColorsInEntrance;
-    private ArrayList<Label> lblColorsInHall;
-    private Label lblTower;
+    private final ArrayList<Label> lblColorsInEntrance;
+    private final ArrayList<Label> lblColorsInHall;
+    private final Label lblTower;
 
 
     /**
@@ -57,18 +57,12 @@ public class BoardGUI {
 
         studImages = new ArrayList<>();
         teacherImages = new ArrayList<>();
-        switch (numPlayer){
-            case 0:
-                tower= new Image("file:src/resources/Images/Other_objects/White_tower.png");
-                break;
-            case 1:
-                tower = new Image("file:src/resources/Images/Other_objects/Grey_tower.png");
-                break;
-            case 2:
-                tower = new Image("file:src/resources/Images/Other_objects/Black_tower.png");
-                break;
-            default:
-                break;
+        switch (numPlayer) {
+            case 0 -> tower = new Image("file:src/resources/Images/Other_objects/White_tower.png");
+            case 1 -> tower = new Image("file:src/resources/Images/Other_objects/Grey_tower.png");
+            case 2 -> tower = new Image("file:src/resources/Images/Other_objects/Black_tower.png");
+            default -> {
+            }
         }
 
         lblColorsInEntrance = new ArrayList<>();

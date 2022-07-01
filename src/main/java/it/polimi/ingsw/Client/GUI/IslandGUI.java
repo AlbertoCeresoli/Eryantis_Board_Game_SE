@@ -79,7 +79,7 @@ public class IslandGUI {
         anchorPane.getChildren().add(controller);
 
         lblTowers = new Label();
-        lblTowers.setLayoutX(positionX+70); lblTowers.setLayoutY(positionY);
+        lblTowers.setLayoutX(positionX+72); lblTowers.setLayoutY(positionY + 2);
         lblTowers.setFont(Font.font(10));
         anchorPane.getChildren().add(lblTowers);
 
@@ -333,7 +333,7 @@ public class IslandGUI {
         lblTowers.toBack();
         imgVwIC.toBack();
         lblIC.toBack();
-
+        lblIslandIndex.toBack();
     }
 
     /**

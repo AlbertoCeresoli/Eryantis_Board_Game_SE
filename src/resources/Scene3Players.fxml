@@ -72,8 +72,8 @@
       <ImageView fx:id="island7" fitHeight="71.0" fitWidth="87.0" layoutX="691.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="island8" fitHeight="71.0" fitWidth="87.0" layoutX="561.0" layoutY="404.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="island9" fitHeight="71.0" fitWidth="87.0" layoutX="437.0" layoutY="411.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="island10" fitHeight="71.0" fitWidth="87.0" layoutX="321.0" layoutY="404.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="island11" fitHeight="71.0" fitWidth="87.0" layoutX="191.0" layoutY="404.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="island10" fitHeight="71.0" fitWidth="87.0" layoutX="329.0" layoutY="421.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="island11" fitHeight="71.0" fitWidth="87.0" layoutX="177.0" layoutY="421.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="island12" fitHeight="71.0" fitWidth="87.0" layoutX="54.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="cloud1" fitHeight="71.0" fitWidth="71.0" layoutX="424.0" layoutY="306.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="cloud2" fitHeight="71.0" fitWidth="71.0" layoutX="509.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
@@ -83,8 +83,8 @@
             <Image url="@Images/Other_objects/zoomSimble.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="characterCard1" fitHeight="90.0" fitWidth="60.0" layoutX="144.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="characterCard2" fitHeight="90.0" fitWidth="60.0" layoutX="220.0" layoutY="297.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="characterCard3" fitHeight="90.0" fitWidth="60.0" layoutX="291.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="characterCard1" fitHeight="90.0" fitWidth="60.0" layoutX="144.0" layoutY="305.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="characterCard2" fitHeight="90.0" fitWidth="60.0" layoutX="220.0" layoutY="321.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="characterCard3" fitHeight="90.0" fitWidth="60.0" layoutX="288.0" layoutY="305.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
