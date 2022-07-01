@@ -24,6 +24,9 @@ public class GUINetworkConnection implements UI {
     private final ObjectOutputStream toServerOutput;
     private final FromServerMessagesReader fromServerMessagesReader;
 
+    /**
+     * constructor of the class GUINetworkConnection
+     */
     public GUINetworkConnection(GUI gui, String IPAddress, int serverPort) throws IOException {
         this.gui = gui;
         this.socket = new Socket(IPAddress, serverPort);
@@ -35,6 +38,10 @@ public class GUINetworkConnection implements UI {
         new Thread(this.fromServerMessagesReader).start();
     }
 
+    /**
+     * sorts the messages sent from the server based on the type of the message
+     * @param message message received from the server
+     */
     @Override
     public void elaborateMessage(Message message) {
         if (message instanceof NicknameSelectionMessage) {
@@ -58,6 +65,10 @@ public class GUINetworkConnection implements UI {
         }
     }
 
+    /**
+     * it launches in a new thread the elaboration of the message received
+     * @param message message sent from the server
+     */
     private void runLater(Message message) {
         Platform.runLater(new Runnable() {
             @Override
@@ -67,6 +78,10 @@ public class GUINetworkConnection implements UI {
         });
     }
 
+    /**
+     * sorts the messages sent from the server based on the type of the message (except the ones of the start of the game that are elaborated in elaborateMessage)
+     * @param message
+     */
     private void elaboration(Message message) {
         if (message instanceof EasyMessage) {
             try {
@@ -93,6 +108,10 @@ public class GUINetworkConnection implements UI {
         }
     }
 
+    /**
+     * it elaborates the messages of selection
+     * @param message selection message used to request an information to the client
+     */
     private void elaborateSelectionMessage(SelectionMessage message) {
         if (message instanceof AssistantCardSelectionMessage) {
             gui.getSelection().selectAC();
@@ -117,6 +136,10 @@ public class GUINetworkConnection implements UI {
         }
     }
 
+    /**
+     * elaborates all the print requests sent from the server
+     * @param message PrintMessage sent from the server
+     */
     private void elaboratePrintMessage(PrintMessage message) {
         if (message instanceof PrintAssistantCardsMessage) {
             gui.getController().onClickACP1();
@@ -138,10 +161,18 @@ public class GUINetworkConnection implements UI {
         }
     }
 
+    /**
+     * elaborates all the messages of error
+     * @param message Error message sent from the server
+     */
     private void elaborateErrorMessage(ErrorMessage message) {
         gui.getController().printEasyMessage(message.getText());
     }
 
+    /**
+     * method used to send a response to the server
+     * @param text String sent to the server
+     */
     public void sendMessageToServer(String text) {
         try {
             toServerOutput.reset();
@@ -153,11 +184,17 @@ public class GUINetworkConnection implements UI {
     }
     //TODO
 
+    /**
+     * closes the connection with the server
+     */
     @Override
     public void exit() {
 
     }
 
+    /**
+     * set and get methods
+     */
     public GUI getGui() {
         return gui;
     }

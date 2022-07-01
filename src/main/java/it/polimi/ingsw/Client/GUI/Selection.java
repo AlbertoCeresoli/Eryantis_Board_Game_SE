@@ -375,6 +375,9 @@ public class Selection {
         stageSel.show();
     }
 
+    /**
+     * method used to ask to the player to select the index of a character card
+     */
     public void selectCCIndex(){
         Stage stageSel = new Stage();
         AnchorPane anchorPaneSel = new AnchorPane();
@@ -422,16 +425,19 @@ public class Selection {
         stageSel.show();
     }
 
+    /**
+     * method used to send the answer of a selection message to the server
+     * @param selection string that will be sent to the server
+     */
     public void print(String selection) {
         guiNetworkConnection.sendMessageToServer(selection);
     }
 
+    /**
+     * get and set methods
+     */
     public GUI getGui() {
         return gui;
-    }
-
-    public GUINetworkConnection getGuiNetworkConnection() {
-        return guiNetworkConnection;
     }
 
     public void setGui(GUI gui) {

@@ -85,6 +85,10 @@ public class CharacterCardGUI {
         }
     }
 
+    /**
+     * set the student's immages of the cards
+     * @param studs Map of the students on the card
+     */
     public void setStudents(Map<Colors, Integer> studs){
         students = studs;
 
@@ -170,6 +174,9 @@ public class CharacterCardGUI {
         }
     }
 
+    /**
+     * get and set methods
+     */
     public int getIndex() {
         return index;
     }

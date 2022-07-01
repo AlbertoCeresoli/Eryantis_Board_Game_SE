@@ -25,12 +25,15 @@ public class AssistantCardGUI {
     }
 
     /**
-     * set the opacity of the assistant card at 0.5 when the card is used
+     * remove the image of the assistant card when used
      */
     public void assistantUsed(){
         imageView.setImage(new Image("file:"));
     }
 
+    /**
+     * get and set methods
+     */
     public Image getImage() {
         return image;
     }

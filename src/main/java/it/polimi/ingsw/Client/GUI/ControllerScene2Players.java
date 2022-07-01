@@ -144,6 +144,10 @@ public class ControllerScene2Players implements ControllerInterface {
         }
     }
 
+    /**
+     * controls all the update messages sent from the server and call the correct methods
+     * @param message Update message sent from the server
+     */
     @Override
     public void updateGame(UpdateMessage message) {
         if (message instanceof BoardUpdateMessage){
@@ -169,6 +173,10 @@ public class ControllerScene2Players implements ControllerInterface {
         }
     }
 
+    /**
+     * elaborates the message that notify a change on the assistant cards
+     * @param message message of the server
+     */
     public void elaborateAssistantCardUpdateMessage(AssistantCardUpdateMessage message){
         PrintAssistantCardsMessage acMessage = message.getPrintAssistantCardsMessage();
 
@@ -179,6 +187,10 @@ public class ControllerScene2Players implements ControllerInterface {
         }
     }
 
+    /**
+     * elaborates the message that notify a change on a board
+     * @param message message of the server
+     */
     public void elaborateBoardUpdateMessage(BoardUpdateMessage message){
        Map<Colors, Integer> entrance = message.getEntrance();
        Map<Colors, Integer> hall = message.getHall();
@@ -193,6 +205,10 @@ public class ControllerScene2Players implements ControllerInterface {
        }
     }
 
+    /**
+     * elaborates the message that notify a change on the clouds
+     * @param message message of the server
+     */
     public void elaborateCloudsUpdateMessage(CloudsUpdateMessage message){
         PrintCloudsMessage cloudsMessage = message.getPrintCloudsMessage();
         for (int numCloud = 0; numCloud<Constants.getNumPlayers(); numCloud++){
@@ -200,46 +216,28 @@ public class ControllerScene2Players implements ControllerInterface {
         }
     }
 
+    /**
+     * elaborates the message that notify a change on the islands
+     * @param message message of the server
+     */
     public void elaborateIslandsUpdateMessage(IslandsUpdateMessage message){
         ArrayList<PrintIslandMessage> islandMessages = message.getPrintIslandsMessage().getIslandMessages();
         int[] towers = message.getTowers();
         Map<String, Integer> nickToIndex = message.getNickToIndex();
 
-        int islandIndex=0;
-        for (int numIsland=0; numIsland < islandMessages.size(); numIsland++){
-            if (islandMessages.get(numIsland).getNumberOfTowers()==0 || islandMessages.get(numIsland).getNumberOfTowers()==1){
-                printer.printIsland(islandIndex,
+        for (int numIsland=0; numIsland < printer.getIslands().size(); numIsland++){
+            if (numIsland<islandMessages.size()) {
+                printer.printIsland(numIsland,
                         nickToIndex.get(islandMessages.get(numIsland).getIslandController()),
                         islandMessages.get(numIsland).getStudents(),
                         islandMessages.get(numIsland).isMotherNatureInHere(),
                         islandMessages.get(numIsland).getNumberOfTowers(),
                         islandMessages.get(numIsland).getInhibitionCards()
                 );
-                islandIndex++;
             }
-            else if (islandMessages.get(numIsland).getNumberOfTowers() > 1 && islandMessages.get(numIsland).getNumberOfTowers()>printer.getIslands().get(numIsland).getNumTowers()){
-                printer.printIsland(islandIndex,
-                        nickToIndex.get(islandMessages.get(numIsland).getIslandController()),
-                        islandMessages.get(numIsland).getStudents(),
-                        islandMessages.get(numIsland).isMotherNatureInHere(),
-                        islandMessages.get(numIsland).getNumberOfTowers(),
-                        islandMessages.get(numIsland).getInhibitionCards()
-                );
-                for (int i=1; i<islandMessages.get(numIsland).getNumberOfTowers(); i++){
-                    printer.hideIsland(numIsland + i);
-                    printer.removeIsland(numIsland + i);
-                }
-                islandIndex += islandMessages.get(numIsland).getNumberOfTowers() - 1;
-            }
-            else {
-                printer.printIsland(islandIndex,
-                        nickToIndex.get(islandMessages.get(numIsland).getIslandController()),
-                        islandMessages.get(numIsland).getStudents(),
-                        islandMessages.get(numIsland).isMotherNatureInHere(),
-                        islandMessages.get(numIsland).getNumberOfTowers(),
-                        islandMessages.get(numIsland).getInhibitionCards()
-                );
-                islandIndex++;
+            else{
+                printer.hideIsland(numIsland);
+                printer.removeIsland(numIsland);
             }
         }
 
@@ -248,26 +246,33 @@ public class ControllerScene2Players implements ControllerInterface {
         }
     }
 
+    /**
+     * elaborates the message that notify a change on the mn position
+     * @param message message of the server
+     */
     public void elaborateMotherNatureUpdateMessage(MotherNatureUpdateMessage message){
         printer.modifyMNPosition(message.getPosition());
     }
 
+    /**
+     * elaborates the message that notify a change on the teachers position
+     * @param message message of the server
+     */
     public void elaborateTeachersUpdateMessage(TeachersUpdateMessage message){
         PrintTeachersMessage teachersMessage = message.getPrintTeachersMessage();
         for (int numPlayer=0; numPlayer<Constants.getNumPlayers(); numPlayer++){
             boolean[] teachers = new boolean[5];
             for (Colors c: Colors.values()){
-                if (teachersMessage.getNickToIndex().get(teachersMessage.getTeachers().get(c)) == numPlayer){
-                    teachers[c.ordinal()]=true;
-                }
-                else {
-                    teachers[c.ordinal()]=false;
-                }
+                teachers[c.ordinal()]= teachersMessage.getNickToIndex().get(teachersMessage.getTeachers().get(c)) == numPlayer;
             }
             printer.modifyTeachers(numPlayer, teachers);
         }
     }
 
+    /**
+     * elaborates the message that notify all the changes in the game
+     * @param message message of the server
+     */
     public void elaborateEriantysUpdateMessage(EriantysUpdateMessage message){
         //set dei nicknames
         setNicknames(message.getPlayers());
@@ -291,7 +296,7 @@ public class ControllerScene2Players implements ControllerInterface {
         //set students character cards only if the game is in hard mode
         if (Constants.isGameMode()) {
             PrintCharacterCardsMessage characterCardsMessage = message.getPrintCharacterCardsMessage();
-            printer.setCharacterCards(characterCardsMessage.getIndexes(), characterCardsMessage.getCosts(), characterCardsMessage.getEffects(), anchorPane);
+            printer.setCharacterCards(characterCardsMessage.getIndexes(), characterCardsMessage.getEffects(), anchorPane);
             int counter = 0;
             for(int numCC=0; numCC<3; numCC++){
                 if (characterCardsMessage.getAreThereStudentsOnTheCard()[numCC]){
@@ -370,9 +375,7 @@ public class ControllerScene2Players implements ControllerInterface {
         characterCard2.setOnMouseClicked(mouseEvent -> onClickCharacterCards());
         characterCard3.setOnMouseClicked(mouseEvent -> onClickCharacterCards());
         if (Constants.isGameMode()) {
-            btnPlayCC.setOnMouseClicked(mouseEvent -> {
-                gui.getSelection().print("/play character card");
-            });
+            btnPlayCC.setOnMouseClicked(mouseEvent -> gui.getSelection().print("/play character card"));
         }
 
         txtField.setOnKeyPressed(event -> {
@@ -454,7 +457,6 @@ public class ControllerScene2Players implements ControllerInterface {
             Constants.moveObject(anchorPane, 150, 0, rectOpaqueBackground);
             Constants.zoomObject(anchorPane, 0.3, 0.4);
 
-
             rectOpaqueBackground.setOnMouseClicked(mouseEvent -> {
                 Constants.zoomBackObject(anchorPane, -0.3, -0.4);
                 Constants.moveBackObject(anchorPane, -150, 0);
@@ -504,8 +506,6 @@ public class ControllerScene2Players implements ControllerInterface {
             });
         }
     }
-
-
 
     /**
      * Set and get methods

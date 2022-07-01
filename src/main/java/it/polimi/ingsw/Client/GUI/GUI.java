@@ -23,10 +23,16 @@ public class GUI extends Application {
     private boolean ok;
     private final Object lock = new Object();
 
+    /**
+     * main method of the GUI
+     */
     public static void main(String[] args) {
         launch();
     }
 
+    /**
+     * start method of the GUI: it creates the GUINetworkConnection class and starts the GUI when the connection with the server is ready
+     */
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
         this.ok = false;
@@ -85,6 +91,10 @@ public class GUI extends Application {
         stage.setOnCloseRequest(event -> quitGUI());
     }
 
+    /**
+     * used to read and send the initial information of the game (nickname, IP address and server port)
+     * @param message string to print for the request
+     */
     public void readAndSend(String message) {
         System.out.println(message);
         String text = "";
@@ -94,6 +104,10 @@ public class GUI extends Application {
         this.guiNetworkConnection.sendMessageToServer(text);
     }
 
+    /**
+     * changes all the initial proprieties of the primary stage
+     * @param stage primary stage of the GUI
+     */
     public void stageSettings(Stage stage){
         //set the icon of the stage
         Image cranioLogo = new Image("file:src/resources/Images/LOGO.png");
@@ -121,13 +135,16 @@ public class GUI extends Application {
     }
 
     /**
-     * close all the stages that are still open
+     * close all the stages that are still open and close the connection with the server
      */
     public void quitGUI(){
         stages.forEach(Stage::close);
         guiNetworkConnection.exit();
     }
 
+    /**
+     * get and send methods
+     */
     public Selection getSelection() {
         return selection;
     }

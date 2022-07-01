@@ -86,6 +86,9 @@ public class CLI implements Runnable, UI {
 		}
 	}
 
+	/**
+	 * sends a message to the server
+	 */
 	public void sendMessageToServer(Message message) throws IOException {
 		toServerOutput.reset();
 		toServerOutput.writeObject(message);
@@ -205,14 +208,17 @@ public class CLI implements Runnable, UI {
 		}
 	}
 
+	/**
+	 * elaborates all the messages of error
+	 * @param message Error message sent from the server
+	 */
 	public void elaborateErrorMessage(ErrorMessage message) {
 		ClientPrinter.easyPrint(message.getText());
 	}
 
-	public ObjectInputStream getFromServerInput() {
-		return fromServerInput;
-	}
-
+	/**
+	 * closes the connection with the server
+	 */
 	public void exit() {
 		this.activeGame = false;
 		try {
@@ -220,5 +226,12 @@ public class CLI implements Runnable, UI {
 		} catch (IOException ignored) {
 
 		}
+	}
+
+	/**
+	 * get and set methods
+	 */
+	public ObjectInputStream getFromServerInput() {
+		return fromServerInput;
 	}
 }

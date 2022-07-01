@@ -48,10 +48,19 @@ public class GUIPrinter {
 
         islands = new ArrayList<>();
         for (int numIsland = 0; numIsland<12; numIsland++){
-            islands.add(new IslandGUI(islandImageViews.get(numIsland), islandImages.get(numIsland), anchorPane));
+            islands.add(new IslandGUI(islandImageViews.get(numIsland), islandImages.get(numIsland), anchorPane, numIsland));
         }
     }
 
+    /**
+     * prints a single island on the stage
+     * @param numIsland index of the island that has to be print
+     * @param controller controller of the island
+     * @param Students students on the island
+     * @param mn boolean that indicates if MN is on the island
+     * @param numTower number of the towers on the island
+     * @param numInhibitionCards number of inhibition card on the island
+     */
     public void printIsland(int numIsland, int controller, Map<Colors, Integer> Students, boolean mn, int numTower, int numInhibitionCards){
         islands.get(numIsland).setController(controller);
 
@@ -67,6 +76,10 @@ public class GUIPrinter {
         islands.get(numIsland).setNumIC(numInhibitionCards);
     }
 
+    /**
+     * hides the island imageVies and components when the island is merged with another
+     * @param islandIndex index of the island to hide
+     */
     public void hideIsland(int islandIndex){
         islands.get(islandIndex).hide();
     }
@@ -254,10 +267,6 @@ public class GUIPrinter {
         clouds.get(cloudIndex).setStudents(cloud);
     }
 
-    public void modifyIsland(int islandIndex, Colors c, int n){
-        islands.get(islandIndex).setNumStudents(c, n);
-    }
-
     public void modifyMNPosition(int position){
         islands.forEach((island) -> {
             if (island.isMNPresent()) {
@@ -281,7 +290,7 @@ public class GUIPrinter {
         characterCards.get(cardIndex).setStudents(students);
     }
 
-    public void setCharacterCards(int[] indexes,int[] costs, String[] effects, AnchorPane anchorPane){
+    public void setCharacterCards(int[] indexes, String[] effects, AnchorPane anchorPane){
         for (int cardIndex=0; cardIndex < indexes.length; cardIndex++){
             characterCards.get(cardIndex).setCC(indexes[cardIndex], effects[cardIndex], anchorPane);
         }

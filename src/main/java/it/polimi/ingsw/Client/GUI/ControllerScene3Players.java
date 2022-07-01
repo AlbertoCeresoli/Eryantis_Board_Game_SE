@@ -153,6 +153,10 @@ public class ControllerScene3Players implements ControllerInterface {
         }
     }
 
+    /**
+     * controls all the update messages sent from the server and call the correct methods
+     * @param message Update message sent from the server
+     */
     @Override
     public void updateGame(UpdateMessage message) {
         if (message instanceof BoardUpdateMessage){
@@ -178,6 +182,10 @@ public class ControllerScene3Players implements ControllerInterface {
         }
     }
 
+    /**
+     * elaborates the message that notify a change on the assistant cards
+     * @param message message of the server
+     */
     public void elaborateAssistantCardUpdateMessage(AssistantCardUpdateMessage message){
         PrintAssistantCardsMessage acMessage = message.getPrintAssistantCardsMessage();
 
@@ -188,6 +196,11 @@ public class ControllerScene3Players implements ControllerInterface {
         }
     }
 
+
+    /**
+     * elaborates the message that notify a change on a board
+     * @param message message of the server
+     */
     public void elaborateBoardUpdateMessage(BoardUpdateMessage message){
         Map<Colors, Integer> entrance = message.getEntrance();
         Map<Colors, Integer> hall = message.getHall();
@@ -202,6 +215,10 @@ public class ControllerScene3Players implements ControllerInterface {
         }
     }
 
+    /**
+     * elaborates the message that notify a change on the clouds
+     * @param message message of the server
+     */
     public void elaborateCloudsUpdateMessage(CloudsUpdateMessage message){
         PrintCloudsMessage cloudsMessage = message.getPrintCloudsMessage();
         for (int numCloud = 0; numCloud<Constants.getNumPlayers(); numCloud++){
@@ -209,13 +226,17 @@ public class ControllerScene3Players implements ControllerInterface {
         }
     }
 
+    /**
+     * elaborates the message that notify a change on the islands
+     * @param message message of the server
+     */
     public void elaborateIslandsUpdateMessage(IslandsUpdateMessage message){
         ArrayList<PrintIslandMessage> islandMessages = message.getPrintIslandsMessage().getIslandMessages();
         int[] towers = message.getTowers();
         Map<String, Integer> nickToIndex = message.getNickToIndex();
 
-        for (int numIsland=0; numIsland < 12; numIsland++){
-            if (islandMessages.get(numIsland).getNumberOfTowers()==0 || islandMessages.get(numIsland).getNumberOfTowers()==1){
+        for (int numIsland=0; numIsland < printer.getIslands().size(); numIsland++){
+            if (numIsland<islandMessages.size()) {
                 printer.printIsland(numIsland,
                         nickToIndex.get(islandMessages.get(numIsland).getIslandController()),
                         islandMessages.get(numIsland).getStudents(),
@@ -224,18 +245,9 @@ public class ControllerScene3Players implements ControllerInterface {
                         islandMessages.get(numIsland).getInhibitionCards()
                 );
             }
-            else {
-                printer.printIsland(numIsland,
-                        nickToIndex.get(islandMessages.get(numIsland).getIslandController()),
-                        islandMessages.get(numIsland).getStudents(),
-                        islandMessages.get(numIsland).isMotherNatureInHere(),
-                        islandMessages.get(numIsland).getNumberOfTowers(),
-                        islandMessages.get(numIsland).getInhibitionCards()
-                );
-                for (int i=1; i<islandMessages.get(numIsland).getNumberOfTowers(); i++){
-                    printer.hideIsland(numIsland + i);
-                }
-                numIsland += islandMessages.get(numIsland).getNumberOfTowers() - 1;
+            else{
+                printer.hideIsland(numIsland);
+                printer.removeIsland(numIsland);
             }
         }
 
@@ -244,26 +256,33 @@ public class ControllerScene3Players implements ControllerInterface {
         }
     }
 
+    /**
+     * elaborates the message that notify a change on the mn position
+     * @param message message of the server
+     */
     public void elaborateMotherNatureUpdateMessage(MotherNatureUpdateMessage message){
         printer.modifyMNPosition(message.getPosition());
     }
 
+    /**
+     * elaborates the message that notify a change on the teachers position
+     * @param message message of the server
+     */
     public void elaborateTeachersUpdateMessage(TeachersUpdateMessage message){
         PrintTeachersMessage teachersMessage = message.getPrintTeachersMessage();
         for (int numPlayer=0; numPlayer<Constants.getNumPlayers(); numPlayer++){
             boolean[] teachers = new boolean[5];
             for (Colors c: Colors.values()){
-                if (teachersMessage.getNickToIndex().get(teachersMessage.getTeachers().get(c)) == numPlayer){
-                    teachers[c.ordinal()]=true;
-                }
-                else {
-                    teachers[c.ordinal()]=false;
-                }
+                teachers[c.ordinal()]= teachersMessage.getNickToIndex().get(teachersMessage.getTeachers().get(c)) == numPlayer;
             }
             printer.modifyTeachers(numPlayer, teachers);
         }
     }
 
+    /**
+     * elaborates the message that notify all the changes in the game
+     * @param message message of the server
+     */
     public void elaborateEriantysUpdateMessage(EriantysUpdateMessage message){
         //set dei nicknames
         setNicknames(message.getPlayers());
@@ -283,9 +302,11 @@ public class ControllerScene3Players implements ControllerInterface {
                 printer.modifyCoins(numPlayer, boards[numPlayer].getCoins());
             }
         }
+
+        //set students character cards only if the game is in hard mode
         if (Constants.isGameMode()) {
             PrintCharacterCardsMessage characterCardsMessage = message.getPrintCharacterCardsMessage();
-            printer.setCharacterCards(characterCardsMessage.getIndexes(), characterCardsMessage.getCosts(), characterCardsMessage.getEffects(), anchorPane);
+            printer.setCharacterCards(characterCardsMessage.getIndexes(), characterCardsMessage.getEffects(), anchorPane);
             int counter = 0;
             for(int numCC=0; numCC<3; numCC++){
                 if (characterCardsMessage.getAreThereStudentsOnTheCard()[numCC]){
@@ -297,11 +318,14 @@ public class ControllerScene3Players implements ControllerInterface {
 
         //set students on islands
         PrintIslandsMessage islands = message.getPrintIslandsMessage();
-        for (int numIsland=0; numIsland<12; numIsland++) {
+        for (int numIsland=0; numIsland<this.islands.size(); numIsland++) {
             PrintIslandMessage island = islands.getIslandMessages().get(numIsland);
 
-            printer.printIsland(island.getIslandIndex(), message.getNickToIndex().get(island.getIslandController()),
-                    island.getStudents(), island.isMotherNatureInHere(), island.getNumberOfTowers(),
+            printer.printIsland(island.getIslandIndex(),
+                    message.getNickToIndex().get(island.getIslandController()),
+                    island.getStudents(),
+                    island.isMotherNatureInHere(),
+                    island.getNumberOfTowers(),
                     island.getInhibitionCards());
         }
 
@@ -362,9 +386,7 @@ public class ControllerScene3Players implements ControllerInterface {
         characterCard1.setOnMouseClicked(mouseEvent -> onClickCharacterCards());
         characterCard2.setOnMouseClicked(mouseEvent -> onClickCharacterCards());
         characterCard3.setOnMouseClicked(mouseEvent -> onClickCharacterCards());
-        btnPlayCC.setOnMouseClicked(mouseEvent -> {
-            gui.getSelection().print("/play character card");
-        });
+        btnPlayCC.setOnMouseClicked(mouseEvent -> gui.getSelection().print("/play character card"));
 
         txtField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -444,7 +466,6 @@ public class ControllerScene3Players implements ControllerInterface {
 
             Constants.moveObject(anchorPane, 150, -50, rectOpaqueBackground);
             Constants.zoomObject(anchorPane, 0.3, 0.5);
-
 
             rectOpaqueBackground.setOnMouseClicked(mouseEvent -> {
                 Constants.zoomBackObject(anchorPane, -0.3, -0.5);
