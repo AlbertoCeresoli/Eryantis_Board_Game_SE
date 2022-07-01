@@ -20,9 +20,9 @@
 Final exam: Software Engineering [Alessandro Margara]  
 ### Tests coverage  
  
-|     |                      General                       | Lines|
+|     |                      Class                       | Lines|
 |:-----------------|:--------------------------------------------------:|:---------|
-| Model     | tot% | x/y |
+| Model     | 100% | 90% (520/572) |
 
   
 **Team AM05** by:    
