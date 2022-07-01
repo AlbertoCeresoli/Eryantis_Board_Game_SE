@@ -35,7 +35,8 @@ Final exam: Software Engineering [Alessandro Margara]
 
 ## JARs  
 In order to open jar files, you need to have a JDK for java installed on your PC.  To run the jar you have to go in the target directory and use this command:  
-```java -jar AM05-1.0-SNAPSHOT-jar-with-dependencies.jar```  
+```java -jar AM05-1.0-SNAPSHOT-jar-with-dependencies.jar``` <p> **The jar file has to be downloaded from the link in the "deliveries" folder and has to be locally put in the directory**</p>
+  
 **NB** The server always runs on **1234** port.
 Now you're ready to play.  
 
