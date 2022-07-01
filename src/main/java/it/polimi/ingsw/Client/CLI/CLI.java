@@ -132,7 +132,7 @@ public class CLI implements Runnable, UI {
 			ClientPrinter.easyPrint("Islands have changed");
 		}
 		if (message instanceof BoardUpdateMessage) {
-			ClientPrinter.easyPrint("Board of " + ((BoardUpdateMessage) message).getNickname() + "has changed");
+			ClientPrinter.easyPrint("Board of " + ((BoardUpdateMessage) message).getNickname() + " has changed");
 		}
 	}
 
@@ -156,7 +156,6 @@ public class CLI implements Runnable, UI {
 		}
 		if (message instanceof ColorSelectionMessage) {
 			ClientPrinter.easyPrint("Select the color of the student you want to move");
-			elaboratePrintMessage(((ColorSelectionMessage) message).getPrintMessage());
 		}
 		if (message instanceof StudentDestinationSelectionMessage) {
 			ClientPrinter.easyPrint("Where do you want to put the student? Choose one between Hall or Island");

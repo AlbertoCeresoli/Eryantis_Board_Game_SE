@@ -76,9 +76,14 @@ public class Controller {
                     model.getPlayerInteraction().getPlayer(i).getCoins());
         }
 
-        gameHandler.messageToAll(new EriantysUpdateMessage(gameHandler.getIndexToNick(), printBoardMessages,
-                gameHandler.printIslands(), gameHandler.printClouds(), gameHandler.getNickToIndex()));
-
+        if (Constants.isGameMode()) {
+            gameHandler.messageToAll(new EriantysUpdateMessage(gameHandler.getIndexToNick(), printBoardMessages,
+                    gameHandler.printIslands(), gameHandler.printClouds(), gameHandler.printCharacterCards(), gameHandler.getNickToIndex()));
+        }
+        else {
+            gameHandler.messageToAll(new EriantysUpdateMessage(gameHandler.getIndexToNick(), printBoardMessages,
+                    gameHandler.printIslands(), gameHandler.printClouds(), null, gameHandler.getNickToIndex()));
+        }
         firstPlayer();
 
         while (!end) {
@@ -197,14 +202,12 @@ public class Controller {
 
             waitMessage(actualTurnPlayer);
 
-            synchronized (gameHandler.getClientHandlers()) {
-                gameHandler.newMessage(actualTurnPlayer,
-                        new AssistantCardSelectionMessage(gameHandler.printAssistantCards(actualTurnPlayer)));
-            }
-
             String temp;
 
             do {
+                gameHandler.newMessage(actualTurnPlayer,
+                        new AssistantCardSelectionMessage(gameHandler.printAssistantCards(actualTurnPlayer)));
+
                 temp = gameHandler.requestInformation(ObjectsToSelect.ASSISTANT_CARD, actualTurnPlayer);
             } while (temp.equals("false"));
 
@@ -256,7 +259,7 @@ public class Controller {
         boolean result = true;
         //select the color of the student to move
         while (result) {
-            gameHandler.newMessage(actualTurnPlayer, new ColorSelectionMessage(gameHandler.printBoard(actualTurnPlayer)));
+            gameHandler.newMessage(actualTurnPlayer, new ColorSelectionMessage());
 
             do {
                 temp = gameHandler.requestInformation(ObjectsToSelect.COLOR, actualTurnPlayer);
@@ -280,12 +283,9 @@ public class Controller {
         String temp;
         int index;
 
-        //select the place
-        gameHandler.newMessage(actualTurnPlayer, new StudentDestinationSelectionMessage());
-
         do {
+            gameHandler.newMessage(actualTurnPlayer, new StudentDestinationSelectionMessage());
             temp = gameHandler.requestInformation(ObjectsToSelect.PLACE, actualTurnPlayer);
-
         } while (temp.equals("false"));
 
         if (temp.equalsIgnoreCase("Hall")) {
@@ -333,9 +333,8 @@ public class Controller {
         int maxSteps = model.getPlayerInteraction().getPlayer(actualTurnPlayer).getAssistants().
                 get(cards[actualTurnPlayer]).getSteps();
 
-        gameHandler.newMessage(actualTurnPlayer, new MNStepsSelectionMessage(1, maxSteps));
-
         do {
+            gameHandler.newMessage(actualTurnPlayer, new MNStepsSelectionMessage(1, maxSteps));
             temp = gameHandler.requestInformation(ObjectsToSelect.STEPS, actualTurnPlayer);
         } while (temp.equals("false"));
 
@@ -346,6 +345,7 @@ public class Controller {
         gameHandler.messageToAll(new IslandsUpdateMessage(gameHandler.printIslands(),
                 model.getIslandInteraction().getTowersByPlayer(), gameHandler.getNickToIndex()));
 
+        gameHandler.messageToAll(new MotherNatureUpdateMessage(getModel().getIslandInteraction().getMotherNature()));
     }
 
     /**
@@ -356,9 +356,8 @@ public class Controller {
         int index;
 
         //cloud selection
-        gameHandler.newMessage(actualTurnPlayer, new CloudSelectionMessage(gameHandler.printClouds()));
-
         do {
+            gameHandler.newMessage(actualTurnPlayer, new CloudSelectionMessage(gameHandler.printClouds()));
             temp = gameHandler.requestInformation(ObjectsToSelect.CLOUD, actualTurnPlayer);
         } while (temp.equals("false"));
 
@@ -570,6 +569,17 @@ public class Controller {
                     checkEnd();
                 }
 
+                PrintBoardMessage[] printBoardMessages = new PrintBoardMessage[Constants.getNumPlayers()];
+                for (int i = 0; i < Constants.getNumPlayers(); i++) {
+                    printBoardMessages[i] = new PrintBoardMessage(gameHandler.getIndexToNick().get(i),
+                            model.getPlayerInteraction().getPlayer(i).getBoard(),
+                            model.getIslandInteraction().getTowersByPlayer()[i], i,
+                            model.getPlayerInteraction().getPlayer(i).getCoins());
+                }
+
+                gameHandler.messageToAll(new EriantysUpdateMessage(gameHandler.getIndexToNick(), printBoardMessages,
+                        gameHandler.printIslands(), gameHandler.printClouds(), gameHandler.printCharacterCards(), gameHandler.getNickToIndex()));
+
             } else {
                 gameHandler.newMessage(player, "You don't have enough coins");
             }
@@ -579,6 +589,8 @@ public class Controller {
     }
 
     public Colors selectColor() throws InterruptedException, IOException {
+        gameHandler.newMessage(actualTurnPlayer, new ColorSelectionMessage());
+
         Colors color;
 
         String temp;
@@ -593,6 +605,8 @@ public class Controller {
     }
 
     public int selectIslandIndex() throws InterruptedException, IOException {
+        gameHandler.newMessage(actualTurnPlayer, new IslandSelectionMessage(0, model.getIslandInteraction().getIslands().size() - 1));
+
         String temp;
 
         do {

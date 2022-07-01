@@ -2,12 +2,9 @@ package it.polimi.ingsw.Client.GUI;
 
 import it.polimi.ingsw.Constants.Constants;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -139,7 +136,6 @@ public class Selection {
 
         anchorPaneSel.getChildren().add(blueBackground);
 
-        ArrayList<Image> assistantCards = Constants.createArrayImagesAC();
         ArrayList<ImageView> acImgVw = new ArrayList<>();
         for (int numAC=0; numAC<10; numAC++){
             ImageView imgVw = new ImageView();
@@ -148,7 +144,7 @@ public class Selection {
             imgVw.setFitHeight(100);
             imgVw.setFitWidth(50);
             acImgVw.add(imgVw);
-            imgVw.setImage(assistantCards.get(numAC));
+            imgVw.setImage(gui.getController().getPrinter().getAssistants().get(numAC).getImage());
             anchorPaneSel.getChildren().add(imgVw);
         }
 
@@ -165,7 +161,7 @@ public class Selection {
     /**
      * method used to ask to the player to select an island index
      */
-    public void selectIsland(){
+    public void selectIsland(int minIndex, int maxIndex){
         Stage stageSel = new Stage();
         gui.addStage(stageSel);
         AnchorPane anchorPaneSel = new AnchorPane();
@@ -186,7 +182,7 @@ public class Selection {
 
         ArrayList<Image> islands = Constants.createArrayImagesIslands();
         ArrayList<ImageView> islandsImgVw = new ArrayList<>();
-        for (int numIsland=0; numIsland<12; numIsland++){
+        for (int numIsland=0; numIsland < maxIndex + 1; numIsland++){
             ImageView imgVw = new ImageView();
             imgVw.setLayoutX(10 + numIsland%6*70);
             imgVw.setLayoutY(10 + numIsland/6*70);
@@ -289,14 +285,14 @@ public class Selection {
         anchorPaneSel.getChildren().add(blueBackground);
 
         Image mn = new Image("file:src/resources/Images/Other_objects/MN.png");
-        ArrayList<ImageView> cloudsImgVw = new ArrayList<>();
+        ArrayList<ImageView> mnImageView = new ArrayList<>();
         for (int numStep=0; numStep<maxSteps; numStep++){
             ImageView imgVw = new ImageView();
             imgVw.setLayoutX(10 + numStep*40);
             imgVw.setLayoutY(10);
             imgVw.setFitHeight(60);
             imgVw.setFitWidth(30);
-            cloudsImgVw.add(imgVw);
+            mnImageView.add(imgVw);
             imgVw.setImage(mn);
             anchorPaneSel.getChildren().add(imgVw);
 
@@ -308,8 +304,8 @@ public class Selection {
             anchorPaneSel.getChildren().add(lbl);
         }
 
-        cloudsImgVw.forEach((image)-> image.setOnMouseClicked(mouseEvent -> {
-            print(String.valueOf(cloudsImgVw.indexOf(image) + 1));
+        mnImageView.forEach((image)-> image.setOnMouseClicked(mouseEvent -> {
+            print(String.valueOf(mnImageView.indexOf(image) + 1));
             gui.removeStage(stageSel);
             stageSel.close();
         }));
@@ -379,10 +375,7 @@ public class Selection {
         stageSel.show();
     }
 
-    /**
-     * method used to ask to the player to insert the nickname
-     */
-    public void selectNickname(){
+    public void selectCCIndex(){
         Stage stageSel = new Stage();
         AnchorPane anchorPaneSel = new AnchorPane();
         Scene sceneSel = new Scene(anchorPaneSel);
@@ -400,140 +393,36 @@ public class Selection {
 
         anchorPaneSel.getChildren().add(blueBackground);
 
-        Label lblSelection = new Label();
-        lblSelection.setLayoutX(30);
-        lblSelection.setLayoutY(20);
-        lblSelection.setText("Insert your nickname:");
-        anchorPaneSel.getChildren().add(lblSelection);
+        ArrayList<ImageView> mnImageView = new ArrayList<>();
+        for (int numCC=0; numCC<3; numCC++){
+            ImageView imgVw = new ImageView();
+            imgVw.setLayoutX(10 + numCC*40);
+            imgVw.setLayoutY(10);
+            imgVw.setFitHeight(60);
+            imgVw.setFitWidth(30);
+            mnImageView.add(imgVw);
+            imgVw.setImage(gui.getController().getPrinter().getCharacterCards().get(numCC).getImage());
+            anchorPaneSel.getChildren().add(imgVw);
 
-        TextField txtSelection = new TextField();
-        txtSelection.setLayoutX(30);
-        txtSelection.setLayoutY(50);
-        txtSelection.setMaxWidth(220);
-        anchorPaneSel.getChildren().add(txtSelection);
+            Label lbl = new Label();
+            lbl.setText(String.valueOf(numCC));
+            lbl.setLayoutX(imgVw.getLayoutX());
+            lbl.setLayoutY(imgVw.getLayoutY());
+            lbl.setFont(Font.font(15));
+            anchorPaneSel.getChildren().add(lbl);
+        }
 
-        txtSelection.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                print(txtSelection.getText());
-                stageSel.close();
-            }
-        });
+        mnImageView.forEach((image)-> image.setOnMouseClicked(mouseEvent -> {
+            print(String.valueOf(mnImageView.indexOf(image)));
+            gui.removeStage(stageSel);
+            stageSel.close();
+        }));
 
         stageSel.setScene(sceneSel);
         stageSel.show();
     }
 
-    /**
-     * method used to ask to the player to select the number of players of the match
-     */
-    public void selectNumPlayers(){
-        Stage stageSel = new Stage();
-        AnchorPane anchorPaneSel = new AnchorPane();
-        Scene sceneSel = new Scene(anchorPaneSel);
-        stageSel.setHeight(150);
-        stageSel.setWidth(240);
-        Image cranioLogo = new Image("file:src/resources/Images/LOGO.png");
-        stageSel.getIcons().add(cranioLogo);
-
-        Rectangle blueBackground = new Rectangle();
-        blueBackground.setHeight(150);
-        blueBackground.setWidth(240);
-        blueBackground.setLayoutX(0);
-        blueBackground.setLayoutY(0);
-        blueBackground.setFill(Paint.valueOf("#69bae9"));
-
-        anchorPaneSel.getChildren().add(blueBackground);
-
-        Label lblSelection = new Label();
-        lblSelection.setLayoutX(30);
-        lblSelection.setLayoutY(20);
-        lblSelection.setText("Select the number of players:");
-        anchorPaneSel.getChildren().add(lblSelection);
-
-        Button btn2PLayers = new Button();
-        btn2PLayers.setLayoutX(30);
-        btn2PLayers.setLayoutY(50);
-        btn2PLayers.maxWidth(80);
-        btn2PLayers.setText("2 players");
-        anchorPaneSel.getChildren().add(btn2PLayers);
-
-        Button btn3PLayers = new Button();
-        btn3PLayers.setLayoutX(140);
-        btn3PLayers.setLayoutY(50);
-        btn3PLayers.maxWidth(80);
-        btn3PLayers.setText("3 players");
-        anchorPaneSel.getChildren().add(btn3PLayers);
-
-        btn2PLayers.setOnMouseClicked(mouseEvent -> {
-            print("2");
-            stageSel.close();
-        });
-
-        btn3PLayers.setOnMouseClicked(mouseEvent -> {
-            print("3");
-            stageSel.close();
-        });
-
-        stageSel.setScene(sceneSel);
-        stageSel.show();
-    }
-
-    /**
-     * method used to ask to the player to select the gamemode of the match
-     */
-    public void selectGamemode(){
-        Stage stageSel = new Stage();
-        AnchorPane anchorPaneSel = new AnchorPane();
-        Scene sceneSel = new Scene(anchorPaneSel);
-        stageSel.setHeight(150);
-        stageSel.setWidth(240);
-        Image cranioLogo = new Image("file:src/resources/Images/LOGO.png");
-        stageSel.getIcons().add(cranioLogo);
-
-        Rectangle blueBackground = new Rectangle();
-        blueBackground.setHeight(150);
-        blueBackground.setWidth(240);
-        blueBackground.setLayoutX(0);
-        blueBackground.setLayoutY(0);
-        blueBackground.setFill(Paint.valueOf("#69bae9"));
-
-        anchorPaneSel.getChildren().add(blueBackground);
-
-        Label lblSelection = new Label();
-        lblSelection.setLayoutX(30);
-        lblSelection.setLayoutY(20);
-        lblSelection.setText("Select the gamemode:");
-        anchorPaneSel.getChildren().add(lblSelection);
-
-        Button btnEasy = new Button();
-        btnEasy.setLayoutX(30);
-        btnEasy.setLayoutY(50);
-        btnEasy.maxWidth(80);
-        btnEasy.setText("EASY");
-        anchorPaneSel.getChildren().add(btnEasy);
-
-        Button btnHard = new Button();
-        btnHard.setLayoutX(140);
-        btnHard.setLayoutY(50);
-        btnHard.maxWidth(80);
-        btnHard.setText("HARD");
-        anchorPaneSel.getChildren().add(btnHard);
-
-        btnEasy.setOnMouseClicked(mouseEvent -> {
-            print("0");
-            stageSel.close();
-        });
-
-        btnHard.setOnMouseClicked(mouseEvent -> {
-            print("1");
-            stageSel.close();
-        });
-
-        stageSel.setScene(sceneSel);
-        stageSel.show();
-    }
-
-    public void print(String selection){
+    public void print(String selection) {
         guiNetworkConnection.sendMessageToServer(selection);
     }
 

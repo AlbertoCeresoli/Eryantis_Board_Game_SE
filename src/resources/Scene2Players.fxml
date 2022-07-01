@@ -59,8 +59,8 @@
       <ImageView fx:id="island7" fitHeight="71.0" fitWidth="87.0" layoutX="680.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="island8" fitHeight="71.0" fitWidth="87.0" layoutX="550.0" layoutY="367.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="island9" fitHeight="71.0" fitWidth="87.0" layoutX="426.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="island10" fitHeight="71.0" fitWidth="87.0" layoutX="310.0" layoutY="367.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="island11" fitHeight="71.0" fitWidth="87.0" layoutX="180.0" layoutY="367.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="island10" fitHeight="71.0" fitWidth="87.0" layoutX="310.0" layoutY="393.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="island11" fitHeight="71.0" fitWidth="87.0" layoutX="178.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="island12" fitHeight="71.0" fitWidth="87.0" layoutX="43.0" layoutY="357.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="cloud1" fitHeight="71.0" fitWidth="71.0" layoutX="414.0" layoutY="241.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="cloud2" fitHeight="71.0" fitWidth="71.0" layoutX="509.0" layoutY="250.0" pickOnBounds="true" preserveRatio="true" />
@@ -70,7 +70,7 @@
          </image>
       </ImageView>
       <ImageView fx:id="characterCard1" fitHeight="90.0" fitWidth="60.0" layoutX="127.0" layoutY="241.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="characterCard2" fitHeight="90.0" fitWidth="60.0" layoutX="203.0" layoutY="247.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="characterCard2" fitHeight="90.0" fitWidth="60.0" layoutX="203.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="characterCard3" fitHeight="90.0" fitWidth="60.0" layoutX="280.0" layoutY="241.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

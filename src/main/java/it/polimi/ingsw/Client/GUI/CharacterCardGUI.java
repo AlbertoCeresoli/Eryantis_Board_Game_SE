@@ -10,6 +10,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CharacterCardGUI {
@@ -19,7 +20,8 @@ public class CharacterCardGUI {
     private double positionY;
     private int index;
     private String effect;
-    private ArrayList<ImageView> students;
+    private Map<Colors, Integer> students;
+    private ArrayList<ImageView> studColors;
     private ArrayList<Image> studImages;
 
     /**
@@ -32,80 +34,37 @@ public class CharacterCardGUI {
         positionY = imgVw.getLayoutY();
 
         studImages = new ArrayList<>();
-        Image greenImage = new Image("file:src/resources/Images/Students and teachers/Green_S.png");
-        studImages.add(greenImage);
-
-        Image redImage = new Image("file:src/resources/Images/Students and teachers/Red_S.png");
-        studImages.add(redImage);
-
-        Image yellowImage = new Image("file:src/resources/Images/Students and teachers/Yellow_S.png");
-        studImages.add(yellowImage);
-
-        Image pinkImage = new Image("file:src/resources/Images/Students and teachers/Pink_S.png");
-        studImages.add(pinkImage);
-
-        Image blueImage = new Image("file:src/resources/Images/Students and teachers/Blue_S.png");
-        studImages.add(blueImage);
+        studImages.add(new Image("file:src/resources/Images/Students and teachers/Green_S.png"));
+        studImages.add(new Image("file:src/resources/Images/Students and teachers/Red_S.png"));
+        studImages.add(new Image("file:src/resources/Images/Students and teachers/Yellow_S.png"));
+        studImages.add(new Image("file:src/resources/Images/Students and teachers/Pink_S.png"));
+        studImages.add(new Image("file:src/resources/Images/Students and teachers/Blue_S.png"));
     }
 
     /**
      * Binds the ImageView with the correct image and effect
      * @param index of the characted card
      */
-    public void setCC(int index, AnchorPane anchorPane){
-        this.index=index;
+    public void setCC(int index, String effect, AnchorPane anchorPane){
+        this.index= index;
+        this.effect = effect;
         ArrayList<Image> CCImages = Constants.createArrayImagesCC();
         image = CCImages.get(index - 1);
         imageView.setImage(image);
 
-        switch (index){
-            case 0:
-                effect = Constants.MONK_EFFECT;
-                break;
-            case 1:
-                effect = Constants.FARMER_EFFECT;
-                break;
-            case 2:
-                effect = Constants.HERALD_EFFECT;
-                break;
-            case 3:
-                effect = Constants.MAGIC_POSTMAN_EFFECT;
-                break;
-            case 4:
-                effect = Constants.GRANDMA_HERBS_EFFECT;
-                break;
-            case 5:
-                effect = Constants.CENTAUR_EFFECT;
-                break;
-            case 6:
-                effect = Constants.JOKER_EFFECT;
-                break;
-            case 7:
-                effect = Constants.KNIGHT_EFFECT;
-                break;
-            case 8:
-                effect = Constants.MUSHROOMS_MAN_EFFECT;
-                break;
-            case 9:
-                effect = Constants.MINSTREL_EFFECT;
-                break;
-            case 10:
-                effect = Constants.SPOILED_PRINCESS_EFFECT;
-                break;
-            case 11:
-                effect = Constants.THIEF_EFFECT;
-                break;
-            default:
-                break;
-        }
-
-        if (index == 1){
+        if (this.index == 1){
+            students = new HashMap<>();
+            studColors = new ArrayList<>();
             createStudImageViews(4, anchorPane);
         }
-        else if (index == 7){
+        else if (this.index == 7){
+            students = new HashMap<>();
+            studColors = new ArrayList<>();
             createStudImageViews(6, anchorPane);
         }
-        else if (index == 11){
+        else if (this.index == 11){
+            students = new HashMap<>();
+            studColors = new ArrayList<>();
             createStudImageViews(4, anchorPane);
         }
     }
@@ -116,26 +75,35 @@ public class CharacterCardGUI {
      * @param anchorPane used to add the imageViews of the students
      */
     public void createStudImageViews(int numStuds, AnchorPane anchorPane){
-        students = new ArrayList<>();
-
         for (int numStud=0; numStud<numStuds; numStud++){
             ImageView s = new ImageView();
             s.setLayoutX(positionX + 30 * (numStud % 2));
             s.setLayoutY(positionY +  30 * (numStud / 2));
             s.setFitWidth(25); s.setFitHeight(25);
             anchorPane.getChildren().add(s);
-            students.add(s);
+            studColors.add(s);
         }
     }
 
     public void setStudents(Map<Colors, Integer> studs){
+        students = studs;
+
         int counter = 0;
         for (Colors c: Colors.values()){
             if (studs.get(c)>0){
                 for (int i=0; i<studs.get(c); i++) {
-                    students.get(counter).setImage(studImages.get(c.ordinal()));
+                    studColors.get(counter).setImage(studImages.get(c.ordinal()));
                     counter++;
                 }
+            }
+        }
+
+        if (counter == 0) {
+            for (Colors c : Colors.values()) {
+                students.put(c, 0);
+            }
+            for (int i = 0; i < Constants.getNumPlayers() + 1; i++) {
+                studColors.get(i).setImage(new Image("file:"));
             }
         }
     }
@@ -145,6 +113,11 @@ public class CharacterCardGUI {
      */
     public void setCCToFront(){
         imageView.toFront();
+        if (studColors!=null) {
+            for (int numStud = 0; numStud < studColors.size(); numStud++) {
+                studColors.get(numStud).toFront();
+            }
+        }
     }
 
     /**
@@ -167,6 +140,13 @@ public class CharacterCardGUI {
         txtEffect.setText(effect);
         anchorPane.getChildren().add(txtEffect);
 
+        if (studColors!=null) {
+            for (int numStud = 0; numStud < studColors.size(); numStud++) {
+                Constants.moveObject(studColors.get(numStud), 100 + (260 * numCC) + 50 * numStud - studColors.get(numStud).getLayoutX(), 500 - studColors.get(numStud).getLayoutY(), rectOpaqueBackground);
+                Constants.zoomObject(studColors.get(numStud), 2, 2);
+            }
+        }
+
         return txtEffect;
     }
 
@@ -182,12 +162,19 @@ public class CharacterCardGUI {
 
         anchorPane.getChildren().remove(effects.get(numCC));
 
-        for (int numStud=0; numStud<students.size(); numStud++){
-            students.get(numStud).toFront();
+        if (studColors!=null) {
+            for (int numStud = 0; numStud < studColors.size(); numStud++) {
+                Constants.moveBackObject(studColors.get(numStud), -(100 + (260 * numCC) + 50 * numStud - studColors.get(numStud).getLayoutX()), -(500 - studColors.get(numStud).getLayoutY()));
+                Constants.zoomObject(studColors.get(numStud), -2, -2);
+            }
         }
     }
 
     public int getIndex() {
         return index;
+    }
+
+    public Image getImage() {
+        return image;
     }
 }

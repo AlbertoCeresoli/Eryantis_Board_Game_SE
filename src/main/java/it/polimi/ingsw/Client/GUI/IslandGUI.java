@@ -80,6 +80,7 @@ public class IslandGUI {
         lblTowers.setLayoutX(positionX+70); lblTowers.setLayoutY(positionY);
         lblTowers.setFont(Font.font(10));
         lblTowers.setText(String.valueOf(numTowers));
+        anchorPane.getChildren().add(lblTowers);
 
         MN = new ImageView();
         MN.setLayoutX(positionX + 60); MN.setLayoutY(positionY + 20);
@@ -97,6 +98,7 @@ public class IslandGUI {
         lblIC.setLayoutX(positionX + 70); lblIC.setLayoutY(positionY + 20);
         lblIC.setFont(Font.font(10));
         lblIC.setText(String.valueOf(numIC));
+        anchorPane.getChildren().add(lblIC);
     }
 
     /**
@@ -330,5 +332,9 @@ public class IslandGUI {
 
     public boolean isMNPresent() {
         return MNPresent;
+    }
+
+    public int getNumTowers() {
+        return numTowers;
     }
 }

@@ -12,15 +12,13 @@ public interface ControllerInterface {
 
     void updateGame(UpdateMessage message);
 
-    void setUp();
+    void setUp(GUI gui);
 
     void printTable();
 
     void startEventHandling();
 
     void setNicknames(Map<Integer, String> indexToNick);
-
-    void setCC(int[] cardIndexes);
 
     GUIPrinter getPrinter();
 

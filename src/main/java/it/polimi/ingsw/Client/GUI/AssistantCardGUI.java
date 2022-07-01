@@ -28,6 +28,10 @@ public class AssistantCardGUI {
      * set the opacity of the assistant card at 0.5 when the card is used
      */
     public void assistantUsed(){
-        imageView.setOpacity(0.5);
+        imageView.setImage(new Image("file:"));
+    }
+
+    public Image getImage() {
+        return image;
     }
 }

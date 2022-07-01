@@ -12,6 +12,7 @@ import it.polimi.ingsw.Messages.PrintMessages.*;
 import it.polimi.ingsw.Messages.SelectionMessages.*;
 import it.polimi.ingsw.Messages.UpdateMessages.*;
 import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 
 import java.io.*;
 import java.net.Socket;
@@ -103,13 +104,16 @@ public class GUINetworkConnection implements UI {
             gui.getSelection().selectPlace();
         }
         if (message instanceof IslandSelectionMessage) {
-            gui.getSelection().selectIsland();
+            gui.getSelection().selectIsland(((IslandSelectionMessage) message).getMaximumIndex(), ((IslandSelectionMessage) message).getMaximumIndex());
         }
         if (message instanceof MNStepsSelectionMessage) {
             gui.getSelection().selectSteps(((MNStepsSelectionMessage) message).getMaxSteps());
         }
         if (message instanceof CloudSelectionMessage) {
             gui.getSelection().selectCloud();
+        }
+        if (message instanceof CharacterCardSelectionMessage) {
+            gui.getSelection().selectCCIndex();
         }
     }
 

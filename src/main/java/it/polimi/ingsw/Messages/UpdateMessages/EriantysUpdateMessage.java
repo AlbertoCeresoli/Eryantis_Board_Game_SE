@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Messages.UpdateMessages;
 
 import it.polimi.ingsw.Messages.PrintMessages.PrintBoardMessage;
+import it.polimi.ingsw.Messages.PrintMessages.PrintCharacterCardsMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintCloudsMessage;
 import it.polimi.ingsw.Messages.PrintMessages.PrintIslandsMessage;
 
@@ -12,6 +13,7 @@ public class EriantysUpdateMessage implements UpdateMessage {
     private final PrintBoardMessage[] printBoardMessages;
     private final PrintIslandsMessage printIslandsMessage;
     private final PrintCloudsMessage printCloudsMessage;
+    private final PrintCharacterCardsMessage printCharacterCardsMessage;
     private final Map<String, Integer> nickToIndex;
 
     /**
@@ -24,6 +26,7 @@ public class EriantysUpdateMessage implements UpdateMessage {
      */
     public EriantysUpdateMessage(Map<Integer, String> players, PrintBoardMessage[] printBoardMessages,
                                  PrintIslandsMessage printIslandsMessage, PrintCloudsMessage printCloudsMessage,
+                                 PrintCharacterCardsMessage printCharacterCardsMessage,
                                  Map<String, Integer> nickToIndex) {
         this.players = new HashMap<>();
 
@@ -34,6 +37,7 @@ public class EriantysUpdateMessage implements UpdateMessage {
         this.printBoardMessages = printBoardMessages;
         this.printIslandsMessage = printIslandsMessage;
         this.printCloudsMessage = printCloudsMessage;
+        this.printCharacterCardsMessage = printCharacterCardsMessage;
 
         this.nickToIndex = new HashMap<>();
         for (String nick : nickToIndex.keySet()) {
@@ -56,6 +60,10 @@ public class EriantysUpdateMessage implements UpdateMessage {
 
     public PrintCloudsMessage getPrintCloudsMessage() {
         return printCloudsMessage;
+    }
+
+    public PrintCharacterCardsMessage getPrintCharacterCardsMessage() {
+        return printCharacterCardsMessage;
     }
 
     public Map<String, Integer> getNickToIndex() {

@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class PrintCharacterCardsMessage implements PrintMessage{
 	private final String[] names;
+	private final int[] indexes;
 	private final int[] costs;
 	private final String[] effects;
 	private final boolean[] areThereStudentsOnTheCard;
@@ -21,6 +22,7 @@ public class PrintCharacterCardsMessage implements PrintMessage{
 	 */
 	public PrintCharacterCardsMessage(CharacterCards[] cards) {
 		this.names = new String[cards.length];
+		this.indexes = new int[cards.length];
 		this.costs = new int[cards.length];
 		this.effects = new String[cards.length];
 		this.areThereStudentsOnTheCard = new boolean[cards.length];
@@ -28,6 +30,7 @@ public class PrintCharacterCardsMessage implements PrintMessage{
 
 		for (int i = 0; i < cards.length; i++) {
 			this.names[i] = cards[i].getName();
+			this.indexes[i] = cards[i].getCardIndex();
 			this.costs[i] = cards[i].getCost();
 			this.effects[i] = cards[i].getEffect();
 
@@ -51,6 +54,10 @@ public class PrintCharacterCardsMessage implements PrintMessage{
 
 	public String[] getNames() {
 		return names;
+	}
+
+	public int[] getIndexes() {
+		return indexes;
 	}
 
 	public int[] getCosts() {

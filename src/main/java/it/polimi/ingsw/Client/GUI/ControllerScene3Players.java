@@ -5,6 +5,7 @@ import it.polimi.ingsw.Constants.Constants;
 import it.polimi.ingsw.Messages.PrintMessages.*;
 import it.polimi.ingsw.Messages.UpdateMessages.*;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -15,16 +16,17 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Objects;
 
 public class ControllerScene3Players implements ControllerInterface {
     private GUIPrinter printer;
+    private GUI gui;
     private ArrayList<ImageView> islands;
     private ArrayList<ImageView> clouds;
     private ArrayList<ImageView> assistantCards;
     private ArrayList<ImageView> boards;
     private ArrayList<ImageView> coins;
     private ArrayList<ImageView> characterCards;
+    private Button btnPlayCC;
 
     @FXML private AnchorPane anchorPane;
     @FXML private Label lblPlayer1Name;
@@ -83,7 +85,8 @@ public class ControllerScene3Players implements ControllerInterface {
     /**
      * creates all the arrayList of images of the GUI
      */
-    public void setUp(){
+    public void setUp(GUI gui){
+        this.gui = gui;
         printer = new GUIPrinter();
 
         //creation of the arrayList of island, cloud, characterCard and boards imageViews
@@ -133,6 +136,12 @@ public class ControllerScene3Players implements ControllerInterface {
             characterCards.add(characterCard1);
             characterCards.add(characterCard2);
             characterCards.add(characterCard3);
+
+            btnPlayCC = new Button();
+            btnPlayCC.setLayoutY(230);
+            btnPlayCC.setLayoutX(195);
+            btnPlayCC.setText("PLAY CARD");
+            anchorPane.getChildren().add(btnPlayCC);
         }
         else {
             imgCoin1.toBack();
@@ -142,15 +151,6 @@ public class ControllerScene3Players implements ControllerInterface {
             characterCard2.toBack();
             characterCard3.toBack();
         }
-
-        //setUp of the nicknames
-        lblPlayer1Name.setText("ciao1");
-        lblPlayer2Name.setText("ciao2");
-        lblPlayer3Name.setText("ciao3");
-    }
-
-    public void setCC(int[] cardIndexes){
-        printer.setCharacterCards(cardIndexes, anchorPane);
     }
 
     @Override
@@ -173,6 +173,19 @@ public class ControllerScene3Players implements ControllerInterface {
         if (message instanceof TeachersUpdateMessage){
             elaborateTeachersUpdateMessage((TeachersUpdateMessage) message);
         }
+        if (message instanceof AssistantCardUpdateMessage){
+            elaborateAssistantCardUpdateMessage((AssistantCardUpdateMessage) message);
+        }
+    }
+
+    public void elaborateAssistantCardUpdateMessage(AssistantCardUpdateMessage message){
+        PrintAssistantCardsMessage acMessage = message.getPrintAssistantCardsMessage();
+
+        for (int numAC=0; numAC<Constants.NUMBER_OF_ASSISTANT_CARDS; numAC++){
+            if (acMessage.getStateOfCards()[numAC]==1) {
+                printer.modifyAssistantCards(numAC);
+            }
+        }
     }
 
     public void elaborateBoardUpdateMessage(BoardUpdateMessage message){
@@ -183,6 +196,10 @@ public class ControllerScene3Players implements ControllerInterface {
             printer.modifyStudInHall(message.getPlayerIndex(), c, hall.get(c));
         }
         printer.modifyTowersOnBoard(message.getPlayerIndex(), message.getTowers());
+
+        if (Constants.isGameMode()) {
+            printer.modifyCoins(message.getPlayerIndex(), message.getCoins());
+        }
     }
 
     public void elaborateCloudsUpdateMessage(CloudsUpdateMessage message){
@@ -198,7 +215,7 @@ public class ControllerScene3Players implements ControllerInterface {
         Map<String, Integer> nickToIndex = message.getNickToIndex();
 
         for (int numIsland=0; numIsland < 12; numIsland++){
-            if (towers[numIsland]==0 || towers[numIsland]==1){
+            if (islandMessages.get(numIsland).getNumberOfTowers()==0 || islandMessages.get(numIsland).getNumberOfTowers()==1){
                 printer.printIsland(numIsland,
                         nickToIndex.get(islandMessages.get(numIsland).getIslandController()),
                         islandMessages.get(numIsland).getStudents(),
@@ -215,11 +232,15 @@ public class ControllerScene3Players implements ControllerInterface {
                         islandMessages.get(numIsland).getNumberOfTowers(),
                         islandMessages.get(numIsland).getInhibitionCards()
                 );
-                for (int i=1; i<towers[numIsland]; i++){
+                for (int i=1; i<islandMessages.get(numIsland).getNumberOfTowers(); i++){
                     printer.hideIsland(numIsland + i);
                 }
-                numIsland += towers[numIsland] - 1;
+                numIsland += islandMessages.get(numIsland).getNumberOfTowers() - 1;
             }
+        }
+
+        for (int numPlayer=0; numPlayer<Constants.getNumPlayers(); numPlayer++){
+            printer.modifyTowersOnBoard(numPlayer, towers[numPlayer]);
         }
     }
 
@@ -257,11 +278,26 @@ public class ControllerScene3Players implements ControllerInterface {
                 printer.modifyStudInHall(numPlayer, c, hall.get(c));
             }
             printer.modifyTowersOnBoard(numPlayer, boards[numPlayer].getNumberOfTowers());
+
+            if (Constants.isGameMode()) {
+                printer.modifyCoins(numPlayer, boards[numPlayer].getCoins());
+            }
+        }
+        if (Constants.isGameMode()) {
+            PrintCharacterCardsMessage characterCardsMessage = message.getPrintCharacterCardsMessage();
+            printer.setCharacterCards(characterCardsMessage.getIndexes(), characterCardsMessage.getCosts(), characterCardsMessage.getEffects(), anchorPane);
+            int counter = 0;
+            for(int numCC=0; numCC<3; numCC++){
+                if (characterCardsMessage.getAreThereStudentsOnTheCard()[numCC]){
+                    printer.modifyStudentsOnCharacterCard(numCC, characterCardsMessage.getStudents().get(counter));
+                    counter++;
+                }
+            }
         }
 
         //set students on islands
         PrintIslandsMessage islands = message.getPrintIslandsMessage();
-        for (int numIsland=0; numIsland<islands.getIslandMessages().size(); numIsland++) {
+        for (int numIsland=0; numIsland<12; numIsland++) {
             PrintIslandMessage island = islands.getIslandMessages().get(numIsland);
 
             printer.printIsland(island.getIslandIndex(), message.getNickToIndex().get(island.getIslandController()),
@@ -326,6 +362,9 @@ public class ControllerScene3Players implements ControllerInterface {
         characterCard1.setOnMouseClicked(mouseEvent -> onClickCharacterCards());
         characterCard2.setOnMouseClicked(mouseEvent -> onClickCharacterCards());
         characterCard3.setOnMouseClicked(mouseEvent -> onClickCharacterCards());
+        btnPlayCC.setOnMouseClicked(mouseEvent -> {
+            gui.getSelection().print("/play character card");
+        });
 
         txtField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {

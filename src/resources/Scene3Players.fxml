@@ -52,7 +52,7 @@
       </Label>
       <ImageView fx:id="assistantCard0" fitHeight="150.0" fitWidth="100.0" layoutX="504.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="assistantCard1" fitHeight="150.0" fitWidth="100.0" layoutX="524.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="assistantCard2" fitHeight="150.0" fitWidth="100.0" layoutX="539.0" layoutY="524.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="assistantCard2" fitHeight="150.0" fitWidth="100.0" layoutX="539.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="assistantCard3" fitHeight="150.0" fitWidth="100.0" layoutX="564.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="assistantCard4" fitHeight="150.0" fitWidth="100.0" layoutX="584.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="assistantCard5" fitHeight="150.0" fitWidth="100.0" layoutX="604.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />

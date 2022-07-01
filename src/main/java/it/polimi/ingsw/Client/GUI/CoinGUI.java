@@ -40,10 +40,10 @@ public class CoinGUI {
 
     /**
      * updates the number of coins and the label
-     * @param coinsAdded number of coins to add/remove
+     * @param n number of coins to add/remove
      */
-    public void updateCoins(int coinsAdded){
-        numCoins+=coinsAdded;
+    public void updateCoins(int n){
+        numCoins = n;
         lblCoin.setText(numCoins.toString());
     }
 }

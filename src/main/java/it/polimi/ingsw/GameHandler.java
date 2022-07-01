@@ -5,6 +5,7 @@ import it.polimi.ingsw.Messages.EasyMessage;
 import it.polimi.ingsw.Messages.ErrorMessages.*;
 import it.polimi.ingsw.Messages.Message;
 import it.polimi.ingsw.Messages.PrintMessages.*;
+import it.polimi.ingsw.Messages.SelectionMessages.CharacterCardSelectionMessage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -127,10 +128,7 @@ public class GameHandler extends Thread {
         //Play a character card
         if (result.equalsIgnoreCase("/play character card")) {
             if (Constants.isGameMode()) {
-                newMessage(player, printCharacterCards());
-
-                //TODO characterCardSelectionMessage
-                newMessage(player, "Insert the index of the card you want to play:");
+                newMessage(player, new CharacterCardSelectionMessage(printCharacterCards()));
 
                 String temp;
                 do {
@@ -139,7 +137,6 @@ public class GameHandler extends Thread {
 
                 cardNumber = Integer.parseInt(temp);
                 controller.playCard(cardNumber, player);
-                //TODO if necessary send an UpdateMessage
             } else {
                 newMessage(player, "You are playing a game in easy mode, there are no character cards");
             }

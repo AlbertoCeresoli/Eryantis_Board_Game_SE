@@ -73,7 +73,7 @@ public class GUI extends Application {
 
             //creation of the controller and of the printer
             controller = loader.getController();
-            controller.setUp();
+            controller.setUp(this);
             controller.printTable();
             controller.startEventHandling(); //event handling for the click on the images
         }

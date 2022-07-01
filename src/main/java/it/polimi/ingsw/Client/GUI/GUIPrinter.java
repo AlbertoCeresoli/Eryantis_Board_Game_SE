@@ -278,16 +278,12 @@ public class GUIPrinter {
     }
 
     public void modifyStudentsOnCharacterCard(int cardIndex, Map<Colors, Integer> students){
-        for (int numCard=0; numCard<3; numCard++){
-            if (characterCards.get(numCard).getIndex()== cardIndex){
-                characterCards.get(numCard).setStudents(students);
-            }
-        }
+        characterCards.get(cardIndex).setStudents(students);
     }
 
-    public void setCharacterCards(int[] indexes, AnchorPane anchorPane){
-        for (int CardIndex=0; CardIndex < 3; CardIndex++){
-            characterCards.get(CardIndex).setCC(indexes[CardIndex], anchorPane);
+    public void setCharacterCards(int[] indexes,int[] costs, String[] effects, AnchorPane anchorPane){
+        for (int cardIndex=0; cardIndex < indexes.length; cardIndex++){
+            characterCards.get(cardIndex).setCC(indexes[cardIndex], effects[cardIndex], anchorPane);
         }
     }
 
@@ -295,5 +291,19 @@ public class GUIPrinter {
         boards.get(playerIndex).updateTeachers(teachers);
     }
 
+    public ArrayList<CharacterCardGUI> getCharacterCards() {
+        return characterCards;
+    }
 
+    public void removeIsland(int index){
+        islands.remove(index);
+    }
+
+    public ArrayList<AssistantCardGUI> getAssistants() {
+        return assistants;
+    }
+
+    public ArrayList<IslandGUI> getIslands() {
+        return islands;
+    }
 }
