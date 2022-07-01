@@ -347,7 +347,7 @@ public class Controller {
 
         gameHandler.messageToAll(new IslandsUpdateMessage(gameHandler.printIslands(),
                 model.getIslandInteraction().getTowersByPlayer(), gameHandler.getNickToIndex()));
-
+        
         gameHandler.messageToAll(new MotherNatureUpdateMessage(getModel().getIslandInteraction().getMotherNature()));
     }
 

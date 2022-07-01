@@ -96,6 +96,7 @@ public class ClientHandler implements Runnable {
                 }
                 gameHandler.interrupt();
 
+                Server.setActive(false);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -176,7 +177,13 @@ public class ClientHandler implements Runnable {
     private void say(String request) throws IOException {
         int firstSpace = request.indexOf(" ");
         if (firstSpace != -1) {
-            sendMessageToAll(new EasyMessage(request.substring(firstSpace + 1)));
+            synchronized (clients) {
+                for (ClientHandler c : clients) {
+                    if (!c.equals(this)) {
+                        c.sendMessage(new EasyMessage("[" + nickName + "] " + request.substring(firstSpace + 1)));
+                    }
+                }
+            }
         }
     }
 

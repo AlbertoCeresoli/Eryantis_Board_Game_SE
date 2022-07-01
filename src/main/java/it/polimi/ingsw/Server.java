@@ -15,6 +15,7 @@ import java.util.concurrent.Executors;
 public class Server {
     static ServerSocket serverSocket;
     private static final ArrayList<ClientHandler> clients = new ArrayList<>();
+    private static boolean active;
 
 
     public static void main(String[] args) throws IOException {
@@ -22,9 +23,16 @@ public class Server {
         serverSocket = new ServerSocket(1234);
         System.out.println("[SERVER] Waiting for client connection...");
 
-        while (true) {
-            Socket client = serverSocket.accept();
-            acceptClient(client);
+        active = true;
+
+        try {
+            while (active) {
+                Socket client = serverSocket.accept();
+                acceptClient(client);
+            }
+        } catch (IOException e) {
+            System.out.println("[SERVER] I'm dying, that's all folks!");
+            clients.clear();
         }
     }
 
@@ -128,6 +136,15 @@ public class Server {
         for (ClientHandler client : clients) {
             pool.execute(client);
             client.setGameHandler(gh);
+        }
+    }
+
+    public static void setActive(boolean active) {
+        Server.active = active;
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

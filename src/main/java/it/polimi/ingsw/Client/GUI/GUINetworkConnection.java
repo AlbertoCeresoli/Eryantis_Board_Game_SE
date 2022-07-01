@@ -151,6 +151,16 @@ public class GUINetworkConnection implements UI {
             toServerOutput.flush();
         } catch (IOException e) {
             gui.quitGUI();
+
+            synchronized (socket) {
+                while (!fromServerMessagesReader.isExit()) {
+                    try {
+                        socket.wait();
+                    } catch (InterruptedException ie) {
+                        ie.printStackTrace();
+                    }
+                }
+            }
         }
     }
     //TODO
@@ -160,7 +170,12 @@ public class GUINetworkConnection implements UI {
      */
     @Override
     public void exit() {
+        this.gui.getScanner().close();
+        try {
+            this.socket.close();
+        } catch (IOException ignored) {
 
+        }
     }
 
     /**

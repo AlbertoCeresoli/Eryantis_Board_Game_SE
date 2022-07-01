@@ -80,7 +80,7 @@ public class CLI implements Runnable, UI {
 				try {
 					socket.wait();
 				} catch (InterruptedException e) {
-					throw new RuntimeException(e);
+					e.printStackTrace();
 				}
 			}
 		}

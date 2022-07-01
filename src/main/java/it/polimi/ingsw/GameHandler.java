@@ -42,7 +42,6 @@ public class GameHandler extends Thread {
         }
     }
 
-    //TODO synchronize
     /**
      * The method sends the string in input to the client putting it into an EasyMessage, so it has just to be printed
      * @param playerIndex   that has to receive the message
@@ -57,8 +56,6 @@ public class GameHandler extends Thread {
             throw new RuntimeException(e);
         }
     }
-
-    //TODO synchronize
 
     /**
      * Sends a text message to a specific player

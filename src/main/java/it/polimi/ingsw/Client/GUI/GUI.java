@@ -48,7 +48,12 @@ public class GUI extends Application {
         System.out.println("insert the server port:");
         int serverPort = scanner.nextInt();
 
-        this.guiNetworkConnection = new GUINetworkConnection(this, IPAddress, serverPort);
+        try {
+            this.guiNetworkConnection = new GUINetworkConnection(this, IPAddress, serverPort);
+        } catch (IOException e) {
+            System.out.println("Connection failed, application will close...");
+        }
+
 
         selection = new Selection(this, this.guiNetworkConnection);
 
@@ -159,5 +164,9 @@ public class GUI extends Application {
 
     public void setOk(boolean ok) {
         this.ok = ok;
+    }
+
+    public Scanner getScanner() {
+        return scanner;
     }
 }
