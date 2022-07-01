@@ -14,6 +14,14 @@ public class EriantysUpdateMessage implements UpdateMessage {
     private final PrintCloudsMessage printCloudsMessage;
     private final Map<String, Integer> nickToIndex;
 
+    /**
+     * Used from the GUI tu apdeit the state of every item shown on the interface
+     * @param players all the players
+     * @param printBoardMessages to update every player's board
+     * @param printIslandsMessage to update every island
+     * @param printCloudsMessage to update the clouds
+     * @param nickToIndex to match each player's name and index
+     */
     public EriantysUpdateMessage(Map<Integer, String> players, PrintBoardMessage[] printBoardMessages,
                                  PrintIslandsMessage printIslandsMessage, PrintCloudsMessage printCloudsMessage,
                                  Map<String, Integer> nickToIndex) {

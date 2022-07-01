@@ -13,6 +13,14 @@ public class PrintIslandMessage implements PrintMessage{
 	private final int numberOfTowers;
 	private final int inhibitionCards;
 
+	/**
+	 * This method updates this class attributes with a specific island infos coming from the model, so they are ready for a
+	 * print on request through the get methods below
+	 * @param island to be printed
+	 * @param islandIndex of the specific island
+	 * @param MN boolean for the presence of mother nature
+	 * @param players to see who controls it
+	 */
 	public PrintIslandMessage(Island island, int islandIndex, boolean MN, Map<Integer, String> players) {
 		this.islandIndex = islandIndex;
 		int controllerIndex = island.getControllerIndex();

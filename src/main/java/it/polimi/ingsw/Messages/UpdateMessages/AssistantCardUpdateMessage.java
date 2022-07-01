@@ -6,6 +6,11 @@ public class AssistantCardUpdateMessage implements UpdateMessage {
     private final PrintAssistantCardsMessage printAssistantCardsMessage;
     private final int playerIndex;
 
+    /**
+     * Used from the GUI to update the assistant cards of a specific player
+     * @param printAssistantCardsMessage of the player whose assistant card have to be updated
+     * @param playerIndex of the player whose assistant card have to be updated
+     */
     public AssistantCardUpdateMessage(PrintAssistantCardsMessage printAssistantCardsMessage, int playerIndex) {
         this.printAssistantCardsMessage = printAssistantCardsMessage;
         this.playerIndex = playerIndex;

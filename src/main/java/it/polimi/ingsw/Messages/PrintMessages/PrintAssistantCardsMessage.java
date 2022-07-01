@@ -9,6 +9,11 @@ public class PrintAssistantCardsMessage implements PrintMessage{
 	private final int[] priority;
 	private final int[] steps;
 
+	/**
+	 * Thanks to the "cards" parameter which contains all the assistants cards infos, this method updates the 3 arrays so thay
+	 * they are ready for a new print request through the get method below
+	 * @param cards assistant cards from the model
+	 */
 	public PrintAssistantCardsMessage(ArrayList<AssistantCard> cards) {
 		this.stateOfCards = new int[cards.size()];
 		this.priority = new int[cards.size()];

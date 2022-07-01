@@ -14,6 +14,15 @@ public class PrintBoardMessage implements PrintMessage{
 	private final int playerIndex;
 	private final int coins;
 
+	/**
+	 *  The parameters coming from the model sets this class attributes with a specific player's board data so they are ready
+	 *  for a print request through the get methods below
+	 * @param nickname of the player
+	 * @param board from the model
+	 * @param towers of that player
+	 * @param index of the player
+	 * @param coins of the player
+	 */
 	public PrintBoardMessage(String nickname, Board board,
 							 int towers, int index, int coins) {
 

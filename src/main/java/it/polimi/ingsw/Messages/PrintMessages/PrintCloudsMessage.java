@@ -9,6 +9,11 @@ import java.util.Map;
 public class PrintCloudsMessage implements PrintMessage{
 	private final ArrayList<Map<Colors, Integer>> clouds;
 
+	/**
+	 *  This method updates this class Hashmaps with the students in each cloud, so they are ready for a print
+	 *  on request through the get methods
+	 * @param clouds from the model
+	 */
 	public PrintCloudsMessage(ArrayList<Map<Colors, Integer>> clouds) {
 		this.clouds = new ArrayList<>();
 		for (Map<Colors, Integer> cloud : clouds) {

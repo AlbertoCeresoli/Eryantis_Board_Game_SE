@@ -9,6 +9,13 @@ public class PrintTeachersMessage implements PrintMessage{
 	private final Map<Colors, String> teachers;
 	private final Map<String, Integer> nickToIndex;
 
+	/**
+	 * This method updates this class attributes with the teacher controllers provided from the parameters coming from the model,
+	 *  so they are ready for a print on request through the get methods below
+	 * @param teachers from the model
+	 * @param players who control teachers
+	 * @param nickToIndex to match each player with his name
+	 */
 	public PrintTeachersMessage(Map<Colors, Integer> teachers, Map<Integer, String> players,
 								Map<String, Integer> nickToIndex) {
 		this.teachers = new HashMap<>();

@@ -14,6 +14,11 @@ public class PrintCharacterCardsMessage implements PrintMessage{
 	private final boolean[] areThereStudentsOnTheCard;
 	private final ArrayList<Map<Colors, Integer>> students;
 
+	/**
+	 * The parameter contains the 3 character cards randomly chosen for this game  and their specific needs so these are ready to be
+	 * printed on request from the GameHandler
+	 * @param cards character cards array from model
+	 */
 	public PrintCharacterCardsMessage(CharacterCards[] cards) {
 		this.names = new String[cards.length];
 		this.costs = new int[cards.length];

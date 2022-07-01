@@ -13,6 +13,15 @@ public class BoardUpdateMessage implements UpdateMessage {
     private final int towers;
     private final int coins;
 
+    /**
+     * Used from the GUI to update the board information to be shown
+     * @param entrance students in entrance
+     * @param hall students in the hall
+     * @param nickname of the player whose board has to be updated
+     * @param playerIndex of the player whose board has to be updated
+     * @param towers of the player whose board has to be updated
+     * @param coins of the player whose board has to be updated
+     */
     public BoardUpdateMessage(Map<Colors, Integer> entrance, Map<Colors, Integer> hall, String nickname,
                               int playerIndex, int towers, int coins) {
         this.nickname = nickname;
