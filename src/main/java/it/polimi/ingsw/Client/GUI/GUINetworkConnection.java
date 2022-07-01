@@ -12,7 +12,7 @@ import it.polimi.ingsw.Messages.PrintMessages.*;
 import it.polimi.ingsw.Messages.SelectionMessages.*;
 import it.polimi.ingsw.Messages.UpdateMessages.*;
 import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
+
 
 import java.io.*;
 import java.net.Socket;

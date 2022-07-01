@@ -170,6 +170,8 @@ public class Controller {
             //MN movement
             moveMN(lastAssistantCardsPlayed);
 
+            gameHandler.newMessage(actualTurnPlayer, gameHandler.printIslands());
+
             cloudSelection();
 
             checkEnd();
@@ -260,6 +262,7 @@ public class Controller {
         //select the color of the student to move
         while (result) {
             gameHandler.newMessage(actualTurnPlayer, new ColorSelectionMessage());
+            gameHandler.newMessage(actualTurnPlayer, gameHandler.printBoard(actualTurnPlayer));
 
             do {
                 temp = gameHandler.requestInformation(ObjectsToSelect.COLOR, actualTurnPlayer);
